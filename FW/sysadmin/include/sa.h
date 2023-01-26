@@ -1,0 +1,45 @@
+*---------------- File Locations ---------------
+#DEFINE SA_DEFAULT	"FW\SYSAdmin"
+#DEFINE SA_SCX		SA_DEFAULT + "\Scx"
+#DEFINE SA_VCX		SA_DEFAULT + "\Vcx"
+#DEFINE SA_PRG		SA_DEFAULT + "\Prg"
+#DEFINE SA_FRX		SA_DEFAULT + "\Frx"
+#DEFINE SA_MNX		SA_DEFAULT + "\Mnx"
+#DEFINE SA_IMG		SA_DEFAULT + "\Image"
+#DEFINE SA_INCLUDE	SA_DEFAULT + "\Include"
+#DEFINE SA_CLIENT	SA_DEFAULT + "\Client"
+#DEFINE SA_SERVICE  SA_DEFAULT + "\Service"
+#DEFINE SA_SERVER	SA_DEFAULT + "\Server"
+#DEFINE SA_DBC		SA_DEFAULT + "\Data"
+
+*------------- Constraints -------------------
+* Bit	*	Accion
+*	1	*	View
+*	2	*	Update
+*	3	*	New
+*	4	*	Delete
+*	5	*	ReportOne
+*	6	*	ReportAll
+
+#DEFINE CANT_VIEW			 1
+#DEFINE CANT_UPDATE			 2
+#DEFINE CANT_NEW			 4
+#DEFINE CANT_DELETE			 8
+#DEFINE CANT_REPORT_ONE		16
+#DEFINE CANT_REPORT_ALL		32
+
+*---------------- Application Data ---------------
+#IFNDEF AD_APPNAME
+	#DEFINE AD_APPNAME		"Stock"
+	#DEFINE AD_VERSION		"2.0"
+	#DEFINE AD_CONFIGFILE	"Config.xml"
+#ENDIF
+
+*------------------ Módulos
+#DEFINE MOD_VENTAS 		1
+#DEFINE MOD_COMPRAS 	2
+#DEFINE MOD_VALORES 	3
+#DEFINE MOD_STOCK 		4
+#DEFINE MOD_DEUDORES 	5
+#DEFINE MOD_ACREEDORES 	6
+#DEFINE MOD_CONTABLE 	7

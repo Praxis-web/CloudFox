@@ -1,0 +1,16 @@
+*.bat
+*.cfg
+*.dbf
+*.fxp
+*.fpt
+*.json
+*.txt
+*.WSSA
+*.exe
+*.scc
+*.cdx
+
+*.sca
+*.vca
+
+borrar.prg

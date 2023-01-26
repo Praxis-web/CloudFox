@@ -1,0 +1,174 @@
+<?xml version = "1.0" encoding="Windows-1252" standalone="yes"?>
+<VFPDataSet xml:space="preserve">
+	<xsd:schema id="VFPDataSet" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="VFPDataSet" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="LAUNCHERCFG" minOccurs="0" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="modulename">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="128"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="filename">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="128"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="fileext">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="10"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="sourcefolder">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="128"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="targetfolder">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="128"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="skipifexist" type="xsd:boolean"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+				<xsd:anyAttribute namespace="http://www.w3.org/XML/1998/namespace" processContents="lax"/>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<LAUNCHERCFG>
+		<modulename>Common                                                                                                                          </modulename>
+		<filename>gdiplus                                                                                                                         </filename>
+		<fileext>dll       </fileext>
+		<sourcefolder>S:\CloudFenix\Runtime                                                                                                           </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix                                                                                                        </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>Common                                                                                                                          </modulename>
+		<filename>msvcr71                                                                                                                         </filename>
+		<fileext>dll       </fileext>
+		<sourcefolder>S:\CloudFenix\Runtime                                                                                                           </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix                                                                                                        </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>Common                                                                                                                          </modulename>
+		<filename>vfp9r                                                                                                                           </filename>
+		<fileext>dll       </fileext>
+		<sourcefolder>S:\CloudFenix\Runtime                                                                                                           </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix                                                                                                        </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>Common                                                                                                                          </modulename>
+		<filename>VFP9RENU                                                                                                                        </filename>
+		<fileext>dll       </fileext>
+		<sourcefolder>S:\CloudFenix\Runtime                                                                                                           </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix                                                                                                        </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>Common                                                                                                                          </modulename>
+		<filename>vfp9t                                                                                                                           </filename>
+		<fileext>dll       </fileext>
+		<sourcefolder>S:\CloudFenix\Runtime                                                                                                           </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix                                                                                                        </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>Common                                                                                                                          </modulename>
+		<filename>ReportBuilder                                                                                                                   </filename>
+		<fileext>app       </fileext>
+		<sourcefolder>S:\CloudFenix\Runtime                                                                                                           </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix                                                                                                        </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>Common                                                                                                                          </modulename>
+		<filename>ReportPreview                                                                                                                   </filename>
+		<fileext>app       </fileext>
+		<sourcefolder>S:\CloudFenix\Runtime                                                                                                           </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix                                                                                                        </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>Common                                                                                                                          </modulename>
+		<filename>ReportOutput                                                                                                                    </filename>
+		<fileext>app       </fileext>
+		<sourcefolder>S:\CloudFenix\Runtime                                                                                                           </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix                                                                                                        </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>Common                                                                                                                          </modulename>
+		<filename>Dummy                                                                                                                           </filename>
+		<fileext>tag       </fileext>
+		<sourcefolder>S:\CloudFenix\Ejecutable\Dbf                                                                                                    </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix\Dbf                                                                                                    </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>CloudFenix                                                                                                                      </modulename>
+		<filename>Setup                                                                                                                           </filename>
+		<fileext>Exe       </fileext>
+		<sourcefolder>S:\CloudFenix\Ejecutable                                                                                                        </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix                                                                                                        </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>CloudFenix                                                                                                                      </modulename>
+		<filename>Archivos                                                                                                                        </filename>
+		<fileext>Exe       </fileext>
+		<sourcefolder>S:\CloudFenix\Ejecutable                                                                                                        </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix                                                                                                        </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>CloudFenix                                                                                                                      </modulename>
+		<filename>Utiles                                                                                                                          </filename>
+		<fileext>Exe       </fileext>
+		<sourcefolder>S:\CloudFenix\Ejecutable                                                                                                        </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix                                                                                                        </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>CloudFenix                                                                                                                      </modulename>
+		<filename>Archivos                                                                                                                        </filename>
+		<fileext>Dbf       </fileext>
+		<sourcefolder>S:\CloudFenix\Ejecutable\Datos                                                                                                  </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix\Datos                                                                                                  </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>CloudFenix                                                                                                                      </modulename>
+		<filename>Utiles                                                                                                                          </filename>
+		<fileext>Dbf       </fileext>
+		<sourcefolder>S:\CloudFenix\Ejecutable\Datos                                                                                                  </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix\Datos                                                                                                  </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+	<LAUNCHERCFG>
+		<modulename>CloudFenix                                                                                                                      </modulename>
+		<filename>Setup                                                                                                                           </filename>
+		<fileext>Json      </fileext>
+		<sourcefolder>S:\CloudFenix\Ejecutable\Datos                                                                                                  </sourcefolder>
+		<targetfolder>%USERPROFILE%\CloudFenix\Datos                                                                                                  </targetfolder>
+		<skipifexist>false</skipifexist>
+	</LAUNCHERCFG>
+</VFPDataSet>
