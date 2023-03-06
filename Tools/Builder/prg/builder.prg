@@ -74,7 +74,7 @@ Define Class Builder As prxCollection Of 'V:\CloudFox\Fw\Tieradapter\Comun\Prxba
 	oIncludeCollection = Null
 
 	* Specifies the icon displayed for a distributed .exe application.
-	Icon = "fw\Comunes\Image\ico\Fenix.ico"
+	Icon = "fw\Comunes\Image\ico\PraxisComputacion.ico"
 
 	* Archivo a ejecutar para establecer el entorno
 	cSetEnvironment = ""

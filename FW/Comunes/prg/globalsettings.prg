@@ -63,7 +63,8 @@ Define Class GlobalSettings As PrxCustom Of "Fw\TierAdapter\Comun\Prxbaselibrary
     nUpdateFontSize = 0
 
     *!* Descripción de la Empresa Activa
-    cDescripcionEmpresaActiva = ""
+    cDescripcionEmpresaActiva = "Praxis Computación"
+    cDescripcionSucursalActiva = "Sistema de Gestión Comercial"
 
     cApplicationName = ""
 
@@ -182,7 +183,6 @@ Define Class GlobalSettings As PrxCustom Of "Fw\TierAdapter\Comun\Prxbaselibrary
         [<memberdata name="owspadron" type="property" display="oWsPadron" />] + ;
         [<memberdata name="ofex" type="property" display="oFeX" />] + ;
         [<memberdata name="nempresasucursalactiva" type="property" display="nEmpresaSucursalActiva" />] + ;
-        [<memberdata name="nempresasucursalactiva_access" type="method" display="nEmpresaSucursalActiva_Access" />] + ;
         [<memberdata name="cdatabases" type="property" display="cDataBases" />] + ;
         [<memberdata name="centitiesconfig" type="property" display="cEntitiesConfig" />] + ;
         [<memberdata name="ouser" type="property" display="oUser" />] + ;
@@ -207,7 +207,6 @@ Define Class GlobalSettings As PrxCustom Of "Fw\TierAdapter\Comun\Prxbaselibrary
         [<memberdata name="nupdatefontsize_access" type="method" display="nUpdateFontSize_Access" />] + ;
         [<memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign" />] + ;
         [<memberdata name="cdescripcionempresaactiva" type="property" display="cDescripcionEmpresaActiva" />] + ;
-        [<memberdata name="cdescripcionempresaactiva_access" type="method" display="cDescripcionEmpresaActiva_Access" />] + ;
         [<memberdata name="omonedas" type="property" display="oMonedas" />] + ;
         [<memberdata name="omonedas_access" type="method" display="oMonedas_Access" />] + ;
         [<memberdata name="oarticulo" type="property" display="oArticulo" />] + ;
@@ -505,26 +504,6 @@ Define Class GlobalSettings As PrxCustom Of "Fw\TierAdapter\Comun\Prxbaselibrary
     Endproc && nEjercicioActivo_Access
 
 
-
-    *!* ///////////////////////////////////////////////////////
-    *!* Procedure.....: nEmpresaSucursalActiva_Access
-    *!* Date..........: Martes 8 de Septiembre de 2009 (18:39:29)
-    *!* Author........: Damian Eiff
-    *!* Project.......: Sistemas Praxis
-    *!* -------------------------------------------------------
-    *!* Modification Summary
-    *!* R/0001  -
-    *!*
-    *!*
-
-    Procedure nEmpresaSucursalActiva_Access()
-
-        This.nEmpresaSucursalActiva = This.oApp.oUser.nEmpresaSucursalActivaId
-
-        Return This.nEmpresaSucursalActiva
-
-    Endproc && nEmpresaSucursalActiva_Access
-
     *!* ///////////////////////////////////////////////////////
     *!* Procedure.....: nCuentaDeResultadosId_Access
     *!* Date..........: Martes 21 de Abril de 2009 (12:33:59)
@@ -744,51 +723,6 @@ Define Class GlobalSettings As PrxCustom Of "Fw\TierAdapter\Comun\Prxbaselibrary
 
 
 
-
-    *!* ///////////////////////////////////////////////////////
-    *!* Procedure.....: cDescripcionEmpresaActiva_Access
-    *!* Date..........: Lunes 27 de Julio de 2009 (09:15:06)
-    *!* Author........: Danny Amerikaner
-    *!* Project.......: Sistemas Praxis
-    *!* -------------------------------------------------------
-    *!* Modification Summary
-    *!* R/0001  -
-    *!*
-    *!*
-
-    Procedure cDescripcionEmpresaActiva_Access()
-
-        Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
-        Local loEmpresa As Object
-        Try
-
-
-            If This.oApp.nVersion >= 2013
-                This.cDescripcionEmpresaActiva = This.oApp.oUser.cDescripcionEmpresaActiva
-
-            Else
-                loEmpresa = This.InstanciateEntity("Empresa")
-                This.cDescripcionEmpresaActiva = Alltrim( loEmpresa.GetDescripcion( This.nEmpresaActiva ) )
-
-            Endif
-
-        Catch To oErr
-            loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
-            loError.Process( oErr )
-            Throw loError
-        Finally
-            loError = Null
-            loEmpresa = Null
-        Endtry
-
-        Return This.cDescripcionEmpresaActiva
-
-    Endproc
-    *!*
-    *!* END PROCEDURE cDescripcionEmpresaActiva_Access
-    *!*
-    *!* ///////////////////////////////////////////////////////
-
     *
     * cApplicationName_Access
     Protected Procedure cApplicationName_Access()
@@ -856,7 +790,7 @@ Define Class GlobalSettings As PrxCustom Of "Fw\TierAdapter\Comun\Prxbaselibrary
 
         Local loMonedas As PrxCollection Of "Fw\TierAdapter\Comun\PrxBaseLibrary.prg"
         Local loMoneda As Object
-        Local loDataTier As PrxDataTier Of "V:\Clipper2fox\Fw\Tieradapter\Comun\Prxdatatier.prg"
+        Local loDataTier As PrxDataTier Of "v:\CloudFox\Fw\Tieradapter\Comun\Prxdatatier.prg"
 
         Try
 
@@ -1290,7 +1224,6 @@ Define Class GlobalSettings As PrxCustom Of "Fw\TierAdapter\Comun\Prxbaselibrary
 
     Endproc && nClientePraxis_Access
 
-
 Enddefine && GlobalSettings
 
 
@@ -1469,16 +1402,6 @@ Define Class GlobalSettings2 As GlobalSettings Of 'Fw\Comunes\Prg\GlobalSettings
     Endproc && nEjercicioActivo_Access
 
 
-
-    Procedure cDescripcionEmpresaActiva_Access()
-
-        Return This.cDescripcionEmpresaActiva
-
-    Endproc
-    *!*
-    *!* END PROCEDURE cDescripcionEmpresaActiva_Access
-    *!*
-    *!* ///////////////////////////////////////////////////////
 
     *
     * oApp_Access

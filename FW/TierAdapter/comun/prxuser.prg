@@ -49,11 +49,19 @@ Define Class User As prxEntity Of 'Fw\Tieradapter\Comun\prxEntity.prg'
     * Indica la Empresa Activa para el Usuario
     nEmpresaActivaId = 0
 
+    *
+    nSucursalActivaId = 0
+
+
+
     * Indica la Ejercicio Activo para el Usuario
     nEjercicioActivoId = 0
 
     * Descripcion de la Empres Activa para el Usuario
     cDescripcionEmpresaActiva = ""
+
+    * Descripcion de la Sucursal Activa para el Usuario
+    cDescripcionSucursalActiva = ""
 
     *
     OrganizationId = 0
@@ -162,6 +170,7 @@ Define Class User As prxEntity Of 'Fw\Tieradapter\Comun\prxEntity.prg'
 
     _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
         [<VFPData>] + ;
+        [<memberdata name="nsucursalactivaid" type="property" display="nSucursalActivaId" />] + ;
         [<memberdata name="ctoken" type="property" display="cToken" />] + ;
         [<memberdata name="nclientepraxis" type="property" display="nClientePraxis" />] + ;
         [<memberdata name="lisactive" type="property" display="lIsActive" />] + ;

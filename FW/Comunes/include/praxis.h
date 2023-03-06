@@ -7,6 +7,27 @@
 
 #INCLUDE "Tools\Namespaces\Include\System.h"
 
+*---------------- Acciones -----------------------
+#DEFINE DO_CREATE 	16
+#DEFINE DO_READ  	8
+#DEFINE DO_UPDATE 	4
+#DEFINE DO_DELETE 	2
+#DEFINE DO_LIST  	1
+
+*---------------- Permisos -----------------------
+#DEFINE CAN_CREATE 	16
+#DEFINE CAN_READ  	8
+#DEFINE CAN_UPDATE 	4
+#DEFINE CAN_DELETE 	2
+#DEFINE CAN_LIST  	1
+
+*---------------- Tipo de Numeracion -----------------------
+#DEFINE TN_MANUAL 					1
+#DEFINE TN_AUTOMATICA  				2
+#DEFINE TN_FACTURA_ELECTRONICA 		3
+#DEFINE TN_IMPRESORA_FISCAL_HASAR 	4
+#DEFINE TN_IMPRESORA_FISCAL_EPSON 	5
+
 *---------------- Id Modulos -----------------------
 #DEFINE MDL_SISTEMA			00
 #DEFINE MDL_ACREEDORES		01

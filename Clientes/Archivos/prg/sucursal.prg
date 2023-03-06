@@ -78,6 +78,104 @@ Define Class oSucursal As oModelo Of "FrontEnd\Prg\Modelo.prg"
 		[<VFPData>] + ;
 		[</VFPData>]
 
+
+    *
+    *
+    Procedure CambiarSucursalActiva() As Void
+        Local lcCommand As String,;
+            lcAlias As String
+        Local loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg",;
+            loSucursal As oSucursal Of "Clientes\Archivos\prg\Sucursal.prg",;
+            loReturn As Object,;
+            loFiltro As Object
+
+        Local lnSucursalActiva As Integer
+
+        Try
+
+            lcCommand = ""
+            
+            loGlobalSettings 	= NewGlobalSettings()
+            lnSucursalActiva 	= loGlobalSettings.nEmpresaSucursalActiva
+
+            loFiltro = Createobject( "Empty" )
+            AddProperty( loFiltro, "Nombre", "Activos" )
+            AddProperty( loFiltro, "FieldName", "activo" )
+            AddProperty( loFiltro, "FieldRelation", "==" )
+            AddProperty( loFiltro, "FieldValue", "True" )
+
+            This.AddFilter( loFiltro )
+
+			This.oParent.nId = loGlobalSettings.nEmpresaActiva 
+			
+            loReturn = This.GetByWhere()
+            lcAlias = loReturn.cAlias
+
+            TEXT To lcCommand NoShow TextMerge Pretext 15
+			Select *
+				From <<lcAlias>>
+				Order By Orden,Nombre
+				Into Cursor <<lcAlias>> ReadWrite
+            ENDTEXT
+
+            &lcCommand
+            lcCommand = ""
+
+            lnTally = _Tally
+
+            If lnTally > 1
+
+                Dimension aSucursalesNombre[ lnTally ],aSucursalesId[ lnTally ]
+
+                Locate
+                lnSelected = 0
+                Scan
+
+                    aSucursalesNombre[ Recno()  ] = Alltrim( Nombre )
+                    aSucursalesId[ Recno()  ] 	= Id
+
+                    If Id = loGlobalSettings.nEmpresaSucursalActiva
+                        lnSelected = Recno()
+                    Endif
+
+                Endscan
+
+                lnSelected = S_Opcion( -1,-1,0,0,"aSucursalesNombre", lnSelected, .F., "Sucursales" )
+
+                If !Empty( lnSelected )
+                    loGlobalSettings.nEmpresaSucursalActiva = aSucursalesId[ lnSelected ]
+                    loGlobalSettings.cDescripcionSucursalActiva = Alltrim( aSucursalesNombre[ lnSelected ] )
+                Endif
+
+            Else
+                If lnTally = 1
+                    Locate
+                    loGlobalSettings.nEmpresaSucursalActiva = Id
+                    loGlobalSettings.cDescripcionSucursalActiva = Alltrim( Nombre )
+                Endif
+
+            Endif
+
+            If lnSucursalActiva # loGlobalSettings.nEmpresaSucursalActiva 
+
+                _Screen.oApp.SetApplicationMainCaption()
+
+            Endif
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+            loSucursal = Null
+
+        Endtry
+
+    Endproc && CambiarSucursalActiva
+
 	*
 	* cUrl_Access
 	Procedure cUrl_Access()

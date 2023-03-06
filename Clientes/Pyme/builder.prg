@@ -1,6 +1,6 @@
 Lparameters tcProject As String
 
-Local loBuilder As PymeBuilder Of "V:\Clipper2fox\Clientes\Pyme\Builder.prg"
+Local loBuilder As PymeBuilder Of "v:\CloudFox\Clientes\Pyme\Builder.prg"
 
 
 
@@ -96,10 +96,13 @@ Define Class PymeBuilder As Builder Of 'Tools\Builder\Prg\Builder.prg'
 *!*				loProyecto.Icon = "v:\CloudFox\fw\Comunes\Image\Modulos\Utiles.ico"
 *!*				loProyecto.cModulo = "Utiles"
 
+			* RA 25/02/2023(18:28:49)
+			* El menú lo genera el BackEnd
 			loProyecto = This.New( "Pyme" )
-			loProyecto.cMenuFileName = "Clientes\Pyme\Pyme\Pyme"
+			*loProyecto.cMenuFileName = "Clientes\Pyme\Pyme\Pyme"
+			loProyecto.cMenuFileName = ""
 			loProyecto.cProjectFolder = "Clientes\Pyme\Pyme"
-			loProyecto.Icon = "v:\CloudFox\FW\Comunes\image\ico\fenix.ico"
+			loProyecto.Icon = "v:\CloudFox\FW\Comunes\image\ico\PraxisComputacion.ico"
 			loProyecto.cModulo = "Gestión Comercial"
 
 

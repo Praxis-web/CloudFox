@@ -214,7 +214,8 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
 
     cSplashClass 			= "SplashScreen"
     cSplashClassLibrary		= "fw\comunes\vcx\SplashScreen"
-    cScreenIcon 			= "v:\CloudFox\fw\Comunes\Image\ico\Fenix.ico"
+    *cScreenIcon 			= "v:\CloudFox\fw\Comunes\Image\ico\Fenix.ico"
+    cScreenIcon 			= "v:\CloudFox\fw\Comunes\Image\ico\Praxis.ico"
     cToolbarClass 			= "prxToolBar"
     cToolbarClassLibrary 	= "fw\comunes\vcx\prxToolbar.vcx"
 
@@ -282,6 +283,9 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
 
     * Id de la Empresa Activa
     nEmpresaId = 0
+
+    * Nombre de la Sucursal Activa
+    cSucursal = ""
 
     *
     cEjercicio = ""
@@ -952,7 +956,7 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
     *!*
     *!*
 
-    Procedure SetApplicationMainCaption( a, b ) As Void
+    Procedure SetApplicationMainCaption( cCaption As String ) As Void
 
         Local lcCaption As String
         Local lcFilterCriteria As String
@@ -964,26 +968,22 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
         Try
 
 
-            With This As prxApplication Of "FW\Actual\Comun\Main.prg"
 
-                .oError.Ctracelogin = "Estableciendo Títulos Principales"
+            If Empty( cCaption )
+                loGlobalSettings = NewGlobalSettings()
+                cCaption = loGlobalSettings.cDescripcionEmpresaActiva + " - "
+                cCaption = cCaption + loGlobalSettings.cDescripcionSucursalActiva
 
-                lcCaption = Strtran( Alltrim( .cApplicationName ), "_", " " )
+                If Pemstatus( _Screen, "oScreenLog", 5 )
+                    _Screen.oScreenLog.lblEmpresa.Caption 	= loGlobalSettings.cDescripcionEmpresaActiva
+                    _Screen.oScreenLog.lblSucursal.Caption 	= loGlobalSettings.cDescripcionSucursalActiva
+                Endif
 
-                *!*					lcCaption = lcCaption +  " - v" + .cVersion
-                *!*					lcCaption = lcCaption + "   [" + .oUser.Descripcion +"]"
+            Endif
 
-                *!*					loGlobalSettings = This.oGlobalSettings
-                *!*					lcCaption = lcCaption + " - Empresa Activa: " + loGlobalSettings.cDescripcionEmpresaActiva
-
-
-
-                _Screen.Caption = lcCaption
-                _Screen.Icon = .cScreenIcon
-                This.cScreenCaption = _Screen.Caption
-
-            Endwith
-
+            _Screen.Caption = cCaption
+            _Screen.Icon = This.cScreenIcon
+            This.cScreenCaption = _Screen.Caption
 
         Catch To oErr
             Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
@@ -1097,65 +1097,32 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
 
     Endproc && BuildMainToolbar
 
-    *!* ///////////////////////////////////////////////////////
-    *!* Procedure.....: BuildMainMenu
-    *!* Description...:
-    *!* Date..........: Miércoles 30 de Marzo de 2005 (21:27:24)
-    *!* Author........: Ricardo Aidelman
-    *!* Project.......: Visual Praxis Beta 1.0
-    *!* -------------------------------------------------------
-    *!* Modification Summary
-    *!* R/0001  -
-    *!*
-    *!*
-
-    Procedure BuildMainMenu( tcMenu As String ) As Void
-
+    *
+    *
+    Procedure BuildMainMenu( oMenu as Collection ) As Void
         Local lcCommand As String
+        Local loMenu As oMenu Of "FrontEnd\Prg\DescargarMenu.prg"
 
         Try
 
+            lcCommand = ""
+            loMenu = GetEntity( "Menu" )
+            loMenu.MenuLoader( oMenu )
 
-            This.oError.Ctracelogin = "Build Main Menu"
-
-            If !Empty( This.MenuArchivosYTablas )
-                This.oError.cRemark = "Menu Archivos y Tablas"
-                lcCommand = "DO [" + Alltrim( This.MenuArchivosYTablas ) + "]"
-                &lcCommand
-            Endif
-
-            If !Empty( This.MenuStock )
-                This.oError.cRemark = "Menu Stock"
-                lcCommand = "DO [" + Alltrim( This.MenuStock ) + "]"
-                &lcCommand
-            Endif
-
-            If !Empty( This.MenuGeneral )
-                This.oError.cRemark = "Menu General"
-                lcCommand = "DO [" + Alltrim( This.MenuGeneral ) + "]"
-                &lcCommand
-            Endif
-
-            If !Empty( This.MenuSYSAdmin ) && And This.oUser.IsAdmin
-                This.oError.cRemark = "Menu Sistema"
-                lcCommand = "DO " + Alltrim( This.MenuSYSAdmin )
-                &lcCommand
-            Endif
-
-        Catch To oErr
-            This.lIsOk = .F.
-            This.cXMLoError=This.oError.Process( oErr )
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
 
         Finally
+            loMenu = Null
 
         Endtry
 
+    Endproc && BuildMainMenu
 
-    Endproc
-    *!*
-    *!*	END PROCEDURE BuildMainMenu
-    *!*
-    *!*	///////////////////////////////////////////////////////
 
     Procedure HookAfterBuildMainMenu()
         Try
@@ -1480,25 +1447,25 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
 
             lcCommand = ""
             loGlobalSettings = NewGlobalSettings()
-            
-            *Set Step On 
-            
-            Text To lcMsg NoShow TextMerge Pretext 03
+
+            *Set Step On
+
+            TEXT To lcMsg NoShow TextMerge Pretext 03
             Visible: <<_Screen.Visible>>
             Top: <<_Screen.Top>>
             Left: <<_Screen.Left>>
             Height: <<_Screen.Height>>
             Width: <<_Screen.Width>>
-            EndText
+            ENDTEXT
 
-			*StrToFile( lcMsg, "Screen.txt" )
+            *StrToFile( lcMsg, "Screen.txt" )
 
-            _screen.Left = 0
+            _Screen.Left = 0
             _Screen.Top = 0
             _Screen.AutoCenter = .T.
 
             Do Form "FW\Comunes\Scx\frmLogin" To loUser
-
+            
             If ( loUser.Cancela = .T. ) Or ( loUser.Id = 0 )
                 loUser.lOk = .F.
             Endif
@@ -1528,15 +1495,21 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
 
                 This.ObtenerPermisos()
 
+                loGlobalSettings.cDescripcionEmpresaActiva 	= This.oUser.cDescripcionEmpresaActiva
+                loGlobalSettings.cDescripcionSucursalActiva = This.oUser.cDescripcionSucursalActiva
+                loGlobalSettings.nEmpresaActiva 		= This.oUser.nEmpresaActivaId
+                loGlobalSettings.nEmpresaSucursalActiva = This.oUser.nSucursalActivaId
+                
+
                 Set Sysmenu Off
                 Set Sysmenu To
                 Set Sysmenu Automatic
 
-                This.Personalize()
-                This.SetApplicationMainCaption()
-                This.SetSystemMenu()
-                This.BuildMainMenu()
-                This.HookAfterBuildMainMenu()
+                *!*	                This.Personalize()
+                *!*	                This.SetApplicationMainCaption()
+                *!*	                This.SetSystemMenu()
+                *!*	                This.BuildMainMenu()
+                *!*	                This.HookAfterBuildMainMenu()
 
                 Try
 
@@ -1567,6 +1540,12 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
                 Endif
 
                 loScreenLog.Anchor 	= ANCHOR_Left_Absolute + ANCHOR_Bottom_Absolute
+
+                This.Personalize()
+                This.SetApplicationMainCaption()
+                This.SetSystemMenu()
+                *This.BuildMainMenu()
+                This.HookAfterBuildMainMenu()
 
                 Do "FrontEnd\Prg\CambiarClienteActivo.prg" With loUser.nClientePraxis
 
@@ -1624,6 +1603,8 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
                 loUser.lModificaOrden 		= loRegistro.Modifica_Orden
                 loUser.lModificaEsSistema 	= loRegistro.Modifica_Es_Sistema
                 loUser.lShowEditInBrowse 	= loRegistro.Muestra_Editar_En_Grilla
+                
+                This.BuildMainMenu( loRegistro.Menu )
 
             Endif
 
@@ -2761,7 +2742,6 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
                 Finally
 
                 Endtry
-
 
             Endif
 

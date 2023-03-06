@@ -1,7 +1,7 @@
 #INCLUDE "FW\Comunes\Include\Praxis.h"
 
 *!* ///////////////////////////////////////////////////////
-*!* PROCEDURE.....: Pyme_Main 
+*!* PROCEDURE.....: Pyme_Main
 *!* DESCRIPTION...: programa principal del proyecto
 *!* DATE..........: Miércoles 6 de Abril de 2022 (10:02:41)
 *!* AUTHOR........: RICARDO AIDELMAN
@@ -13,124 +13,150 @@
 *!*
 
 Lparameters tcAppName As String, ;
-	tcVersion As String,;
-	tcUser As String
+    tcVersion As String,;
+    tcUser As String
 
 Local loMain As Pyme_Main Of Clientes\Pyme\Pyme\prg\Pyme_Main.prg
 
 Try
-	Close Databases All
+    Close Databases All
 
-	If Empty( tcAppName )
-		tcAppName = "Gestión Comercial"
-	Endif
+    If Empty( tcAppName )
+        tcAppName = "Gestión Comercial"
+    Endif
 
-	If Empty( tcVersion )
-		tcVersion = "1.0"
-	Endif
+    If Empty( tcVersion )
+        tcVersion = "1.0"
+    Endif
 
-	If Empty( tcUser )
-		tcUser = ""
-	EndIf
-	
-	loMain = Createobject( "oPyme", ;
-		tcAppName,;
-		tcVersion,;
-		tcUser )
+    If Empty( tcUser )
+        tcUser = ""
+    Endif
 
-	loMain.Start()
+    loMain = Createobject( "oPyme", ;
+        tcAppName,;
+        tcVersion,;
+        tcUser )
+
+    loMain.Start()
 
 Catch To oErr
 
-	Try
-		Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+    Try
+        Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
 
-		loError = Newobject( "Errorhandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
-		loError.Process( oErr )
+        loError = Newobject( "Errorhandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+        loError.Process( oErr )
 
-	Catch To oErr
-		ShowError( oErr )
+    Catch To oErr
+        ShowError( oErr )
 
-	Finally
+    Finally
 
-	Endtry
+    Endtry
 
 
 Finally
-	_Screen.Picture = ""
+    _Screen.Picture = ""
 
-	Try
+    Try
 
-		If Vartype(loMain)=="O"
-			loMain.Destroy()
-		Endif
+        If Vartype(loMain)=="O"
+            loMain.Destroy()
+        Endif
 
-	Catch To oErr
+    Catch To oErr
 
-	Finally
-		loMain = Null
+    Finally
+        loMain = Null
 
-	Endtry
+    Endtry
 
 Endtry
 
 */ ---------------------------------------------------------------------------
-	
+
 Define Class oPyme As prxApplication Of "Fw\SysAdmin\Prg\saMain.prg"
 
-	#If .F.
-		Local This As oPyme Of Clientes\Pyme\Pyme\Prg\Pyme_Main.Prg
-	#Endif
+    #If .F.
+        Local This As oPyme Of Clientes\Pyme\Pyme\Prg\Pyme_Main.Prg
+    #Endif
 
-	* Nombre del archivo donde se guardan las variables DRVx
-	cParameFileName = "Clientes\Pyme\ArParame"
-	cRootWorkFolder = "Clientes\Pyme\"
-	cDBFMenu 		= "Clientes\Pyme\Pyme\Pyme"
-	cScreenIcon 	= "v:\CloudFox\FW\Comunes\image\ico\fenix.ico"
-	cAppLogoSource 	= "v:\CloudFox\FW\Comunes\image\jpg\LogoPraxis.jpg"
+    * Nombre del archivo donde se guardan las variables DRVx
+    *cParameFileName = "Clientes\Pyme\ArParame"
+    cRootWorkFolder = "Clientes\Pyme\"
+    *cDBFMenu 		= "Clientes\Pyme\Pyme\Pyme"
+    cScreenIcon 	= "v:\CloudFox\FW\Comunes\image\ico\PraxisComputacion.ico"
+    cAppLogoSource 	= "v:\CloudFox\FW\Comunes\image\jpg\LogoPraxis.jpg"
 
-	nModuloId 		= 0
-	
-	nWindowState	= 2 
+    nModuloId 		= 0
 
-	*!* ///////////////////////////////////////////////////////
-	*!* PROCEDURE.....: BuildMainMenu
-	*!* DESCRIPTION...:
-	*!* DATE..........: Sábado 21 de Mayo de 2011 (16:35:54)
-	*!* AUTHOR........: RICARDO AIDELMAN
-	*!* PROJECT.......:
-	*!* -------------------------------------------------------
-	*!* MODIFICATION SUMMARY
-	*!* R/0001  -
-	*!*
-	*!*
+    nWindowState	= 2
 
-	Procedure BuildMainMenu( tcMenu As String ) As VOID
+    *
+    *
+    Procedure yyy___BuildMainMenu(  ) As Void
+        Local lcCommand As String
+        Local loMenu As oMenu Of "FrontEnd\Prg\DescargarMenu.prg"
 
-		With This As prxApplication Of "fw\sysAdmin\prg\saMain.prg"
+        Try
 
-			Try
+            lcCommand = ""
+            loMenu = GetEntity( "Menu" )
+            loMenu.MenuLoader()
 
-				If IsRuntime()
-					This.cDBFMenu = "Datos\Pyme"
-				EndIf
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
 
-				MenuLoader( This.cDBFMenu, This.oUser.Clave )
+        Finally
+            loMenu = Null
 
-			Catch To oErr
-				Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+        Endtry
 
-				loError = Newobject( "Errorhandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
-				loError.Process( oErr )
-				Throw loError
+    Endproc && BuildMainMenu
 
-			Finally
+    *!* ///////////////////////////////////////////////////////
+    *!* PROCEDURE.....: BuildMainMenu
+    *!* DESCRIPTION...:
+    *!* DATE..........: Sábado 21 de Mayo de 2011 (16:35:54)
+    *!* AUTHOR........: RICARDO AIDELMAN
+    *!* PROJECT.......:
+    *!* -------------------------------------------------------
+    *!* MODIFICATION SUMMARY
+    *!* R/0001  -
+    *!*
+    *!*
 
-			Endtry
+    Procedure xxx___BuildMainMenu( tcMenu As String ) As VOID
 
-		Endwith
+        With This As prxApplication Of "fw\sysAdmin\prg\saMain.prg"
 
-	Endproc &&    BuildMainMenu
-	
+            Try
+
+                If IsRuntime()
+                    This.cDBFMenu = "Datos\Pyme"
+                Endif
+
+                MenuLoader( This.cDBFMenu, This.oUser.Clave )
+
+            Catch To oErr
+                Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+                loError = Newobject( "Errorhandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+                loError.Process( oErr )
+                Throw loError
+
+            Finally
+
+            Endtry
+
+        Endwith
+
+    Endproc &&    xxx___BuildMainMenu
+
 
 Enddefine

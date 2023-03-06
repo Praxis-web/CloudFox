@@ -371,6 +371,11 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
         Try
 
             lcCommand = ""
+            If Empty( nPermisos )
+            	* RA 27/02/2023(12:14:33)
+            	* Por defecto, tiene todos los permisos
+                nPermisos = CAN_CREATE + CAN_READ + CAN_UPDATE + CAN_DELETE + CAN_LIST
+            Endif
 
             loUser = NewUser()
 
@@ -384,11 +389,11 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
                 This.lShowCamposEspeciales = .T.
 
             Else
-                This.lCanCreate = .T.
-                This.lCanRead  	= .T.
-                This.lCanUpdate = .T.
-                This.lCanDelete = .T.
-                This.lCanList  	= .T.
+                This.lCanCreate = Bittest( nPermisos, 4 )	&&	CAN_CREATE	16
+                This.lCanRead  	= Bittest( nPermisos, 3 )	&&	CAN_READ 	8
+                This.lCanUpdate = Bittest( nPermisos, 2 )	&&	CAN_UPDATE 	4
+                This.lCanDelete = Bittest( nPermisos, 1 )	&&	CAN_DELETE  2
+                This.lCanList  	= Bittest( nPermisos, 0 )	&&  CAN_LIST 	1
 
                 This.lShowCamposEspeciales = Inlist( .T.,;
                     loUser.lModificaActivo,;
@@ -562,7 +567,7 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
             Endif
 
             If This.lIsChild
-
+            
                 loParent = This.oParent
 
                 llDone = .F.
@@ -1622,7 +1627,7 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
             lnABM = oRegistro.ABM
             This.nId = 0
             *Removeproperty( oRegistro, "ABM" )
-            
+
             loReg = This.CleanReg( CloneObject( oRegistro ))
 
             loArchivo = This.GetTable()
@@ -1729,7 +1734,7 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
     Procedure CleanReg( oReg As Object ) As Object
         Local lcCommand As String,;
             lcPropertyName As String,;
-            lcFieldName as String 
+            lcFieldName As String
         Local lnLen As Integer,;
             i As Integer
         Local loReg As Object
@@ -1764,11 +1769,11 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
                     Try
 
                         If Lower( Substr( lcPropertyName, Len( lcPropertyName ) - Len( "_id" ) + 1 )) = "_id"
-                        	lcFieldName = Substr( lcPropertyName, 1, Len( lcPropertyName ) - Len( "_id" ))  
+                            lcFieldName = Substr( lcPropertyName, 1, Len( lcPropertyName ) - Len( "_id" ))
 
                         Else
-                        	lcFieldName = lcPropertyName
-		
+                            lcFieldName = lcPropertyName
+
                         Endif
 
                         AddProperty( loReg, lcFieldName, oReg.&lcPropertyName )
@@ -2117,6 +2122,356 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
         Local loColErrors As Collection,;
             loItem As Object,;
             loErrores As Object,;
+            loRespuesta As Object,;
+            loError as Object 
+
+        Local llCollection As Boolean,;
+            llDetail As Boolean,;
+            llError As Boolean,;
+            llType As Boolean,;
+            llErrors As Boolean
+
+
+        Dimension laErrores[1]
+
+        Try
+
+            lcCommand = ""
+
+            loColErrors = This.oColErrors
+
+            If Isnull( loColErrors )
+                loColErrors = Createobject( "Collection" )
+            Endif
+
+            Do Case
+                Case Pemstatus( oErrores, "Data", 5 )
+
+                    llCollection = .F.
+                    llDetail = Pemstatus( oErrores.Data, "Detail", 5 )
+                    llError = Pemstatus( oErrores.Data, "Error", 5 )
+                    llType  = Pemstatus( oErrores.Data, "Type", 5 )
+                    llErrors = Pemstatus( oErrores.Data, "Errors", 5 )
+
+
+                    If Pemstatus( oErrores.Data, "BaseClass", 5 )
+                        llCollection = oErrores.Data.BaseClass = "Collection"
+                    Endif
+
+                    Do Case
+                        Case llType And llErrors
+                            * RA 25/02/2023(19:12:40)
+                            * Version nueva de drf_standardized_errors.handler
+
+                            * {
+                            *     "type": "validation_error",
+                            *     "errors": [
+                            *         {
+                            *             "code": "blank",
+                            *             "detail": "Este campo no puede estar en blanco.",
+                            *             "attr": "nombre"
+                            *         },
+                            *         {
+                            *             "code": "required",
+                            *             "detail": "Este campo es requerido.",
+                            *             "attr": "cliente_praxis"
+                            *         }
+                            *     ]
+                            * }
+
+							loItem = Createobject( "Empty" )
+
+							lcErrorMsg = oErrores.Data.Type
+							 
+                            TEXT To lcMsg NoShow TextMerge Pretext 03
+							Tipo de Error: <<lcErrorMsg>>
+                            ENDTEXT
+
+                            AddProperty( loItem, "Msg", lcMsg )
+                            loColErrors.Add( loItem )
+                            
+                            loItem = Createobject( "Empty" )
+                            AddProperty( loItem, "Msg", "" )
+                            loColErrors.Add( loItem )
+                            
+                            For Each loError in oErrores.Data.Errors
+                            	If IsEmpty( loError.Attr )
+		                            TEXT To lcMsg NoShow TextMerge Pretext 03
+									<<loError.Detail>>
+		                            ENDTEXT
+
+                            	Else
+		                            TEXT To lcMsg NoShow TextMerge Pretext 03
+									<<loError.Attr>>: <<loError.Detail>>
+		                            ENDTEXT
+
+                            	Endif
+
+								loItem = Createobject( "Empty" )
+	                            AddProperty( loItem, "Msg", lcMsg )
+	                            loColErrors.Add( loItem )
+                            EndFor
+                            
+                            This.oColErrors = loColErrors
+
+                        Case llCollection
+
+                            * El campo Data es un objeto con los errores de validacion
+                            * en los campos.
+                            * El Nombre de la propiedad es el Nombre del Campo
+                            * El contenido de la propiedad es el mensaje de error de validación
+
+                            loRespuesta = oErrores.Data
+
+                            For Each loCampo In loRespuesta
+
+                                lnLen = Amembers( laErrores, loCampo )
+
+                                For i = 1 To lnLen
+
+                                    Try
+
+
+                                        lcPropertyName = laErrores[ i ]
+                                        loErrores = Evaluate( "loCampo." + lcPropertyName )
+
+                                        loItem = Createobject( "Empty" )
+                                        AddProperty( loItem, "Name", Lower( lcPropertyName ))
+
+                                        Do Case
+                                            Case Vartype( loErrores ) = "O"
+                                                If loErrores.BaseClass = "Collection"
+
+                                                    For Each lcErrorMsg In loErrores
+                                                        If !Empty( nItem )
+                                                            TEXT To lcMsg NoShow TextMerge Pretext 03
+															<<nItem>>) <<lcPropertyName>>: <<lcErrorMsg>>
+                                                            ENDTEXT
+
+                                                        Else
+                                                            TEXT To lcMsg NoShow TextMerge Pretext 03
+															<<lcPropertyName>>: <<lcErrorMsg>>
+                                                            ENDTEXT
+
+                                                        Endif
+
+                                                        AddProperty( loItem, "Msg", lcMsg )
+                                                        loColErrors.Add( loItem, Lower( lcPropertyName ) )
+
+                                                    Endfor
+                                                Endif
+
+                                            Case Vartype( loErrores ) = "C"
+                                                lcErrorMsg = loErrores
+
+                                                If !Empty( nItem )
+                                                    TEXT To lcMsg NoShow TextMerge Pretext 03
+												<<nItem>>) <<lcErrorMsg>>
+                                                    ENDTEXT
+
+                                                Else
+                                                    TEXT To lcMsg NoShow TextMerge Pretext 03
+												<<lcErrorMsg>>
+                                                    ENDTEXT
+
+                                                Endif
+
+                                                AddProperty( loItem, "Msg", lcMsg )
+                                                loColErrors.Add( loItem, Lower( lcPropertyName ) )
+
+                                                *loColErrors.Add( lcMsg )
+
+                                        Endcase
+
+
+                                    Catch To oErr
+
+                                    Finally
+
+                                    Endtry
+
+
+                                Endfor
+                            Endfor
+
+                            This.oColErrors = loColErrors
+
+                        Case llDetail
+                            * El error viene en el campo Detail
+                            lcErrorMsg = oErrores.Data.Detail
+
+                            If !Empty( nItem )
+                                TEXT To lcMsg NoShow TextMerge Pretext 03
+								<<nItem>>) <<lcErrorMsg>>
+                                ENDTEXT
+
+                            Else
+                                TEXT To lcMsg NoShow TextMerge Pretext 03
+								<<lcErrorMsg>>
+                                ENDTEXT
+
+                            Endif
+
+                            loItem = Createobject( "Empty" )
+                            AddProperty( loItem, "Msg", lcMsg )
+                            loColErrors.Add( loItem )
+
+                        Case llError
+                            * Coleccion de errores en la Coleccion "Error"
+                            loRespuesta = oErrores.Data.Error
+
+                            For Each lcErrorMsg In loRespuesta
+                                If Substr( lcErrorMsg, 1, 2 ) # "</"
+                                    If !Empty( nItem )
+                                        TEXT To lcMsg NoShow TextMerge Pretext 03
+										<<nItem>>) <<lcErrorMsg>>
+                                        ENDTEXT
+
+                                    Else
+                                        TEXT To lcMsg NoShow TextMerge Pretext 03
+										<<lcErrorMsg>>
+                                        ENDTEXT
+
+                                    Endif
+
+                                    loItem = Createobject( "Empty" )
+                                    AddProperty( loItem, "Msg", lcMsg )
+                                    loColErrors.Add( loItem )
+                                Endif
+
+                            Endfor
+
+
+                        Otherwise
+                            * El campo Data es un objeto con los errores de validacion
+                            * en los campos.
+                            * El Nombre de la propiedad es el Nombre del Campo
+                            * El contenido de la propiedad es el mensaje de error de validación
+
+                            loRespuesta = oErrores.Data
+
+                            lnLen = Amembers( laErrores, loRespuesta )
+
+                            For i = 1 To lnLen
+
+                                Try
+
+
+                                    lcPropertyName = laErrores[ i ]
+                                    loErrores = Evaluate( "loRespuesta." + lcPropertyName )
+
+                                    loItem = Createobject( "Empty" )
+                                    AddProperty( loItem, "Name", Lower( lcPropertyName ))
+
+                                    Do Case
+                                        Case Vartype( loErrores ) = "O"
+                                            If loErrores.BaseClass = "Collection"
+
+                                                For Each lcErrorMsg In loErrores
+                                                    If !Empty( nItem )
+                                                        TEXT To lcMsg NoShow TextMerge Pretext 03
+														<<nItem>>) <<lcPropertyName>>: <<lcErrorMsg>>
+                                                        ENDTEXT
+
+                                                    Else
+                                                        TEXT To lcMsg NoShow TextMerge Pretext 03
+														<<lcPropertyName>>: <<lcErrorMsg>>
+                                                        ENDTEXT
+
+                                                    Endif
+
+                                                    AddProperty( loItem, "Msg", lcMsg )
+                                                    loColErrors.Add( loItem, Lower( lcPropertyName ) )
+
+                                                Endfor
+                                            Endif
+
+                                        Case Vartype( loErrores ) = "C"
+                                            lcErrorMsg = loErrores
+
+                                            If !Empty( nItem )
+                                                TEXT To lcMsg NoShow TextMerge Pretext 03
+												<<nItem>>) <<lcErrorMsg>>
+                                                ENDTEXT
+
+                                            Else
+                                                TEXT To lcMsg NoShow TextMerge Pretext 03
+												<<lcErrorMsg>>
+                                                ENDTEXT
+
+                                            Endif
+
+                                            AddProperty( loItem, "Msg", lcMsg )
+                                            loColErrors.Add( loItem, Lower( lcPropertyName ) )
+
+                                            *loColErrors.Add( lcMsg )
+
+                                    Endcase
+
+
+                                Catch To oErr
+
+                                Finally
+
+                                Endtry
+
+
+                            Endfor
+
+                            This.oColErrors = loColErrors
+
+
+                    Endcase
+
+                    * Es un error devuelto por HTTPRequest
+                Case Pemstatus( oErrores, "cErrorMessage", 5 )
+                    loRespuesta = oErrores
+
+                    TEXT To lcMsg NoShow TextMerge Pretext 03
+					Status: <<loRespuesta.nStatus>>
+
+					<<loRespuesta.cErrorMessage>>
+                    ENDTEXT
+
+                    loItem = Createobject( "Empty" )
+                    AddProperty( loItem, "Msg", lcMsg )
+                    loColErrors.Add( loItem )
+
+                Otherwise
+                    loRespuesta = oErrores
+
+            Endcase
+
+            This.oColErrors = loColErrors
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+            loColErrors = Null
+            oErrores = Null
+            vError = Null
+
+        Endtry
+
+    Endproc && ManejarErrores
+
+    *
+    *
+    Procedure xxx___ManejarErrores( oErrores As Object, nItem As Integer ) As Void
+        Local lcCommand As String,;
+            lcPropertyName As String,;
+            lcErrorMsg As String,;
+            lcMsg As String
+        Local lnLen As Integer,;
+            i As Integer
+        Local loColErrors As Collection,;
+            loItem As Object,;
+            loErrores As Object,;
             loRespuesta As Object
 
         Local llCollection As Boolean,;
@@ -2392,125 +2747,7 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
 
         Endtry
 
-    Endproc && ManejarErrores
-
-    *
-    *
-    Procedure xxxManejarErrores( oErrores As Object, nItem As Integer ) As Void
-        Local lcCommand As String,;
-            lcPropertyName As String,;
-            lcErrorMsg As String,;
-            lcMsg As String
-        Local lnLen As Integer,;
-            i As Integer
-        Local loColErrors As Collection,;
-            loItem As Object
-
-        Dimension laErrores[1]
-
-        Try
-
-            lcCommand = ""
-            loColErrors = This.oColErrors
-
-            If Isnull( loColErrors )
-                loColErrors = Createobject( "Collection" )
-            Endif
-
-            *!*				If PemStatus( oErrores, "BaseClass", 5 )
-            *!*					If oErrores.BaseClass = "Collection"
-            *!*						For Each vError in oErrores
-            *!*							This.ManejarErrores( vError, nItem )
-            *!*						EndFor
-            *!*
-            *!*					EndIf
-            *!*				EndIf
-
-            lnLen = Amembers( laErrores, oErrores )
-
-            For i = 1 To lnLen
-
-                Try
-
-
-                    lcPropertyName = laErrores[ i ]
-                    loErrores = Evaluate( "oErrores." + lcPropertyName )
-
-                    loItem = Createobject( "Empty" )
-                    AddProperty( loItem, "Name", Lower( lcPropertyName ))
-
-                    Do Case
-                        Case Vartype( loErrores ) = "O"
-                            If loErrores.BaseClass = "Collection"
-
-                                For Each lcErrorMsg In loErrores
-                                    If !Empty( nItem )
-                                        TEXT To lcMsg NoShow TextMerge Pretext 03
-										<<nItem>>) <<lcPropertyName>>: <<lcErrorMsg>>
-                                        ENDTEXT
-
-                                    Else
-                                        TEXT To lcMsg NoShow TextMerge Pretext 03
-										<<lcPropertyName>>: <<lcErrorMsg>>
-                                        ENDTEXT
-
-                                    Endif
-
-                                    AddProperty( loItem, "Msg", lcMsg )
-                                    loColErrors.Add( loItem, Lower( lcPropertyName ) )
-
-                                Endfor
-                            Endif
-
-                        Case Vartype( loErrores ) = "C"
-                            lcErrorMsg = loErrores
-
-                            If !Empty( nItem )
-                                TEXT To lcMsg NoShow TextMerge Pretext 03
-								<<nItem>>) <<lcErrorMsg>>
-                                ENDTEXT
-
-                            Else
-                                TEXT To lcMsg NoShow TextMerge Pretext 03
-								<<lcErrorMsg>>
-                                ENDTEXT
-
-                            Endif
-
-                            AddProperty( loItem, "Msg", lcMsg )
-                            loColErrors.Add( loItem, Lower( lcPropertyName ) )
-
-                            loColErrors.Add( lcMsg )
-
-                    Endcase
-
-
-                Catch To oErr
-
-                Finally
-
-                Endtry
-
-
-            Endfor
-
-            This.oColErrors = loColErrors
-
-        Catch To loErr
-            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
-            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
-            loError.cRemark = lcCommand
-            loError.Process ( m.loErr )
-            Throw loError
-
-        Finally
-            loColErrors = Null
-            oErrores = Null
-            vError = Null
-
-        Endtry
-
-    Endproc && xxxManejarErrores
+    Endproc && xxx___ManejarErrores
 
     *
     *
@@ -2593,7 +2830,7 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
             Endif
 
             Select Alias( cAlias )
-            
+
             If !Bof() And !Eof()
 
                 loArchivo = This.GetTable()
@@ -2944,13 +3181,20 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
     *
     * nClientePraxis_Access
     Protected Procedure nClientePraxis_Access()
-        Local loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg"
+        Local loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg",;
+            loUser As User Of "Fw\TierAdapter\Comun\prxUser.prg"
         Local lcCommand As String
 
         Try
 
             lcCommand = ""
             loGlobalSettings = NewGlobalSettings()
+
+            If Empty( loGlobalSettings.nClientePraxis )
+                loUser = NewUser()
+                loGlobalSettings.nClientePraxis = loUser.nClientePraxis
+            Endif
+
             This.nClientePraxis = loGlobalSettings.nClientePraxis
 
         Catch To loErr
@@ -2962,6 +3206,7 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
 
         Finally
             loGlobalSettings = Null
+            loUser = Null
 
 
         Endtry
@@ -3244,6 +3489,112 @@ Define Class oModelo_Afip As oModelo Of "FrontEnd\Prg\Modelo.prg"
         Return lnTally
 
     Endproc && SincronizarConAfip
+
+
+    *
+    * Repite la última consulta
+    Procedure xxx___Requery( oParam As Object ) As Void;
+            HELPSTRING "Repite la última consulta"
+        Local lcCommand As String
+
+        Local lnTally As Integer
+        Local loReturn As Object,;
+            loFiltros As CollectionBase Of Tools\Namespaces\Prg\CollectionBase.Prg
+
+        Try
+
+            lcCommand = ""
+            If Vartype( oParam ) = "O"
+                This.oRequery = oParam
+            Endif
+
+            * RA 02/02/2023(11:35:48)
+            * Forzar que las tablas de Afip no se vean afectadas
+            * por el page_size global
+
+            loFiltro = Createobject( "Empty" )
+            AddProperty( loFiltro, "Nombre", "SetPageSize" )
+            AddProperty( loFiltro, "FieldName", "current_size" )
+            AddProperty( loFiltro, "FieldRelation", "=" )
+            AddProperty( loFiltro, "FieldValue", Transform( 1000 ) )
+
+            This.AddFilter( loFiltro )
+
+            If Vartype( This.oRequery ) == "O"
+                If Pemstatus( This.oRequery, "oFilterCriteria", 5 )
+                    loFiltros = This.oRequery.oFilterCriteria
+                    loFiltros.RemoveItem( loFiltro.Nombre )
+                    loFiltros.AddItem( loFiltro, Lower( loFiltro.Nombre ))
+
+                Endif
+            Endif
+
+            loReturn 	= This.GetByWhere( This.oRequery )
+            lnTally 	= loReturn.nTally
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+            loFiltro = Null
+
+
+        Endtry
+
+        Return loReturn
+
+    Endproc && Requery
+
+    *
+    *
+    Procedure HookFilterCriteria( oFilterCriteria As Collection ) As Collection
+        Local lcCommand As String
+        Local loFiltros As CollectionBase Of Tools\Namespaces\Prg\CollectionBase.Prg,;
+            loFiltro As Object
+
+        Try
+
+            lcCommand = ""
+
+            * RA 02/02/2023(11:35:48)
+            * Forzar que las tablas de Afip no se vean afectadas
+            * por el page_size global
+
+
+            If Isnull( oFilterCriteria )
+                oFilterCriteria = Createobject( "Collection" )
+            Endif
+
+            loFiltro = Createobject( "Empty" )
+            AddProperty( loFiltro, "Nombre", "SetPageSize" )
+            AddProperty( loFiltro, "FieldName", "current_size" )
+            AddProperty( loFiltro, "FieldRelation", "=" )
+            AddProperty( loFiltro, "FieldValue", Transform( 1000 ) )
+
+            *loFiltros = oFilterCriteria
+            oFilterCriteria.RemoveItem( loFiltro.Nombre )
+            oFilterCriteria.AddItem( loFiltro, Lower( loFiltro.Nombre ))
+
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+            loFiltro = Null
+
+        Endtry
+
+        Return oFilterCriteria
+
+    Endproc && HookFilterCriteria
 
 
 Enddefine

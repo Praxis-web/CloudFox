@@ -15,7 +15,7 @@
 #INCLUDE "FW\Comunes\Include\Praxis.h"
 #INCLUDE "FW\TierAdapter\Include\TA.h"
 
-Define Class Entidad As prxEntity Of 'V:\Clipper2fox\Fw\Tieradapter\Comun\prxEntity.prg'
+Define Class Entidad As prxEntity Of 'v:\CloudFox\Fw\Tieradapter\Comun\prxEntity.prg'
 
 	#If .F.
 		Local This As Entidad Of "Rutinas\Prg\prxEntidad.prg"

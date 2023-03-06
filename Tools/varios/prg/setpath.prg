@@ -268,9 +268,9 @@ Procedure SetPath( tnEnvironment As Integer ) As VOID
 			
 			
 			* FoxyPreviewer
-			Set Path To "v:\Clipper2Fox\Tools\FoxyPreviewer" ADDITIVE
-			Set Path To "v:\Clipper2Fox\Tools\FoxyPreviewer\Source" ADDITIVE
-			Set Path To "v:\Clipper2Fox\Tools\FoxyPreviewer\Source\Images" ADDITIVE
+			Set Path To "v:\CloudFox\Tools\FoxyPreviewer" ADDITIVE
+			Set Path To "v:\CloudFox\Tools\FoxyPreviewer\Source" ADDITIVE
+			Set Path To "v:\CloudFox\Tools\FoxyPreviewer\Source\Images" ADDITIVE
 			
 			*MessageBox( Set("Path"))
 			

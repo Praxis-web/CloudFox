@@ -13,7 +13,8 @@ Procedure Cliente_Praxis( nPermisos As Integer,;
     Local lcCommand As String
     Local loPraxis As oPraxis Of "Clientes\Archivos\prg\Cliente_Praxis.prg",;
         loParam As Object,;
-        loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg"
+        loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg",;
+        loUser As User Of "Fw\TierAdapter\Comun\prxUser.prg"
 
 
     Try
@@ -29,13 +30,23 @@ Procedure Cliente_Praxis( nPermisos As Integer,;
         loPraxis.Initialize( loParam )
 
         AddProperty( loParam, "oBiz", loPraxis )
-        loGlobalSettings = NewGlobalSettings()
 
-        loReturn = loPraxis.GetByPK( loGlobalSettings.nClientePraxis )
+        loUser = NewUser()
 
-        If loReturn.lOk
-            loPraxis.LaunchEditForm( loReturn.oRegistro )
+        If Inlist( .T., loUser.lIsSuperuser, loUser.lIsStaff )
+            Do Form (loPraxis.cGrilla) ;
+                With loParam To loReturn
+
+        Else
+            loGlobalSettings = NewGlobalSettings()
+
+            loReturn = loPraxis.GetByPK( loGlobalSettings.nClientePraxis )
+
+            If loReturn.lOk
+                loPraxis.LaunchEditForm( loReturn.oRegistro )
+            Endif
         Endif
+
 
     Catch To loErr
         Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
@@ -64,7 +75,7 @@ Define Class oPraxis As oModelo Of "FrontEnd\Prg\Modelo.prg"
         Local This As oPraxis Of "Clientes\Archivos\prg\Cliente_Praxis.prg"
     #Endif
 
-	lEditInBrowse 		= .F.
+    lEditInBrowse 		= .F.
     cModelo 		= "Cliente_Praxis"
 
     cFormIndividual = "Clientes\Archivos\Scx\Cliente_Praxis.scx"
@@ -140,8 +151,14 @@ Define Class oPraxis As oModelo Of "FrontEnd\Prg\Modelo.prg"
             lcAlias As String,;
             lcNombre As String
         Local loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg",;
+            loEmpresa As oEmpresa Of "Clientes\Archivos\prg\Empresa.prg",;
+            loSucursal As oSucursal Of "Clientes\Archivos\prg\Sucursal.prg",;
             loReturn As Object,;
-            loSetup As Object
+            loSetup As Object,;
+            loFiltro As Object,;
+            loApp As prxApplication Of "Fw\SysAdmin\Prg\saMain.prg"
+
+        Local loMenu As oMenu Of "FrontEnd\Prg\DescargarMenu.prg"
 
         Local lnSelected As Integer,;
             lnTally As Integer
@@ -159,7 +176,9 @@ Define Class oPraxis As oModelo Of "FrontEnd\Prg\Modelo.prg"
             loReturn = This.GetByPK( nNewId )
 
             If loReturn.lOk
-                llPregunta = loReturn.oRegistro.Es_Praxis
+                llPregunta 	= loReturn.oRegistro.Es_Praxis
+                lcNombre 	= loReturn.oRegistro.Nombre
+                loGlobalSettings.nClientePraxis = nNewId
 
             Else
                 llPregunta = .T.
@@ -170,6 +189,15 @@ Define Class oPraxis As oModelo Of "FrontEnd\Prg\Modelo.prg"
 
                 * Pregunta con qué Cliente Praxis va a trabajar
 
+
+                loFiltro = Createobject( "Empty" )
+                AddProperty( loFiltro, "Nombre", "Activos" )
+                AddProperty( loFiltro, "FieldName", "activo" )
+                AddProperty( loFiltro, "FieldRelation", "==" )
+                AddProperty( loFiltro, "FieldValue", "True" )
+
+                This.AddFilter( loFiltro )
+
                 loReturn = This.GetByWhere()
                 lcAlias = loReturn.cAlias
 
@@ -177,17 +205,9 @@ Define Class oPraxis As oModelo Of "FrontEnd\Prg\Modelo.prg"
 				Select *
 					From <<lcAlias>>
 					Where Id # nNewId
-					Order By Nombre
+					Order By Orden, Nombre
 					Into Cursor <<lcAlias>> ReadWrite
                 ENDTEXT
-
-                *!*	                TEXT To lcCommand NoShow TextMerge Pretext 15
-                *!*					Select *
-                *!*						From <<lcAlias>>
-                *!*						Order By Nombre
-                *!*						Into Cursor <<lcAlias>> ReadWrite
-                *!*	                ENDTEXT
-
 
                 &lcCommand
                 lcCommand = ""
@@ -198,35 +218,70 @@ Define Class oPraxis As oModelo Of "FrontEnd\Prg\Modelo.prg"
 
                 lnTally = _Tally
 
-                Dimension aClientesNombre[ lnTally ],aClientesId[ lnTally ]
+                If !Empty( lnTally )
 
-                Locate
-                lnSelected = 1
-                Scan
+                    Dimension aClientesNombre[ lnTally ],aClientesId[ lnTally ]
 
-                    aClientesNombre[ Recno()  ] = Alltrim( Nombre )
-                    aClientesId[ Recno()  ] 	= Id
+                    Locate
+                    lnSelected = 0
+                    Scan
 
-                Endscan
+                        aClientesNombre[ Recno()  ] = Alltrim( Nombre )
+                        aClientesId[ Recno()  ] 	= Id
 
-                lnSelected = S_Opcion( -1,-1,0,0,"aClientesNombre", lnSelected, .F., "Clientes" )
-                loGlobalSettings.nClientePraxis = aClientesId[ lnSelected ]
-                lcNombre = aClientesNombre[ lnSelected ]
+                    Endscan
 
+                    lnSelected = S_Opcion( -1,-1,0,0,"aClientesNombre", 1, .F., "Clientes" )
+
+                    If !Empty( lnSelected )
+                        loGlobalSettings.nClientePraxis = aClientesId[ lnSelected ]
+                        lcNombre = aClientesNombre[ lnSelected ]
+
+                        loGlobalSettings.nEmpresaActiva = 0
+                        loGlobalSettings.cDescripcionEmpresaActiva = ""
+
+                        loGlobalSettings.nEmpresaSucursalActiva = 0
+                        loGlobalSettings.cDescripcionSucursalActiva = ""
+
+                        loEmpresa = GetEntity( "Empresa" )
+                        loReturn = loEmpresa.GetByWhere()
+
+                        If loReturn.lOk
+                            lcAlias = loReturn.cAlias
+                            Select Alias( lcAlias )
+                            Locate
+
+                            loGlobalSettings.nEmpresaActiva = Id
+                            loGlobalSettings.cDescripcionEmpresaActiva = Alltrim( Nombre )
+
+                            loSucursal = GetEntity( "Sucursal" )
+                            loSucursal.oParent.nId = Id
+                            loReturn = loSucursal.GetByWhere()
+
+                            If loReturn.lOk
+                                lcAlias = loReturn.cAlias
+                                Select Alias( lcAlias )
+                                Locate
+
+                                loGlobalSettings.nEmpresaSucursalActiva = Id
+                                loGlobalSettings.cDescripcionSucursalActiva = Alltrim( Nombre )
+
+                            Endif
+
+                        Endif
+
+                    Endif
+
+                    _Screen.oApp.SetApplicationMainCaption()
+
+                Endif
 
             Else
                 loGlobalSettings.nClientePraxis = nNewId
                 lcNombre = loReturn.oRegistro.Nombre
 
-
             Endif
 
-
-            _Screen.oApp.cEmpresa = lcNombre
-            _Screen.oScreenLog.lblEmpresa.Caption = lcNombre
-
-            _Screen.Caption = _Screen.oApp.cScreenCaption + " - " + lcNombre
-            *_Screen.Icon = "v:\CloudFox\FW\Comunes\image\Modulos\Mercado Libre.ico"
 
             If  FileExist( "SetUp.cfg" )
                 loSetup = XmlToObject( Filetostr( "SetUp.cfg" ))
@@ -245,7 +300,13 @@ Define Class oPraxis As oModelo Of "FrontEnd\Prg\Modelo.prg"
 
                 Strtofile( ObjectToXml( loSetup, .T. ), "SetUp.cfg" )
 
-            Endif
+            EndIf
+            
+            loApp = loGlobalSettings.oApp 
+            loApp.ObtenerPermisos()   
+
+*!*	            loMenu = GetEntity( "Menu" )
+*!*	            loMenu.MenuLoader()
 
         Catch To loErr
             Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
@@ -255,6 +316,8 @@ Define Class oPraxis As oModelo Of "FrontEnd\Prg\Modelo.prg"
             Throw loError
 
         Finally
+            loMenu = Null
+            loApp = Null 
 
         Endtry
 

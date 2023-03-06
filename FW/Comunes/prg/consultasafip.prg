@@ -676,7 +676,7 @@ Define Class oConsultasAFIP As Custom
 				AddProperty( loParam,"Caption", cCaption )
 			Endif
 
-			Do Form "v:\Clipper2Fox\FW\Comunes\Scx\Obtener_Cuil" With loParam To lcCuil
+			Do Form "v:\CloudFox\FW\Comunes\Scx\Obtener_Cuil" With loParam To lcCuil
 
 			If !lSilence And nTop >= 0
 				SayMask( nTop, nLeft,  lcCuil, "" )
@@ -894,4 +894,3 @@ Enddefine
 *!* Class.........: oConsultasAFIP
 *!*
 *!* ///////////////////////////////////////////////////////
-

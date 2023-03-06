@@ -1,0 +1,10 @@
+#DEFINE CAN_CREATE	1		
+Error in line 116: Constant is already created with #DEFINE.
+#DEFINE CAN_UPDATE	2		
+Error in line 118: Constant is already created with #DEFINE.
+#DEFINE CAN_READ	4		
+Error in line 120: Constant is already created with #DEFINE.
+#DEFINE CAN_DELETE	8		
+Error in line 122: Constant is already created with #DEFINE.
+#DEFINE CAN_LIST 	16
+Error in line 124: Constant is already created with #DEFINE.

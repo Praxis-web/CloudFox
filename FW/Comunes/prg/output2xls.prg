@@ -6,7 +6,7 @@ Lparameters tcAlias As String,;
 	
 	
 Local llDone as Boolean 	
-Local loDT As PrxDataTier Of "V:\Clipper2fox\Fw\Tieradapter\Comun\Prxdatatier.prg"
+Local loDT As PrxDataTier Of "v:\CloudFox\Fw\Tieradapter\Comun\Prxdatatier.prg"
 Local lcFieldList as String,;
 lcAlias as String,;
 lcMsg as String,;

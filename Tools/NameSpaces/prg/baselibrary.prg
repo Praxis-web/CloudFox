@@ -92,7 +92,7 @@ Define Class NamespaceBase2 As Session
 
 Enddefine
 
-Define Class ObjectBase As NamespaceBase Of v:\Clipper2Fox\Tools\NameSpaces\Prg\baselibrary.Prg
+Define Class ObjectBase As NamespaceBase Of v:\CloudFox\Tools\NameSpaces\Prg\baselibrary.Prg
 
 	#If .F.
 		Local This As ObjectBase Of Tools\NameSpaces\Prg\baselibrary.Prg

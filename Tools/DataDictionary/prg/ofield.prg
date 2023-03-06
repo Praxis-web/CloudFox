@@ -249,6 +249,11 @@ Define Class oField As oBase Of 'Tools\DataDictionary\prg\oBase.prg'
     * Prevalece sobre nLength
     nGridMaxLength = 0
 
+    *
+    nMaxValue = 0
+    *
+    nLowValue = 0
+
     lFitColumn   = .F.
 
     lOrderByThis = .F.
@@ -358,7 +363,6 @@ Define Class oField As oBase Of 'Tools\DataDictionary\prg\oBase.prg'
     * Indica si elimina los espacios en blanco iniciales y finales en datos alfanuméricos
     Ltrim = .T.
 
-    Protected _MemberData
     _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] ;
         + [<VFPData>] ;
         + [<memberdata name="ltrim" type="property" display="lTrim" />] ;
@@ -453,48 +457,11 @@ Define Class oField As oBase Of 'Tools\DataDictionary\prg\oBase.prg'
         + [<memberdata name="ocurrentcontrol" type="property" display="oCurrentControl" />] ;
         + [<memberdata name="cgridcolumncontrolsource" type="property" display="cGridColumnControlSource" />] ;
         + [<memberdata name="ngridalignment" type="property" display="nGridAlignment" />] ;
+        + [<memberdata name="nlowvalue" type="property" display="nLowValue" />] ;
+        + [<memberdata name="nmaxvalue" type="property" display="nMaxValue" />] ;
+        + [<memberdata name="nlength_assign" type="method" display="nLength_Assign" />] ;
         + [</VFPData>]
 
-
-    *!*		*
-    *!*		* cTagName_Access
-    *!*		Protected Procedure cTagName_Access()
-    *!*			Local lcCommand As String
-
-    *!*			Try
-
-    *!*				lcCommand = ""
-
-    *!*				If Empty( This.cTagName )
-    *!*					This.cTagName = Substr( This.Name, 1, 10 )
-    *!*				Endif
-
-    *!*			Catch To loErr
-    *!*				Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
-    *!*				loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
-    *!*				loError.cRemark = lcCommand
-    *!*				loError.Process ( m.loErr )
-    *!*				Throw loError
-
-    *!*			Finally
-
-    *!*			Endtry
-
-    *!*			Return This.cTagName
-
-    *!*		Endproc && cTagName_Access
-
-    *!*		* CurrentTagName_Access
-    *!*		Protected Function cCurrentTagName_Access() As String
-
-    *!*			If Empty ( This.cCurrentTagName )
-    *!*				This.cCurrentTagName = Sys ( 2015 )
-
-    *!*			Endif && Empty( This.cCurrentTagName )
-
-    *!*			Return This.cCurrentTagName
-
-    *!*		Endfunc && cCurrentTagName
 
     *
     * cStatusBarText_Access
@@ -654,6 +621,25 @@ Define Class oField As oBase Of 'Tools\DataDictionary\prg\oBase.prg'
 
     Endfunc && oCurrentControl_Access
 
+
+
+
+    * nLength_Assign
+
+    Protected Procedure nLength_Assign( uNewValue )
+
+        This.nLength = uNewValue
+
+        Do Case
+            Case Inlist ( Lower(This.cFieldType), 'i', 'int', 'integer', 'long' )
+                This.cInputMask = ConvertInputMask ( This.nLength, 0, '#', .F. )
+                This.nMaxValue 	= Val(Replicate( "9", This.nLength))
+                This.nLowValue 	= 0
+
+
+        Endcase
+
+    Endproc && nLength_Assign
 
 
 

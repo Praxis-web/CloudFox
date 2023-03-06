@@ -2,7 +2,7 @@
 Lparameters tcCommand As String, tlDoPrg As Boolean, nFormType As Integer, lIsChildProcess As Boolean
 
 Local lcCommand As String
-Local loExecute As oExecute Of "V:\Clipper2fox\Rutinas\Execute.prg"
+Local loExecute As oExecute Of "v:\CloudFox\Rutinas\Execute.prg"
 Local loForm As Form
 Local i As Integer
 
@@ -138,7 +138,7 @@ Endtry
 Define Class oExecute As Session
 
 	#If .F.
-		Local This As oExecute Of "V:\Clipper2fox\Rutinas\Execute.prg"
+		Local This As oExecute Of "v:\CloudFox\Rutinas\Execute.prg"
 	#Endif
 
 	_MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;

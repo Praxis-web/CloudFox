@@ -14,10 +14,10 @@
 
 #INCLUDE "FW\Comunes\Include\Praxis.h"
 
-Define Class PrxDataTier As prxSession Of 'V:\Clipper2fox\Fw\Tieradapter\Comun\Prxbaselibrary.prg'
+Define Class PrxDataTier As prxSession Of 'v:\CloudFox\Fw\Tieradapter\Comun\Prxbaselibrary.prg'
 
 	#If .F.
-		Local This As PrxDataTier Of "V:\Clipper2fox\Fw\Tieradapter\Comun\Prxdatatier.prg"
+		Local This As PrxDataTier Of "v:\CloudFox\Fw\Tieradapter\Comun\Prxdatatier.prg"
 	#Endif
 
 
@@ -1973,10 +1973,10 @@ Enddefine
 *!* ///////////////////////////////////////////////////////
 
 
-Define Class oDataTier2 As PrxDataTier Of "V:\Clipper2fox\Fw\Tieradapter\Comun\Prxdatatier.prg"
+Define Class oDataTier2 As PrxDataTier Of "v:\CloudFox\Fw\Tieradapter\Comun\Prxdatatier.prg"
 
 	#If .F.
-		Local This As oDataTier2 Of "V:\Clipper2fox\Fw\Tieradapter\Comun\Prxdatatier.prg"
+		Local This As oDataTier2 Of "v:\CloudFox\Fw\Tieradapter\Comun\Prxdatatier.prg"
 	#Endif
 
 

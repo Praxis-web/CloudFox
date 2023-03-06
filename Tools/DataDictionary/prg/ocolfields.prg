@@ -221,9 +221,10 @@ Define Class oColFields As oColBase Of 'Tools\DataDictionary\prg\oColBase.prg'
                     Case Inlist ( m.tcFieldType, 'i', 'int', 'integer', 'long' )
                         loField.cFieldType    = 'I'
                         *loField.cDisplayClass = IB_NUMERIC
-                        loField.nLength      = 6
-                        loField.cInputMask    = m.Control.ConvertInputMask ( m.loField.nLength, 0, '#', .F. )
-                        loField.cFormat       = 'K'
+                        loField.nLength      	= 6
+                        loField.nFieldPrecision = 0 
+                        loField.cInputMask    	= m.Control.ConvertInputMask ( m.loField.nLength, 0, '9', .F. )
+                        loField.cFormat       	= 'RK'
 
                         loField.oCurrentControl.Name			= 'num' + loField.Name
                         loField.oCurrentControl.Class			= "numTextBoxBase"
@@ -232,8 +233,14 @@ Define Class oColFields As oColBase Of 'Tools\DataDictionary\prg\oColBase.prg'
                     Case Inlist ( m.tcFieldType, 'n', 'num', 'numeric' )
                         loField.cFieldType    = 'N'
                         *loField.cDisplayClass = IB_NUMERIC
-                        loField.cInputMask    = m.Control.ConvertInputMask ( loField.nFieldWidth, loField.nFieldPrecision, '#', .T. )
+                        loField.cInputMask    = m.Control.ConvertInputMask ( loField.nFieldWidth, loField.nFieldPrecision, '9', .T. )
                         loField.cFormat       = 'RK'
+                        
+                        loField.nMaxValue 	= Val(Replicate("9", loField.nFieldWidth ))
+                        If loField.nFieldPrecision > 0
+							loField.nMaxValue = Int( loField.nMaxValue / ( 10 * ( loField.nFieldPrecision + 1 )))
+                        EndIf
+                        loField.nLowValue  	= 0
 
                         loField.oCurrentControl.Name			= 'num' + loField.Name
                         loField.oCurrentControl.Class			= "numTextBoxBase"
@@ -266,7 +273,7 @@ Define Class oColFields As oColBase Of 'Tools\DataDictionary\prg\oColBase.prg'
                         loField.cFieldType    = 'Y'
                         *loField.cDisplayClass = IB_NUMERIC
                         loField.cFormat       = '$Z'
-                        loField.cInputMask    = m.Control.ConvertInputMask ( m.loField.nFieldWidth, m.loField.nFieldPrecision, '#', .T. )
+                        loField.cInputMask    = m.Control.ConvertInputMask ( m.loField.nFieldWidth, m.loField.nFieldPrecision, '9', .T. )
                         loField.cFormat       = 'RK'
 
                         loField.oCurrentControl.Name			= 'num' + loField.Name
@@ -299,7 +306,7 @@ Define Class oColFields As oColBase Of 'Tools\DataDictionary\prg\oColBase.prg'
                     Case Inlist ( m.tcFieldType, 'b', 'double' )
                         loField.cFieldType    = 'B'
                         *loField.cDisplayClass = IB_NUMERIC
-                        loField.cInputMask    = m.Control.ConvertInputMask ( m.loField.nFieldWidth, m.loField.nFieldPrecision, '#', .T. )
+                        loField.cInputMask    = m.Control.ConvertInputMask ( m.loField.nFieldWidth, m.loField.nFieldPrecision, '9', .T. )
                         loField.cFormat       = 'RK'
 
                         loField.oCurrentControl.Name			= 'num' + loField.Name
@@ -433,6 +440,7 @@ Define Class oColFields As oColBase Of 'Tools\DataDictionary\prg\oColBase.prg'
 
             loField.nLength = 25
             loField.lStr 	= .T.
+            loField.lNull 	= .T. 
 
             loField.oCurrentControl.Name			= 'cbo' + loField.Name
             loField.oCurrentControl.Class			= "ComboBoxBase"

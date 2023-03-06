@@ -188,7 +188,9 @@ Define Class oProveedor As oOrganizacion Of "Clientes\Archivos\prg\Organizacion.
             AddProperty( loParam, "oBiz", This )
             
             Do Form (This.cFormIndividual) With loParam To loStatus
-            llReturn = ( loStatus.lCancelar = .F. )
+            If Vartype( loStatus ) == "O"
+                llReturn = ( loStatus.lCancelar = .F. )
+            Endif
 
 
         Catch To loErr

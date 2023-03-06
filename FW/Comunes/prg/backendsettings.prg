@@ -243,6 +243,10 @@ Define Class ConsumirAPI As Custom
             Set Century On
 
             lcAlias = Alias()
+            
+            If Substr( cUrl, 1, 1 ) = "/" 
+				cUrl = Substr( cUrl, 2 ) 
+            EndIf
 
             loBackEnd = This.oBackEnd
             lcURL = loBackEnd.cBaseUrl + cURL
@@ -803,6 +807,10 @@ Define Class ConsumirAPI As Custom
         Try
 
             lcCommand = ""
+            
+            If Substr( cUrl, 1, 1 ) = "/" 
+				cUrl = Substr( cUrl, 2 ) 
+            EndIf
 
             loBackEnd = This.oBackEnd
             lcURL = loBackEnd.cBaseUrl + cURL
@@ -913,6 +921,11 @@ Define Class ConsumirAPI As Custom
             lcCommand = ""
             
             loBackEnd = This.oBackEnd
+
+            If Substr( cUrl, 1, 1 ) = "/" 
+				cUrl = Substr( cUrl, 2 ) 
+            EndIf
+            
             lcURL = loBackEnd.cBaseUrl + cURL
             lcURL = lcURL + Transform( nId ) + "/"
 
@@ -980,6 +993,11 @@ Define Class ConsumirAPI As Custom
             lcCommand = ""
 
             loBackEnd = This.oBackEnd
+            
+            If Substr( cUrl, 1, 1 ) = "/" 
+				cUrl = Substr( cUrl, 2 ) 
+            EndIf
+            
             lcURL = loBackEnd.cBaseUrl + cURL
             lcURL = lcURL + Transform( nId ) + "/"
 
@@ -1045,6 +1063,11 @@ Define Class ConsumirAPI As Custom
             lcCommand = ""
 
             loBackEnd = This.oBackEnd
+            
+            If Substr( cUrl, 1, 1 ) = "/" 
+				cUrl = Substr( cUrl, 2 ) 
+            EndIf
+            
             lcURL = loBackEnd.cBaseUrl + cURL
 
             loJson = Newobject( "prxJSON", "Tools\JSON\Prg\JSON.prg" )
@@ -1111,6 +1134,11 @@ Define Class ConsumirAPI As Custom
             lcCommand = ""
 
             loBackEnd = This.oBackEnd
+            
+            If Substr( cUrl, 1, 1 ) = "/" 
+				cUrl = Substr( cUrl, 2 ) 
+            EndIf
+            
             lcURL = loBackEnd.cBaseUrl + cURL
             *lcURL = lcURL + "bulkUpdate/"
 
@@ -1178,6 +1206,11 @@ Define Class ConsumirAPI As Custom
             lcCommand = ""
 
             loBackEnd = This.oBackEnd
+            
+            If Substr( cUrl, 1, 1 ) = "/" 
+				cUrl = Substr( cUrl, 2 ) 
+            EndIf
+            
             lcURL = loBackEnd.cBaseUrl + cURL
             *lcURL = lcURL + "bulkCreate/"
 
@@ -1245,6 +1278,11 @@ Define Class ConsumirAPI As Custom
             lcCommand = ""
 
             loBackEnd = This.oBackEnd
+            
+            If Substr( cUrl, 1, 1 ) = "/" 
+				cUrl = Substr( cUrl, 2 ) 
+            EndIf
+            
             lcURL = loBackEnd.cBaseUrl + cURL
             lcURL = lcURL + "bulkCreate/"
 

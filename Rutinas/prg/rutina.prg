@@ -525,7 +525,7 @@ Procedure S_Line24
 	* Se usa para mostrar las teclas de Navegación entre pantallas
 Procedure S_Line25( cMsg As String ) As Void
 	Local lcCommand As String
-	Local loForm As frmdisplaywindow Of "v:\clipper2fox\rutinas\vcx\clipper2fox.vcx"
+	Local loForm As frmdisplaywindow Of "v:\cloudfox\rutinas\vcx\clipper2fox.vcx"
 
 	Try
 

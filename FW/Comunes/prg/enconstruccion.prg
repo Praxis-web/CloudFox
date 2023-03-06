@@ -31,7 +31,11 @@ Procedure EnConstruccion( nPermisos As Integer,;
 		La página a la que desea acceder todavía no está lista
 
 		Disculpe las molestias
-		ENDTEXT
+		EndText
+		
+		Text To lcMensajeAclaratorio NoShow TextMerge Pretext 15
+		[Enter]: Continúa		
+		EndText
 
 		=UserKeyPress( lcTextoDeAlerta,;
 			lcMensajeAclaratorio,;

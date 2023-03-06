@@ -2,7 +2,7 @@
 
 *
 *
-Procedure Modulo( nPermisos As Integer,;
+Procedure Rubro_Proveedor( nPermisos As Integer,;
 		nParam2 As Integer,;
 		nParam3 As Integer,;
 		nParam4 As Integer,;
@@ -11,7 +11,7 @@ Procedure Modulo( nPermisos As Integer,;
 		lDoPrg ) As Void
 
 	Local lcCommand As String
-	Local loModulo As oModulo Of "Clientes\Archivos\prg\Modulo.prg",;
+	Local loRubro As oRubroProveedor Of "Clientes\Archivos\prg\Rubro_Proveedor.prg.prg",;
 		loParam As Object
 
 
@@ -24,12 +24,12 @@ Procedure Modulo( nPermisos As Integer,;
 		AddProperty( loParam, "nPermisos", nPermisos )
 		AddProperty( loParam, "cURL", cURL  )
 
-		loModulo = GetEntity( "Modulo" )
-		loModulo.Initialize( loParam )
+		loRubro = GetEntity( "Rubro_Proveedor" )
+		loRubro.Initialize( loParam )
 
-		AddProperty( loParam, "oBiz", loModulo )
+		AddProperty( loParam, "oBiz", loRubro )
 
-		Do Form (loModulo.cGrilla) ;
+		Do Form (loRubro.cGrilla) ;
 			With loParam To loReturn
 
 
@@ -42,61 +42,43 @@ Procedure Modulo( nPermisos As Integer,;
 		Throw loError
 
 	Finally
-		loModulo = Null
+		loRubro = Null
 
 	Endtry
 
-Endproc && Modulo
+Endproc && Rubro
 
 *!* ///////////////////////////////////////////////////////
-*!* Class.........: oModulo
+*!* Class.........: oRubroProveedor
 *!* Description...:
-*!* Date..........: Viernes 13 de Enero de 2023 (14:39:44)
+*!* Date..........: Sábado 11 de Septiembre de 2021 (12:42:50)
 *!*
 *!*
 
-Define Class oModulo As oModelo Of "FrontEnd\Prg\Modelo.prg"
+Define Class oRubroProveedor As oModelo Of "FrontEnd\Prg\Modelo.prg"
 
 	#If .F.
-		Local This As oModulo Of "Clientes\Archivos\prg\Modulo.prg"
+		Local This As oRubroProveedor Of "Clientes\Archivos\prg\Rubro_Proveedor.prg.prg"
 	#Endif
 
 	lEditInBrowse 		= .T.
 	lShowEditInBrowse 	= .T.
-	cModelo 		= "Modulo"
+	cModelo 			= "Rubro_Proveedor"
 
-	cFormIndividual = "Clientes\Archivos\Scx\Modulo.scx"
-	cGrilla 		= "Clientes\Archivos\Scx\Modulos.scx"
+	cFormIndividual = "Clientes\Archivos\Scx\Rubro_Proveedor.prg.scx"
+	cGrilla 		= "Clientes\Archivos\Scx\Rubros_Cliente.scx"
 
-	cTituloEnForm 	= "Modulo"
-	cTituloEnGrilla = "Modulos"
+	cTituloEnForm 	= "Rubro"
+	cTituloEnGrilla = "Rubros"
 
 	_MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
 		[<VFPData>] + ;
 		[</VFPData>]
 
-	*
-	* cUrl_Access
-	Procedure cUrl_Access()
-
-		If Empty( Alltrim( This.cURL ))
-			* Inicializar la URL
-			* Puede ponerse duro para cada modelo,
-			* o leerse de un archivo de configuración local
-			* para una personalización especial
-
-			This.cURL = "archivos/apis/Modulo/"
-
-		Endif
-
-		Return This.cURL
-
-	Endproc && cUrl_Access
-
 
 Enddefine
 *!*
 *!* END DEFINE
-*!* Class.........: oModulo
+*!* Class.........: oRubroProveedor
 *!*
 *!* ///////////////////////////////////////////////////////

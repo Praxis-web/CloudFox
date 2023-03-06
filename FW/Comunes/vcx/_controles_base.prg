@@ -1233,6 +1233,49 @@ Define Class oCB_Spinner As ControlesBase Of "FW\Comunes\vcx\_Controles_Base.prg
         [<VFPData>] + ;
         [</VFPData>]
 
+
+    *
+    *
+    Procedure Inicializar(  ) As Void
+        Local loField As oField Of 'Tools\DataDictionary\prg\oField.prg',;
+            loControl As _spinner Of fw\comunes\vcx\_controles_base.vcx
+
+        Try
+
+            lcCommand = ""
+            loField 	= This.oField
+            loControl 	= This.oControl
+
+            loControl.ToolTipText 	= loField.cToolTipText
+            loControl.Format 		= loField.cFormat
+            loControl.InputMask 	= loField.cInputMask
+            loControl.Enabled 		= loField.lCanUpdate
+            loControl.Height 		= ( This.nMod * 2 ) * ( loControl.nRowSpan )
+
+            loControl.Height = loControl.Height - This.TopPadding - This.BottomPadding
+            
+            loControl.KeyboardHighValue = loField.nMaxValue 
+            loControl.KeyboardLowValue 	= loField.nLowValue 
+            loControl.SpinnerHighValue 	= loField.nMaxValue 
+            loControl.SpinnerLowValue  	= loField.nLowValue 
+           
+            
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+            loField = Null
+            loControl = Null
+
+        Endtry
+
+    Endproc && Inicializar
+
 Enddefine
 *!*
 *!* END DEFINE

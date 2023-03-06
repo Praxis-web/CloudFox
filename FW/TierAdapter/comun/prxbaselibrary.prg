@@ -4620,7 +4620,7 @@ Define Class PrxColumn As PrxColumnBase
 	* FontSize = Iif( Vartype( _Screen.oApp ) == "O", 9 + _Screen.oApp.nUpdateFontSize, 9 )
 
 	HeaderClass = "prxHeader"
-	HeaderClassLibrary = "v:\Clipper2Fox\Fw\TierAdapter\Comun\prxBaseLibrary.prg"
+	HeaderClassLibrary = "v:\CloudFox\Fw\TierAdapter\Comun\prxBaseLibrary.prg"
 	DynamicBackColor = TA_DynamicBackColor
 	ColumnControlSource = ""
 
@@ -4694,7 +4694,7 @@ Enddefine && PrxColumn
 Define Class prxText As TextBox
 
 	#If .F.
-		Local This As prxText Of "V:\Clipper2fox\Fw\Tieradapter\Comun\prxBaseLibrary.prg"
+		Local This As prxText Of "v:\CloudFox\Fw\Tieradapter\Comun\prxBaseLibrary.prg"
 	#Endif
 
 	_MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
@@ -7022,7 +7022,5 @@ Define Class prxAsTopLevelForm As Form
 		[</VFPData>]
 
 Enddefine && prxAsTopLevelForm
-
-
 
 

@@ -70,10 +70,15 @@ Define Class oDataDictionary As oDataBase Of 'Tools\DataDictionary\prg\oDataBase
             loColTables.AddTable ( Createobject ( 'BaseTelefono' ) )
             loColTables.AddTable ( Createobject ( 'BaseEMail' ) )
             loColTables.AddTable ( Createobject ( 'BaseDireccion' ) )
+            
+            loColTables.AddTable ( Createobject ( 'Comprobante_Header' ) )
+            loColTables.AddTable ( Createobject ( 'Comprobante_Detail' ) )
+            loColTables.AddTable ( Createobject ( 'Comprobante_Footer' ) )
 
 
             * Modelos Concretos
             loColTables.AddTable ( Createobject ( 'Usuario' ) )
+            loColTables.AddTable ( Createobject ( 'Menu' ) )
             *loColTables.AddTable ( Createobject ( 'User' ) )
 
             loColTables.AddTable ( Createobject ( 'Modulo' ) )
@@ -86,7 +91,8 @@ Define Class oDataDictionary As oDataBase Of 'Tools\DataDictionary\prg\oDataBase
 
             loColTables.AddTable ( Createobject ( 'Grupo' ) )
             loColTables.AddTable ( Createobject ( 'SubGrupo' ) )
-            loColTables.AddTable ( Createobject ( 'Rubro' ) )
+            loColTables.AddTable ( Createobject ( 'Rubro_Cliente' ) )
+            loColTables.AddTable ( Createobject ( 'Rubro_Proveedor' ) )
             loColTables.AddTable ( Createobject ( 'Marca' ) )
             loColTables.AddTable ( Createobject ( 'Zona' ) )
             loColTables.AddTable ( Createobject ( 'Lista_Precios_Venta' ) )
@@ -120,8 +126,14 @@ Define Class oDataDictionary As oDataBase Of 'Tools\DataDictionary\prg\oDataBase
 
             loColTables.AddTable ( Createobject ( 'Vendedor' ) )
 
+            loColTables.AddTable ( Createobject ( 'Numerador' ) )
             loColTables.AddTable ( Createobject ( 'Comprobante_Base' ) )
             loColTables.AddTable ( Createobject ( 'Tipo_Comprobante' ) )
+            
+            loColTables.AddTable ( Createobject ( 'Ventas_Header' ) )
+            loColTables.AddTable ( Createobject ( 'Ventas_Detail' ) )
+            loColTables.AddTable ( Createobject ( 'Ventas_Footer' ) )
+            
 
             loColTables.AddTable ( Createobject ( 'Deuda' ) )
             loColTables.AddTable ( Createobject ( 'Aplicacion_Deuda' ) )
@@ -131,9 +143,9 @@ Define Class oDataDictionary As oDataBase Of 'Tools\DataDictionary\prg\oDataBase
             loColTables.AddTable ( Createobject ( 'TN_Settings' ) )
 
 
-			* Contable
-			loColTables.AddTable ( Createobject ( 'Cuenta_Contable' ))
-			loColTables.AddTable ( Createobject ( 'Asiento_Tipo' ))
+            * Contable
+            loColTables.AddTable ( Createobject ( 'Cuenta_Contable' ))
+            loColTables.AddTable ( Createobject ( 'Asiento_Tipo' ))
 
             * Sistema Tablas Comunes
             loColTables.AddTable ( Createobject ( 'Condicion_iva' ))
@@ -220,7 +232,7 @@ Define Class BaseModel As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
             loField = loColFields.New( "ts", "T" )
             loField = loColFields.New( "uts", "T" )
             loField = loColFields.New( "borrado", "L" )
-            
+
             loField = loColFields.New( "Tran_id", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Transacción"
@@ -468,6 +480,7 @@ Define Class CoreMaestroBase As BaseMaestro Of "Clientes\Utiles\prg\utDataDictio
                 *!*					.oCurrentControl.ClassLibrary 	= "Clientes\Archivos\Prg\Cliente_Praxis.prg"
                 .Default = loGlobalSettings.nClientePraxis
                 .lStr = .F.
+                .lNull = .F.
             Endwith
 
             *!*				loField = loColFields.NewFK( "empresa", "I" )
@@ -554,8 +567,6 @@ Define Class CoreMaestroCodigo As CoreMaestroBase Of "Clientes\Utiles\prg\utData
 
                 .lCanUpdate = .F.
                 .cCaption = "Código"
-                *!*	                .cCheck = "!Empty( Codigo )"
-                *!*	                .cErrorMessage = "El CÓDIGO es obligatorio"
                 .lRequired = .T.
                 .cToolTipText = "Ingrese el CÓDIGO"
             Endwith
@@ -589,7 +600,7 @@ Enddefine
 *!*
 *!*
 
-Define Class CoreMovimientoBase As BaseModel Of "Clientes\Utiles\prg\utDataDictionary.prg"
+Define Class CoreMovimientoBase As BaseMaestro Of "Clientes\Utiles\prg\utDataDictionary.prg"
 
     #If .F.
         Local This As CoreMovimientoBase Of "Clientes\Utiles\prg\utDataDictionary.prg"
@@ -626,12 +637,27 @@ Define Class CoreMovimientoBase As BaseModel Of "Clientes\Utiles\prg\utDataDicti
 
             loField = loColFields.New( "Fecha", "D" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+            	.lShowInGrid = .T.
+            	.nGridOrder = i
                 .cCaption = "Fecha"
                 .cToolTipText = "Ingrese la Fecha de Emisión"
-                .nShowInFilter = 2
+                .nLength = 15
+            EndWith
+            
+            loField = loColFields.New( "nombre", "C", 100 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lShowInGrid = .T.
+                If .lShowInGrid
+                    i = i + 1
+
+                    .nGridOrder = i
+                Endif
+
+                .cCaption = "Comprobante"
+                .lFitColumn = .F.
+
             Endwith
-
-
+            
             loField = loColFields.NewFK( "cliente_praxis", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .F.
@@ -642,11 +668,9 @@ Define Class CoreMovimientoBase As BaseModel Of "Clientes\Utiles\prg\utDataDicti
                 Endif
 
                 .cCaption = "Cliente Praxis"
-                *!*					.oCurrentControl.Name 	= "cboPraxis"
-                *!*					.oCurrentControl.Class 	= "cboPraxis"
-                *!*					.oCurrentControl.ClassLibrary 	= "Clientes\Archivos\Prg\Cliente_Praxis.prg"
                 .Default = loGlobalSettings.nClientePraxis
                 .lStr = .F.
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "empresa", "I" )
@@ -659,22 +683,30 @@ Define Class CoreMovimientoBase As BaseModel Of "Clientes\Utiles\prg\utDataDicti
                 Endif
 
                 .cCaption = "Empresa"
-                *!*					.oCurrentControl.Name 	= "cboEmpresa"
-                *!*					.oCurrentControl.Class 	= "cboEmpresa"
-                *!*					.oCurrentControl.ClassLibrary 	= "Clientes\Archivos\Prg\Empresa.prg"
-                .Default = 1
+                .Default = loGlobalSettings.nEmpresaActiva
                 .cFK_Modelo = "Empresa"
                 .nShowInFilter = 101
                 .cFilterLookUpInclude = ["exact","in"]
                 .lStr = .F.
+                .lNull = .F.
             Endwith
 
-            loField = loColFields.New( "sucursal", "I" )
+            loField = loColFields.NewFK( "sucursal", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lShowInGrid = .F.
+                If .lShowInGrid
+                    i = i + 1
+
+                    .nGridOrder = i
+                Endif
+
                 .cCaption = "Sucursal"
-                .nShowInFilter = 102
+                .Default = loGlobalSettings.nEmpresaSucursalActiva
                 .cFK_Modelo = "Sucursal"
-                .cFilterLookUpInclude = ["exact","in"]
+                *!*	                .nShowInFilter = 101
+                *!*	                .cFilterLookUpInclude = ["exact","in"]
+                .lStr = .F.
+                .lNull = .F.
             Endwith
 
             loField = loColFields.New( "punto_de_venta", "I" )
@@ -690,12 +722,19 @@ Define Class CoreMovimientoBase As BaseModel Of "Clientes\Utiles\prg\utDataDicti
                 .cCaption = "Número"
             Endwith
 
-            loField = loColFields.New( "letra", "C", 1 )
+            loField = loColFields.NewFK( "Tipo_Comprobante", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-                .cCaption = "Letra"
-            Endwith
+                .lShowInGrid = .F.
+                If .lShowInGrid
+                    i = i + 1
 
-            loField = loColFields.New( "transaccion", "I" )
+                    .nGridOrder = i
+                Endif
+
+                .cCaption = "Tipo de Comprobante"
+                .cFK_Modelo = "Tipo_Comprobante"
+                .lNull = .F.
+            Endwith
 
         Catch To loErr
             Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
@@ -714,6 +753,552 @@ Enddefine
 *!*
 *!* END DEFINE
 *!* Class.........: CoreMovimientoBase
+*!*
+*!* ///////////////////////////////////////////////////////
+
+*!* ///////////////////////////////////////////////////////
+*!* Class.........: Comprobante_Header
+*!* Description...:
+*!* Date..........: Domingo 5 de Septiembre de 2021 (16:57:59)
+*!*
+*!*
+
+Define Class Comprobante_Header As CoreMovimientoBase Of "Clientes\Utiles\prg\utDataDictionary.prg"
+
+    #If .F.
+        Local This As Comprobante_Header Of "Clientes\Utiles\prg\utDataDictionary.prg"
+    #Endif
+
+    lIsVirtual = .T.
+
+    _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
+        [<VFPData>] + ;
+        [</VFPData>]
+
+    *
+    *
+    Procedure Initialize(  ) As Void
+        Local lcCommand As String
+
+        Local loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg', ;
+            loColTables As oColTables Of 'Tools\DataDictionary\prg\oColTables.prg', ;
+            loField As oField Of 'Tools\DataDictionary\prg\oField.prg', ;
+            loTable As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
+        Local loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg"
+
+        Try
+
+            lcCommand = ""
+            loGlobalSettings = NewGlobalSettings()
+
+
+            DoDefault()
+
+            loColFields = This.oColFields
+
+            i = 100
+
+            loField = loColFields.New( "Subtotal", "N", 12, 2 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Subtotal"
+                .lNull = .T.
+            Endwith
+
+
+            loField = loColFields.New( "Total", "N", 12, 2 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Total"
+                .lNull = .T.
+            Endwith
+
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+
+        Endtry
+
+    Endproc && Initialize
+
+Enddefine
+*!*
+*!* END DEFINE
+*!* Class.........: Comprobante_Header
+*!*
+*!* ///////////////////////////////////////////////////////
+
+*!* ///////////////////////////////////////////////////////
+*!* Class.........: Comprobante_Detail
+*!* Description...:
+*!* Date..........: Domingo 5 de Septiembre de 2021 (16:57:59)
+*!*
+*!*
+
+Define Class Comprobante_Detail As BaseModel Of "Clientes\Utiles\prg\utDataDictionary.prg"
+
+    #If .F.
+        Local This As Comprobante_Detail Of "Clientes\Utiles\prg\utDataDictionary.prg"
+    #Endif
+
+    lIsVirtual = .T.
+
+    _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
+        [<VFPData>] + ;
+        [</VFPData>]
+
+    *
+    *
+    Procedure Initialize(  ) As Void
+        Local lcCommand As String
+
+        Local loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg', ;
+            loColTables As oColTables Of 'Tools\DataDictionary\prg\oColTables.prg', ;
+            loField As oField Of 'Tools\DataDictionary\prg\oField.prg', ;
+            loTable As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
+        Local loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg"
+
+        Try
+
+            lcCommand = ""
+            loGlobalSettings = NewGlobalSettings()
+
+
+            DoDefault()
+
+            loColFields = This.oColFields
+
+            i = 100
+
+            loField = loColFields.NewFK( "cabeza", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lShowInGrid = .F.
+                If .lShowInGrid
+                    i = i + 1
+
+                    .nGridOrder = i
+                Endif
+
+                .cCaption = "Cabeza"
+                .cFK_Modelo = "Header"
+            Endwith
+
+            loField = loColFields.New( "orden", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Orden"
+            EndWith
+            
+            loField = loColFields.NewFK( "articulo", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Artículo"
+                .cFK_Modelo = "Producto"
+            EndWith
+            
+            loField = loColFields.New( "cantidad", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Cantidad"
+            EndWith
+            
+            loField = loColFields.New( "signo_stock", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Signo Stock"
+            EndWith
+
+            
+            loField = loColFields.New( "precio_unitario", "N", 12, 2 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Precio Unitario"
+            Endwith
+
+
+            loField = loColFields.New( "Importe", "N", 12, 2 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Importe"
+            Endwith
+
+
+            loField = loColFields.New( "costo_unitario", "N", 12, 2 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Costo Unitario"
+            Endwith
+
+            loField = loColFields.New( "signo_cuenta_corriente", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Signo Cuenta Corriente"
+            EndWith
+
+            loField = loColFields.New( "referencia", "M" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Referencia"
+            Endwith
+
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+
+        Endtry
+
+    Endproc && Initialize
+
+Enddefine
+*!*
+*!* END DEFINE
+*!* Class.........: Comprobante_Detail
+*!*
+*!* ///////////////////////////////////////////////////////
+
+*!* ///////////////////////////////////////////////////////
+*!* Class.........: Comprobante_Footer
+*!* Description...:
+*!* Date..........: Domingo 5 de Septiembre de 2021 (16:57:59)
+*!*
+*!*
+
+Define Class Comprobante_Footer As BaseModel Of "Clientes\Utiles\prg\utDataDictionary.prg"
+
+    #If .F.
+        Local This As Comprobante_Footer Of "Clientes\Utiles\prg\utDataDictionary.prg"
+    #Endif
+
+    lIsVirtual = .T.
+
+    _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
+        [<VFPData>] + ;
+        [</VFPData>]
+
+    *
+    *
+    Procedure Initialize(  ) As Void
+        Local lcCommand As String
+
+        Local loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg', ;
+            loColTables As oColTables Of 'Tools\DataDictionary\prg\oColTables.prg', ;
+            loField As oField Of 'Tools\DataDictionary\prg\oField.prg', ;
+            loTable As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
+        Local loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg"
+
+        Try
+
+            lcCommand = ""
+            loGlobalSettings = NewGlobalSettings()
+
+
+            DoDefault()
+
+            loColFields = This.oColFields
+
+            i = 100
+
+            loField = loColFields.NewFK( "cabeza", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lShowInGrid = .F.
+                If .lShowInGrid
+                    i = i + 1
+
+                    .nGridOrder = i
+                Endif
+
+                .cCaption = "Cabeza"
+                .cFK_Modelo = "Header"
+            Endwith
+
+            loField = loColFields.New( "orden", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Orden"
+            EndWith
+            
+			loField = loColFields.New( "descripcion", "C", 100 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "descripcion"
+            Endwith            
+            
+            loField = loColFields.New( "signo", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Signo"
+                .Default = 1
+            EndWith
+
+            
+            loField = loColFields.New( "base_imponible", "N", 12, 2 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Base Imponible"
+            Endwith
+
+
+            loField = loColFields.New( "Importe", "N", 12, 2 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Importe"
+            Endwith
+
+
+            loField = loColFields.New( "alicuota", "N", 06, 2 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Alícuota"
+            Endwith
+
+            loField = loColFields.New( "signo_cuenta_corriente", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Signo Cuenta Corriente"
+            EndWith
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+
+        Endtry
+
+    Endproc && Initialize
+
+Enddefine
+*!*
+*!* END DEFINE
+*!* Class.........: Comprobante_Footer
+*!*
+*!* ///////////////////////////////////////////////////////
+
+*!* ///////////////////////////////////////////////////////
+*!* Class.........: Ventas_Header
+*!* Description...:
+*!* Date..........: Domingo 5 de Septiembre de 2021 (16:57:59)
+*!*
+*!*
+
+Define Class Ventas_Header As Comprobante_Header Of "Clientes\Utiles\prg\utDataDictionary.prg"
+
+    #If .F.
+        Local This As Ventas_Header Of "Clientes\Utiles\prg\utDataDictionary.prg"
+    #Endif
+
+    cBaseClass 		= "oComprobanteVenta"
+    cBaseClassLib 	= "Clientes\Ventas\Prg\ComprobanteVenta.prg"
+
+    _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
+        [<VFPData>] + ;
+        [</VFPData>]
+
+    *
+    *
+    Procedure Initialize(  ) As Void
+        Local lcCommand As String
+
+        Local loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg', ;
+            loColTables As oColTables Of 'Tools\DataDictionary\prg\oColTables.prg', ;
+            loField As oField Of 'Tools\DataDictionary\prg\oField.prg', ;
+            loTable As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
+        Local loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg"
+
+        Try
+
+            lcCommand = ""
+            loGlobalSettings = NewGlobalSettings()
+
+
+            DoDefault()
+
+            loColFields = This.oColFields
+
+            i = 500
+
+            loField = loColFields.NewFK( "cliente", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lShowInGrid = .T.
+                If .lShowInGrid
+                    i = i + 1
+
+                    .nGridOrder = i
+                Endif
+
+                .cCaption = "Cliente"
+                .cFK_Modelo = "Organizacion_Cliente"
+            Endwith
+
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+
+        Endtry
+
+    Endproc && Initialize
+
+Enddefine
+*!*
+*!* END DEFINE
+*!* Class.........: Ventas_Header
+*!*
+*!* ///////////////////////////////////////////////////////
+
+*!* ///////////////////////////////////////////////////////
+*!* Class.........: Ventas_Detail
+*!* Description...:
+*!* Date..........: Domingo 5 de Septiembre de 2021 (16:57:59)
+*!*
+*!*
+
+Define Class Ventas_Detail As Comprobante_Detail Of "Clientes\Utiles\prg\utDataDictionary.prg"
+
+    #If .F.
+        Local This As Ventas_Detail Of "Clientes\Utiles\prg\utDataDictionary.prg"
+    #Endif
+
+    cBaseClass 		= "oComprobanteVenta_Detail"
+    cBaseClassLib 	= "Clientes\Ventas\Prg\ComprobanteVenta.prg"
+
+    _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
+        [<VFPData>] + ;
+        [</VFPData>]
+
+    *
+    *
+    Procedure Initialize(  ) As Void
+        Local lcCommand As String
+
+        Local loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg', ;
+            loColTables As oColTables Of 'Tools\DataDictionary\prg\oColTables.prg', ;
+            loField As oField Of 'Tools\DataDictionary\prg\oField.prg', ;
+            loTable As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
+        Local loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg"
+
+        Try
+
+            lcCommand = ""
+            loGlobalSettings = NewGlobalSettings()
+
+
+            DoDefault()
+
+            loColFields = This.oColFields
+
+            i = 100
+
+            loField = loColFields.NewFK( "cabeza", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lShowInGrid = .F.
+                If .lShowInGrid
+                    i = i + 1
+
+                    .nGridOrder = i
+                Endif
+
+                .cCaption = "Cabeza"
+                .cFK_Modelo = "Ventas_Header"
+            Endwith
+
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+
+        Endtry
+
+    Endproc && Initialize
+
+Enddefine
+*!*
+*!* END DEFINE
+*!* Class.........: Ventas_Detail
+*!*
+*!* ///////////////////////////////////////////////////////
+
+*!* ///////////////////////////////////////////////////////
+*!* Class.........: Ventas_Footer
+*!* Description...:
+*!* Date..........: Domingo 5 de Septiembre de 2021 (16:57:59)
+*!*
+*!*
+
+Define Class Ventas_Footer As Comprobante_Footer Of "Clientes\Utiles\prg\utDataDictionary.prg"
+
+    #If .F.
+        Local This As Ventas_Footer Of "Clientes\Utiles\prg\utDataDictionary.prg"
+    #Endif
+
+    cBaseClass 		= "oComprobanteVenta_Footer"
+    cBaseClassLib 	= "Clientes\Ventas\Prg\ComprobanteVenta.prg"
+
+
+    _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
+        [<VFPData>] + ;
+        [</VFPData>]
+
+    *
+    *
+    Procedure Initialize(  ) As Void
+        Local lcCommand As String
+
+        Local loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg', ;
+            loColTables As oColTables Of 'Tools\DataDictionary\prg\oColTables.prg', ;
+            loField As oField Of 'Tools\DataDictionary\prg\oField.prg', ;
+            loTable As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
+        Local loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg"
+
+        Try
+
+            lcCommand = ""
+            loGlobalSettings = NewGlobalSettings()
+
+
+            DoDefault()
+
+            loColFields = This.oColFields
+
+            i = 100
+
+            loField = loColFields.NewFK( "cabeza", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lShowInGrid = .F.
+                If .lShowInGrid
+                    i = i + 1
+
+                    .nGridOrder = i
+                Endif
+
+                .cCaption = "Cabeza"
+                .cFK_Modelo = "Ventas_Header"
+            Endwith
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+
+        Endtry
+
+    Endproc && Initialize
+
+Enddefine
+*!*
+*!* END DEFINE
+*!* Class.........: Ventas_Footer
 *!*
 *!* ///////////////////////////////////////////////////////
 
@@ -768,6 +1353,7 @@ Define Class BaseTablaAuxiliar As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
                 .cCaption = "Cliente Praxis"
                 .Default = 1
                 .lStr = .F.
+                .lNull = .F.
             Endwith
 
 
@@ -1048,6 +1634,86 @@ Enddefine
 *!* ///////////////////////////////////////////////////////
 
 *!* ///////////////////////////////////////////////////////
+*!* Class.........: Menu
+*!* Description...:
+*!* Date..........: Domingo 5 de Septiembre de 2021 (16:44:38)
+*!*
+*!*
+
+Define Class Menu As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
+
+    #If .F.
+        Local This As Menu Of "Clientes\Utiles\prg\utDataDictionary.prg"
+    #Endif
+
+    lIsVirtual 		= .T.
+    cBaseClass 		= "oMenu"
+    cBaseClassLib 	= "FrontEnd\Prg\DescargarMenu.prg"
+
+    _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
+        [<VFPData>] + ;
+        [</VFPData>]
+
+    *
+    *
+    Procedure Initialize(  ) As Void
+        Local lcCommand As String
+
+        Local loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg', ;
+            loColTables As oColTables Of 'Tools\DataDictionary\prg\oColTables.prg', ;
+            loField As oField Of 'Tools\DataDictionary\prg\oField.prg', ;
+            loTable As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
+
+        Try
+
+            lcCommand = ""
+
+            loColFields = This.oColFields
+
+            loField = loColFields.New( "id", "I" )
+            loField = loColFields.New( "nombre", "C", 100 )
+            loField = loColFields.New( "descripcion", "M" )
+            loField = loColFields.New( "orden", "I" )
+            loField = loColFields.New( "file_name", "C", 150 )
+            loField = loColFields.New( "folder", "C", 200 )
+            loField = loColFields.New( "url", "C", 200 )
+            loField = loColFields.New( "cliente_praxis", "I" )
+            loField = loColFields.New( "modulo", "I" )
+
+            loField = loColFields.New( "parent", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lNull = .T.
+            Endwith
+
+            loField = loColFields.New( "permisos", "I" )
+            loField = loColFields.New( "acciones", "I" )
+            loField = loColFields.New( "es_titulo", "L" )
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+
+        Endtry
+
+    Endproc && Menu
+
+
+
+Enddefine
+*!*
+*!* END DEFINE
+*!* Class.........: Usuario
+*!*
+*!* ///////////////////////////////////////////////////////
+
+
+
+*!* ///////////////////////////////////////////////////////
 *!* Class.........: Cliente_Praxis
 *!* Description...:
 *!* Date..........: Domingo 5 de Septiembre de 2021 (16:44:38)
@@ -1191,6 +1857,7 @@ Define Class Empresa As BaseMaestro Of "Clientes\Utiles\prg\utDataDictionary.prg
                 *!*					.oCurrentControl.ClassLibrary 	= "Clientes\Archivos\Prg\Cliente_Praxis.prg"
                 .Default = loGlobalSettings.nClientePraxis
                 .lStr = .F.
+                .lNull = .F.
             Endwith
 
 
@@ -1245,7 +1912,6 @@ Define Class Empresa As BaseMaestro Of "Clientes\Utiles\prg\utDataDictionary.prg
                 .cReferences = "Condicion_Iva"
                 *!*	                .oCurrentControl.Name	= "ComboBoxBase"
                 *!*	                .oCurrentControl.Class	= "Clientes\Utiles\prg\utDataDictionary.prg"
-                .Default = 1
             Endwith
 
             loField = loColFields.New( "tipo_documento", "N", 4 )
@@ -1417,6 +2083,7 @@ Define Class xxx_Empresa As BaseMaestro Of "Clientes\Utiles\prg\utDataDictionary
                 *!*					.oCurrentControl.ClassLibrary 	= "Clientes\Archivos\Prg\Cliente_Praxis.prg"
                 .Default = loGlobalSettings.nClientePraxis
                 .lStr = .F.
+                .lNull = .F.
             Endwith
 
 
@@ -1481,7 +2148,6 @@ Define Class xxx_Empresa As BaseMaestro Of "Clientes\Utiles\prg\utDataDictionary
                 .cReferences = "Condicion_Iva"
                 *!*	                .oCurrentControl.Name	= "ComboBoxBase"
                 *!*	                .oCurrentControl.Class	= "Clientes\Utiles\prg\utDataDictionary.prg"
-                .Default = 1
             Endwith
 
             loField = loColFields.New( "tipo_documento", "N", 4 )
@@ -1707,13 +2373,13 @@ Define Class Sucursal As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDictionar
                 Endif
 
                 .cCaption = "Empresa"
-                .Default = 1
                 .cFK_Modelo = "Empresa"
                 .nShowInFilter = 101
                 .cFilterLookUpInclude = ["exact","in"]
 
                 .lCanUpdate = .F.
                 .lStr = .F.
+                .lNull = .F.
             Endwith
 
             loField = loColFields.New( "Alias", "C", 20 )
@@ -1893,7 +2559,6 @@ Define Class BaseTelefono As BaseTablaAuxiliar Of "Clientes\Utiles\prg\utDataDic
                 Endif
 
                 .cCaption = "Tipo de Teléfono"
-                .Default = 1
             Endwith
 
             loField = loColFields.New( "prefijo_pais", "C", 6 )
@@ -2043,7 +2708,6 @@ Define Class BaseEMail As BaseTablaAuxiliar Of "Clientes\Utiles\prg\utDataDictio
                 Endif
 
                 .cCaption = "Tipo de eMail"
-                .Default = 1
             Endwith
 
         Catch To loErr
@@ -2117,7 +2781,6 @@ Define Class BaseDireccion As BaseTablaAuxiliar Of "Clientes\Utiles\prg\utDataDi
                 Endif
 
                 .cCaption = "Tipo de Direccion"
-                .Default = 1
             Endwith
 
             loField = loColFields.New( "calle", "C", 50 )
@@ -2246,7 +2909,7 @@ Define Class BaseDireccion As BaseTablaAuxiliar Of "Clientes\Utiles\prg\utDataDi
                 Endif
 
                 .cCaption = "País"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "Provincia", "I" )
@@ -2259,7 +2922,7 @@ Define Class BaseDireccion As BaseTablaAuxiliar Of "Clientes\Utiles\prg\utDataDi
                 Endif
 
                 .cCaption = "Provincia"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
         Catch To loErr
@@ -2340,6 +3003,7 @@ Define Class Sucursal_Telefono As BaseTelefono Of "Clientes\Utiles\prg\utDataDic
                 *!*					.oCurrentControl.Class 	= "cboSucursal"
                 *!*					.oCurrentControl.ClassLibrary 	= "Clientes\Archivos\Prg\Sucursal.prg"
                 .lStr = .F.
+                .lNull = .F.
 
             Endwith
 
@@ -2422,6 +3086,7 @@ Define Class Sucursal_eMail As BaseeMail Of "Clientes\Utiles\prg\utDataDictionar
                 *!*					.oCurrentControl.ClassLibrary 	= "Clientes\Archivos\Prg\Sucursal.prg"
 
                 .lStr = .F.
+                .lNull = .F.
             Endwith
 
         Catch To loErr
@@ -2502,6 +3167,7 @@ Define Class Sucursal_Direccion As BaseDireccion Of "Clientes\Utiles\prg\utDataD
                 *!*					.oCurrentControl.Class 	= "cboSucursal"
                 *!*					.oCurrentControl.ClassLibrary 	= "Clientes\Archivos\Prg\Sucursal.prg"
                 .lStr = .F.
+                .lNull = .F.
             Endwith
 
         Catch To loErr
@@ -2802,7 +3468,7 @@ Define Class Moneda As SistemaBase Of "Clientes\Utiles\prg\utDataDictionary.prg"
 
             Endwith
 
-            loField = loColFields.NewFK( "codigo_afip", "I" )
+            loField = loColFields.NewFK( "afip_moneda", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .F.
                 If .lShowInGrid
@@ -2814,7 +3480,9 @@ Define Class Moneda As SistemaBase Of "Clientes\Utiles\prg\utDataDictionary.prg"
                 .cCaption = "Código Afip"
                 .cReferences = "afip_moneda"
                 .lRequired = .T.
-                .Default = 2	&& Tiene que ir parametrizado
+                .lNull = .F.
+
+                *.Default = 2	&& Tiene que ir parametrizado
 
                 *!*					.oCurrentControl.Name 	= "cboPresentacion"
                 *!*					.oCurrentControl.Class 	= "cboPresentacion"
@@ -3049,7 +3717,7 @@ Define Class Afip_Alicuota_Iva As Afip_Base Of "Clientes\Utiles\prg\utDataDictio
 
             loField = loColFields.New( "valor", "N", 6, 2 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-            	.lShowInGrid = .T.
+                .lShowInGrid = .T.
                 If .lShowInGrid
                     i = i + 1
 
@@ -3526,6 +4194,15 @@ Define Class Provincia As SistemaBase Of "Clientes\Utiles\prg\utDataDictionary.p
                 .cInputMask 	= Replicate( "X", 20 )
             Endwith
 
+            loField = loColFields.New( "alias", "C", 50 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Alias"
+                .cToolTipText = "Ingrese un Alias único que identifique al Artículo"
+                .lRequired = .T. 	&& No se admite blancos
+                .lNull = .T.		&& Permite nulos o valores únicos
+                .cToolTipText = "Ingrese el ALIAS"
+            Endwith
+
         Catch To loErr
             Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
             loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
@@ -3832,21 +4509,21 @@ Enddefine
 *!* ///////////////////////////////////////////////////////
 
 *!* ///////////////////////////////////////////////////////
-*!* Class.........: Rubro
+*!* Class.........: Rubro_Cliente
 *!* Description...:
 *!* Date..........: Domingo 5 de Septiembre de 2021 (16:44:38)
 *!*
 *!*
 
-Define Class Rubro As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDictionary.prg"
+Define Class Rubro_Cliente As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDictionary.prg"
 
     #If .F.
-        Local This As Rubro Of "Clientes\Utiles\prg\utDataDictionary.prg"
+        Local This As Rubro_Cliente Of "Clientes\Utiles\prg\utDataDictionary.prg"
     #Endif
 
     lIsVirtual 		= .F.
-    cBaseClass 		= "oRubro"
-    cBaseClassLib 	= "Clientes\Archivos\prg\Rubro.prg"
+    cBaseClass 		= "oRubroCliente"
+    cBaseClassLib 	= "Clientes\Archivos\prg\Rubro_Cliente.prg"
 
     _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
         [<VFPData>] + ;
@@ -3890,7 +4567,70 @@ Define Class Rubro As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDictionary.p
 Enddefine
 *!*
 *!* END DEFINE
-*!* Class.........: Rubro
+*!* Class.........: Rubro_Cliente
+*!*
+*!* ///////////////////////////////////////////////////////
+
+*!* ///////////////////////////////////////////////////////
+*!* Class.........: Rubro_Proveedor
+*!* Description...:
+*!* Date..........: Domingo 5 de Septiembre de 2021 (16:44:38)
+*!*
+*!*
+
+Define Class Rubro_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDictionary.prg"
+
+    #If .F.
+        Local This As Rubro_Proveedor Of "Clientes\Utiles\prg\utDataDictionary.prg"
+    #Endif
+
+    lIsVirtual 		= .F.
+    cBaseClass 		= "oRubroProveedor"
+    cBaseClassLib 	= "Clientes\Archivos\prg\Rubro_Proveedor.prg"
+
+    _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
+        [<VFPData>] + ;
+        [</VFPData>]
+
+    *
+    *
+    Procedure Initialize(  ) As Void
+        Local lcCommand As String
+
+        Local loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg', ;
+            loColTables As oColTables Of 'Tools\DataDictionary\prg\oColTables.prg', ;
+            loField As oField Of 'Tools\DataDictionary\prg\oField.prg', ;
+            loTable As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
+
+        Try
+
+            lcCommand = ""
+
+            DoDefault()
+
+            loColFields = This.oColFields
+
+            i = 200
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+
+        Endtry
+
+    Endproc && Initialize
+
+
+
+Enddefine
+*!*
+*!* END DEFINE
+*!* Class.........: Rubro_Proveedor
 *!*
 *!* ///////////////////////////////////////////////////////
 
@@ -4080,6 +4820,7 @@ Define Class Curva_Talle_Det As BaseMaestro Of "Clientes\Utiles\prg\utDataDictio
                 .cCaption 	= "Curva de Talles"
                 .cFK_Modelo = "Curva_Talle_Cab"
                 .lCanUpdate = .F.
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "talle", "I" )
@@ -4089,6 +4830,7 @@ Define Class Curva_Talle_Det As BaseMaestro Of "Clientes\Utiles\prg\utDataDictio
                 .nGridOrder = i
                 .cCaption = "Talle"
                 .cFK_Modelo = "Talle"
+                .lNull = .F.
             Endwith
 
             loField = loColFields.New( "Nombre", "C", 10 )
@@ -4443,6 +5185,7 @@ Define Class PreciosDeVenta As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
             loField = loColFields.NewFK( "articulo", "I" )
             With loField As oField Of "Tools\DataDictionary\prg\oField.prg"
                 .cCaption = "Artículo"
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "lista_precios_venta", "I" )
@@ -4454,6 +5197,7 @@ Define Class PreciosDeVenta As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
                     .nGridOrder = i
                 Endif
                 .cCaption = "Lista de Precios"
+                .lNull = .F.
             Endwith
 
             loField = loColFields.New( "lista_precios_venta_orden", "I" )
@@ -4516,6 +5260,7 @@ Define Class PreciosDeVenta As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
             loField = loColFields.NewFK( "moneda", "I" )
             With loField As oField Of "Tools\DataDictionary\prg\oField.prg"
                 .cCaption = "Moneda"
+                .lNull = .F.
             Endwith
 
             loField = loColFields.New( "cotizacion", "N", 12, 6 )
@@ -4528,7 +5273,7 @@ Define Class PreciosDeVenta As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
                 .cCaption = "Precio"
             Endwith
 
-            loField = loColFields.NewFK( "incluye_iva", "L" )
+            loField = loColFields.New( "incluye_iva", "L" )
             With loField As oField Of "Tools\DataDictionary\prg\oField.prg"
                 .cCaption = "Incluye Iva"
             Endwith
@@ -5184,6 +5929,7 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
                 .cReferences = "Grupo"
                 .lRequired = .T.
                 .cToolTipText = "Seleccione el GRUPO"
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "SubGrupo", "I" )
@@ -5198,6 +5944,7 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
                 .cCaption = "Sub Grupo"
                 .cReferences = "SubGrupo"
                 .lRequired = .T.
+                .lNull = .F.
 
                 .cToolTipText = "Seleccione el SUBGRUPO"
             Endwith
@@ -5215,11 +5962,11 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
                 .cReferences = "Marca"
                 .lRequired = .F.
                 .lNull = .T.
-                
+
                 .cToolTipText = "Seleccione la MARCA"
             Endwith
 
-            loField = loColFields.NewFK( "Rubro", "I" )
+            loField = loColFields.NewFK( "Rubro_Cliente", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .F.
                 If .lShowInGrid
@@ -5229,10 +5976,10 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
                 Endif
 
                 .cCaption = "Rubro"
-                .cReferences = "Rubro"
+                .cReferences = "Rubro_Cliente"
                 .lRequired = .F.
                 .lNull = .T.
-                
+
                 .cToolTipText = "Seleccione el RUBRO"
 
             Endwith
@@ -5250,8 +5997,8 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
                 .cReferences = "Presentacion"
                 .lRequired = .F.
                 .lNull = .T.
-                
-                
+
+
                 .cToolTipText = "Seleccione la PRESENTACION"
 
             Endwith
@@ -5268,9 +6015,8 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
                 .cCaption = "Alicuota Iva"
                 .cReferences = "afip_alicuota_iva"
                 .lRequired = .T.
-                .Default = 3	&& Tiene que ir parametrizado
-                
-                
+                .lNull = .F.
+
                 .cToolTipText = "Seleccione la ALICUOTA DEL IVA"
 
             Endwith
@@ -5286,8 +6032,8 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
 
                 .cCaption = "Nombre"
                 .lRequired = .T.
-                
-                
+
+
                 .cToolTipText = "Ingrese el NOMBRE ABREVIADO"
             Endwith
 
@@ -5336,9 +6082,9 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
                 .cReferences = "tipo_articulo"
                 .lRequired = .F.
                 .lNull = .T.
-                
+
                 .cToolTipText = "Seleccione el TIPO DE ARTICULO"
-                
+
             Endwith
 
             loField = loColFields.NewFK( "unidad_medida", "I" )
@@ -5386,7 +6132,7 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
                 .lRequired = .F.
                 .lCanUpdate = .F.
                 .lNull = .T.
-                
+
             Endwith
 
             loField = loColFields.New( "Fecha_Utima_Compra", "D" )
@@ -5419,7 +6165,7 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
                 .cReferences = "Organizacion_Proveedor"
                 .lRequired = .F.
                 .lNull = .T.
-                .lReadOnly = .T.    
+                .lReadOnly = .T.
 
             Endwith
 
@@ -5436,8 +6182,8 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
                 .cToolTipText = "Precio de Última Compra"
                 .lRequired = .F.
                 .lCanUpdate = .F.
-            EndWith
-            
+            Endwith
+
             loField = loColFields.New( "precio_ultima_compra_con_signo", "C", 20 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .F.
@@ -5445,15 +6191,15 @@ Define Class Articulo As CoreMaestroCodigo Of "Clientes\Utiles\prg\utDataDiction
                     i = i + 1
 
                     .nGridOrder = i
-                EndIf
+                Endif
 
                 .cCaption = "Precio"
                 .cToolTipText = "Precio de Última Compra"
                 .nGridAlignment = ALIGN_RIGHT
                 .lReadOnly = .T.
-                
-            EndWith
-            
+
+            Endwith
+
 
 
             loField = loColFields.New( "precio_ultima_compra_en_pesos", "N", 14, 02 )
@@ -5629,7 +6375,7 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
 
             loColFields = This.oColFields
             i = 200
-            
+
             loField = loColFields.NewFK( "Proveedor", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .T.
@@ -5643,7 +6389,7 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
                 .lRequired = .F.
                 .lNull = .T.
             Endwith
-            
+
             loField = loColFields.NewFK( "moneda", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .F.
@@ -5654,13 +6400,13 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
                 Endif
 
                 .cCaption = "Moneda"
-                .Default = 1
+                .lNull = .F.
                 .nGridMaxLength = 8
                 .cGridColumnControlSource = "str_Signo"
                 .nGridAlignment = ALIGN_CENTER
 
             Endwith
-            
+
             loField = loColFields.New( "Costo_Base", "N", 12, 2 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .F.
@@ -5674,7 +6420,7 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
                 .cToolTipText = "Ingrese el Costo Base"
                 .nGridMaxLength = 15
             Endwith
-            
+
             loField = loColFields.New( "Costo_Base_con_signo", "C", 20 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .T.
@@ -5682,16 +6428,16 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
                     i = i + 1
 
                     .nGridOrder = i
-                EndIf
+                Endif
 
                 .cCaption = "Precio Base"
                 .cToolTipText = ""
                 .nGridMaxLength = 20
                 *.nAlignment = ALIGN_RIGHT
                 .nGridAlignment = ALIGN_RIGHT
-            EndWith
-            
-            
+            Endwith
+
+
             loField = loColFields.New( "condiciones", "C", 30 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .T.
@@ -5707,51 +6453,51 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
                 .lFitColumn = .T.
 
             Endwith
-            
-*!*	            loField = loColFields.New( "bonificaciones", "C", 30 )
-*!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-*!*	                .lShowInGrid = .T.
-*!*	                If .lShowInGrid
-*!*	                    i = i + 1
 
-*!*	                    .nGridOrder = i
-*!*	                Endif
+            *!*	            loField = loColFields.New( "bonificaciones", "C", 30 )
+            *!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+            *!*	                .lShowInGrid = .T.
+            *!*	                If .lShowInGrid
+            *!*	                    i = i + 1
 
-*!*	                .cCaption = "Bonificaciones"
-*!*	                .cToolTipText = "ingrese dígitos y signos (+-*/) para aplicar al Costo Base"
-*!*	                .nGridMaxLength = 20
-*!*	                .lFitColumn = .T.
+            *!*	                    .nGridOrder = i
+            *!*	                Endif
 
-*!*	            Endwith
+            *!*	                .cCaption = "Bonificaciones"
+            *!*	                .cToolTipText = "ingrese dígitos y signos (+-*/) para aplicar al Costo Base"
+            *!*	                .nGridMaxLength = 20
+            *!*	                .lFitColumn = .T.
 
-*!*	            loField = loColFields.New( "recargo", "N", 6, 2 )
-*!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-*!*	                .lShowInGrid = .T.
-*!*	                If .lShowInGrid
-*!*	                    i = i + 1
+            *!*	            Endwith
 
-*!*	                    .nGridOrder = i
-*!*	                Endif
+            *!*	            loField = loColFields.New( "recargo", "N", 6, 2 )
+            *!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+            *!*	                .lShowInGrid = .T.
+            *!*	                If .lShowInGrid
+            *!*	                    i = i + 1
 
-*!*	                .cCaption = "Costo Financiero"
-*!*	                .cToolTipText = "Ingrese el recargo por la financiación"
-*!*	                .nGridMaxLength = 10
-*!*	            Endwith
-            
-*!*	            loField = loColFields.New( "coeficiente", "N", 8, 4 )
-*!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-*!*	                .lShowInGrid = .T.
-*!*	                If .lShowInGrid
-*!*	                    i = i + 1
+            *!*	                    .nGridOrder = i
+            *!*	                Endif
 
-*!*	                    .nGridOrder = i
-*!*	                Endif
+            *!*	                .cCaption = "Costo Financiero"
+            *!*	                .cToolTipText = "Ingrese el recargo por la financiación"
+            *!*	                .nGridMaxLength = 10
+            *!*	            Endwith
 
-*!*	                .cCaption = "Coeficiente"
-*!*	                .cToolTipText = "Coeficiente que se aplica para calcular el Costo Final"
-*!*	                .Default = 1
-*!*	                .nGridMaxLength = 10
-*!*	            Endwith
+            *!*	            loField = loColFields.New( "coeficiente", "N", 8, 4 )
+            *!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+            *!*	                .lShowInGrid = .T.
+            *!*	                If .lShowInGrid
+            *!*	                    i = i + 1
+
+            *!*	                    .nGridOrder = i
+            *!*	                Endif
+
+            *!*	                .cCaption = "Coeficiente"
+            *!*	                .cToolTipText = "Coeficiente que se aplica para calcular el Costo Final"
+            *!*	                .Default = 1
+            *!*	                .nGridMaxLength = 10
+            *!*	            Endwith
 
 
             * Costo Final
@@ -5770,8 +6516,8 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
                 .lReadOnly = .T.
                 *.nLength = 14
                 .nGridMaxLength = 15
-            EndWith
-            
+            Endwith
+
             loField = loColFields.New( "Costo_Final_con_signo", "C", 20 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .T.
@@ -5779,14 +6525,14 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
                     i = i + 1
 
                     .nGridOrder = i
-                EndIf
+                Endif
 
                 .cCaption = "Precio"
                 .cToolTipText = ""
                 .nGridMaxLength = 20
                 .nGridAlignment = ALIGN_RIGHT
-            EndWith
-            
+            Endwith
+
 
             * Costo En Moneda Corriente
             * Campo calculado
@@ -5806,7 +6552,7 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
                 .nGridMaxLength = 15
             Endwith
 
-************************************************************            
+            ************************************************************
 
             loField = loColFields.New( "nombre", "C", 100 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
@@ -5824,7 +6570,7 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
 
             Endwith
 
-            
+
 
             loField = loColFields.New( "codigo", "C", 30 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
@@ -5835,15 +6581,15 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
             Endwith
 
 
-*!*	            loField = loColFields.New( "cotizacion", "N", 12, 5 )
-*!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-*!*	                .cCaption = "Cotización"
-*!*	                *!*	                .cCheck = "!Empty( cotizacion )"
-*!*	                *!*	                .cErrorMessage = "La COTIZACIÓN es obligatorio"
-*!*	                .cToolTipText = "Ingrese la COTIZACIÓN de la Moneda al momento de la compra"
-*!*	                .lRequired = .T.
-*!*	                .Default = 1
-*!*	            Endwith
+            *!*	            loField = loColFields.New( "cotizacion", "N", 12, 5 )
+            *!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+            *!*	                .cCaption = "Cotización"
+            *!*	                *!*	                .cCheck = "!Empty( cotizacion )"
+            *!*	                *!*	                .cErrorMessage = "La COTIZACIÓN es obligatorio"
+            *!*	                .cToolTipText = "Ingrese la COTIZACIÓN de la Moneda al momento de la compra"
+            *!*	                .lRequired = .T.
+            *!*	                .Default = 1
+            *!*	            Endwith
 
 
 
@@ -5852,12 +6598,12 @@ Define Class Articulo_Proveedor As CoreMaestroBase Of "Clientes\Utiles\prg\utDat
             * No se muestra
             * se compone para reflejar el coeficiente
             * que representa al campo Bonificaciones
-*!*	            loField = loColFields.New( "bonificacion", "N", 8, 4 )
-*!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-*!*	                .cCaption = "Bonificación"
-*!*	                .cToolTipText = ""
-*!*	                .Default = 1
-*!*	            Endwith
+            *!*	            loField = loColFields.New( "bonificacion", "N", 8, 4 )
+            *!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+            *!*	                .cCaption = "Bonificación"
+            *!*	                .cToolTipText = ""
+            *!*	                .Default = 1
+            *!*	            Endwith
 
             * No se muestra
             * se compone para reflejar el coeficiente
@@ -6200,6 +6946,7 @@ Define Class Articulo_Venta As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDic
 
                 .cCaption = "Lista de Precios"
                 .lFitColumn = .T.
+                .lNull = .F.
 
             Endwith
 
@@ -6213,7 +6960,7 @@ Define Class Articulo_Venta As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDic
                 Endif
 
                 .cCaption = "Moneda"
-                .Default = 1
+                .lNull = .F.
                 .nGridMaxLength = 8
                 .cGridColumnControlSource = "str_Signo"
                 .nGridAlignment = ALIGN_CENTER
@@ -6231,7 +6978,7 @@ Define Class Articulo_Venta As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDic
                 Endif
 
                 .cCaption = "Moneda Precio Base"
-                .Default = 1
+                .lNull = .F.
                 .nGridMaxLength = 8
                 .cToolTipText = "Moneda Precio Base"
             Endwith
@@ -6245,13 +6992,13 @@ Define Class Articulo_Venta As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDic
 
                     .nGridOrder = i
                 Endif
-            
+
                 .cCaption = "Neto Base"
                 .cToolTipText = ""
                 .lReadOnly = .T.
                 .nGridMaxLength = 15
-            EndWith
-            
+            Endwith
+
             loField = loColFields.New( "Precio_Base_con_signo", "C", 20 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .T.
@@ -6259,59 +7006,59 @@ Define Class Articulo_Venta As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDic
                     i = i + 1
 
                     .nGridOrder = i
-                EndIf
+                Endif
 
                 .cCaption = "Neto Base"
                 .cToolTipText = ""
                 .nGridMaxLength = 20
                 .nAlignment = ALIGN_RIGHT
                 .nGridAlignment = ALIGN_RIGHT
-            EndWith
-            
+            Endwith
 
-*!*	            loField = loColFields.New( "margen", "N", 6, 2 )
-*!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-*!*	                            .lShowInGrid = .F.
-*!*	                If .lShowInGrid
-*!*	                    i = i + 1
 
-*!*	                    .nGridOrder = i
-*!*	                Endif
+            *!*	            loField = loColFields.New( "margen", "N", 6, 2 )
+            *!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+            *!*	                            .lShowInGrid = .F.
+            *!*	                If .lShowInGrid
+            *!*	                    i = i + 1
 
-*!*	                .cCaption = "Margen"
-*!*	                .cToolTipText = "Ingrese el Margen de ganancia"
-*!*	                .nGridMaxLength = 8
-*!*	            Endwith
+            *!*	                    .nGridOrder = i
+            *!*	                Endif
 
-*!*	            loField = loColFields.New( "descuento", "N", 6, 2 )
-*!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-*!*	                            .lShowInGrid = .F.
-*!*	                If .lShowInGrid
-*!*	                    i = i + 1
+            *!*	                .cCaption = "Margen"
+            *!*	                .cToolTipText = "Ingrese el Margen de ganancia"
+            *!*	                .nGridMaxLength = 8
+            *!*	            Endwith
 
-*!*	                    .nGridOrder = i
-*!*	                Endif
+            *!*	            loField = loColFields.New( "descuento", "N", 6, 2 )
+            *!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+            *!*	                            .lShowInGrid = .F.
+            *!*	                If .lShowInGrid
+            *!*	                    i = i + 1
 
-*!*	                .cCaption = "Descuento"
-*!*	                .cToolTipText = "Ingrese el Descuento"
-*!*	                .nGridMaxLength = 8
-*!*	            Endwith
+            *!*	                    .nGridOrder = i
+            *!*	                Endif
 
-*!*	            loField = loColFields.New( "coeficiente", "N", 8, 4 )
-*!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-*!*	                .lShowInGrid = .F.
-*!*	                If .lShowInGrid
-*!*	                    i = i + 1
+            *!*	                .cCaption = "Descuento"
+            *!*	                .cToolTipText = "Ingrese el Descuento"
+            *!*	                .nGridMaxLength = 8
+            *!*	            Endwith
 
-*!*	                    .nGridOrder = i
-*!*	                Endif
+            *!*	            loField = loColFields.New( "coeficiente", "N", 8, 4 )
+            *!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+            *!*	                .lShowInGrid = .F.
+            *!*	                If .lShowInGrid
+            *!*	                    i = i + 1
 
-*!*	                .cCaption = "Coeficiente"
-*!*	                .cToolTipText = "Coeficiente que se aplica para calcular el Costo Final"
-*!*	                .Default = 1
-*!*	                .nGridMaxLength = 8
-*!*	            EndWith
-            
+            *!*	                    .nGridOrder = i
+            *!*	                Endif
+
+            *!*	                .cCaption = "Coeficiente"
+            *!*	                .cToolTipText = "Coeficiente que se aplica para calcular el Costo Final"
+            *!*	                .Default = 1
+            *!*	                .nGridMaxLength = 8
+            *!*	            EndWith
+
             loField = loColFields.New( "condiciones", "C", 30 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .T.
@@ -6327,7 +7074,7 @@ Define Class Articulo_Venta As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDic
                 .lFitColumn = .T.
 
             Endwith
-            
+
 
             * Precio Venta
             loField = loColFields.New( "Precio_Venta_Calculado", "N", 14, 3 )
@@ -6352,14 +7099,14 @@ Define Class Articulo_Venta As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDic
                     i = i + 1
 
                     .nGridOrder = i
-                EndIf
+                Endif
 
                 .cCaption = "Precio"
                 .cToolTipText = ""
                 .nGridMaxLength = 20
                 .nAlignment = ALIGN_RIGHT
                 .nGridAlignment = ALIGN_RIGHT
-            EndWith
+            Endwith
 
             * Precio En Moneda Corriente
             * Campo calculado
@@ -6377,10 +7124,10 @@ Define Class Articulo_Venta As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDic
                 .cToolTipText = ""
                 .lReadOnly = .T.
                 .nGridMaxLength = 15
-            EndWith
-            
+            Endwith
 
-****************************************************************
+
+            ****************************************************************
 
             loField = loColFields.New( "nombre", "C", 100 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
@@ -6598,6 +7345,7 @@ Define Class Articulo_Venta As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDic
 
                 .cCaption = "Lista de Precios"
                 .lStr = .F.
+                .lNull = .F.
 
                 *!*	                .oCurrentControl.Name	= "cboTipo_Documento"
                 *!*	                .oCurrentControl.Class	= "Clientes\Utiles\prg\utDataDictionary.prg"
@@ -6934,7 +7682,7 @@ Define Class Organizacion As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDicti
                 Endif
 
                 .cCaption = "Tipo de Documento"
-                .Default = 1
+                .lNull = .F.
 
                 *!*	                .oCurrentControl.Name	= "ComboBoxBase"
                 *!*	                .oCurrentControl.Class	= "Clientes\Utiles\prg\utDataDictionary.prg"
@@ -6969,7 +7717,7 @@ Define Class Organizacion As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDicti
                 Endif
 
                 .cCaption = "Condición Iva"
-                .Default = 1
+                .lNull = .F.
 
                 *!*	                .oCurrentControl.Name	= "ComboBoxBase"
                 *!*	                .oCurrentControl.Class	= "Clientes\Utiles\prg\utDataDictionary.prg"
@@ -7018,7 +7766,7 @@ Define Class Organizacion As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDicti
                 Endif
 
                 .cCaption = "País"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "Provincia", "I" )
@@ -7031,7 +7779,7 @@ Define Class Organizacion As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDicti
                 Endif
 
                 .cCaption = "Provincia"
-                .Default = 1
+                .lNull = .F.
 
                 *!*	                .oCurrentControl.Name	= "ComboBoxBase"
                 *!*	                .oCurrentControl.Class	= "Clientes\Utiles\prg\utDataDictionary.prg"
@@ -7201,10 +7949,10 @@ Define Class Organizacion_Cliente As Organizacion Of "Clientes\Utiles\prg\utData
                 Endif
 
                 .cCaption = "Organización"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
-            loField = loColFields.NewFK( "rubro", "I" )
+            loField = loColFields.NewFK( "rubro_cliente", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .F.
                 If .lShowInGrid
@@ -7214,7 +7962,6 @@ Define Class Organizacion_Cliente As Organizacion Of "Clientes\Utiles\prg\utData
                 Endif
 
                 .cCaption = "Rubro"
-                .Default = 1
             Endwith
 
             loField = loColFields.NewFK( "vendedor", "I" )
@@ -7227,7 +7974,6 @@ Define Class Organizacion_Cliente As Organizacion Of "Clientes\Utiles\prg\utData
                 Endif
 
                 .cCaption = "Vendedor"
-                .Default = 1
             Endwith
 
             loField = loColFields.NewFK( "lista_precios_venta", "I" )
@@ -7240,7 +7986,6 @@ Define Class Organizacion_Cliente As Organizacion Of "Clientes\Utiles\prg\utData
                 Endif
 
                 .cCaption = "Lista de Precios"
-                .Default = 1
             Endwith
 
             loField = loColFields.NewFK( "condicion_pago", "I" )
@@ -7253,7 +7998,6 @@ Define Class Organizacion_Cliente As Organizacion Of "Clientes\Utiles\prg\utData
                 Endif
 
                 .cCaption = "Condición de Pago"
-                .Default = 1
             Endwith
 
             loField = loColFields.New( "descuento", "N", 5, 2 )
@@ -7277,7 +8021,7 @@ Define Class Organizacion_Cliente As Organizacion Of "Clientes\Utiles\prg\utData
             loField = loColFields.NewFK( "moneda", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Moneda"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
             loField = loColFields.New( "credito_cta_cte", "N", 14, 2 )
@@ -7295,7 +8039,7 @@ Define Class Organizacion_Cliente As Organizacion Of "Clientes\Utiles\prg\utData
             loField = loColFields.NewFK( "cuenta_contable", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Cuenta Contable"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
             loField = loColFields.New( "ultima_factura", "D" )
@@ -7402,7 +8146,7 @@ Define Class Organizacion_Proveedor As Organizacion Of "Clientes\Utiles\prg\utDa
                 Endif
 
                 .cCaption = "Organización"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "rubro", "I" )
@@ -7415,7 +8159,6 @@ Define Class Organizacion_Proveedor As Organizacion Of "Clientes\Utiles\prg\utDa
                 Endif
 
                 .cCaption = "Rubro"
-                .Default = 1
             Endwith
 
             loField = loColFields.NewFK( "cuenta_contable", "I" )
@@ -7428,7 +8171,7 @@ Define Class Organizacion_Proveedor As Organizacion Of "Clientes\Utiles\prg\utDa
                 Endif
 
                 .cCaption = "Cuenta Contable"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "condicion_pago", "I" )
@@ -7441,7 +8184,6 @@ Define Class Organizacion_Proveedor As Organizacion Of "Clientes\Utiles\prg\utDa
                 Endif
 
                 .cCaption = "Condición de Pago"
-                .Default = 1
             Endwith
 
             loField = loColFields.New( "ultima_factura", "D" )
@@ -7571,26 +8313,40 @@ Define Class Organizacion_Contacto As BaseMaestro Of "Clientes\Utiles\prg\utData
             loField = loColFields.NewFK( "organizacion", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Organización"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
-            loField = loColFields.NewFK( "telefono", "I" )
+            *!*	            loField = loColFields.NewFK( "telefono", "I" )
+            *!*	            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+            *!*	                .lShowInGrid = .T.
+            *!*	                If .lShowInGrid
+            *!*	                    i = i + 1
+
+            *!*	                    .nGridOrder = i
+            *!*	                Endif
+
+            *!*	                .cCaption = "Teléfono"
+            *!*	                .Default = 0
+            *!*	                .lNull = .T.
+            *!*	                .cReferences = "Organizacion_Contacto_Telefono"
+
+            *!*	                *!*	                .oCurrentControl.Name	= "ComboBoxBase"
+            *!*	                *!*	                .oCurrentControl.Class	= "Clientes\Utiles\prg\utDataDictionary.prg"
+            *!*	                .lStr = .F.
+
+            *!*	            Endwith
+
+            loField = loColFields.New( "telefonos", "M" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-                .lShowInGrid = .T.
+                .lShowInGrid = .F.
                 If .lShowInGrid
                     i = i + 1
 
                     .nGridOrder = i
                 Endif
 
-                .cCaption = "Teléfono"
-                .Default = 0
-                .lNull = .T.
-                .cReferences = "Organizacion_Contacto_Telefono"
-
-                *!*	                .oCurrentControl.Name	= "ComboBoxBase"
-                *!*	                .oCurrentControl.Class	= "Clientes\Utiles\prg\utDataDictionary.prg"
-                .lStr = .F.
+                .cCaption = "Teléfonos"
+                .cToolTipText = "Ingrese los teléfonos"
 
             Endwith
 
@@ -7662,13 +8418,13 @@ Define Class Organizacion_Contacto_Telefono As BaseTelefono Of "Clientes\Utiles\
             loField = loColFields.NewFK( "organizacion", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Organización"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "contacto", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Contacto"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
         Catch To loErr
@@ -7739,13 +8495,13 @@ Define Class Organizacion_Contacto_EMail As BaseEMail Of "Clientes\Utiles\prg\ut
             loField = loColFields.NewFK( "organizacion", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Organización"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "contacto", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Contacto"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
         Catch To loErr
@@ -7816,7 +8572,7 @@ Define Class Organizacion_Sucursal As BaseMaestro Of "Clientes\Utiles\prg\utData
             loField = loColFields.NewFK( "organizacion", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Organización"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
         Catch To loErr
@@ -7887,25 +8643,23 @@ Define Class Organizacion_Sucursal_Direccion As BaseDireccion Of "Clientes\Utile
             loField = loColFields.NewFK( "organizacion", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Organización"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "sucursal", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Sucursal"
-                .Default = 1
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFK( "Trasporte", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Trasporte"
-                .Default = 1
             Endwith
 
             loField = loColFields.NewFK( "Zona", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Zona"
-                .Default = 1
             Endwith
 
             loField = loColFields.New( "observacion", "M" )
@@ -8001,6 +8755,86 @@ Enddefine
 *!*
 *!* ///////////////////////////////////////////////////////
 
+*!* ///////////////////////////////////////////////////////
+*!* Class.........: Numerador
+*!* Description...:
+*!* Date..........: Domingo 5 de Septiembre de 2021 (16:44:38)
+*!*
+*!*
+
+Define Class Numerador As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDictionary.prg"
+
+    #If .F.
+        Local This As Numerador Of "Clientes\Utiles\prg\utDataDictionary.prg"
+    #Endif
+
+    lIsVirtual 		= .F.
+    cBaseClass 		= "oNumerador"
+    cBaseClassLib 	= "Clientes\Archivos\prg\Numerador.prg"
+
+    _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
+        [<VFPData>] + ;
+        [</VFPData>]
+
+    *
+    *
+    Procedure Initialize(  ) As Void
+        Local lcCommand As String
+
+        Local loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg', ;
+            loColTables As oColTables Of 'Tools\DataDictionary\prg\oColTables.prg', ;
+            loField As oField Of 'Tools\DataDictionary\prg\oField.prg', ;
+            loTable As Archivo Of "Clientes\Utiles\Prg\utRutina.prg",;
+            loChoices As Collection
+
+        Try
+
+            lcCommand = ""
+
+            DoDefault()
+
+            loColFields = This.oColFields
+
+            i = 200
+
+            loField = loColFields.NewFK( "Empresa", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Empresa"
+                .cFK_Modelo = "Empresa"
+                .lNull = .F.
+            Endwith
+
+            loField = loColFields.New( "ultimo_numero", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Último Número"
+                .nLength = 8
+                .cCheck = "uValue >= 0"
+                .cErrorMessage = "No acepta valores negativos"
+
+            Endwith
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+
+        Endtry
+
+    Endproc && Initialize
+
+
+
+Enddefine
+*!*
+*!* END DEFINE
+*!* Class.........: Numerador
+*!*
+*!* ///////////////////////////////////////////////////////
+
 
 *!* ///////////////////////////////////////////////////////
 *!* Class.........: Comprobante_Base
@@ -8048,13 +8882,22 @@ Define Class Comprobante_Base As CoreMaestroBase Of "Clientes\Utiles\prg\utDataD
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Comprobante Afip"
                 .cFK_Modelo = "Afip_Comprobante"
-*!*	                .cFK_ToField = "Codigo"
+                *!*	                .cFK_ToField = "Codigo"
                 .lNull = .T.
             Endwith
 
             loField = loColFields.NewFK( "modulo", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lShowInGrid = .T.
+                If .lShowInGrid
+                    i = i + 1
+
+                    *.nGridOrder = i
+                    .nGridOrder = 50
+                Endif
                 .cCaption = "Módulo"
+                .cReferences = "Modulo"
+                .cToolTipText = "Módulos del Sistema"
                 .lNull = .T.
             Endwith
 
@@ -8194,46 +9037,137 @@ Define Class Tipo_Comprobante As CoreMaestroBase Of "Clientes\Utiles\prg\utDataD
 
             loColFields = This.oColFields
 
-            loField = loColFields.New( "Comprobante_Base", "N", 4 )
+            loField = loColFields.NewFK( "Comprobante_Base", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Comprobante Base"
                 .lCanUpdate = .F.
                 .cFK_Modelo = "Comprobante_Base"
+                .cReferences = "Comprobante_Base"
+                .lNull = .F.
             Endwith
 
-            loField = loColFields.New( "nombre_abreviado", "C", 6 )
+            loField = loColFields.New( "abreviatura", "C", 6 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Abrev."
-                .cToolTipText = "Ingrese el nombre abreviado"
+                .cToolTipText = "Ingrese la abreviatura"
                 *!*	                .cCheck = "!Empty( nombre_abreviado )"
                 *!*	                .cErrorMessage = "El NOMBRE ABREVIADO es obligatorio"
             Endwith
 
+            loChoices = Createobject( "Collection" )
 
-            * Join con Grupo
-            * Campos virtuales
+            loItem = Createobject( "Empty" )
+            AddProperty( loItem, "Descripcion", "Manual" )
+            AddProperty( loItem, "Valor", TN_MANUAL )
+            loChoices.Add( loItem )
 
-            loField = loColFields.New( "Comprobante_Base_id", "I" )
+            loItem = Createobject( "Empty" )
+            AddProperty( loItem, "Descripcion", "Automática" )
+            AddProperty( loItem, "Valor", TN_AUTOMATICA )
+            loChoices.Add( loItem )
+
+            loItem = Createobject( "Empty" )
+            AddProperty( loItem, "Descripcion", "Factura Electrónica" )
+            AddProperty( loItem, "Valor", TN_FACTURA_ELECTRONICA  )
+            loChoices.Add( loItem )
+
+            loItem = Createobject( "Empty" )
+            AddProperty( loItem, "Descripcion", "Impresora Fiscal Hasar" )
+            AddProperty( loItem, "Valor", TN_IMPRESORA_FISCAL_HASAR )
+            loChoices.Add( loItem )
+
+            loItem = Createobject( "Empty" )
+            AddProperty( loItem, "Descripcion", "Impresora Fiscal Epson" )
+            AddProperty( loItem, "Valor", TN_IMPRESORA_FISCAL_EPSON )
+            loChoices.Add( loItem )
+
+            loField = loColFields.New( "tipo_numeracion", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-                .lShowInGrid = .F.
-                .cCaption = "Comprobante_Base Id"
+                .cCaption = "Tipo de Numeración"
+                .Default = TN_MANUAL
+                .oChoices = loChoices
             Endwith
 
-            loField = loColFields.New( "gupo_codigo", "C", 100 )
+            loField = loColFields.New( "punto_de_venta", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-                .lShowInGrid = .F.
-                .cCaption = "Comprobante_Base Código"
+                .cCaption = "Punto de Venta"
+                .Default = 1
             Endwith
 
-            loField = loColFields.New( "Comprobante_Base_nombre", "C", 100 )
+            loField = loColFields.NewFK( "numerador", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-                .lShowInGrid = .F.
-                .nGridOrder = 10
-                .cCaption = "Comprobante_Base (Código)"
+                .cCaption = "Numerador"
+                .cFK_Modelo = "numerador"
+                *.cReferences = "numerador"
+                .lNull = .T.
+            Endwith
+
+            loField = loColFields.NewFK( "sucursal", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Sucursal"
+                .cFK_Modelo = "sucursal"
+                *.cReferences = "sucursal"
+                .lNull = .T.
+            Endwith
+
+            loField = loColFields.New( "pide_circuito", "L" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Pide Circuito"
+                .Default = .T.
+            Endwith
+
+            loField = loColFields.NewFK( "circuito", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Circuito"
                 .lCanUpdate = .F.
-                .nLength = 30
+                .cFK_Modelo = "circuito"
+                .cReferences = "circuito"
+                .lNull = .T.
             Endwith
 
+            loField = loColFields.NewFK( "circuito_destino", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Circuito Destino"
+                .lCanUpdate = .F.
+                .cFK_Modelo = "circuito"
+                .cReferences = "circuito"
+                .lNull = .T.
+            Endwith
+
+
+            loField = loColFields.New( "pide_deposito_origen", "L" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Pide Depósito Origen"
+                .Default = .T.
+            Endwith
+
+            loField = loColFields.NewFK( "deposito_origen", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Depósito Origen"
+                .lCanUpdate = .F.
+                .cFK_Modelo = "deposito"
+                .cReferences = "deposito"
+            Endwith
+
+            loField = loColFields.New( "pide_deposito_destino", "L" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Pide Depósito Destino"
+                .Default = .T.
+            Endwith
+
+            loField = loColFields.NewFK( "deposito_Destino", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Depósito Destino"
+                .lCanUpdate = .F.
+                .cFK_Modelo = "deposito"
+                .cReferences = "deposito"
+            Endwith
+
+            loField = loColFields.New( "Copias", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .cCaption = "Copias"
+                .Default = 1
+            Endwith
 
         Catch To loErr
             Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
@@ -8430,6 +9364,7 @@ Define Class Deuda As CoreMovimientoBase Of "Clientes\Utiles\prg\utDataDictionar
                 .nShowInFilter = 5
                 .lFilterEsSistema = .F.
                 .cFilterLookUpInclude = ["exact","in"]
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFk( "Comprobante_Base" )
@@ -8437,6 +9372,7 @@ Define Class Deuda As CoreMovimientoBase Of "Clientes\Utiles\prg\utDataDictionar
                 .cCaption = "Comprobante Base"
                 .lCanUpdate = .F.
                 .cFK_Modelo = "Comprobante_Base"
+                .lNull = .F.
             Endwith
 
             loField = loColFields.NewFk( "Organizacion" )
@@ -8449,6 +9385,7 @@ Define Class Deuda As CoreMovimientoBase Of "Clientes\Utiles\prg\utDataDictionar
                 .cFilterFieldName = "organizacion__nombre"
                 *.cFilterLookUpInclude = ["exact","range"]
                 .cFilterLookUpExclude = ["startswith","endswith","range","gt","lt"]
+                .lNull = .F.
             Endwith
 
 
@@ -8571,6 +9508,7 @@ Define Class Aplicacion_Deuda As BaseModel Of "Clientes\Utiles\prg\utDataDiction
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Comprobante al Debe"
                 .cFK_Modelo = "CttaCtte"
+                .lNull = .F.
             Endwith
 
 
@@ -8578,6 +9516,7 @@ Define Class Aplicacion_Deuda As BaseModel Of "Clientes\Utiles\prg\utDataDiction
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Comprobante al Haber"
                 .cFK_Modelo = "CttaCtte"
+                .lNull = .F.
             Endwith
 
             loField = loColFields.New( "Fecha", "D" )
@@ -9296,7 +10235,7 @@ Define Class ComboBoxBase As _combobox Of v:\cloudfox\fw\comunes\vcx\_controles_
 
             loField = This.oField
 
-            
+
 
             If IsEmpty( loField.oChoices )
 
@@ -9323,7 +10262,7 @@ Define Class ComboBoxBase As _combobox Of v:\cloudfox\fw\comunes\vcx\_controles_
 
                             * Si el formulario trajo la FK y el nombre de la FK
                             * los carga de allí
-                            
+
                             lcAlias = This.Parent.Parent.cCursorDeTrabajo
 
                             If Lower( Right( This.cFieldName, 3 )) == "_id"
@@ -9338,8 +10277,8 @@ Define Class ComboBoxBase As _combobox Of v:\cloudfox\fw\comunes\vcx\_controles_
                             This.List( This.NewIndex, 2 ) = Transform( Evaluate( lcAlias + "." + lcStr_Field ) )
 
                             llCarga = .F.
-                            
-                            lcAlias = "" 
+
+                            lcAlias = ""
 
                         Catch To oErr
 

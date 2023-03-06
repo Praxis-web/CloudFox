@@ -61,7 +61,7 @@ Procedure MailAccount(  ) As Void;
 Endproc && MailAccount
 
 
-Define Class MailAccount As Entidad Of "V:\Clipper2fox\Rutinas\Prg\prxEntidad.prg"
+Define Class MailAccount As Entidad Of "v:\CloudFox\Rutinas\Prg\prxEntidad.prg"
 
 	#If .F.
 		Local This As MailAccount Of 'Fw\Comunes\Prg\MailAccount.prg'
@@ -706,7 +706,7 @@ Enddefine
 Define Class ChkDefault As Checkbox
 
 	#If .F.
-		Local This As ChkDefault Of "V:\Clipper2fox\Fw\Comunes\Prg\MailAccount.prg"
+		Local This As ChkDefault Of "v:\CloudFox\Fw\Comunes\Prg\MailAccount.prg"
 	#Endif
 
 	Caption = ""
@@ -740,7 +740,7 @@ Enddefine
 Define Class chkPredeterminada As Checkbox
 
 	#If .F.
-		Local This As chkPredeterminada Of "V:\Clipper2fox\Fw\Comunes\Prg\MailAccount.prg"
+		Local This As chkPredeterminada Of "v:\CloudFox\Fw\Comunes\Prg\MailAccount.prg"
 	#Endif
 
 	Caption = ""
@@ -832,7 +832,7 @@ Enddefine
 Define Class txtPassword As TextBox
 
 	#If .F.
-		Local This As txtPassword Of "V:\Clipper2fox\Fw\Comunes\Prg\MailAccount.prg"
+		Local This As txtPassword Of "v:\CloudFox\Fw\Comunes\Prg\MailAccount.prg"
 	#Endif
 
 	PasswordChar = '*'

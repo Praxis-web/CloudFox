@@ -2,7 +2,7 @@
 
 *
 *
-Procedure Moneda( nPermisos As Integer,;
+Procedure Numerador( nPermisos As Integer,;
 		nParam2 As Integer,;
 		nParam3 As Integer,;
 		nParam4 As Integer,;
@@ -11,7 +11,7 @@ Procedure Moneda( nPermisos As Integer,;
 		lDoPrg ) As Void
 
 	Local lcCommand As String
-	Local loMoneda As oMoneda Of "Clientes\Archivos\prg\Moneda.prg",;
+	Local loNumerador As oNumerador Of "Clientes\Archivos\prg\Numerador.prg",;
 		loParam As Object
 
 
@@ -24,12 +24,12 @@ Procedure Moneda( nPermisos As Integer,;
 		AddProperty( loParam, "nPermisos", nPermisos )
 		AddProperty( loParam, "cURL", cURL  )
 
-		loMoneda = GetEntity( "Moneda" )
-		loMoneda.Initialize( loParam )
+		loNumerador = GetEntity( "Numerador" )
+		loNumerador.Initialize( loParam )
 
-		AddProperty( loParam, "oBiz", loMoneda )
+		AddProperty( loParam, "oBiz", loNumerador )
 
-		Do Form (loMoneda.cGrilla) ;
+		Do Form (loNumerador.cGrilla) ;
 			With loParam To loReturn
 
 
@@ -42,61 +42,44 @@ Procedure Moneda( nPermisos As Integer,;
 		Throw loError
 
 	Finally
-		loMoneda = Null
+		loNumerador = Null
 
 	Endtry
 
-Endproc && Moneda
+Endproc && Numerador
 
 *!* ///////////////////////////////////////////////////////
-*!* Class.........: oMoneda
+*!* Class.........: oNumerador
 *!* Description...:
 *!* Date..........: Sábado 11 de Septiembre de 2021 (12:42:50)
 *!*
 *!*
 
-Define Class oMoneda As oModelo Of "FrontEnd\Prg\Modelo.prg"
+Define Class oNumerador As oModelo Of "FrontEnd\Prg\Modelo.prg"
 
 	#If .F.
-		Local This As oMoneda Of "Clientes\Archivos\prg\Moneda.prg"
+		Local This As oNumerador Of "Clientes\Archivos\prg\Numerador.prg"
 	#Endif
 
 	lEditInBrowse 		= .T.
 	lShowEditInBrowse 	= .T.
-	cModelo 		= "Moneda"
+	cModelo 		= "Numerador"
 
-	cFormIndividual = "Clientes\Archivos\Scx\Moneda.scx"
-	cGrilla 		= "Clientes\Archivos\Scx\Monedas.scx"
+	cFormIndividual = "Clientes\Archivos\Scx\Numerador.scx"
+	cGrilla 		= "Clientes\Archivos\Scx\Numeradores.scx"
 
-	cTituloEnForm 	= "Moneda"
-	cTituloEnGrilla = "Monedas"
+	cTituloEnForm 	= "Numerador"
+	cTituloEnGrilla = "Numeradores"
+	
+	cURL = "comunes/apis/Numerador/"
 
 	_MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
 		[<VFPData>] + ;
 		[</VFPData>]
 
-	*
-	* cUrl_Access
-	Procedure cUrl_Access()
-
-		If Empty( Alltrim( This.cURL ))
-			* Inicializar la URL
-			* Puede ponerse duro para cada modelo,
-			* o leerse de un archivo de configuración local
-			* para una personalización especial
-
-			This.cURL = "sistema/apis/Moneda/"
-
-		Endif
-
-		Return This.cURL
-
-	Endproc && cUrl_Access
-
-
 Enddefine
 *!*
 *!* END DEFINE
-*!* Class.........: oMoneda
+*!* Class.........: oNumerador
 *!*
 *!* ///////////////////////////////////////////////////////

@@ -61,7 +61,7 @@ Endproc && Impresora
 
 
 
-Define Class Impresora As Entidad Of "V:\Clipper2fox\Rutinas\Prg\prxEntidad.prg"
+Define Class Impresora As Entidad Of "v:\CloudFox\Rutinas\Prg\prxEntidad.prg"
 
 	#If .F.
 		Local This As Impresora Of 'Fw\Comunes\Prg\Impresora.prg'
@@ -592,7 +592,7 @@ Enddefine
 Define Class ChkDefault As Checkbox
 
 	#If .F.
-		Local This As ChkDefault Of "V:\Clipper2fox\Fw\Comunes\Prg\Impresora.prg"
+		Local This As ChkDefault Of "v:\CloudFox\Fw\Comunes\Prg\Impresora.prg"
 	#Endif
 
 	Caption = ""
@@ -626,7 +626,7 @@ Enddefine
 Define Class ChkExclusive As Checkbox
 
 	#If .F.
-		Local This As ChkExclusive Of "V:\Clipper2fox\Fw\Comunes\Prg\Impresora.prg"
+		Local This As ChkExclusive Of "v:\CloudFox\Fw\Comunes\Prg\Impresora.prg"
 	#Endif
 
 	Caption = ""
