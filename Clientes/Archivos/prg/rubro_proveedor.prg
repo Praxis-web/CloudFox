@@ -65,11 +65,13 @@ Define Class oRubroProveedor As oModelo Of "FrontEnd\Prg\Modelo.prg"
 	lShowEditInBrowse 	= .T.
 	cModelo 			= "Rubro_Proveedor"
 
-	cFormIndividual = "Clientes\Archivos\Scx\Rubro_Proveedor.prg.scx"
-	cGrilla 		= "Clientes\Archivos\Scx\Rubros_Cliente.scx"
+	cFormIndividual = "Clientes\Archivos\Scx\Rubro_Proveedor.scx"
+	cGrilla 		= "Clientes\Archivos\Scx\Rubros_Proveedor.scx"
 
 	cTituloEnForm 	= "Rubro"
 	cTituloEnGrilla = "Rubros"
+	
+	cURL 			= "archivos/apis/RubroProveedor/"
 
 	_MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
 		[<VFPData>] + ;

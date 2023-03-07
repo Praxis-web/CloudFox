@@ -70,6 +70,8 @@ Define Class oRubroCliente As oModelo Of "FrontEnd\Prg\Modelo.prg"
 
 	cTituloEnForm 	= "Rubro"
 	cTituloEnGrilla = "Rubros"
+	
+	cURL 			= "archivos/apis/RubroCliente/"
 
 	_MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
 		[<VFPData>] + ;

@@ -8149,7 +8149,7 @@ Define Class Organizacion_Proveedor As Organizacion Of "Clientes\Utiles\prg\utDa
                 .lNull = .F.
             Endwith
 
-            loField = loColFields.NewFK( "rubro", "I" )
+            loField = loColFields.NewFK( "rubro_proveedor", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .lShowInGrid = .F.
                 If .lShowInGrid
