@@ -15,7 +15,8 @@
 *.[sca]
 *.[vca]
 
-*.[pj?]
+*.[pjx]
+*.[pjt]
 
 FOXUSER.*
 borrar.prg
