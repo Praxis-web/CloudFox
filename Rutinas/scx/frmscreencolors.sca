@@ -1,0 +1,458 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8X
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8Y
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] FRMSCREENCOLORS
+[START PROPERTIES]
+BorderStyle = 0
+Height = 376
+Width = 445
+DoCreate = .T.
+AutoCenter = .T.
+Caption = "Configuración de Colores"
+Closable = .F.
+MaxButton = .F.
+MinButton = .F.
+_memberdata = <VFPData><memberdata name="cancelar" display="Cancelar"/><memberdata name="aceptar" display="Aceptar"/><memberdata name="osetup" display="oSetup"/><memberdata name="colorsetup" display="ColorSetup"/></VFPData>
+osetup = Null
+Name = "FRMSCREENCOLORS"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	
+	Thisform.ColorSetup( This, "BackColor" )
+	
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+
+
+Finally
+
+
+EndTry
+
+ENDPROCPROCEDURE Init
+Lparameters oSetup As Object
+
+Local lcCommand As String
+Local loScreenColors As Object
+Local lnMainForeColor As Integer,;
+	lnMainBackColor As Integer,;
+	lnGetBackColor As Integer,;
+	lnGetForekColor As Integer
+
+Try
+
+	lcCommand = ""
+	
+	Thisform.oSetup = oSetup
+	loScreenColors = oSetup.oScreenColors
+
+	TEXT To lcCommand NoShow TextMerge Pretext 15
+	lnMainForeColor = Rgb( <<loScreenColors.cMainScreenForeColor>> )
+	ENDTEXT
+
+	&lcCommand
+
+	TEXT To lcCommand NoShow TextMerge Pretext 15
+	lnMainBackColor = Rgb( <<loScreenColors.cMainScreenBackColor>> )
+	ENDTEXT
+
+	&lcCommand
+
+	TEXT To lcCommand NoShow TextMerge Pretext 15
+	lnGetBackColor = Rgb( <<loScreenColors.cGetBackColor>> )
+	ENDTEXT
+
+	&lcCommand
+
+	TEXT To lcCommand NoShow TextMerge Pretext 15
+	lnGetForeColor = Rgb( <<loScreenColors.cGetForeColor>> )
+	ENDTEXT
+
+	&lcCommand
+
+	Thisform.lblScreenForeColor.ForeColor = lnMainForeColor
+	Thisform.BackColor = lnMainBackColor
+
+	Thisform.edtDialogBackColor.BackColor = lnGetBackColor
+	Thisform.lblDialogForeColor.ForeColor = lnGetForeColor
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	loScreenColors = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE aceptar
+Local laMembers[ 1 ] As String
+Local lcProperty As String
+
+Local lcCommand As String
+
+Local loScreenColors As Object
+
+Try
+
+	lcCommand = ""
+	loScreenColors = Thisform.oSetup.oScreenColors
+	
+	loScreenColors.cMainScreenForeColor = Int2RGB( Thisform.lblScreenForeColor.ForeColor )
+	loScreenColors.cMainScreenBackColor = Int2RGB( Thisform.BackColor )
+
+	loScreenColors.cGetBackColor = Int2RGB( Thisform.edtDialogBackColor.BackColor )
+	loScreenColors.cGetForeColor = Int2RGB( Thisform.lblDialogForeColor.ForeColor )
+
+
+	Thisform.Release()
+	
+Catch To oErr
+	Local loError As   ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "  ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Cremark = "No se pudo guardar la configuración"
+	loError.Process( oErr )
+
+Finally
+	loScreenColors = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE cancelar
+Thisform.oSetup = Null
+Thisform.Release()
+ENDPROC
+PROCEDURE colorsetup
+Lparameters oControl as Object, cProperty as String
+
+Local lcCommand as String
+Local lnNewColor as Integer,;
+lnDefaultColor as Integer
+
+Try
+
+	lcCommand = ""
+	
+	lnDefaultColor = Evaluate( "oControl." + cProperty )
+	
+	lnNewColor = GetColor( lnDefaultColor )
+	
+	If lnNewColor > -1
+		Text To lcCommand NoShow TextMerge Pretext 15
+		oControl.<<cProperty>> = <<lnNewColor>>
+		EndText
+
+		&lcCommand
+
+	EndIf
+	
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+
+
+Finally
+	oControl = Null
+
+
+EndTry
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+osetup
+*cancelar 
+*aceptar 
+*colorsetup 
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8X
+[CLASS] editbox
+[BASECLASS] editbox
+[OBJNAME] edtDialogBackColor
+[PARENT] FRMSCREENCOLORS
+[START PROPERTIES]
+Format = ""
+Height = 168
+HideSelection = .T.
+Left = 36
+ReadOnly = .F.
+ScrollBars = 0
+Top = 48
+Width = 384
+Name = "edtDialogBackColor"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	
+	Thisform.ColorSetup( This, "BackColor" )
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE InteractiveChange
+This.Value = ""
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80TNWWR
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdAceptar
+[PARENT] FRMSCREENCOLORS
+[START PROPERTIES]
+Top = 335
+Left = 324
+Height = 25
+Width = 96
+Picture = ..\..\fw\comunes\image\bmp\manook.bmp
+Caption = "\<Aceptar"
+StatusBarText = "Aceptar"
+TabIndex = 7
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdAceptar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:39:07)
+Local loError As   ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	Thisform.Aceptar()
+
+Catch To oErr
+	loError = Newobject( "  ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80TNWWS
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancelar
+[PARENT] FRMSCREENCOLORS
+[START PROPERTIES]
+Top = 335
+Left = 24
+Height = 25
+Width = 96
+Picture = ..\..\fw\comunes\image\bmp\manocancel.bmp
+Cancel = .T.
+Caption = "\<Cancelar"
+StatusBarText = "Cancelar"
+TabIndex = 8
+TabStop = .F.
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdCancelar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:39:13)
+Local loError As   ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	Thisform.Cancelar()
+
+Catch To oErr
+	loError = Newobject( "  ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8X
+[CLASS] line
+[BASECLASS] line
+[OBJNAME] Line1
+[PARENT] FRMSCREENCOLORS
+[START PROPERTIES]
+Height = 0
+Left = 24
+Top = 323
+Width = 396
+BorderColor = 128,128,128
+Name = "Line1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8X
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblScreenForeColor
+[PARENT] FRMSCREENCOLORS
+[START PROPERTIES]
+AutoSize = .T.
+FontName = "Lucida Console"
+FontSize = 11
+BackStyle = 0
+Caption = "Click sobre el elemento a modificar"
+Height = 17
+Left = 36
+Top = 12
+Width = 317
+TabIndex = 14
+Name = "lblScreenForeColor"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+
+	Thisform.ColorSetup( This, "ForeColor" )
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+
+
+Finally
+
+
+EndTry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _48D0UGAIF
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblDialogForeColor
+[PARENT] FRMSCREENCOLORS
+[START PROPERTIES]
+FontName = "Lucida Console"
+FontSize = 11
+WordWrap = .T.
+BackStyle = 0
+Caption = "Texto de la casilla de diálogo"
+Height = 60
+Left = 44
+Top = 60
+Width = 352
+TabIndex = 14
+Name = "lblDialogForeColor"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	
+	Thisform.ColorSetup( This, "ForeColor" )
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+
+
+Finally
+
+
+EndTry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

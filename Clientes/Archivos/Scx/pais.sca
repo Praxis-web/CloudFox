@@ -1,0 +1,195 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65D0RJSH4
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65D0RJSH5
+[CLASS] crud_form
+[CLASSLOC] ..\..\..\frontend\vcx\crud.vcx
+[BASECLASS] form
+[OBJNAME] Crud_Pais
+[START PROPERTIES]
+Height = 408
+DoCreate = .T.
+cmodelo = Pais
+Name = "Crud_Pais"
+Crud_Shape.Top = 48
+Crud_Shape.Left = 12
+Crud_Shape.Height = 312
+Crud_Shape.Width = 696
+Crud_Shape.Name = "Crud_Shape"
+CRUD_BUTTONS.CMDGRABAR.Name = "CMDGRABAR"
+CRUD_BUTTONS.CMDELIMINAR.Name = "CMDELIMINAR"
+CRUD_BUTTONS.cmdCancelar.Name = "cmdCancelar"
+CRUD_BUTTONS.Top = 372
+CRUD_BUTTONS.Left = 0
+CRUD_BUTTONS.TabIndex = 5
+CRUD_BUTTONS.Name = "CRUD_BUTTONS"
+CRUD_TITULO.LBLFECHA.Name = "LBLFECHA"
+CRUD_TITULO.LBLTITULO.Name = "LBLTITULO"
+CRUD_TITULO.LBLOBSERVACIONES.Name = "LBLOBSERVACIONES"
+CRUD_TITULO.LBLASTERISCOS.Name = "LBLASTERISCOS"
+CRUD_TITULO.TabIndex = 6
+CRUD_TITULO.Name = "CRUD_TITULO"
+CRUD_AJUSTES.CRUD_SHAPE.Name = "CRUD_SHAPE"
+CRUD_AJUSTES.spnOrden.Name = "spnOrden"
+CRUD_AJUSTES.chkActivo.Alignment = 0
+CRUD_AJUSTES.chkActivo.Name = "chkActivo"
+CRUD_AJUSTES.chkEs_Sistema.Alignment = 0
+CRUD_AJUSTES.chkEs_Sistema.Name = "chkEs_Sistema"
+CRUD_AJUSTES.lblMostrar.Name = "lblMostrar"
+CRUD_AJUSTES.Name = "CRUD_AJUSTES"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65D0RJSH4
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtNombre
+[PARENT] Crud_Pais
+[START PROPERTIES]
+Height = 23
+Left = 48
+TabIndex = 1
+Top = 60
+nlabelposition = 2
+ncolumnsspan = 6
+ntoprow = 1
+Name = "txtNombre"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65D0RJSH4
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtcuit_juridica
+[PARENT] Crud_Pais
+[START PROPERTIES]
+Height = 23
+Left = 300
+TabIndex = 2
+Top = 60
+Width = 85
+nlabelposition = 2
+nleftcolumn = 7
+ncolumnsspan = 6
+ntoprow = 1
+Name = "txtcuit_juridica"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65E0OV2TO
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtcuit_fisica
+[PARENT] Crud_Pais
+[START PROPERTIES]
+Height = 23
+Left = 300
+TabIndex = 3
+Top = 84
+Width = 85
+nleftcolumn = 7
+nlabelposition = 2
+ncolumnsspan = 6
+ntoprow = 2
+nverticalalignment = 1
+nlabelspan = 2
+Name = "txtcuit_fisica"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65E0OV2TQ
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtcuit_otro
+[PARENT] Crud_Pais
+[START PROPERTIES]
+Height = 23
+Left = 300
+TabIndex = 4
+Top = 108
+Width = 85
+nlabelposition = 2
+nleftcolumn = 7
+ncolumnsspan = 6
+ntoprow = 3
+nlabelspan = 2
+Name = "txtcuit_otro"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65O13QTTD
+[CLASS] gridinform
+[CLASSLOC] ..\..\..\fw\comunes\vcx\prxbrowse.vcx
+[BASECLASS] container
+[OBJNAME] Provincias
+[PARENT] Crud_Pais
+[START PROPERTIES]
+Top = 144
+Left = 24
+Height = 204
+_memberdata =     1772<VFPData><memberdata name="armargrilla" display="ArmarGrilla"/><memberdata name="crearcursordetrabajo" display="CrearCursorDeTrabajo"/><memberdata name="actualizarcursorprincipal" display="ActualizarCursorPrincipal"/><memberdata name="borrar" display="Borrar"/><memberdata name="agregar" display="Agregar"/><memberdata name="recuperar" display="Recuperar"/><memberdata name="synchronizebuttons" display="SynchronizeButtons"/><memberdata name="cmaincursorname" display="cMainCursorName"/><memberdata name="cmaincursorname_access" display="cMainCursorName_Access"/><memberdata name="obiz" display="oBiz"/><memberdata name="obiz_access" display="oBiz_Access"/><memberdata name="cargargrilla" display="CargarGrilla"/><memberdata name="editar" display="Editar"/><memberdata name="ledit" display="lEdit"/><memberdata name="ledit_assign" display="lEdit_Assign"/><memberdata name="updatetable" display="UpdateTable"/><memberdata name="reverttable" display="RevertTable"/><memberdata name="ccursordetrabajo" display="cCursorDeTrabajo"/><memberdata name="nbufferingcursortrabajo" display="nBufferingCursorTrabajo"/><memberdata name="leditarengrilla" display="lEditarEnGrilla"/><memberdata name="lgridloaded" display="lGridLoaded"/><memberdata name="lgridempty" display="lGridEmpty"/><memberdata name="leditonload" display="lEditOnLoad"/><memberdata name="allowexit" display="AllowExit"/><memberdata name="autosize" display="Autosize"/><memberdata name="addfilter" display="AddFilter"/><memberdata name="removefilter" display="RemoveFilter"/><memberdata name="ofilters" display="oFilters"/><memberdata name="centityname" display="cEntityName" favorites="True"/><memberdata name="cclassname" display="cClassName"/><memberdata name="cclasslibrary" display="cClassLibrary"/></VFPData>
+
+ctable = Provincia
+Name = "Provincias"
+Grid.Name = "Grid"
+Botones.cmdFiltrar.Name = "cmdFiltrar"
+Botones.cmdAgregar.Name = "cmdAgregar"
+Botones.cmdBorrar.Name = "cmdBorrar"
+Botones.cmdRecuperar.Name = "cmdRecuperar"
+Botones.cmdEdit.Name = "cmdEdit"
+Botones.cmdAplicar.Name = "cmdAplicar"
+Botones.Name = "Botones"
+chkActivos.Alignment = 0
+chkActivos.Name = "chkActivos"
+lblTitulo.Name = "lblTitulo"
+spnColumnsLock.Name = "spnColumnsLock"
+lblColumsLock.Name = "lblColumsLock"
+chkEditarEnGrilla.Alignment = 0
+chkEditarEnGrilla.Name = "chkEditarEnGrilla"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[EOF]

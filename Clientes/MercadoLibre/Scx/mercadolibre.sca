@@ -1,0 +1,287 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65D0RJSH4
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65D0RJSH5
+[CLASS] crud_form
+[CLASSLOC] ..\..\..\frontend\vcx\crud.vcx
+[BASECLASS] form
+[OBJNAME] Mercado_Libre
+[START PROPERTIES]
+Top = 0
+Left = 0
+Height = 406
+Width = 721
+DoCreate = .T.
+cmodelo = MercadoLibre
+Name = "Mercado_Libre"
+Crud_Shape.Top = 48
+Crud_Shape.Left = 12
+Crud_Shape.Height = 312
+Crud_Shape.Width = 696
+Crud_Shape.Name = "Crud_Shape"
+CRUD_BUTTONS.CMDGRABAR.Name = "CMDGRABAR"
+CRUD_BUTTONS.CMDELIMINAR.Name = "CMDELIMINAR"
+CRUD_BUTTONS.cmdCancelar.Name = "cmdCancelar"
+CRUD_BUTTONS.Top = 372
+CRUD_BUTTONS.Left = 0
+CRUD_BUTTONS.TabIndex = 11
+CRUD_BUTTONS.Name = "CRUD_BUTTONS"
+CRUD_TITULO.LBLFECHA.Name = "LBLFECHA"
+CRUD_TITULO.LBLTITULO.Name = "LBLTITULO"
+CRUD_TITULO.LBLOBSERVACIONES.Name = "LBLOBSERVACIONES"
+CRUD_TITULO.LBLASTERISCOS.Name = "LBLASTERISCOS"
+CRUD_TITULO.TabIndex = 12
+CRUD_TITULO.Name = "CRUD_TITULO"
+CRUD_AJUSTES.CRUD_SHAPE.Name = "CRUD_SHAPE"
+CRUD_AJUSTES.spnOrden.Name = "spnOrden"
+CRUD_AJUSTES.chkActivo.Alignment = 0
+CRUD_AJUSTES.chkActivo.Name = "chkActivo"
+CRUD_AJUSTES.chkEs_Sistema.Alignment = 0
+CRUD_AJUSTES.chkEs_Sistema.Name = "chkEs_Sistema"
+CRUD_AJUSTES.lblMostrar.Name = "lblMostrar"
+CRUD_AJUSTES.lblOrden.Name = "lblOrden"
+CRUD_AJUSTES.TabIndex = 10
+CRUD_AJUSTES.Name = "CRUD_AJUSTES"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65D0RJSH4
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtNombre
+[PARENT] Mercado_Libre
+[START PROPERTIES]
+Height = 23
+Left = 180
+TabIndex = 1
+Top = 72
+Name = "txtNombre"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _67C0PVUFY
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtclient_id
+[PARENT] Mercado_Libre
+[START PROPERTIES]
+Left = 180
+TabIndex = 2
+Top = 96
+ntoprow = 2
+Name = "txtclient_id"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _67C0PVUFZ
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtclient_secret
+[PARENT] Mercado_Libre
+[START PROPERTIES]
+Left = 180
+TabIndex = 3
+Top = 120
+ntoprow = 3
+Name = "txtclient_secret"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _67C0PVUG0
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtredirect_uri
+[PARENT] Mercado_Libre
+[START PROPERTIES]
+Left = 180
+TabIndex = 4
+Top = 144
+ntoprow = 4
+Name = "txtredirect_uri"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _67C0PVUG1
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtserver_authorization_code
+[PARENT] Mercado_Libre
+[START PROPERTIES]
+Left = 168
+TabIndex = 5
+Top = 168
+ntoprow = 5
+Name = "txtserver_authorization_code"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _67C0PVUG2
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtaccess_token
+[PARENT] Mercado_Libre
+[START PROPERTIES]
+Left = 192
+TabIndex = 7
+Top = 216
+ntoprow = 7
+Name = "txtaccess_token"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _67C0PVUG3
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtrefresh_token
+[PARENT] Mercado_Libre
+[START PROPERTIES]
+Left = 192
+TabIndex = 8
+Top = 240
+ntoprow = 8
+Name = "txtrefresh_token"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _67C0PVUG4
+[CLASS] _spinner
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] spinner
+[OBJNAME] spnuser_id
+[PARENT] Mercado_Libre
+[START PROPERTIES]
+Left = 156
+TabIndex = 6
+Top = 192
+ntoprow = 6
+Name = "spnuser_id"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _67J0WU9EH
+[CLASS] _checkbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] checkbox
+[OBJNAME] chkInvalid_Token
+[PARENT] Mercado_Libre
+[START PROPERTIES]
+Top = 274
+Left = 193
+Alignment = 0
+TabIndex = 9
+ntoprow = 9
+Name = "chkInvalid_Token"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+ThisForm.imgLogin.Visible = This.Value
+
+ENDPROC
+PROCEDURE ProgrammaticChange
+This.InteractiveChange()
+ENDPROC
+PROCEDURE afterbindcontrols
+This.InteractiveChange()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _67J0XUDWU
+[CLASS] image
+[BASECLASS] image
+[OBJNAME] imgLogin
+[PARENT] Mercado_Libre
+[START PROPERTIES]
+Anchor = 12
+Picture = d:\temporales\downloads\login.gif
+Stretch = 1
+BackStyle = 0
+Height = 60
+Left = 624
+MousePointer = 15
+Top = 276
+Width = 60
+ToolTipText = "Registrarse en Mercado Libre"
+Name = "imgLogin"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local lcCommand as String
+Local loBiz As oMercadoLibre Of "Clientes\MercadoLibre\prg\MercadoLibre.prg"
+
+Try
+
+	lcCommand = ""
+	loBiz = Thisform.oBiz
+	loBiz.Registrarse( Thisform.oRegistro )
+	Thisform.Release()
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	loBiz = .F.
+
+
+EndTry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[EOF]

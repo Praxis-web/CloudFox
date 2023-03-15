@@ -1,0 +1,64 @@
+Eliminar:
+
+cField_Name_Access
+oField_Access
+
+Agregar:
+
+cField_Name
+
+cClassName
+	Nombre de la Clase de Negocios
+	ControlesBase
+	
+cClassLibrary
+	Nombre de la librería donde se encuentra la Clase de Negocios
+	FW\Comunes\vcx\_Controles_Base.prg
+	
+lAutomaticDisplay	***
+	Indica si utiliza la clase de negocios para el deploy automático
+	.T.
+	
+nColumnsSpan	***
+	El Form se divide en 12 columnas virtuales. Indica cuantas columnas ocupa, con Label incluído
+	12
+	
+nHeight
+	Alto Total del Control en pixeles. (Label incluido)
+	24
+	
+nLabelSpan	***
+	En caso que el label se posicione en la misma fila del control, cantidad de columnas que ocupa el label. (no se toma en cuenta si está arriba u abajo) 0: No lleva etiqueta
+	2
+	
+nLeftColumn	***
+	Columna donde se posiciona el control (con el label incluído, en caso de que el mismo estuviera a la izquierda)
+	1
+	
+nRowSpan
+	En caso de controles tipo Grilla o EditBox, indica cuantas filas ocupa
+	1
+	
+nTopRow	***
+	Nº de fila donde se posiciona el control (Con el label incluido en caso caso de que el mismo estuviera arriba o abajo)
+	1
+	
+nVerticalAlignment
+	En caso de encontrarse en una fila con alto doble, porque el label se encuentra arriba o abajo, indica donde se alínea, en el caso de ocupar un alto simple. 0: Abajo; 1: Arriba
+	0
+	
+nWidth
+	Ancho Total del Control en pixeles. (Label incluido)
+	360
+	
+nLabelPosition
+	Posición del Label con respecto al control. 2 - Izquierda, 5 - Derecha, 6 - Arriba, 9 - Abajo	
+	
+cTable	
+
+oBiz
+
+Metodos
+
+Initialize
+InitializeRows

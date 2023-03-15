@@ -1,0 +1,2708 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _23X124E12
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] kfcontainer
+[START PROPERTIES]
+Width = 447
+Height = 69
+centitycursor = 
+nactivecontrol = 0
+ocolcontrols = .NULL.
+cdataconfigurationkey = 
+oentity = 
+ofirstfocus = .NULL.
+oactivecontrol = .NULL.
+olastcontrol = .NULL.
+uoldvalue = .NULL.
+ocolfastsearch = Null
+lischild = .F.
+oparent = .NULL.
+cparentdataconfigurationkey = 
+lcontrolsinsamerow = .T.
+controlsource = 
+ccursorname = 
+_memberdata =     3193<VFPData><memberdata name="centitycursor" display="cEntityCursor"/><memberdata name="centitycursor_access" display="cEntityCursor_Access"/><memberdata name="nactivecontrol" display="nActiveControl"/><memberdata name="ocolcontrols" display="oColControls"/><memberdata name="ocolcontrols_access" display="oColControls_Access"/><memberdata name="cdataconfigurationkey" display="cDataConfigurationKey"/><memberdata name="fillcontrols" display="FillControls"/><memberdata name="findout" display="FindOut"/><memberdata name="getwherecondition" display="GetWhereCondition"/><memberdata name="getwherestatement" display="GetWhereStatement"/><memberdata name="lloop" display="lLoop"/><memberdata name="oentity" display="oEntity"/><memberdata name="oentity_access" display="oEntity_Access"/><memberdata name="addcontrols" display="AddControls"/><memberdata name="dato" type="property" display="Dato"/><memberdata name="dato_access" type="property" display="Dato_Access"/><memberdata name="ofirstfocus" display="oFirstFocus"/><memberdata name="oactivecontrol" display="oActiveControl"/><memberdata name="handlegotfocus" display="HandleGotFocus"/><memberdata name="olastcontrol" display="oLastControl"/><memberdata name="lhandlingevents" display="lHandlingEvents"/><memberdata name="uoldvalue" display="uOldValue"/><memberdata name="handlekeypress" type="method" display="HandleKeyPress"/><memberdata name="launchselector" type="method" display="LaunchSelector"/><memberdata name="classbeforelaunchselector" type="method" display="ClassBeforeLaunchSelector"/><memberdata name="hookbeforelaunchselector" type="method" display="HookBeforeLaunchSelector"/><memberdata name="hookafterlaunchselector" type="method" display="HookAfterLaunchSelector"/><memberdata name="classafterlaunchselector" type="method" display="ClassAfterLaunchSelector"/><memberdata name="expand" display="Expand"/><memberdata name="contract" display="Contract"/><memberdata name="specialwherestatement" type="method" display="SpecialWhereStatement"/><memberdata name="getbywhere" type="method" display="GetByWhere"/><memberdata name="getfastwherestatement" type="method" display="GetFastWhereStatement"/><memberdata name="ocolfastsearch" type="property" display="oColFastSearch"/><memberdata name="ocolfastsearch_access" type="method" display="oColFastSearch_Access"/><memberdata name="ocolobjects_access" type="method" display="oColObjects_Access"/><memberdata name="hookonparentchange" type="method" display="HookOnParentChange"/><memberdata name="hookonparentclear" type="method" display="HookOnParentClear"/><memberdata name="hooksubscribetoparent" type="method" display="HookSubscribeToParent"/><memberdata name="lischild" type="property" display="lIsChild"/><memberdata name="cparentdataconfigurationkey" type="property" display="cParentDataConfigurationKey"/><memberdata name="oparent" type="property" display="oParent"/><memberdata name="oparent_access" type="method" display="oParent_Access"/><memberdata name="oactivecontrol_access" display="oActiveControl_Access"/><memberdata name="lcontrolsinsamerow" type="property" display="lControlsInSameRow"/><memberdata name="autosetup" type="method" display="AutoSetup"/></VFPData>
+
+lhandlenextfocus = .T.
+Name = "kfcontainer"
+Label.Caption = "Nombre Entidad"
+Label.Left = 0
+Label.Width = 95
+Label.TabIndex = 1
+Label.Name = "Label"
+CheckButton.TabIndex = 4
+CheckButton.Name = "CheckButton"
+[END PROPERTIES]
+[START PROTECTED]
+classbeforelaunchselector
+classafterlaunchselector
+[END PROTECTED]
+[START METHODS]
+PROCEDURE GotFocus
+This.oActiveControl.SetFocus()
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+
+Do Case
+	Case nButton = 2 And nShift = 0  && RightClick
+		#Define BAR_REFRESH 1
+		#Define BAR_LAUNCH  2
+		#Define BAR_CLEAR   3
+		#Define BAR_UPDATE  4
+		#Define BAR_NEW  	5
+		Local lnSelected As Integer
+
+		lnSelected = 0
+
+
+		Define Popup emergente SHORTCUT Relative From Mrow(),Mcol()
+
+		If !Empty( This.FormName )
+			Define Bar BAR_LAUNCH Of emergente Prompt "Abrir Formulario" ;
+				PICTRES _Mfi_open ;
+				MESSAGE "Abre el Formulario asociado al Control";
+				STYLE "B"
+
+			On Selection Bar BAR_LAUNCH Of emergente lnSelected = BAR_LAUNCH
+
+			Define Bar BAR_NEW Of emergente Prompt "Agregar Nuevo" ;
+				PICTRES _Mfi_new ;
+				MESSAGE "Agrega un nuevo registro a la tabla de origen"
+
+			On Selection Bar BAR_NEW Of emergente lnSelected = BAR_NEW
+
+			Define Bar BAR_UPDATE Of emergente Prompt "Modificar datos..." ;
+				PICTURE "fw\comun\image\bmp\Edit.gif" ;
+				MESSAGE "Modifica los datos de la tabla de origen"
+
+			On Selection Bar BAR_UPDATE Of emergente lnSelected = BAR_UPDATE
+
+			Define Bar(Val(Sys(3))) Of emergente Prompt '\-'
+
+		Endif
+
+
+		*!*	Definir el menu.
+		Define Bar _Med_undo Of emergente Prompt "\<Deshacer" Key CTRL+Z, "" ;
+			message "Deshace el ˙ltimo comando o acciÛn."
+		Define Bar _Med_redo Of emergente Prompt "Re\<hacer" Key CTRL+R, "" ;
+			message "Repite el ˙ltimo comando o acciÛn."
+		Define Bar (Val(Sys(3))) Of emergente Prompt "\-"
+		Define Bar _Med_cut Of emergente Prompt "Cor\<tar" Key CTRL+X, "" ;
+			message "Quita la selecciÛn y la coloca en el Portapapeles."
+		Define Bar _Med_copy Of emergente Prompt "\<Copiar" Key CTRL+C, "" ;
+			message "Copia la selecciÛn al Portapapeles."
+		Define Bar _Med_paste Of emergente Prompt "Peg\<ar"	Key CTRL+V, "" ;
+			message "Pega el contenido del Portapapeles."
+		Define Bar (Val(Sys(3))) Of emergente Prompt "\-"
+		Define Bar _Med_slcta Of emergente Prompt "\<Seleccionar todo" Key CTRL+A, "" ;
+			message "Selecciona todos los elementos o texto de la ventana actual."
+
+
+
+		Activate Popup emergente
+		Release Popups emergente
+
+		If Not Empty( lnSelected )
+
+			Do Case
+				Case lnSelected = BAR_LAUNCH
+					Launch( Alltrim( Addbs( This.SCXFolder )) ;
+						+ Alltrim( This.FormName ) )
+
+				Case lnSelected = BAR_UPDATE
+					This.Launch( TR_UPDATE )
+
+				Case lnSelected = BAR_NEW
+					This.Launch( TR_NEW )
+
+				Otherwise
+
+			Endcase
+
+		Endif
+
+
+	Otherwise
+		DoDefault( nButton, nShift, nXCoord, nYCoord )
+
+Endcase
+
+ENDPROC
+PROCEDURE SetFocus
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	This.oActiveControl.SetFocus()
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+
+ENDPROC
+PROCEDURE addcontrols
+Local loField As oField Of "Tools\Sincronizador\ColDataBases.prg"
+Local lcControlClass As String
+Local lcCtrlName As String
+Local loCtrl As ibString Of "Fw\Comunes\Vcx\InputBoxes.vcx"
+Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	For Each loField In This.oColControls
+
+		Do Case
+			Case Lower( loField.FieldType ) == "character"
+				lcControlClass = "ibString"
+
+			Case Lower( loField.FieldType ) == "currency"
+				lcControlClass = "ibNumeric"
+
+			Case Lower( loField.FieldType ) == "integer"
+				lcControlClass = "ibSpinner"
+
+			Case Lower( loField.FieldType ) == "numeric"
+				lcControlClass = "ibNumeric"
+
+			Case Lower( loField.FieldType ) == "float"
+				lcControlClass = "ibNumeric"
+
+			Case Lower( loField.FieldType ) == "varchar"
+				lcControlClass = "ibString"
+
+			Otherwise
+				lcControlClass = ""
+
+		Endcase
+
+		If ! Empty( lcControlClass )
+			lcCtrlName = "cnt" + loField.Name
+			This.Dato.AddObject( lcCtrlName, lcControlClass )
+
+			loCtrl = This.Dato.&lcCtrlName
+
+			loCtrl.Visible = .T.
+			loCtrl.lSubscribeToColIB = .F.
+			loCtrl.oField = loField
+			AddProperty( loCtrl, "uOldValue", loCtrl.Dato.Value )
+			loCtrl.FillFromDataDictionary()
+
+			If loField.lGetFirstFocus
+				This.oFirstFocus = loCtrl
+				This.oActiveControl = loCtrl
+				This.oLastControl = loCtrl
+
+			Endif && loField.lGetFirstFocus
+
+			Bindevent( loCtrl, "GotFocus", This, "HandleGotFocus", 0 )
+			Bindevent( loCtrl.Dato, "KeyPress", This, "HandleKeyPress", 0 )
+
+		Endif && ! Empty( lcControlClass )
+
+	Endfor
+
+	For Each loField In This.oColControls
+		lcCtrlName = "cnt" + loField.Name
+		loCtrl = This.Dato.&lcCtrlName
+
+		If ! IsEmpty( This.oActiveControl )
+			If loCtrl.TabIndex = This.oActiveControl.TabIndex
+				*!* loCtrl.ReadOnly = .F.
+				loCtrl.lForceReadOnly = .F.
+
+			Else
+				*!* loCtrl.ReadOnly = .T.
+				loCtrl.lForceReadOnly = .T.
+
+			Endif && loCtrl.TabIndex = This.oActiveControl.TabIndex
+
+		Endif && ! IsEmpty( This.oActiveControl )
+
+	Endfor
+
+Catch To oErr
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	loCtrl = Null
+	loField = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE autosetup
+Lparameters tlOnlyPosition As Boolean
+
+Local lnChkButtonWidth As Integer
+Local lnCmdFindOutWidth As Integer
+Local lnPicWidth As Integer
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local llFontBold As Boolean
+Try
+	With This As ibcontainer Of fw\comunes\vcx\inputboxes.vcx
+		If .ClassBeforeAutoSetup( tlOnlyPosition )
+			If .HookBeforeAutoSetup( tlOnlyPosition )
+
+				lnChkButtonWidth = 0
+				lnCmdFindOutWidth = 0
+				lnPicWidth = 0
+
+				This.BorderWidth = 0
+
+				If Empty( .Label.ToolTipText )
+					.Label.ToolTipText = .ToolTipText
+
+				Endif
+
+				If Empty( .Label.StatusBarText )
+					.Label.StatusBarText = .StatusBarText
+
+				Endif
+
+				If ! tlOnlyPosition
+
+					With .Label As ibLabel Of fw\comunes\vcx\inputboxes.vcx
+						.Top = This.nTopPadding
+						.Left = This.nLeftPadding
+
+						If ! .Visible
+							.Width = 0
+							.Height = 0
+
+						Else
+							* DAE 2009-07-15
+							*.AutoFit( 1.5 )
+							llFontBold = .FontBold
+							.FontBold = .T.
+							.AutoFit()
+							.FontBold = llFontBold
+
+						Endif && ! .Visible
+
+					Endwith
+
+
+
+					If .lHotKeyPress
+						lcCaption = .Label.Caption
+
+						If Empty( .cHotKeyLetter )
+							lcCaption = "\<" + lcCaption
+
+						Else
+							lcCaption = Stuff( lcCaption, At( Lower( .cHotKeyLetter ), Lower( lcCaption ) ), 0, "\<" )
+
+						Endif && Empty( .cHotKeyLetter )
+
+						.Label.Caption = lcCaption
+					Endif && .lHotKeyPress
+
+				Endif && ! tlOnlyPosition
+
+				If .lLabelOnTop And .Label.Visible
+					With .Dato
+						.Top = This.Label.Top + This.Label.Height
+						.Left = This.nLeftPadding
+
+					Endwith
+
+					If .checkButton.Visible
+						With .checkButton As CommandButton
+							.Top = This.Dato.Top
+							.Left = This.Dato.Left + This.Dato.Width + This.nGap
+							If ! tlOnlyPosition
+								.Height = This.Dato.Height
+
+							Endif && ! tlOnlyPosition
+							lnChkButtonWidth = .Width + This.nGap
+
+						Endwith
+
+					Endif && .checkButton.Visible
+
+					If .CmdFindOut.Visible
+						With .CmdFindOut As CommandButton
+							.Top = This.Dato.Top
+							.Left = This.Dato.Left + This.Dato.Width + This.nGap + lnChkButtonWidth
+							If ! tlOnlyPosition
+								.Height = This.Dato.Height
+
+							Endif && ! tlOnlyPosition
+							lnCmdFindOutWidth = .Width + This.nGap
+
+						Endwith
+
+					Endif && .CmdFindOut.Visible
+
+					If .picExpand.Visible
+						With .picExpand As Image
+							.Top = This.Dato.Top
+							.Left = This.Dato.Left + This.Dato.Width + This.nGap + lnChkButtonWidth + lnCmdFindOutWidth
+							If ! tlOnlyPosition
+								.Height = This.Dato.Height
+
+							Endif && ! tlOnlyPosition
+							lnPicWidth = .Width + This.nGap
+
+						Endwith
+
+						With .PicContract As Image
+							.Top = This.picExpand.Top
+							.Left = This.picExpand.Left
+							If ! tlOnlyPosition
+								.Height = This.picExpand.Height
+
+							Endif && ! tlOnlyPosition
+							.Visible = .F.
+						Endwith
+
+					Endif && .picExpand.Visible
+
+
+					With .frmBusquedaRapida As Container
+						.Top = This.Dato.Top + This.Dato.Height
+						.Left = This.Dato.Left
+						.Width = This.Dato.Width - This.Dato.nGap
+						This.frmBusquedaRapida.lblBuscar.Left = This.frmBusquedaRapida.nLeftPadding
+						This.frmBusquedaRapida.lblBuscar.Top = This.frmBusquedaRapida.nTopPadding
+						This.frmBusquedaRapida.Buscador.Left = This.frmBusquedaRapida.lblBuscar.Left + This.frmBusquedaRapida.lblBuscar.Width + This.frmBusquedaRapida.nGap
+						This.frmBusquedaRapida.Buscador.Top = This.frmBusquedaRapida.nTopPadding
+						This.frmBusquedaRapida.Buscador.Width = This.frmBusquedaRapida.Width - This.frmBusquedaRapida.nRightPadding - This.frmBusquedaRapida.Buscador.Left
+						.Height = This.frmBusquedaRapida.Buscador.Top + This.frmBusquedaRapida.Buscador.Height + This.frmBusquedaRapida.nBottomPadding
+
+						This.frmBusquedaRapida.Shape.Top = 0
+						This.frmBusquedaRapida.Shape.Left = 0
+						This.frmBusquedaRapida.Shape.Width = .Width
+						This.frmBusquedaRapida.Shape.Height = .Height
+
+						.Visible = .F.
+
+					Endwith
+
+
+					.BorderWidth = 0
+					If ! tlOnlyPosition
+						.Width = .nLeftPadding + Max( .Label.Width, .Dato.Width + lnChkButtonWidth + lnCmdFindOutWidth + lnPicWidth ) + .nRightPadding
+						.Height = .nTopPadding + .Label.Height + .Dato.Height + .nBottomPadding
+
+					Endif && ! tlOnlyPosition
+					.lAlignLabel = .F.
+
+				Else
+					With .Dato
+
+						If .lPerformAutoSetup
+							.AutoSetup()
+						Endif
+
+						.Top = This.nTopPadding
+						If This.Label.Visible
+							.Left = This.nLeftPadding + This.Label.Width + This.nGap
+
+						Else
+							.Left = This.nLeftPadding
+
+						Endif
+					Endwith
+
+					If .Dato.Height >= .Label.Height
+						.Label.Top = .nTopPadding + ( ( .Dato.Height - .Label.Height ) / 2 )
+
+					Else
+						.Dato.Top = .nTopPadding + ( ( .Label.Height - .Dato.Height ) / 2 )
+
+					Endif && .Dato.Height >= .Label.Height
+
+					If .checkButton.Visible
+						With .checkButton As CommandButton
+							.Top = This.Dato.Top
+							.Left = This.Dato.Left + This.Dato.Width + This.nGap
+							If ! tlOnlyPosition
+								.Height = This.Dato.Height
+
+							Endif && ! tlOnlyPosition
+							lnChkButtonWidth = .Width + This.nGap
+
+						Endwith
+
+					Endif && .checkButton.Visible
+
+					If .CmdFindOut.Visible
+						With .CmdFindOut As CommandButton
+							.Top = This.Dato.Top
+							.Left = This.Dato.Left + This.Dato.Width + This.nGap + lnChkButtonWidth
+							If ! tlOnlyPosition
+								.Height = This.Dato.Height
+
+							Endif && ! tlOnlyPosition
+							lnCmdFindOutWidth = .Width + This.nGap
+
+						Endwith
+
+					Endif && .CmdFindOut.Visible
+
+
+					If .picExpand.Visible
+						With .picExpand As Image
+							.Top = This.Dato.Top
+							.Left = This.Dato.Left + This.Dato.Width + This.nGap + lnChkButtonWidth + lnCmdFindOutWidth
+							If ! tlOnlyPosition
+								.Height = This.Dato.Height
+
+							Endif && ! tlOnlyPosition
+							lnPicWidth = .Width + This.nGap
+
+						Endwith
+
+						With .PicContract As Image
+							.Top = This.picExpand.Top
+							.Left = This.picExpand.Left
+							If ! tlOnlyPosition
+								.Height = This.picExpand.Height
+
+							Endif && ! tlOnlyPosition
+							.Visible = .F.
+						Endwith
+
+					Endif && .picExpand.Visible
+
+
+					With .frmBusquedaRapida As Container
+						.Top = This.Dato.Top + This.Dato.Height
+						.Left = This.Dato.Left
+						.Width = This.Dato.Width - This.Dato.nGap
+
+						This.frmBusquedaRapida.lblBuscar.Left = This.frmBusquedaRapida.nLeftPadding
+						This.frmBusquedaRapida.lblBuscar.Top = This.frmBusquedaRapida.nTopPadding
+
+						This.frmBusquedaRapida.Buscador.Left = This.frmBusquedaRapida.lblBuscar.Left + This.frmBusquedaRapida.lblBuscar.Width + This.frmBusquedaRapida.nGap
+						This.frmBusquedaRapida.Buscador.Top = This.frmBusquedaRapida.nTopPadding
+						This.frmBusquedaRapida.Buscador.Width = This.frmBusquedaRapida.Width - This.frmBusquedaRapida.nRightPadding - This.frmBusquedaRapida.Buscador.Left
+
+						.Height = This.frmBusquedaRapida.Buscador.Top + This.frmBusquedaRapida.Buscador.Height + This.frmBusquedaRapida.nBottomPadding
+
+						This.frmBusquedaRapida.Shape.Top = 0
+						This.frmBusquedaRapida.Shape.Left = 0
+						This.frmBusquedaRapida.Shape.Width = .Width
+						This.frmBusquedaRapida.Shape.Height = .Height
+
+						.Visible = .F.
+
+					Endwith
+
+
+					.BorderWidth = 0
+
+					If ! tlOnlyPosition
+						.Width = .nLeftPadding + .Label.Width + .nGap + .Dato.Width + lnChkButtonWidth + lnCmdFindOutWidth + lnPicWidth + .nRightPadding
+						.Height = .nTopPadding + Max( .Label.Height, .Dato.Height,Iif( .checkButton.Visible, .checkButton.Height, 0 ) ) + .nBottomPadding
+
+					Endif && ! tlOnlyPosition
+
+				Endif
+
+				.HookAfterAutoSetup( tlOnlyPosition )
+				.ClassAfterAutoSetup( tlOnlyPosition )
+
+			Endif
+		Endif
+	Endwith
+Catch To oErr
+	* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE centitycursor_access
+If Empty( This.cEntityCursor )
+	This.cEntityCursor = This.oEntity.cEntityCursor
+Endif
+
+Return This.cEntityCursor
+
+ENDPROC
+PROCEDURE ckeyname_access
+
+If Empty( This.cKeyName )
+	*!*		Assert ! Empty( This.cKeyName ) Message 'Falta configurar la propiedad "cKeyName"'
+	If Empty( This.cFieldName )
+		This.cFieldName = Substr( This.Name, 4 )
+	Endif
+
+	This.cKeyName = Lower( This.oEntity.cMainTableName + "." + This.cFieldName )
+	
+Endif
+
+Return This.cKeyName
+
+ENDPROC
+PROCEDURE classafterlaunchselector
+Lparameters toSelectorParam as Object, toParam as Object
+
+
+ENDPROC
+PROCEDURE classbeforeautosetup
+Lparameters tlOnlyPosition As Boolean
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loCtrl As ibString Of "Fw\Comunes\Vcx\InputBoxes.vcx"
+Local lcCtrlName as String
+Local i As Integer
+Local loField as oField OF "Tools\Sincronizador\colDataBases.prg"
+
+Try
+
+	For i = 1 to This.oColControls.Count
+		loField = This.oColControls.Item( i )
+		lcCtrlName = "cnt" + loField.Name
+		loCtrl = This.Dato.&lcCtrlName
+
+		loCtrl.Label.Visible = !This.Label.Visible
+
+		If i = 1
+			loCtrl.lSameRowAsPrevious = .F.
+
+		Else
+			loCtrl.lSameRowAsPrevious = This.lControlsInSameRow
+
+		Endif
+	Endfor
+
+
+Catch To oErr
+* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loCtrl = Null
+	
+Endtry
+
+Return DoDefault( tlOnlyPosition )
+
+ENDPROC
+PROCEDURE classbeforeinit
+* DA 2009-10-21(12:14:42)
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local llOk As Boolean
+Try
+
+	llOk = DoDefault()
+
+	If llOk
+		* DAE 2009-11-11(15:46:46)
+		* Elimine los Hook<>Init
+		If !  ( 'inputboxes.vcx ' $ Lower( Set("Classlib") ) )
+			Set Classlib To InputBoxes.vcx Additive
+		Endif &&  !  ( 'inputboxes.vcx ' $ Lower( Set("Classlib") ) )
+
+		If Pemstatus( Thisform, "OnSubscribeToParent", 5 ) And This.lIsChild
+			Bindevent( Thisform, "OnSubscribeToParent", This, "HookSubscribeToParent" )
+
+		Endif && Pemstatus( Thisform, "OnSubscribeToParent", 5 ) And This.lIsChild
+
+		This.BorderWidth = 0
+
+	Endif && llOk
+
+Catch To oErr
+	llOk = .F.
+	oErr.Message = oErr.Message + "(Instanciando control "+This.Name+")"
+	* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError  = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+Return llOk
+
+ENDPROC
+PROCEDURE classbeforelaunchselector
+Lparameters toSelectorParam As Object, toParam As Object
+
+Return .T.
+
+ENDPROC
+PROCEDURE classbeforesetupentity
+Lparameters toEntity As Object @
+
+toEntity.SetProperty( "lNeedBuffering", .F. )
+toEntity.SetProperty( "lMakeTransactable", .F. )
+
+Return .T.
+
+ENDPROC
+PROCEDURE contract
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	For Each loControl In Thisform.oColIB
+		loControl.Enabled = .T.
+		
+	Endfor
+
+	This.frmBusquedaRapida.Visible = .F.
+	This.Height = This.Height - This.frmBusquedaRapida.Height
+	This.picContract.Visible = .F.
+	This.picexpand.Visible = .T.
+
+Catch To oErr
+	* loError = ThisForm.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	*!*	Thisform.oError.Remark = ''
+	*!*	Thisform.oError.TraceLogin = ''
+
+Endtry
+
+ENDPROC
+PROCEDURE controlsource_assign
+Lparameters vNewVal As String
+
+This.ControlSource = vNewVal
+This.EntityId.ControlSource = vNewVal
+
+ENDPROC
+PROCEDURE documentacion
+*!*	Deber· reemplazar a un combo, cuando la cantidad de registros
+*!*	de la tabla asociada supere los 50.
+*!*	Deber· efectuar una b˙squeda, filtrandola con un criterio, y
+*!*	si encuentra m·s de un registro, llamar al Selector de la entidad
+*!*	correspondiente.
+*!*	El control EntityId estara asociado a la FK de la tabla ( This.CursorName + This.FieldName ).
+*!*	El resto de los controles estara
+*!*	asociado al cursor correspondiente a la entidad ( This.EntityCursor ).
+*!*	Si estos campos no existen en la tabla original,
+*!*	se generaran con el Join correspondiente.
+
+*!*	CursorName: Nombre del cursor que contiene la FK
+*!*	EntityCursor: Nombre del cursor al que estaran asociados los controles internos.
+*!*				Puede quedar vacÌo, porque se autocompleta con oEntity.MainCursorName
+
+
+
+
+ENDPROC
+PROCEDURE expand
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	For Each loControl In Thisform.oColIB
+		loControl.Enabled = .F.
+	Endfor
+
+	This.Enabled = .T.
+	This.oActiveControl.Enabled = .F.
+	This.frmBusquedaRapida.Visible = .T.
+	This.Height = This.Height + This.frmBusquedaRapida.Height
+	This.picContract.Visible = .T.
+	This.picexpand.Visible = .F.
+	This.frmBusquedaRapida.Enabled = .T.
+	This.picContract.Enabled = .T.
+	This.frmBusquedaRapida.Buscador.SetFocus()
+	This.frmBusquedaRapida.ZOrder(0)
+	This.BackStyle = 1
+
+Catch To oErr
+	* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	*!*	Thisform.oError.Remark = ''
+	*!*	Thisform.oError.TraceLogin = ''
+
+Endtry
+
+ENDPROC
+PROCEDURE fillcontrols
+Local lcCursorFieldName As String
+Local lcCursor As String
+Local oCtrl As Object
+Local lnEntityId As Integer
+Local luValue As Variant
+
+Local loField As oField Of "Tools\Sincronizador\colDataBases.prg"
+Local loCtrl As ibString Of InputBoxes.vcx
+Local loEntity As utArchivo Of "FW\Tieradapter\UserTier\utArchivo.prg"
+Local lcName As String
+
+
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	lnEntityId = This.EntityId.Value
+	loEntity = This.oEntity
+
+
+	If Empty( lnEntityId )
+		*!* Si el Id de la Entidad est· vacÌo, blanqueo el registro
+
+		If Used( This.cEntityCursor )
+			Select Alias( This.cEntityCursor )
+			*!*				Delete All
+			Zap && No se puede hacer ZAP porque est· con bufferin
+
+		Else
+			loEntity.GetOne( -1, 1, This.cEntityCursor )
+			Select Alias( This.cEntityCursor )
+
+		Endif
+
+		Append Blank
+		Locate
+
+		If This.lGetFirstFocus = .T.
+			This.oActiveControl.SetFocus()
+		Endif
+
+	Else
+		*!*	Si no, traigo el registro con el Id correspondiente
+		For Each loField In This.oColControls
+			lcName = "cnt" + loField.Name
+			loCtrl = This.Dato.&lcName
+
+			loCtrl.Dato.ControlSource = ""
+		Endfor
+
+		loEntity.GetOne( lnEntityId, 1, This.cEntityCursor )
+
+	Endif
+
+	If Used( This.cEntityCursor )
+
+		For Each loField In This.oColControls
+			lcName = "cnt" + loField.Name
+			loCtrl = This.Dato.&lcName
+
+			If Empty( loCtrl.cCursorName )
+				loCtrl.cCursorName = This.cEntityCursor
+			Endif
+
+			loCtrl.ControlSource = loCtrl.cCursorName + "." + loField.Name
+
+			If ! IsEmpty( This.oActiveControl )
+				If loCtrl.TabIndex = This.oActiveControl.TabIndex
+					loCtrl.ReadOnly = .F.
+
+				Else
+					loCtrl.ReadOnly = .T.
+
+				Endif
+			Endif
+		Endfor
+	Endif
+
+	This.Refresh()
+
+Catch To oErr
+	* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	oCtrl = Null
+	loField = Null
+	loCtrl = Null
+	loEntity = Null
+
+	loError = Null
+	*!*	Thisform.oError.Remark = ''
+	*!*	Thisform.oError.TraceLogin = ''
+
+Endtry
+
+
+ENDPROC
+PROCEDURE findout
+Lparameters tcWhere As String
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+#INCLUDE "FW\TierAdapter\Include\TA.h"
+#INCLUDE "Fw\ErrorHandler\eh.h"
+
+Local lcWhere As String
+Local lcXML As String
+Local lcIdentifier As String
+
+Local loCtrl As ibString Of InputBoxes.vcx
+Local loField As oField Of "Tools\Sincronizador\colDataBases.prg"
+Local lcName As String
+Local loEntity As utArchivo Of "FW\Tieradapter\UserTier\utArchivo.prg"
+
+Local loParam As Object
+Local oCtrl As Object
+Local loSelectorParam As Object
+
+Local lnEntityId As Integer
+
+Local llOk As Boolean
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	lnEntityId = 0
+	llOk = .T.
+	loEntity = This.oEntity
+
+
+	If Empty( tcWhere ) Or Vartype( tcWhere ) # "C"
+
+		For Each loField In This.oColControls
+			lcName = "cnt" + loField.Name
+			loCtrl = This.Dato.&lcName
+
+			loCtrl.Dato.ControlSource = ""
+		Endfor
+
+		lcWhere = This.GetWhereStatement()
+
+	Else
+		lcWhere = tcWhere
+
+	Endif
+
+	lcXML = loEntity.GetByWhere( lcWhere, 1, This.cEntityCursor, SQL_STAT_KEYFINDER )
+
+	lcIdentifier = ParseXML( lcXML, 1 )
+
+	If lcIdentifier = USER_TAG
+		loParam = XmlToObject( ParseXML( lcXML ) )
+		lnReturnValue = loParam.nRowsQuantity
+
+		If loParam.nRowsQuantity = 0
+			Warning( "Dato inexistente" + CR + "Ingreselo nuevamente" )
+			Clear Typeahead
+			* @TODO Damian Eiff 2009-11-11 (17:05:53) Incluir un mensaje
+			This.oActiveControl.SetFocus()
+			llOk = .F.
+
+		Endif && loParam.nRowsQuantity = 0
+
+	Else
+		lnEntityId = Evaluate( This.cEntityCursor + "." + loEntity.cMainCursorPK )
+		*!* Use In Alias( This.cEntityCursor )
+
+	Endif && lcIdentifier = USER_TAG
+
+	If llOk
+
+		If Empty( lnEntityId )
+
+			*!*				loParam = CreateObjParam( "cDataConfigurationKey", loEntity.cDataConfigurationKey,;
+			*!*					"cFilter", Iif( Empty( lcWhere )," 1 > 0 ",lcWhere ))
+
+			loParam = CreateObjParam( "cDataConfigurationKey", loEntity.cDataConfigurationKey,;
+				"cFilter", Iif( Empty( lcWhere ),"",lcWhere ))
+
+			loSelectorParam = CreateObjParam( "Where", lcWhere )
+
+			If This.ClassBeforeLaunchSelector( loSelectorParam, loParam )
+				If This.HookBeforeLaunchSelector( loSelectorParam, loParam )
+
+					loRetVal = This.LaunchSelector( loSelectorParam, loParam )
+
+					If Vartype( loRetVal ) = "O"
+						If loRetVal.Estado = "OK"
+							lnEntityId = loRetVal.Valor
+						Endif
+					Endif
+
+					This.HookAfterLaunchSelector( loSelectorParam, loParam )
+					This.ClassAfterLaunchSelector( loSelectorParam, loParam )
+
+				Endif
+			Endif
+
+		Endif
+
+		This.EntityId.Value = lnEntityId
+
+	Endif
+
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loCtrl = Null
+	loField = Null
+	loEntity = Null
+	oCtrl = Null
+	loParam = Null
+	loSelectorParam = Null
+Endtry
+
+
+
+ENDPROC
+PROCEDURE getfastwherestatement
+Local lcWhere As String
+Local loField As oField Of "Tools\Sincronizador\colDataBases.prg"
+Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	lcWhere = ""
+
+	For Each loField In This.oColFastSearch
+		lcWhere = lcWhere + loField.GetWhereStatement( This.frmBusquedaRapida.Buscador.Value )
+	Endfor
+
+	lcWhere = " 1 = 0 " + lcWhere
+
+Catch To oErr
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+Return lcWhere
+
+ENDPROC
+PROCEDURE getmeasures
+Local loCtrlMeasures As ControlMeasures Of 'fw\comunes\prg\autosetup.prg'
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lnCmdFindOutWidth As Integer
+Local lnPicWidth As Integer
+
+Try
+
+	loCtrlMeasures = DoDefault()
+
+	If This.CmdFindOut.Visible
+		lnCmdFindOutWidth = This.CmdFindOut.Width + This.nGap
+		loCtrlMeasures.nDatoWidth = loCtrlMeasures.nDatoWidth + lnCmdFindOutWidth
+	Endif
+
+	If This.picExpand.Visible Or This.picContract.Visible
+		lnPicWidth = This.picExpand.Width + This.nGap
+		loCtrlMeasures.nDatoWidth = loCtrlMeasures.nDatoWidth + lnPicWidth
+	Endif
+
+
+Catch To oErr
+	* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+Return loCtrlMeasures
+
+ENDPROC
+PROCEDURE getwherecondition
+Lparameters loCtrl As Object
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+*--------------------------------------------------------
+* Arma la clausula WHERE de la instruccion SQL a ejecutar.
+*--------------------------------------------------------
+Local lcWhere As String	,;
+	lcValue As String	,;
+	lcFieldName As String
+Local llOk As Boolean
+
+Local lcFieldType As Character
+Local loField As oField Of "Tools\Sincronizador\colDataBases.prg"
+Local loTable As oTable Of "Tools\Sincronizador\colDataBases.prg"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	loField = loCtrl.oField
+	loTable = loField.oParent
+
+	Do Case
+		Case Lower( loField.FieldType ) = "blob"
+			lcFieldType = "W"
+
+		Case Lower( loField.FieldType ) = "character"
+			lcFieldType = "C"
+
+		Case Lower( loField.FieldType ) = "currency"
+			lcFieldType = "N"
+
+		Case Lower( loField.FieldType ) = "datetime"
+			lcFieldType = "T"
+
+
+		Case Lower( loField.FieldType ) = "date"
+			lcFieldType = "D"
+
+		Case Lower( loField.FieldType ) = "general"
+			lcFieldType = "G"
+
+		Case Lower( loField.FieldType ) = "integer"
+			lcFieldType = "N"
+
+		Case Lower( loField.FieldType ) = "logical"
+			lcFieldType = "L"
+
+		Case Lower( loField.FieldType ) = "memo"
+			lcFieldType = "M"
+
+		Case Lower( loField.FieldType ) = "numeric"
+			lcFieldType = "N"
+
+		Case Lower( loField.FieldType ) = "float"
+			lcFieldType = "N"
+
+		Case Lower( loField.FieldType ) = "varbinary"
+			lcFieldType = "Q"
+
+		Case Lower( loField.FieldType ) = "varchar"
+			lcFieldType = "C"
+
+		Case Lower( loField.FieldType ) = "double"
+			lcFieldType = "N"
+
+		Otherwise
+			lcFieldType = ""
+
+	Endcase
+
+	lcWhere = ""
+
+	llOk = !Empty( loCtrl.Value )
+
+
+	If llOk
+		If !Inlist( lcFieldType, T_CHARACTER, T_NUMERIC, T_DATE, T_DATETIME )
+			Assert .F. Message "No se reconoce el tipo " + lcFieldType + " en " + loCtrl.Name
+			llOk = .F.
+
+		Endif
+	Endif
+
+	If llOk
+		If !Inlist( loField.cDefaultCondition, "%", "!#", "like" )
+			Assert .F. Message "No se reconoce la condicion " + loField.cDefaultCondition + " en " + loCtrl.Name
+			llOk = .F.
+
+		Endif
+	Endif
+
+	If llOk
+		loCtrl.Value = ForceType( loCtrl.Value, lcFieldType )
+
+
+		If Not loField.CaseSensitive And ( lcFieldType == T_CHARACTER )
+			lcFieldName = " lower(" + loField.Name + ")"
+
+		Else
+			lcFieldName = loField.Name
+
+		Endif
+
+		Do Case
+			Case Vartype( loCtrl.Value ) = T_CHARACTER
+				lcValue = "'" + Alltrim( loCtrl.Value ) + "'"
+				If Not loField.CaseSensitive
+					lcValue = Lower( lcValue )
+				Endif
+
+			Case Vartype( loCtrl.Value ) = T_DATE
+				If Not Empty( loCtrl.Value )
+					lcValue = "<#" + Dtoc( loCtrl.Value ) + "#>"
+
+				Else
+					lcValue = "<##>"
+
+				Endif
+
+			Case Vartype( loCtrl.Value ) = T_DATETIME
+				If Not Empty( loCtrl.Value )
+					lcValue = "<$" + Ttoc( loCtrl.Value ) + "$>"
+
+				Else
+					lcValue = "<$$>"
+
+				Endif
+
+			Case Vartype( loCtrl.Value )= T_NUMERIC
+				lcValue = Alltrim( Str( loCtrl.Value ) )
+
+				If lcFieldType = T_CHARACTER
+					lcValue = 'Str( ' + lcValue + ', ' + Any2Char( loField.FieldWidth ) + ' )'
+				Endif
+		Endcase
+
+
+		lcWhere = " And (" + lcFieldName
+		Do Case
+			Case loField.cDefaultCondition = "like"
+				lcWhere = lcWhere + " like '" + Strtran( lcValue, "'", "" ) + "%'"
+
+			Case loField.cDefaultCondition = "%"
+				lcWhere = lcWhere + " like '%" + Strtran( lcValue, "'", "" ) + "%'"
+
+			Case loField.cDefaultCondition = "!#"
+				lcWhere = lcWhere + " = " + lcValue
+
+			Case loField.cDefaultCondition = "#"
+				lcWhere = lcWhere + " <> " + lcValue
+
+			Otherwise
+				lcWhere = lcWhere + " " + Alltrim( loField.cDefaultCondition )
+				lcWhere = lcWhere + " " + lcValue
+
+		Endcase
+
+		lcWhere = lcWhere + ")"
+
+	Endif
+
+
+Catch To oErr
+	* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loField = Null
+	loTable = Null
+
+	loError = Null
+	*!*	Thisform.oError.Remark = ''
+	*!*	Thisform.oError.TraceLogin = ''
+
+Endtry
+
+Return ( lcWhere )
+
+ENDPROC
+PROCEDURE getwherestatement
+Local niCount As Integer
+Local lcWhere As String
+Local loCtrl As Object
+
+lcWhere = ""
+
+lcWhere = This.GetWhereCondition( This.oActiveControl )
+
+If !Empty( lcWhere )
+	If Substr( lcWhere,1,6) = " And ("
+		lcWhere = Substr( lcWhere, 6)
+	EndIf
+	
+*!*	Else
+*!*		lcWhere = " 1 > 0 "
+	 	
+Endif
+
+Return ( lcWhere )
+
+
+ENDPROC
+PROCEDURE handlegotfocus
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loLastControl As ibString Of "Fw\Comunes\Vcx\InputBoxes.vcx"
+Local loActiveControl As ibString Of "Fw\Comunes\Vcx\InputBoxes.vcx"
+
+Try
+
+	If !This.lHandlingEvents
+		This.lHandlingEvents = .T.
+
+		Aevents( laEvent, 0 )
+
+		loActiveControl = laEvent[ 1, 1 ]
+		loLastControl = This.oActiveControl
+
+		If Vartype( loLastControl ) = "O"
+
+			Do Case
+				Case Empty( loLastControl.Value )
+					loLastControl.Dato.ReadOnly = .T.
+					This.oLastControl = This.oActiveControl
+					This.oActiveControl = loActiveControl
+					loActiveControl.Dato.ReadOnly = .F.
+					loActiveControl.Dato.Value = ForceType( "", Vartype( loActiveControl.Dato.Value ))
+					This.lHandlingEvents = .F.
+
+				Case !Empty( loLastControl.Value )
+					*!*					This.oActiveControl.SetFocus()
+
+				Otherwise
+
+			Endcase
+		Endif
+
+	Else
+		This.lHandlingEvents = .F.
+
+	Endif
+
+
+Catch To oErr
+	* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr, !IsRuntime() )
+
+Finally
+	loActiveControl = Null
+	loLastControl = Null
+	laEvent = Null
+	loError = Null
+	*!*	Thisform.oError.Remark = ''
+	*!*	Thisform.oError.TraceLogin = ''
+
+Endtry
+
+ENDPROC
+PROCEDURE handlekeypress
+Lparameters  nKeyCode, nShiftAltCtrl
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loCtrl As ibString Of "InputBoxes.vcx"
+Local loDato As TextBox
+
+Local llExit As Boolean
+
+Try
+
+	llExit = .F.
+
+	Do Case
+
+		Case nKeyCode = KEY_CTRL_F
+			This.Expand()
+
+		Case nShiftAltCtrl = KEY_SHIFT_DOWN
+			Thisform.KeyPress( nKeyCode, nShiftAltCtrl )
+
+		Case nShiftAltCtrl = KEY_CTRL_DOWN
+			Thisform.KeyPress( nKeyCode, nShiftAltCtrl )
+
+		Case nShiftAltCtrl = KEY_ALT_DOWN
+			Thisform.KeyPress( nKeyCode, nShiftAltCtrl )
+
+		Otherwise
+			If Inlist( nKeyCode,;
+					KEY_F3,;
+					KEY_ENTER,;
+					KEY_FLECHA_ARRIBA,;
+					KEY_FLECHA_ABAJO,;
+					KEY_FLECHA_DERECHA,;
+					KEY_FLECHA_IZQUIERDA,;
+					KEY_TAB )
+
+				Aevents( laEvent, 0 )
+				loDato = laEvent[ 1, 1 ]
+				loCtrl = loDato.Parent
+
+				Do Case
+					Case Empty( loDato.Value )
+						This.Expand()
+
+						If Inlist( nKeyCode,;
+								KEY_ENTER,;
+								KEY_FLECHA_ABAJO,;
+								KEY_FLECHA_DERECHA,;
+								KEY_TAB )
+
+							Keyboard '{UPARROW}'
+
+						Else
+							Keyboard '{DNARROW}'
+
+						Endif
+
+					Otherwise
+
+						If Vartype( loCtrl.uOldValue ) = Vartype( loDato.Value )
+							If loCtrl.uOldValue # loDato.Value
+								This.FindOut()
+								llExit = .T.
+							Endif
+
+						Else
+							loCtrl.uOldValue = loDato.Value
+
+							If !Empty( loDato.Value )
+								This.FindOut()
+								llExit = .T.
+
+							Endif
+
+						Endif
+				Endcase
+
+			Else
+				Thisform.KeyPress( nKeyCode, nShiftAltCtrl )
+
+			Endif
+
+	Endcase
+
+	If llExit = .T.
+		This.EntityId.SetFocus()
+	Endif
+
+Catch To oErr
+	* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loDato = Null
+	loCtrl = Null
+	loError = Null
+	*!*	Thisform.oError.Remark = ''
+	*!*	Thisform.oError.TraceLogin = ''
+
+Endtry
+
+ENDPROC
+PROCEDURE handlenextfocus
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+
+Catch To oErr
+	*!*	loError = ThisForm.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	*!*	ThisForm.oError.Remark = ''
+	*!*	ThisForm.oError.TraceLogin = ''
+
+Endtry
+
+ENDPROC
+PROCEDURE hookafterlaunchselector
+Lparameters toSelectorParam as Object, toParam as Object
+ENDPROC
+PROCEDURE hookbeforelaunchselector
+Lparameters toSelectorParam As Object, toParam As Object
+
+Return .T.
+
+ENDPROC
+PROCEDURE hookonparentchange
+Lparameters lcFilterCriteria
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	* @TODO Danny Amerikaner 2009-10-21 (12:22:51)
+	* Ver como se agrega/cambia el filtro al keyfinder
+
+Catch To oErr
+	* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	*!*	Thisform.oError.Remark = ''
+	*!*	Thisform.oError.TraceLogin = ''
+
+Endtry
+
+ENDPROC
+PROCEDURE hookonparentclear
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	* @TODO Danny Amerikaner 2009-10-21 (12:23:29) Implementar el vaciado del keyfinder
+
+Catch To oErr
+	*!*	loError = ThisForm.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	*!*	ThisForm.oError.Remark = ''
+	*!*	ThisForm.oError.TraceLogin = ''
+
+Endtry
+
+ENDPROC
+PROCEDURE hooksubscribe
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	If Pemstatus( Thisform, "oColKeyFinder", 5 )
+		* DA 2009-10-21(09:59:16)
+		* Lo agregamos con AddItem y el cKeyName
+		Thisform.oColKeyFinder.AddItem( This, This.cKeyName )
+
+	Endif && Pemstatus( Thisform, "oColKeyFinder", 5 )
+
+	This.AddControls()
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROCPROCEDURE hooksubscribetoparent
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loParent As Object
+Local loEntity As Object
+
+Try
+	loParent = This.oParent
+	loEntity = This.oEntity
+
+	Bindevent( loParent, "OnChange", loEntity, "HookOnParentChange" )
+	Bindevent( loParent, "OnClear", loEntity, "HookOnClear" )
+
+Catch To oErr
+	*!*	loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+
+	loParent = Null
+	loEntity = Null
+	*!*	loError = Thisform.oError
+	*!*	loError.Remark = ''
+	*!*	loError.TraceLogin = ''
+	loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE keypress
+Lparameters nKeyCode, nShiftAltCtrl
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+Do Case
+	Case nShiftAltCtrl = KEY_CTRL_DOWN And Inlist( nKeyCode, Asc( "F" ), Asc( "f" ) )
+		This.Expand()
+
+	Otherwise
+		DoDefault( nKeyCode, nShiftAltCtrl )
+
+Endcase
+
+ENDPROC
+PROCEDURE launchselector
+Lparameters toSelectorParam As Object, toParam As Object
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loRetVal As Object
+
+Try
+
+	loRetVal = LaunchForm( This.oEntity.GetSelectorFormName( toSelectorParam  ),;
+		toParam ,;
+		.T. )
+
+Catch To oErr
+	*!*	loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	*!*	Thisform.oError.Remark = ''
+	*!*	Thisform.oError.TraceLogin = ''
+
+Endtry
+
+Return loRetVal
+
+ENDPROC
+PROCEDURE oactivecontrol_access
+
+If Vartype( This.oActiveControl ) # "O"
+	* This.oActiveControl = This.Dato.Objects.Item[ 1 ]
+	This.oActiveControl = This.Dato.Objects( 1 )
+
+Endif && Vartype( This.oActiveControl ) # "O"
+
+Return This.oActiveControl
+
+ENDPROC
+PROCEDURE ocolcontrols_access
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loEntity As Object
+Try
+	If Vartype( This.oColControls ) # 'O'
+		loEntity = This.oEntity
+		Assert Vartype( loEntity ) = 'O' Message 'oEntity no es un objeto'
+		This.oColControls = loEntity.oColKeyFinderControls
+
+	Endif && Vartype( .oColControls ) # 'O'
+
+Catch To oErr
+	* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+
+	Throw loError
+
+Finally
+	loError = Null
+	loEntity = Null
+
+Endtry
+
+Return This.oColControls
+
+ENDPROC
+PROCEDURE ocolfastsearch_access
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loEntity As Object
+
+Try
+	If Vartype( This.oColFastSearch ) # 'O'
+		loEntity = This.oEntity
+		Assert Vartype( loEntity ) = 'O' Message 'oEntity no es un objeto'
+		This.oColFastSearch = loEntity.oColKeyFinderFastSearch
+
+	Endif
+
+
+Catch To oErr
+	* loError = Thisform.oError
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	loEntity = Null
+
+Endtry
+
+Return This.oColFastSearch
+
+ENDPROC
+PROCEDURE oentity_access
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loEntity As utArchivo Of "FW\TierAdapter\UserTier\utArchivo.prg"
+Try
+    If Vartype( This.oEntity ) # 'O' And !Thisform.lExit
+        *!*	This.oEntity = Thisform.oEntity.GetEntity( This.cDataConfigurationKey )
+        *!*	This.SetupEntity( This.oEntity )
+        *!*	This.oEntity.GetOne( -1, 1, This.oEntity.cEntityCursor )
+        loEntity = Thisform.oEntity.GetEntity( This.cDataConfigurationKey )
+        This.SetupEntity( loEntity )
+        loEntity.GetOne( -1, 1, loEntity.cEntityCursor )
+        This.oEntity = loEntity
+
+    Endif
+
+Catch To oErr
+    * DAE 2009-09-29(16:19:00)
+    * loError = This.oError
+    * loError = Thisform.oError
+    loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+    This.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+    loEntity = Null
+
+Endtry
+
+Return This.oEntity
+
+ENDPROC
+PROCEDURE oparent_access
+* DA 2009-10-21(12:18:09)
+Local i As Integer
+Local loControl As Container
+
+Try
+
+	If Vartype( This.oParent ) # "O" And This.lIsChild And !Thisform.lExit
+
+		If Pemstatus( Thisform, "oColIB", 5 )
+
+			i = Thisform.oColIB.GetKey( Lower( This.cParentDataConfigurationKey ) )
+
+			If ! Empty( i )
+				loControl = Thisform.oColIB.Item( i )
+				This.oParent = loControl.oEntity
+
+			Endif
+
+		Else
+			This.oParent = Thisform.oEntity.GetEntity( This.cParentDataConfigurationKey )
+
+		EndIf
+		
+	Endif
+
+Catch To oErr
+	Throw oErr
+
+Finally
+	loControl = Null
+
+Endtry
+
+Return This.oParent
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+9[END RESERVED2]
+[START RESERVED3]
+centitycursor Nombre del cursor Asociado a la Entidad. Si est· vacÌo, lo toma de oUserTier.MainCursorName.
+nactivecontrol Referencia al indice del control activo
+ocolcontrols ColecciÛn de Entidades
+cdataconfigurationkey
+lloop Indica si con Enter contin˙a recorriendo los controles internos luego de llegar al ˙ltimo, o pasa el foco al siguiente control
+oentity Llena la colecciÛn de entidades
+ofirstfocus Referencia al control que tomar· el primer foco
+oactivecontrol Referencia al control activo
+olastcontrol
+lhandlingevents
+uoldvalue
+ocolfastsearch
+lischild
+oparent
+cparentdataconfigurationkey
+lcontrolsinsamerow Indica si los controles internos se ubican en una misma lÌnea
+*fillcontrols Trae un cursor con la entidad definida en This.ControlSource y llena todos los controles
+*findout 
+*getbywhere Obtiene un registro a partir de una condicion
+*getwherecondition Obtiene la cl·usula Where para cada filtro
+*getwherestatement Obtiene la cl·usula Where completa
+*centitycursor_access 
+*ocolcontrols_access 
+*oentity_access 
+*addcontrols 
+*handlegotfocus 
+*handlekeypress 
+*launchselector 
+*classbeforelaunchselector 
+*hookbeforelaunchselector 
+*hookafterlaunchselector 
+*classafterlaunchselector 
+*expand 
+*contract 
+*keypress Occurs when the user presses and releases a key.
+*getfastwherestatement 
+*ocolfastsearch_access 
+*oparent_access 
+*hooksubscribetoparent 
+*hookonparentchange 
+*hookonparentclear 
+*oactivecontrol_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _24911KWUG
+[CLASS] kfentityid
+[CLASSLOC] keyfinder.vcx
+[BASECLASS] textbox
+[OBJNAME] EntityId
+[PARENT] kfcontainer
+[START PROPERTIES]
+Left = -500
+TabIndex = 5
+TabStop = .F.
+Top = -500
+Visible = .F.
+Name = "EntityId"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE value_assign
+Lparameters vNewVal
+
+If This.Value <> m.vNewVal
+	This.Value = m.vNewVal
+	This.Parent.FillControls()
+	* DA 2009-10-21(09:58:28)
+	* Si hay un control como hijo, cambia autom·ticamente
+	This.Parent.oEntity.InteractiveChange( This.Value )
+Endif
+
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2HG0MSGXO
+[CLASS] ibcheckbutton
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdFindOut
+[PARENT] kfcontainer
+[START PROPERTIES]
+Top = 0
+Left = 372
+Width = 27
+Picture = ..\image\bmp\find.bmp
+TabIndex = 3
+TabStop = .F.
+ToolTipText = "B˙squeda Avanzada"
+Name = "cmdFindOut"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+This.Parent.FindOut()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PW0UIJUU
+[CLASS] kfdatocontainer
+[CLASSLOC] keyfinder.vcx
+[BASECLASS] container
+[OBJNAME] Dato
+[PARENT] kfcontainer
+[START PROPERTIES]
+Top = 0
+Left = 98
+Width = 274
+Height = 27
+TabIndex = 2
+Name = "Dato"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE controlsource_assign
+Lparameters tControlSource As String
+
+This.ControlSource = tControlSource
+This.Parent.EntityId.ControlSource = tControlSource
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2RL0K4UQ5
+[CLASS] prximage
+[CLASSLOC] prxbase.vcx
+[BASECLASS] image
+[OBJNAME] picContract
+[PARENT] kfcontainer
+[START PROPERTIES]
+Picture = ..\image\bmp\arrowup.bmp
+BackStyle = 0
+Height = 16
+Left = 400
+Top = 0
+Width = 16
+ToolTipText = "Cerrar B˙squeda R·pida"
+Name = "picContract"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Contract()
+This.Parent.SetFocus()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.MousePointer = 15
+
+
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2RL0K4UQ6
+[CLASS] prximage
+[CLASSLOC] prxbase.vcx
+[BASECLASS] image
+[OBJNAME] picExpand
+[PARENT] kfcontainer
+[START PROPERTIES]
+Picture = ..\image\bmp\arrowdown.bmp
+Stretch = 0
+BackStyle = 0
+Height = 16
+Left = 400
+Top = 16
+Width = 16
+ToolTipText = "B˙squeda R·pida"
+Name = "picExpand"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Expand()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.MousePointer = 15
+
+
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2RO0WTIO7
+[CLASS] marcosimple
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] frmBusquedaRapida
+[PARENT] kfcontainer
+[START PROPERTIES]
+Top = 29
+Left = 44
+Width = 400
+Height = 38
+BackStyle = 1
+nleftpadding = 8
+nrightpadding = 8
+ntoppadding = 2
+nbottompadding = 2
+Name = "frmBusquedaRapida"
+Shape.Top = 2
+Shape.Left = 12
+Shape.Height = 32
+Shape.Width = 372
+Shape.Name = "Shape"
+shpLabel.Top = -500
+shpLabel.Visible = .F.
+shpLabel.Name = "shpLabel"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE classafterinit
+This.BorderWidth = 0
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2RO0WTIPL
+[CLASS] prxtextbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] textbox
+[OBJNAME] Buscador
+[PARENT] kfcontainer.frmBusquedaRapida
+[START PROPERTIES]
+Format = "K"
+Height = 21
+Left = 68
+Top = 7
+Width = 308
+Name = "Buscador"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    DoDefault()
+    This.BackColor = Rgb( 220, 255, 255 )
+
+Catch To oErr
+* loError = Thisform.oError
+    	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE KeyPress
+Lparameters  nKeyCode, nShiftAltCtrl
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lcWhere As String
+
+Try
+
+	Do Case
+		Case  nKeyCode = KEY_ENTER
+			lcWhere = This.Parent.Parent.GetFastWhereStatement()
+			If !Empty( lcWhere )
+				This.Parent.Parent.FindOut( lcWhere )
+
+			Endif
+
+			This.Parent.Parent.Contract()
+
+		Case  nKeyCode = KEY_ESCAPE
+			Keyboard  "" Clear
+			This.Parent.Parent.Contract()
+
+		Otherwise
+			DoDefault( nKeyCode, nShiftAltCtrl )
+
+	Endcase
+
+
+
+Catch To oErr
+	* loError = Thisform.oError
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+ENDPROC
+PROCEDURE LostFocus
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    DoDefault()
+    This.BackColor= Rgb( 255, 255, 255 )
+
+Catch To oErr
+   * loError = Thisform.oError
+   	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2RO0WTIQS
+[CLASS] iblabel
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] label
+[OBJNAME] lblBuscar
+[PARENT] kfcontainer.frmBusquedaRapida
+[START PROPERTIES]
+AutoSize = .T.
+FontBold = .T.
+Caption = "Buscar"
+Left = 20
+Top = 9
+ForeColor = 255,0,0
+Name = "lblBuscar"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] kfcontainer
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hNjc›P ..\include\foxpro.hV r˚F ..\include\strings.h^ ZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.hf!ê±ŸF ..\include\foxpro.hn" r˚F* ..\..\..\tools\namespaces\include\system.hv#±ŸF ..\..\tieradapter\include\ta.h~$tô˜F ..\..\errorhandler\eh.hÜ%TeHK ..\include\praxis.hé&jc›P ..\include\foxpro.hñ' r˚F ..\include\strings.hû(ZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h¶)ê±ŸF ..\include\foxpro.hÆ* r˚F* ..\..\..\tools\namespaces\include\system.h∂+±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _23X1401EZ
+[CLASS] prxtextbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] textbox
+[OBJNAME] kfbasecontrol
+[START PROPERTIES]
+Height = 25
+InputMask = "999999"
+Margin = 0
+Width = 242
+DisabledForeColor = 0,0,255
+oentity = .NULL.
+cdataconfigurationkey = 
+lisfirstfocus = .F.
+lislastfocus = .F.
+lautosetup = .T.
+nlength = 1
+_memberdata =      273<VFPData><memberdata name="cdataconfigurationkey" display="cDataConfigurationKey"/><memberdata name="lisfirstfocus" display="lIsFirstFocus"/><memberdata name="lislastfocus" display="lIsLastFocus"/><memberdata name="getwherecondition" display="GetWhereCondition"/></VFPData>
+Name = "kfbasecontrol"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE KeyPress
+Lparameters nKeyCode, nShiftAltCtrl
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Debugout Datetime(), This.Name, 'KeyPress', Transform( nKeyCode ), Transform( nShiftAltCtrl )
+
+DoDefault( nKeyCode, nShiftAltCtrl )
+
+*!*	Do Case
+*!*	    Case nShiftAltCtrl = 0
+*!*	        Do Case
+*!*	            Case nKeyCode = KEY_ENTRAR
+*!*	                If Empty( This.Value )                	
+*!*	                    If This.GetLastFocus
+*!*	                        This.Parent.Parent.FindOut()
+*!*	                    Endif
+*!*	                Else
+*!*	                    If This.Parent.Parent.cActiveControlValue <> This.Value
+*!*	                        * Se modifico el valor, hay que validar
+*!*	                        This.Parent.Parent.FindOut()
+*!*	                        This.Parent.Parent.cActiveControlValue = This.Value
+*!*	                    Endif
+*!*	                Endif
+*!*	            Otherwise
+*!*	                DoDefault( nKeyCode, nShiftAltCtrl )
+*!*	        Endcase
+*!*	    Otherwise
+*!*	        DoDefault( nKeyCode, nShiftAltCtrl )
+*!*	Endcase
+
+
+
+
+
+*!*	Do Case
+*!*		Case nShiftAltCtrl = 0
+*!*			Do Case
+*!*				Case nKeyCode = KEY_ENTRAR
+
+*!*					If Empty( This.Value )
+*!*						If This.GetLastFocus
+*!*							This.Parent.Parent.FindOut()
+*!*						Endif
+
+*!*					Else
+*!*						This.Parent.Parent.FindOut()
+
+*!*					Endif
+
+*!*				Otherwise
+*!*					DoDefault( nKeyCode, nShiftAltCtrl )
+*!*
+*!*			Endcase
+
+
+*!*		Otherwise
+*!*			DoDefault( nKeyCode, nShiftAltCtrl )
+
+*!*	Endcase
+
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+
+ENDPROC
+PROCEDURE When
+
+Debugout Datetime(), This.Name, 'When'
+ENDPROC
+PROCEDURE getwherecondition
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+*--------------------------------------------------------
+* Arma la clausula WHERE de la instruccion SQL a ejecutar.
+*--------------------------------------------------------
+Local lcWhere As String	,;
+	lcValue As String	,;
+	lcFieldName As String
+Local llOk As Boolean
+
+lcWhere = ""
+
+With This as TextBox
+	llOk = !Empty( .Value )
+	
+	If Empty( .SourceFieldName )
+		Assert .F. Message "Falta Definir SourceFieldName en " + loCtrl.Name
+		llOk = .F.
+	Endif
+
+	If llOk
+		If !Inlist( .FieldType, T_CHARACTER, T_NUMERIC, T_DATE, T_DATETIME )
+			Assert .F. Message "No se reconoce el tipo " + .FieldType + " en " + .Name
+			llOk = .F.
+
+		Endif
+	Endif
+
+	If llOk
+		If !Inlist( .DefaultCondition, "like", "%", "!#" )
+			Assert .F. Message "No se reconoce la condicion " + .DefaultCondition + " en " + .Name
+			llOk = .F.
+
+		Endif
+	Endif
+
+	If llOk
+		.Value = ForceType( .Value, .FieldType )
+
+
+		If Not .CaseSensitive And ( .FieldType == T_CHARACTER )
+			lcFieldName = " Lower(" + .SourceFieldName + ")"
+		Else
+			lcFieldName = .SourceFieldName
+		Endif
+		Do Case
+			Case Vartype( .Value ) = T_CHARACTER
+				lcValue = "'" + Alltrim( .Value ) + "'"
+				If Not .CaseSensitive
+					lcValue = Lower( lcValue )
+				Endif
+			Case Vartype( .Value ) = T_DATE
+				If Not Empty( .Value )
+					lcValue = "<#" + Dtoc( .Value ) + "#>"
+				Else
+					lcValue = "<##>"
+				Endif
+
+			Case Vartype( .Value ) = T_DATETIME
+				If Not Empty( .Value )
+					lcValue = "<$" + Ttoc( .Value ) + "$>"
+				Else
+					lcValue = "<$$>"
+				Endif
+
+			Case Vartype( .Value )= T_NUMERIC
+				lcValue = Alltrim( Str( .Value ) )
+				
+				If .SourceFieldType = T_CHARACTER
+					***lcValue = [']+Str( loCtrl.Value, loCtrl.SourceFieldWidth )+[']
+					lcValue = 'Str( ' + lcValue + ', ' + Any2Char(.SourceFieldWidth) + ')'
+				EndIf
+		Endcase
+
+
+		lcWhere = " And (" + lcFieldName
+		Do Case
+			Case .DefaultCondition = "like"
+				lcWhere = lcWhere + " like '" + Strtran( lcValue, "'", "" ) + "%'"
+
+			Case .DefaultCondition = "%"
+				lcWhere = lcWhere + " like '%" + Strtran( lcValue, "'", "" ) + "%'"
+
+			Case .DefaultCondition = "!#"
+				lcWhere = lcWhere + " = " + lcValue
+
+			Case .DefaultCondition = "#"
+				lcWhere = lcWhere + " <> " + lcValue
+
+			Otherwise
+				lcWhere = lcWhere + " " + Alltrim( .DefaultCondition )
+				lcWhere = lcWhere + " " + lcValue
+
+		Endcase
+		lcWhere = lcWhere + ")"
+
+
+	Endif
+
+Endwith
+Return ( lcWhere )
+
+ENDPROC
+PROCEDURE oentity_access
+return This.oEntity
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+fieldname
+samerowasprevious
+oentity
+cdataconfigurationkey
+lisfirstfocus
+lislastfocus Indica si el control es el ˙ltimo en tomar foco.
+*getwherecondition Obtiene la Cl·usula WHERE para el control
+*oentity_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] kfbasecontrol
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hÕjc›P ..\include\foxpro.hŒ r˚F ..\include\strings.hœZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h–ê±ŸF ..\include\foxpro.h&— r˚F* ..\..\..\tools\namespaces\include\system.h.“±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _249119GNK
+[CLASS] prxtextbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] textbox
+[OBJNAME] kfentityid
+[START PROPERTIES]
+Alignment = 3
+Value = 0
+Name = "entityid"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE value_assign
+LPARAMETERS vNewVal
+*To do: Modify this routine for the Assign method
+THIS.Value = m.vNewVal
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+*value_assign 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] kfentityid
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PU0L4Y5G
+[CLASS] kfcontainer
+[CLASSLOC] keyfinder.vcx
+[BASECLASS] container
+[OBJNAME] kfkeyfinder
+[START PROPERTIES]
+Name = "kfkeyfinder"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+entityid.Name = "entityid"
+cmdFindOut.Name = "cmdFindOut"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] kfkeyfinder
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PW0UDBM1
+[CLASS] marcoinvisible
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] kfdatocontainer
+[START PROPERTIES]
+Width = 197
+Height = 27
+controlsource = 
+nlength = 0
+_memberdata =     2103<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="fittoparent" type="method" display="FitToParent"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="nBottomPadding" type="Property" favorites="True"/><memberdata name="oldshapecolor" type="property" display="OldShapeColor"/><memberdata name="lresalttittle" type="property" display="lResaltTittle" favorites="True"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="readonly" type="property" display="ReadOnly" favorites="True"/><memberdata name="readonly_assign" type="property" display="ReadOnly_Assign"/><memberdata name="lfittoparent" type="property" display="lFitToParent" favorites="True"/><memberdata name="nfitmode" type="property" display="nFitMode" favorites="True"/><memberdata name="lsamerowasprevius" type="property" display="lSameRowAsPrevius"/><memberdata name="lsamerowasprevious" type="property" display="lSameRowAsPrevious" favorites="True"/><memberdata name="enabled_assign" type="method" display="Enabled_Assign"/><memberdata name="lsubscribetohandleevents" type="property" display="lSubscribeToHandleEvents" favorites="True"/><memberdata name="ocolobjects" type="property" display="oColObjects"/><memberdata name="tabindex" type="property" favorites="True"/><memberdata name="lresalttitle" type="property" display="lResaltTitle" favorites="True"/><memberdata name="oentity" type="property" display="oEntity"/><memberdata name="oentity_access" type="method" display="oEntity_Access"/><memberdata name="controlsource" type="property" display="ControlSource"/><memberdata name="controlsource_assign" display="ControlSource_Assign"/><memberdata name="nlength" type="property" display="nLength"/></VFPData>
+
+Name = "kfdatocontainer"
+Shape.Top = -500
+Shape.Height = 10
+Shape.Name = "Shape"
+shpLabel.Top = -500
+shpLabel.Visible = .F.
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE controlsource_assign
+lparameters tControlSource
+This.ControlSource = tControlSource
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+controlsource Specifies the source of data to which an object is bound.
+nlength
+*controlsource_assign 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] kfdatocontainer
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2RK10I74Y
+[CLASS] ibstring
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibkeyfinder
+[START PROPERTIES]
+Width = 470
+Height = 94
+contractedwidth = 0
+contractedheight = 0
+_memberdata =      405<VFPData><memberdata name="expand" display="Expand"/><memberdata name="contract" display="Contract"/><memberdata name="lexpanded" display="lExpanded"/><memberdata name="contractedwidth" display="ContractedWidth"/><memberdata name="contractedheight" display="ContractedHeight"/><memberdata name="expandedwidth" display="ExpandedWidth"/><memberdata name="expandedheight" display="ExpandedHeight"/></VFPData>
+expandedwidth = 0
+expandedheight = 0
+Name = "ibkeyfinder"
+Label.Name = "Label"
+CheckButton.Top = 0
+CheckButton.Left = 300
+CheckButton.Height = 21
+CheckButton.Picture = ..\image\bmp\find.bmp
+CheckButton.DisabledPicture = ..\image\bmp\#find.bmp
+CheckButton.Visible = .T.
+CheckButton.Name = "CheckButton"
+Dato.Width = 250
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE contract
+
+With This As ibKeyFinder Of fw\comunes\vcx\InputBoxes.vcx
+
+	If ! .lExpanded
+		.lExpanded = .T.
+		.picExpand.Visible = .F.
+		.picContract.Visible = .T.
+		.picExpand.ToolTipText = 'Contrae los Botones de NavegaciÛn'
+		
+		* DAE 2009-07-31(12:49:24)
+		.cmdFirst.TabStop = .T.
+		.CmdLast.TabStop = .T.
+		.cmdNext.TabStop = .T.
+		.cmdPrior.TabStop = .T.
+		.orderBy.TabStop = .T.
+
+		.Width = .ExpandedWidth
+		.Height = .ExpandedHeight
+		.Top = Thisform.Height - Thisform.nBottomPadding - .Height
+		.ZOrder( 0 )
+		.ToolTipText = ''
+
+	Endif && ! .lExpanded
+
+Endwith
+
+ENDPROC
+PROCEDURE expand
+Lparameters tlFirstTime As Boolean
+
+With This As ibKeyFinder Of fw\comunes\vcx\InputBoxes.vcx
+
+	If .lExpanded
+		.lExpanded = .F.
+		.Width = .ContractedWidth
+		.Height = .ContractedHeight
+		If ! tlFirstTime
+			.Top = Thisform.Height - Thisform.nBottomPadding - .Height
+		Endif
+		.picExpand.Top = Int( Abs( .Height - .picExpand.Height ) / 2 )
+		.picContract.Top = Int( Abs( .Height - .picContract.Height ) / 2 )
+		.ToolTipText = "Expande los Botones de NavegaciÛn"
+		.picExpand.Visible = .T.
+		.picExpand.ToolTipText = .ToolTipText
+		.picContract.Visible = .F.
+		.picContract.ToolTipText = ''
+
+		* DAE 2009-07-31(12:49:24)
+		.cmdFirst.TabStop = .F.
+		.CmdLast.TabStop = .F.
+		.cmdNext.TabStop = .F.
+		.cmdPrior.TabStop = .F.
+		.orderBy.TabStop = .F.
+
+		*!* If Pemstatus( Thisform, 'ActiveControl', 5 ) ;
+		*!*		And Vartype( Thisform.ActiveControl ) = 'O' ;
+		*!*	    And Pemstatus( Thisform.ActiveControl, 'SetFocus', 5 )
+		If Type( 'Thisform.ActiveControl' ) = 'O' ;
+				And Pemstatus( Thisform.ActiveControl, 'SetFocus', 5 )
+			Thisform.ActiveControl.SetFocus()
+
+		Endif
+
+		Thisform.Activate()
+		Thisform.oGlobalSettings.oApp.SynchronizeButtons()
+
+	Endif && .lExpanded
+
+Endwith
+
+ENDPROC
+PROCEDURE hookafterautosetup
+Lparameters tlOnlyPosition As Boolean
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	With This As ibKeyFinder Of fw\comunes\vcx\InputBoxes.vcx
+
+		lnLeft = .nLeftPadding
+		lnTop = .nTopPadding
+		lnHeight = 0
+		lnWidth = 0
+
+		With .picExpand
+			If .Visible
+				.Move( Int( Abs( This.Width - .Width ) / 2 ) , 0 )
+				
+				lnLeft = lnLeft + .Width
+				lnHeight = Max( lnHeight, .Height )
+			Endif
+		Endwith
+
+		With .picContract
+			If .Visible
+				.Move( This.picExpand.Left, 0 )
+
+			Endif
+		Endwith
+
+		lnWidth = lnLeft + .nRightPadding
+
+		.Height = .nTopPadding + lnHeight + .nBottomPadding
+		.picExpand.Move( .picExpand.Left, Int( Abs( .Height - .picExpand.Height ) / 2 ) )
+		.picContract.Move( .picExpand.Left, .picExpand.Top )
+
+		.Width = lnWidth
+		.ExpandedWidth = .Width
+		* .ContractedWidth = .nLeftPadding + .picExpand.Width
+		.ContractedWidth = .picExpand.Width && + .nGap
+		.ExpandedHeight = .Height
+		.ContractedHeight = .Height
+
+	Endwith
+
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	Thisform.oError.Cremark = ''
+	Thisform.oError.Ctracelogin = ''
+
+Endtry
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED3]
+lexpanded
+contractedwidth
+contractedheight
+expandedwidth
+expandedheight
+*expand 
+*contract 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _249119GNK
+[CLASS] prximage
+[CLASSLOC] prxbase.vcx
+[BASECLASS] image
+[OBJNAME] picContract
+[PARENT] ibkeyfinder
+[START PROPERTIES]
+Picture = ..\image\bmp\grip3.bmp
+BackStyle = 0
+Height = 16
+Left = 28
+Top = 36
+Width = 32
+Name = "picContract"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Contract()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.MousePointer = 15
+
+
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2RK11NYEL
+[CLASS] prximage
+[CLASSLOC] prxbase.vcx
+[BASECLASS] image
+[OBJNAME] picExpand
+[PARENT] ibkeyfinder
+[START PROPERTIES]
+Picture = ..\image\bmp\grip4.bmp
+BackStyle = 0
+Height = 16
+Left = 99
+Top = 39
+Width = 32
+Name = "picExpand"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Expand()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.MousePointer = 15
+
+
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibkeyfinder
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

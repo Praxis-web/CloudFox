@@ -1,0 +1,1061 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90MT5NC
+[CLASS] _container
+[CLASSLOC] ..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] container
+[OBJNAME] solapa_base
+[START PROPERTIES]
+Width = 960
+Height = 228
+_memberdata = <VFPData><memberdata name="autosize" display="Autosize"/></VFPData>
+Name = "solapa_base"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	This.BorderWidth = 0
+	If Empty( This.cTable )
+		This.cTable = Thisform.cTable
+	EndIf
+	
+	If Pemstatus( Thisform, 'InitializeControls', 5 )
+		Bindevent( Thisform, 'InitializeControls', This, 'Initialize', 1 )
+	Endif
+
+	If Pemstatus( Thisform, 'InitializeRows', 5 )
+		Bindevent( Thisform, 'InitializeRows', This, 'InitializeRows', 1 )
+	Endif
+
+	If Pemstatus( Thisform, 'AfterBindControls', 5 )
+		Bindevent( Thisform, 'AfterBindControls', This, 'AfterBindControls', 1 )
+	Endif
+	
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE autosize
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	This.Top = 0
+	This.Left = 0
+	This.Height = This.Parent.Height
+	This.Width = This.Parent.Width
+	
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE initializerows
+NoDefault
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED3]
+*autosize Specifies if a control is automatically resized to fit its contents.
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90MZ1BQ
+[CLASS] shape
+[BASECLASS] shape
+[OBJNAME] Crud_Shape
+[PARENT] solapa_base
+[START PROPERTIES]
+Top = 12
+Left = 12
+Height = 204
+Width = 936
+Anchor = 15
+BackStyle = 0
+Curvature = 12
+BorderColor = 0,128,255
+ZOrderSet = 0
+Name = "Crud_Shape"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] solapa_base
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90N0221
+[CLASS] solapa_base
+[CLASSLOC] comprobante.vcx
+[BASECLASS] container
+[OBJNAME] solapa_header
+[START PROPERTIES]
+Name = "solapa_principal"
+Crud_Shape.Name = "Crud_Shape"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] solapa_header
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90PJW16
+[CLASS] container
+[BASECLASS] container
+[OBJNAME] tabs
+[START PROPERTIES]
+Width = 120
+Height = 36
+_memberdata =      433<VFPData><memberdata name="autosize" display="Autosize"/><memberdata name="opageframe" display="oPageFrame"/><memberdata name="oactivebutton" display="oActiveButton"/><memberdata name="oactivebutton_assign" display="oActiveButton_Assign"/><memberdata name="activepage" display="ActivePage"/><memberdata name="activepage_access" display="ActivePage_Access"/><memberdata name="activepage_assign" display="ActivePage_Assign"/></VFPData>
+opageframe = .NULL.
+oactivebutton = .NULL.
+activepage = 0
+Name = "tabs"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+This.BorderWidth = 0
+ENDPROC
+PROCEDURE activepage_access
+Return This.oPageFrame.ActivePage
+
+ENDPROC
+PROCEDURE activepage_assign
+lparameters tActivePage
+This.ActivePage = tActivePage
+This.oPageFrame.ActivePage = tActivePage
+
+ENDPROC
+PROCEDURE autosize
+Local lcCommand as String
+Local loTab_Button as "Tab_Button" of "FrontEnd\Vcx\comprobante.vcx"
+Local lnTabWidth as Integer,;
+lnLeft as Integer
+
+Try
+
+	lcCommand = ""
+	This.Width = This.oPageFrame.Width
+	lnTabWidth = Int( This.Width / This.oPageFrame.PageCount )
+	lnLeft = 0
+	For Each loTab_Button in This.Objects
+		loTab_Button.Left = lnLeft
+		loTab_Button.Width = lnTabWidth
+		lnLeft = lnLeft + lnTabWidth
+		
+		loTab_Button.Visible = .T.
+		
+	EndFor
+	This.Visible = .T.
+	
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE oactivebutton_assign
+lparameters toActiveButton
+
+If !IsNull( This.oActiveButton )
+	This.oActiveButton.lIsActive = .F.
+EndIf
+
+This.oActiveButton = toActiveButton
+*!*	If !IsNull( This.oActiveButton )
+*!*		This.oActiveButton.lIsActive = .T.
+*!*	EndIf
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+opageframe Referencia al Objeto PageFrame vinculado
+oactivebutton Referencia al botÛn activo
+activepage Vincula con la propiedad ActivePage del control PageFrame vinculado
+*autosize Specifies if a control is automatically resized to fit its contents.
+*oactivebutton_assign 
+*activepage_access 
+*activepage_assign 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] tabs
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90PNPKG
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] tab_button
+[START PROPERTIES]
+Height = 36
+Width = 120
+FontName = "Verdana"
+Caption = "tab"
+MousePointer = 15
+opage = .NULL.
+_memberdata =      281<VFPData><memberdata name="opage" display="oPage"/><memberdata name="lshowintabs" display="lShowInTabs"/><memberdata name="lisactive" display="lIsActive"/><memberdata name="lisactive_assign" display="lIsActive_Assign"/><memberdata name="npageindex" display="nPageIndex"/></VFPData>
+lshowintabs = .T.
+lisactive = .F.
+npageindex = 0
+Name = "tab_button"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	This.Parent.oActiveButton = This
+	This.lIsActive = .T.
+	This.Parent.ActivePage = This.nPageIndex
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE lisactive_assign
+lparameters tlIsActive
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	This.FontBold = tlIsActive
+	If tlIsActive
+		This.FontSize = 12
+		This.ForeColor = RGB(0,0,255)
+
+	Else
+		This.FontSize = 9
+		This.ForeColor = RGB(0,0,0)
+
+	Endif
+
+	This.lIsActive = tlIsActive
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+opage Referencia al objeto Page vinculado al boton
+_memberdata XML Metadata for customizable properties
+lshowintabs Indica si el botÛn se muestra
+lisactive Indica si es el botÛn activo
+npageindex Contiene el indice del objeto page al que est· vinculado
+*lisactive_assign 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] tab_button
+[START PROPERTIES]
+Verdana, 0, 9, 6, 14, 12, 25, 2, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90VS3TX
+[CLASS] crud_form
+[CLASSLOC] crud.vcx
+[BASECLASS] form
+[OBJNAME] comprobante_base
+[START PROPERTIES]
+Top = 0
+Left = 0
+Height = 480
+Width = 960
+DoCreate = .T.
+cmodulo = 
+nmoduloid = 0
+_memberdata =      256<VFPData><memberdata name="cmodulo" display="cModulo" favorites="True"/><memberdata name="nmoduloid" display="nModuloId"/><memberdata name="nmoduloid_access" display="nModuloId_Access"/><memberdata name="cmodulo_access" display="cModulo_Access"/></VFPData>
+lautomaticdisplay = .F.
+Name = "comprobante_base"
+Crud_Shape.Top = 48
+Crud_Shape.Left = 12
+Crud_Shape.Height = 48
+Crud_Shape.Width = 936
+Crud_Shape.Name = "Crud_Shape"
+crud_buttons.cmdGrabar.Name = "cmdGrabar"
+crud_buttons.cmdEliminar.Name = "cmdEliminar"
+crud_buttons.cmdCancelar.Name = "cmdCancelar"
+crud_buttons.Top = 444
+crud_buttons.Left = 0
+crud_buttons.Width = 960
+crud_buttons.Name = "crud_buttons"
+crud_titulo.lblFecha.Name = "lblFecha"
+crud_titulo.lblTitulo.Name = "lblTitulo"
+crud_titulo.lblObservaciones.Name = "lblObservaciones"
+crud_titulo.lblAsteriscos.Name = "lblAsteriscos"
+crud_titulo.Top = 0
+crud_titulo.Left = 0
+crud_titulo.Width = 960
+crud_titulo.Height = 36
+crud_titulo.Name = "crud_titulo"
+crud_ajustes.Crud_Shape.Name = "Crud_Shape"
+crud_ajustes.spnOrden.Name = "spnOrden"
+crud_ajustes.chkActivo.Alignment = 0
+crud_ajustes.chkActivo.Name = "chkActivo"
+crud_ajustes.chkEs_Sistema.Alignment = 0
+crud_ajustes.chkEs_Sistema.Name = "chkEs_Sistema"
+crud_ajustes.lblMostrar.Name = "lblMostrar"
+crud_ajustes.lblOrden.Name = "lblOrden"
+crud_ajustes.Name = "crud_ajustes"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosize
+Local lcCommand As String
+Local lnFormHeight As Integer,;
+lnPageFormHeight as Integer
+Local llAutocenter as Boolean
+
+Try
+
+	lcCommand = ""
+	
+	llAutocenter = .F.
+	
+	Thisform.Crud_Titulo.Anchor 	= 0
+	Thisform.Crud_Buttons.Anchor 	= 0
+	Thisform.Crud_Ajustes.Anchor 	= 0
+	ThisForm.Solapas.Anchor 	= 0
+	
+	Thisform.Solapas.Autosize()
+	
+	If Thisform.Solapas.Width > Thisform.Width
+		Thisform.Width = Thisform.Solapas.Width
+
+	Else
+		Thisform.Solapas.Width = Thisform.Width
+
+	EndIf
+	
+	If Thisform.Height > _Screen.Height - ( Thisform.nGap * 4 )
+		_Screen.Height = Thisform.Height + ( Thisform.nGap * 4 )
+		llAutocenter = .T.
+	EndIf
+	
+	If Thisform.Width > _Screen.Width - ( Thisform.nGap * 4 )
+		_Screen.Width = Thisform.Width + ( Thisform.nGap * 4 )
+		llAutocenter = .T.
+	EndIf
+	
+	If llAutocenter
+		_Screen.AutoCenter = .T.
+	EndIf
+
+	Thisform.AutoCenter = .T.
+
+	If Mod( Thisform.Width, Thisform.nGap ) > 0
+		Thisform.Width = Round( Thisform.Width / Thisform.nGap, 0 ) * Thisform.nGap
+	Endif
+
+	If Mod( Thisform.Height, Thisform.nGap ) > 0
+		Thisform.Height = Round( Thisform.Height / Thisform.nGap, 0 ) * Thisform.nGap
+	EndIf
+	
+	Thisform.Height = Thisform.Height + Int( Thisform.nGap / 2 )
+	
+	Thisform.Crud_Titulo.Top 	= 0
+	Thisform.Crud_Titulo.Left 	= 0
+	Thisform.Crud_Titulo.AutoSize()
+	
+	If Thisform.Crud_Titulo.Width > Thisform.Width
+		Thisform.Width = Thisform.Crud_Titulo.Width
+		
+	Else
+		Thisform.Crud_Titulo.Width 	= Thisform.Width
+
+	EndIf
+	
+	Thisform.Solapas.Left 		= 0
+	If PemStatus( Thisform, "Tabs", 5 )
+		Thisform.Tabs.Top = Thisform.Solapas.Top
+		Thisform.Tabs.Left = Thisform.Solapas.Left
+		Thisform.Tabs.Width = Thisform.Solapas.Width
+		Thisform.Solapas.Top = Thisform.Tabs.Top + Thisform.Tabs.Height
+		Thisform.Solapas.Height = Thisform.Solapas.Height - Thisform.Tabs.Height
+		
+		Thisform.Tabs.Autosize()
+		
+	EndIf
+
+	Thisform.Crud_Buttons.Top 	= Thisform.Height - Thisform.Crud_Buttons.Height - Thisform.nGap
+	Thisform.Crud_Buttons.Left 	= 0
+	Thisform.Crud_Buttons.Width = Thisform.Width
+	Thisform.Crud_Buttons.AutoSize()
+
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	Thisform.Crud_Titulo.Anchor 	= 11
+*!*		Thisform.Crud_Shape.Anchor 		= 15
+	Thisform.Crud_Buttons.Anchor 	= 14
+*!*		Thisform.Crud_Ajustes.Anchor 	= 12
+	ThisForm.Solapas.Anchor 	= 15
+
+
+Endtry
+
+ENDPROC
+PROCEDURE cmodulo_access
+return This.cModulo
+
+ENDPROC
+PROCEDURE crud_ajustes.chkActivo.initialize
+NoDefault
+
+ENDPROC
+PROCEDURE crud_ajustes.chkEs_Sistema.initialize
+NoDefault
+
+ENDPROC
+PROCEDURE crud_ajustes.mostrar
+NoDefault
+
+ENDPROC
+PROCEDURE crud_ajustes.spnOrden.initialize
+NoDefault
+
+ENDPROC
+PROCEDURE nmoduloid_access
+Local lcCommand As String,;
+    lcAlias As String
+Local loModulo As oModulo Of "Clientes\Archivos\prg\Modulo.prg",;
+    loReturn As Object,;
+    loParam As Object,;
+    loFiltro As Object,;
+    loFilterCriteria As CollectionBase Of "Tools\Namespaces\Prg\CollectionBase.Prg",;
+    loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg"
+
+Try
+
+    lcCommand = ""
+
+    If Empty( This.nModuloId )
+        loModulo = GetEntity( "Modulo" )
+
+
+        loFilterCriteria 	= loModulo.oFilterCriteria
+
+        loGlobalSettings = NewGlobalSettings()
+
+        lcAlias = Upper( Alltrim( Thisform.cModulo ))
+        lcAlias = lcAlias + "_" + Transform( loGlobalSettings.nClientePraxis ) + "_"
+
+        loFiltro = Createobject( "Empty" )
+        AddProperty( loFiltro, "Nombre", "Modulo"  )
+        AddProperty( loFiltro, "FieldName", "alias" )
+        AddProperty( loFiltro, "FieldRelation", "==" )
+        AddProperty( loFiltro, "FieldValue", lcAlias )
+
+        loFilterCriteria.RemoveItem( Lower( loFiltro.Nombre ) )
+        loFilterCriteria.Add( loFiltro, Lower( loFiltro.Nombre ))
+
+        loParam = Createobject( "Empty" )
+        AddProperty( loParam, "oFilterCriteria", loFilterCriteria )
+
+        loReturn = loModulo.GetByWhere( loParam )
+        If loReturn.lOk
+        	This.nModuloId = loReturn.oRegistro.Id
+        Endif
+
+    Endif
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+	loFilterCriteria 	= Null
+	loFiltro 			= Null
+	loGlobalSettings 	= Null
+	loModulo 			= Null
+	loParam 			= Null
+	loReturn 			= Null
+	loRegistro   		= Null
+
+Endtry
+
+Return This.nModuloId
+
+ENDPROC
+PROCEDURE sincronizarcontroles
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcCommand As String
+Local loBiz As oModelo Of "FrontEnd\Prg\Modelo.prg"
+
+
+Try
+
+	lcCommand = ""
+	
+	DoDefault()
+	
+	loBiz = Thisform.oBiz
+	If Thisform.oRegistro.ABM = ABM_ALTA
+		Thisform.cTituloDelPrograma = "Ingreso de " + loBiz.cTituloEnForm
+
+	EndIf
+	
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	loBiz = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+7[END RESERVED2]
+[START RESERVED3]
+cmodulo MÛdulo al que pertenece el Comprobante. ( VENTAS, COMPRAS, STOCK, UTILES )
+nmoduloid
+*nmoduloid_access 
+*cmodulo_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90XQJTV
+[CLASS] shape
+[BASECLASS] shape
+[OBJNAME] Shape1
+[PARENT] comprobante_base
+[START PROPERTIES]
+Top = 384
+Left = 12
+Height = 48
+Width = 936
+Anchor = 15
+BackStyle = 0
+Curvature = 12
+BorderColor = 0,128,255
+ZOrderSet = 0
+Name = "Shape1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90WHEO3
+[CLASS] solapas
+[CLASSLOC] comprobante.vcx
+[BASECLASS] pageframe
+[OBJNAME] Solapas
+[PARENT] comprobante_base
+[START PROPERTIES]
+ErasePage = .T.
+Top = 108
+Left = 0
+Height = 264
+Name = "Solapas"
+Header.Name = "Header"
+Detail.Name = "Detail"
+Footer.Name = "Footer"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90YEN2E
+[CLASS] solapa_header
+[CLASSLOC] comprobante.vcx
+[BASECLASS] container
+[OBJNAME] cntSolapa
+[PARENT] comprobante_base.Solapas.Header
+[START PROPERTIES]
+Top = 0
+Left = 0
+Name = "cntSolapa"
+Crud_Shape.Name = "Crud_Shape"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90YEN2F
+[CLASS] solapa_detail
+[CLASSLOC] comprobante.vcx
+[BASECLASS] container
+[OBJNAME] cntSolapa
+[PARENT] comprobante_base.Solapas.Detail
+[START PROPERTIES]
+Top = 0
+Left = 0
+Name = "cntSolapa"
+Crud_Shape.Name = "Crud_Shape"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90YEN2H
+[CLASS] solapa_footer
+[CLASSLOC] comprobante.vcx
+[BASECLASS] container
+[OBJNAME] cntSolapa
+[PARENT] comprobante_base.Solapas.Footer
+[START PROPERTIES]
+Top = 0
+Left = 0
+Name = "cntSolapa"
+Crud_Shape.Name = "Crud_Shape"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6KD0ZWOJQ
+[CLASS] tipo_comprobante
+[CLASSLOC] comprobante.vcx
+[BASECLASS] combobox
+[OBJNAME] Tipo_comprobante
+[PARENT] comprobante_base
+[START PROPERTIES]
+Left = 71
+Top = 56
+_memberdata =      330<VFPData><memberdata name="cmodelo" type="Property" favorites="True"/><memberdata name="lfiltraporcomprobante" display="lFiltraPorComprobante"/><memberdata name="lfiltrapormodulo" display="lFiltraPorModulo"/><memberdata name="cmodulo" display="cModulo"/><memberdata name="cfieldname" type="Property" favorites="True"/></VFPData>
+
+Name = "Tipo_comprobante"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] comprobante_base
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[START RESERVED1]
+ ! ..\..\fw\comunes\include\praxis.hFénfdV! ..\..\fw\comunes\include\foxpro.hNè r˚F" ..\..\fw\comunes\include\strings.hVêZäOJ' ..\..\tools\namespaces\include\system.h^ë±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90W1EHF
+[CLASS] pageframe
+[BASECLASS] pageframe
+[OBJNAME] solapas
+[START PROPERTIES]
+ErasePage = .T.
+PageCount = 3
+ActivePage = 1
+Width = 960
+Height = 300
+_memberdata = <VFPData><memberdata name="initialize" display="Initialize"/><memberdata name="autosize" display="Autosize"/><memberdata name="ctable" display="cTable"/></VFPData>
+ctable = 
+Name = "solapas"
+Page1.Caption = "Header"
+Page1.Name = "Header"
+Page2.Caption = "Detail"
+Page2.Name = "Detail"
+Page3.Caption = "Footer"
+Page3.Name = "Footer"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Local lcCommand As String
+
+Try
+
+    lcCommand = ""
+    This.Tabs = .F.
+
+    If Pemstatus( Thisform, 'InitializeControls', 5 )
+        Bindevent( Thisform, 'InitializeControls', This, 'Initialize', 1 )
+    Endif
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE autosize
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE initialize
+Local lcCommand as String
+Local loTabs as "Tabs" of "FrontEnd\Vcx\comprobante.vcx",;
+loTab_Button as "Tab_Button" of "FrontEnd\Vcx\comprobante.vcx",;
+loPage as Page
+Local i as Integer
+
+Try
+
+	lcCommand = ""
+	Thisform.NewObject( "Tabs", "Tabs", "FrontEnd\Vcx\comprobante.vcx" )
+	loTabs = Thisform.Tabs
+	loTabs.oPageFrame = This
+	 i=0
+	
+	For Each loPage in This.Pages
+		i = i + 1
+		loTabs.NewObject( loPage.Name, "Tab_Button", "FrontEnd\Vcx\comprobante.vcx" )
+		loTab_Button = Evaluate( "loTabs." + loPage.Name )
+		loTab_Button.oPage = loPage
+		loTab_Button.Caption = loPage.Caption
+		loTab_Button.nPageIndex = i
+	EndFor
+	
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	loPage = Null
+	loTabs = Null
+	loTab_Button = Null
+
+EndTry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+ctable
+*initialize 
+*autosize Specifies if a control is automatically resized to fit its contents.
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] solapas
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90Y5J1C
+[CLASS] solapa_base
+[CLASSLOC] comprobante.vcx
+[BASECLASS] container
+[OBJNAME] solapa_detail
+[START PROPERTIES]
+Name = "solapa_detail"
+Crud_Shape.Name = "Crud_Shape"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] solapa_detail
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K90Y650W
+[CLASS] solapa_base
+[CLASSLOC] comprobante.vcx
+[BASECLASS] container
+[OBJNAME] solapa_footer
+[START PROPERTIES]
+Name = "solapa_footer"
+Crud_Shape.Name = "Crud_Shape"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] solapa_footer
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6KD0QAQ5G
+[CLASS] _combobox
+[CLASSLOC] ..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] combobox
+[OBJNAME] tipo_comprobante
+[START PROPERTIES]
+Width = 144
+lfiltraporcomprobante = .F.
+lfiltrapormodulo = .T.
+cmodulo = 
+_memberdata =      469<VFPData><memberdata name="cmodelo" type="Property" favorites="True"/><memberdata name="lfiltraporcomprobante" display="lFiltraPorComprobante"/><memberdata name="lfiltrapormodulo" display="lFiltraPorModulo"/><memberdata name="cmodulo" display="cModulo" favorites="True"/><memberdata name="cfieldname" type="Property" favorites="True"/><memberdata name="cmodulo_access" display="cModulo_Access"/><memberdata name="filtrarpormodulo" display="FiltrarPorModulo"/></VFPData>
+cmodelo = Tipo_Comprobante
+cfieldname = Comprobante
+Name = "tipo_comprobante"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE cargarcombo
+Lparameters lForceLoad As Boolean
+
+Local lcCommand as String
+Local llFiltraPorComprobante  as Boolean
+Local loModelo As oTipo_Comprobante Of "Clientes\Archivos\prg\Tipo_Comprobante.prg"
+
+Try
+
+	lcCommand = ""
+	loModelo = This.oModelo
+	llFiltraPorComprobante  = loModelo.lFiltraPorComprobante
+	loModelo.lFiltraPorComprobante  = This.lFiltraPorComprobante
+	DoDefault( lForceLoad )
+	loModelo.lFiltraPorComprobante = llFiltraPorComprobante
+	
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+
+
+ENDPROC
+PROCEDURE cmodulo_access
+If Empty( This.cModulo )
+    This.cModulo = Thisform.cModulo
+Endif
+Return This.cModulo
+
+ENDPROC
+PROCEDURE filtrar
+Lparameters lForceLoad As Boolean
+
+Local lcCommand As String
+
+Try
+
+    lcCommand = ""
+    DoDefault( lForceLoad )
+  	This.FiltrarPorModulo()
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE filtrarpormodulo
+Local lcCommand As String
+Local lnModuloId As Integer
+Local loFiltro As Object
+
+Try
+
+    lcCommand = ""
+
+    If This.lFiltraPorModulo
+        If This.cModulo = Thisform.cModulo
+            lnModuloId = Thisform.nModuloId
+
+        Else
+
+
+        Endif
+
+        loFiltro = Createobject( "Empty" )
+        AddProperty( loFiltro, "Nombre", "Modulo" )
+        AddProperty( loFiltro, "FieldName", "modulo" )
+        AddProperty( loFiltro, "FieldRelation", "==" )
+        AddProperty( loFiltro, "FieldValue", Transform( lnModuloId) )
+
+        This.AddFilter( loFiltro )
+
+
+    Endif
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+	loFiltro = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+lfiltraporcomprobante En la mayorÌa delos casos, no debe filtrar por el padre (Comprobante_Base)
+lfiltrapormodulo
+cmodulo
+*cmodulo_access 
+*filtrarpormodulo 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] tipo_comprobante
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

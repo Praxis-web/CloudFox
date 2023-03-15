@@ -1,0 +1,536 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0W1XL3
+[CLASS] container
+[BASECLASS] container
+[OBJNAME] createstruct
+[START PROPERTIES]
+Width = 472
+Height = 172
+BackStyle = 0
+_memberdata =      607<VFPData><memberdata name="agregar" display="Agregar"/><memberdata name="quitar" display="Quitar"/><memberdata name="recordsource" display="RecordSource"/><memberdata name="recordsource_assign" display="RecordSource_Assign"/><memberdata name="gridautofit" display="GridAutofit"/><memberdata name="gridsetup" display="GridSetup"/><memberdata name="ocolfields" display="oColFields"/><memberdata name="validaterow" display="ValidateRow"/><memberdata name="activerow" display="ActiveRow"/><memberdata name="activecolumn" display="ActiveColumn"/><memberdata name="lvalidaterow" display="lValidateRow"/></VFPData>
+recordsource = 
+ocolfields = Null
+activerow = 0
+activecolumn = 0
+lvalidaterow = .T.
+Name = "createstruct"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Try
+	This.GridSetup()
+	This.oColFields = CreateObject( "Collection" )
+
+Catch To oErr
+	Local loError as Errorhandler OF "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = NewObject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	
+
+Finally
+
+EndTry
+
+
+ENDPROCPROCEDURE agregar
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	TEXT To lcCommand NoShow TextMerge Pretext 15
+		Insert Into <<This.grdStruct.RecordSource>> (
+			Nombre,
+			Tipo,
+			Ancho,
+			Decimales ) Values (
+			"NuevoCampo",
+			"Character",
+			10,
+			0 )
+	ENDTEXT
+
+	&lcCommand
+
+	Go Bottom
+
+	This.grdStruct.Refresh()
+	This.grdStruct.SetFocus()
+
+Catch To oErr
+	Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+ENDPROC
+PROCEDURE gridautofit
+Local loColumn as Column
+Local i as Integer,;
+	lnWidth as Integer,;
+	lnRowHight as Integer
+
+Try
+
+	This.grdStruct.ColumnCount = 4
+	lnRowHight = 24
+	
+	lnWidth = 0
+	
+	For i = 1 to This.grdStruct.ColumnCount
+		loColumn = This.grdStruct.Columns( i )
+		
+		Do Case
+		Case i = 1
+			loColumn.Name = "Nombre"
+			loColumn.Width = 12 * 8
+			loColumn.InputMask = Replicate( "X", 10 )
+
+		Case i = 2
+			loColumn.Name = "Tipo"
+			loColumn.Width = 12 * 8
+			loColumn.RemoveObject( "Text1" )
+			loColumn.NewObject( "cboDataTypes", "cboDataTypes", "V:\Clipper2Fox\fw\comunes\vcx\CreateStruct.vcx" )
+			loColumn.CurrentControl = "cboDataTypes"
+			loColumn.Sparse = .F.
+			loColumn.cboDataTypes.Visible = .T.
+
+		Case i = 3
+			loColumn.Name = "Ancho"
+			loColumn.Width = 12 * 4
+			loColumn.InputMask = "999"
+
+		Case i = 4
+			loColumn.Name = "Decimales"
+			loColumn.Width = 12 * 6
+			loColumn.InputMask = "99"
+
+		EndCase
+
+		loColumn.Objects( 1 ).Caption 	= loColumn.Name
+		loColumn.Objects( 1 ).Alignment = 2
+		loColumn.ControlSource = Iif( !Empty ( This.RecordSource ), This.RecordSource + ".Nombre", "" )
+			
+		lnWidth = lnWidth + loColumn.Width
+		
+	EndFor
+	
+	This.grdStruct.Width = lnWidth + 34
+	This.grdStruct.RowHeight = lnRowHight
+	
+
+Catch To oErr
+	Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	loColumn = Null
+
+Endtry
+
+
+ENDPROC
+PROCEDURE gridsetup
+Try
+
+	This.GridAutofit()
+	
+
+Catch To oErr
+	Local loError as Errorhandler OF "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = NewObject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+EndTry
+
+ENDPROC
+PROCEDURE quitar
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	TEXT To lcCommand NoShow TextMerge Pretext 15
+	Delete In <<This.grdStruct.RecordSource>>
+	ENDTEXT
+
+	&lcCommand
+
+	This.grdStruct.Refresh()
+	This.grdStruct.SetFocus()
+
+Catch To oErr
+	Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+ENDPROC
+PROCEDURE recordsource_assign
+lparameters tRecordSource
+
+Try
+
+	This.RecordSource = tRecordSource
+	This.grdStruct.RecordSource = ""
+	This.GridAutofit()
+	This.grdStruct.RecordSource = tRecordSource
+		
+
+Catch To oErr
+	Local loError as Errorhandler OF "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = NewObject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	
+
+Finally
+
+EndTry
+
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+12[END RESERVED2]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+recordsource Specifies the source of data to which the Grid control is bound.
+ocolfields
+activerow Specifies the row that contains the active cell in a Grid control.
+activecolumn Specifies the column that contains the active cell in a Grid control.
+lvalidaterow
+*agregar 
+*quitar 
+*recordsource_assign 
+*gridautofit 
+*gridsetup 
+*validaterow 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0WB9OG
+[CLASS] grid
+[BASECLASS] grid
+[OBJNAME] grdStruct
+[PARENT] createstruct
+[START PROPERTIES]
+ColumnCount = 4
+DeleteMark = .F.
+Height = 144
+Left = 12
+ScrollBars = 2
+Top = 12
+Width = 348
+AllowAutoColumnFit = 2
+Name = "grdStruct"
+Column1.Width = 96
+Column1.Name = "Nombre"
+Column2.Width = 96
+Column2.Resizable = .F.
+Column2.Name = "Tipo"
+Column3.Width = 48
+Column3.Name = "Ancho"
+Column4.Width = 72
+Column4.Name = "Decimales"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0WB9OT
+[CLASS] header
+[BASECLASS] header
+[OBJNAME] Header1
+[PARENT] createstruct.grdStruct.Nombre
+[START PROPERTIES]
+Caption = "Nombre"
+Name = "Header1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0WB9PK
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] Text1
+[PARENT] createstruct.grdStruct.Nombre
+[START PROPERTIES]
+BorderStyle = 0
+Margin = 0
+ForeColor = 0,0,0
+BackColor = 255,255,255
+Name = "Text1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0WB9PV
+[CLASS] header
+[BASECLASS] header
+[OBJNAME] Header1
+[PARENT] createstruct.grdStruct.Tipo
+[START PROPERTIES]
+Caption = "Tipo"
+Name = "Header1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0WB9Q1
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] Text1
+[PARENT] createstruct.grdStruct.Tipo
+[START PROPERTIES]
+BorderStyle = 0
+Margin = 0
+ForeColor = 0,0,0
+BackColor = 255,255,255
+Name = "Text1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0WB9Q9
+[CLASS] header
+[BASECLASS] header
+[OBJNAME] Header1
+[PARENT] createstruct.grdStruct.Ancho
+[START PROPERTIES]
+Caption = "Ancho"
+Name = "Header1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0WB9QG
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] Text1
+[PARENT] createstruct.grdStruct.Ancho
+[START PROPERTIES]
+BorderStyle = 0
+Margin = 0
+ForeColor = 0,0,0
+BackColor = 255,255,255
+Name = "Text1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0WB9QQ
+[CLASS] header
+[BASECLASS] header
+[OBJNAME] Header1
+[PARENT] createstruct.grdStruct.Decimales
+[START PROPERTIES]
+Caption = "Decimales"
+Name = "Header1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0WB9QY
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] Text1
+[PARENT] createstruct.grdStruct.Decimales
+[START PROPERTIES]
+BorderStyle = 0
+Margin = 0
+ForeColor = 0,0,0
+BackColor = 255,255,255
+Name = "Text1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0W1XL3
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdAgregar
+[PARENT] createstruct
+[START PROPERTIES]
+Top = 24
+Left = 372
+Height = 27
+Width = 84
+Caption = "\<Agregar"
+Name = "cmdAgregar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+This.Parent.Agregar()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38G0WYBVX
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdQuitar
+[PARENT] createstruct
+[START PROPERTIES]
+Top = 49
+Left = 372
+Height = 27
+Width = 84
+Caption = "\<Quitar"
+Name = "cmdQuitar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+This.Parent.Quitar()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] createstruct
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _38H0QYLD5
+[CLASS] combobox
+[BASECLASS] combobox
+[OBJNAME] cbodatatypes
+[START PROPERTIES]
+RowSource = ""
+Height = 24
+Sorted = .T.
+Width = 100
+_memberdata = <VFPData><memberdata name="addnewitem" display="AddNewItem"/><memberdata name="typesallowed" display="TypesAllowed"/><memberdata name="hookbeforeinit" display="HookBeforeInit"/></VFPData>
+typesallowed = 
+Name = "cbodatatypes"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Try
+
+*!*		Create Cursor "cDataTypes" (;
+*!*			Descripcion C(30),;
+*!*			Field_Type C(1) )
+	
+	This.HookBeforeInit()
+
+	This.AddNewItem( 'Blob', "W" )
+	This.AddNewItem( 'Character', "C" )
+	This.AddNewItem( 'Currency', "Y" )
+	This.AddNewItem( 'Date', "D" )
+	This.AddNewItem( 'DateTime', "T" )
+	This.AddNewItem( 'Double', "B" )
+	This.AddNewItem( 'General', "G" )
+	This.AddNewItem( 'Integer', "I" )
+	This.AddNewItem( 'Logical', "L" )
+	This.AddNewItem( 'Memo', "M" )
+	This.AddNewItem( 'Numeric', "N" )
+	This.AddNewItem( 'Float', "F" )
+	This.AddNewItem( 'Varbinary', "Q" )
+	This.AddNewItem( 'Varchar', "V" )
+
+*!*		This.RowSourceType = 6
+*!*		This.RowSource = "cDataTypes.Descripcion,Field_Type"
+
+Catch To oErr
+	Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+ENDPROCPROCEDURE addnewitem
+Lparameters tcDisplay as String,;
+tcKey as Character
+
+Try
+
+	If Empty( This.TypesAllowed ) Or ;
+		!Empty( At( Upper( This.TypesAllowed ), Upper( tcKey ) )) 		
+		
+		This.AddItem( tcDisplay )
+		This.List[ This.NewIndex, 2 ] = tcKey
+
+	EndIf
+	
+
+Catch To oErr
+	Local loError as Errorhandler OF "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = NewObject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+EndTry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+typesallowed Indica los tipos de datos que muestra el combo. Si está vacío, muestra todos.
+*addnewitem 
+*hookbeforeinit 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cbodatatypes
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

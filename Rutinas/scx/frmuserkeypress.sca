@@ -1,0 +1,615 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3U20V3TX3
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3U20V3TX4
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] UserKeyPress
+[START PROPERTIES]
+BorderStyle = 2
+Top = 0
+Left = 0
+Height = 168
+Width = 400
+DoCreate = .T.
+Caption = "User KeyPress"
+FontBold = .T.
+FontSize = 12
+WindowType = 1
+BackColor = 255,255,255
+_memberdata =      649<VFPData><memberdata name="autosetup" display="AutoSetup"/><memberdata name="seteo" display="Seteo"/><memberdata name="nkeypress" display="nKeyPress"/><memberdata name="lfirsttime" display="lFirstTime"/><memberdata name="cfunciondeusuario" display="cFuncionDeUsuario"/><memberdata name="ckeypresslist" display="cKeyPressList"/><memberdata name="setupproperties" display="SetUpProperties"/><memberdata name="alignment" display="Alignment"/><memberdata name="nnivel" display="nNivel"/><memberdata name="canrelease" display="CanRelease"/><memberdata name="autorizar" display="Autorizar"/><memberdata name="nalertcolor" display="nAlertColor"/></VFPData>
+nkeypress = 0
+lfirsttime = .T.
+cfunciondeusuario = 
+ckeypresslist = 
+alignment = 2
+nnivel = 0
+nalertcolor = 0
+Name = "UserKeyPress"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Activate
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	If Thisform.lFirstTime && And !Empty( Thisform.cKeyPressList )
+
+		If !Empty( Thisform.cFuncionDeUsuario )
+			Thisform.nKeyPress = Evaluate( Thisform.cFuncionDeUsuario )
+			Thisform.Release()
+		Endif
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+
+Finally
+	Thisform.lFirstTime = .F.
+
+Endtry
+
+ENDPROC
+PROCEDURE Init
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Lparameters cTextoDeAlerta As String,;
+	cMensajeAclaratorio As String,;
+	cKeyPressList as String,;
+	cPicture as String,;
+	cFuncionDeUsuario As String,;
+	oProperties as Object
+	
+
+
+Local lcCommand As String
+Local llOk As Boolean
+
+Local lnKey As Integer
+
+Try
+
+	lcCommand = ""
+	llOk = .T.
+	Thisform.nKeyPress = 0
+
+	Thisform.Seteo()
+	
+	If !Empty( cPicture )
+		ThisForm.Imagen.Picture = cPicture
+	EndIf
+	
+
+	If .F. && !IsRuntime()
+		TEXT To cTextoDeAlerta NoShow TextMerge Pretext 03
+		El artículo tiene movimientos.
+
+		¿Desea eliminarlo de todos modos?
+		ENDTEXT
+
+		TEXT To cMensajeAclaratorio NoShow TextMerge Pretext 03
+		[F5]:  CONTINUA                    [ESC]: CANCELA
+		EndText
+		
+		Text To cFuncionDeUsuario NoShow TextMerge Pretext 15
+		I_INKEY( KEY_F5, KEY_ESCAPE, 0, 0, 0, 0, 0, 0, 0, 0 )
+		EndText
+		
+		Text To cKeyPressList NoShow TextMerge Pretext 15
+		<<KEY_F5>>, <<KEY_ESCAPE>>, <<KEY_F8>>, <<KEY_ENTER>>
+		EndText
+
+		cFuncionDeUsuario = ""
+		
+	Endif
+
+	Thisform.cFuncionDeUsuario 	= cFuncionDeUsuario
+	Thisform.cKeyPressList 		= cKeyPressList
+	
+	Thisform.SetUpProperties( oProperties )
+
+	Thisform.AutoSetup( cTextoDeAlerta,;
+		cMensajeAclaratorio )
+
+
+Catch To oErr
+	llOk = .F.
+
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+Finally
+	Thisform.Visible = .T.
+	Thisform.lFirstTime = .T.
+
+Endtry
+
+
+Return llOk
+
+ENDPROC
+PROCEDURE KeyPress
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+LPARAMETERS nKeyCode, nShiftAltCtrl
+
+Local lcKeyPressList as String
+
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	lcKeyPressList = Thisform.cKeyPressList
+	
+	Text To lcCommand NoShow TextMerge Pretext 15
+	InList( nKeyCode, <<lcKeyPressList>> )
+	EndText
+
+	If Evaluate( lcCommand ) Or nKeyCode = KEY_ESCAPE
+		Thisform.nKeyPress = nKeyCode
+		
+		If Thisform.CanRelease()
+			Thisform.Release()
+		EndIf
+		
+	EndIf
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+Finally
+	
+	
+EndTry
+
+
+ENDPROC
+PROCEDURE Load
+Thisform.Visible = .F.
+Thisform.lFirstTime = .F.
+ENDPROC
+PROCEDURE Unload
+Return Thisform.nKeyPress
+ENDPROCPROCEDURE autorizar
+Local lcCommand As String
+Local loUser As User Of "Fw\TierAdapter\Comun\prxUser.prg"
+Local llOk As Boolean
+
+Try
+
+	lcCommand = ""
+	llOk = .F.
+
+	loUser = NewUser()
+	llOk = ( loUser.Nivel >= Thisform.nNivel )
+
+	If !llOk
+		loUser = Null
+		Do Form "FW\Comunes\Scx\frmLogin" To loUser
+
+		If loUser.Cancela = .T.
+			loUser.lOk = .F.
+		Endif
+
+		llOk = loUser.lOk And ( loUser.Nivel >= Thisform.nNivel )
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+
+Finally
+	loUser = Null
+
+Endtry
+
+Return llOk
+
+ENDPROC
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Lparameters cTextoDeAlerta As String,;
+	cMensajeAclaratorio As String
+
+Local lcCommand As String
+
+
+Local lnLen As Integer,;
+	lnTop As Integer,;
+	lnWidth As Integer,;
+	lnHeight As Integer,;
+	lnGap As Integer,;
+	lnImagen As Integer
+
+Local lcLabelName As String
+Local loLabel As prxLabel Of "Fw\Comunes\vcx\prxbase.vcx"
+
+Try
+
+	lcCommand = ""
+	lnGap = 8
+
+	loLabel = Newobject( "prxLabel", "Fw\Comunes\vcx\prxbase.vcx"  )
+
+	With This As Form
+
+
+		loLabel.FontBold 	= Thisform.FontBold
+		loLabel.ForeColor 	= Thisform.ForeColor
+		loLabel.FontSize 	= Thisform.FontSize
+		loLabel.FontName 	= Thisform.FontName
+
+		loLabel.Caption 	= "Texto de Prueba"
+		loLabel.AutoFit(.5)
+
+		If Empty( cTextoDeAlerta )
+			cTextoDeAlerta = ""
+		Endif
+
+		If Empty( cMensajeAclaratorio )
+			cMensajeAclaratorio = ""
+		Endif
+
+		lnLen 	= Alines( laLines, cTextoDeAlerta, 1 )
+		lnTop 	= lnGap + loLabel.Height
+		lnWidth = lnGap
+		lnHeight = 0
+		lnImagen = Thisform.Imagen.Left + Thisform.Imagen.Width
+
+		For i = 1 To lnLen
+			If !Empty( laLines[ i ] )
+
+				lcLabelName = "lbl" + Transform( i )
+				.AddObject( lcLabelName, "prxLabel" )
+
+				With (.&lcLabelName) As Label
+
+					.Top = lnTop
+					.Left = Thisform.Imagen.Left + Thisform.Imagen.Width + lnGap
+
+					.FontBold 	= Thisform.FontBold
+					.ForeColor 	= Thisform.nAlertColor
+					.FontSize 	= Thisform.FontSize
+					.FontName	= Thisform.FontName
+
+					.Caption 	= laLines[ i ]
+
+					.AutoFit(.5)
+
+					.Alignment 	= Thisform.Alignment
+					.Visible 	= .T.
+
+					lnTop 	= lnTop + .Height
+					lnWidth = Max( .Width, lnWidth )
+
+				Endwith
+
+			Else
+				lnTop = lnTop + loLabel.Height
+
+			Endif
+
+		Endfor
+
+		lnTop = lnTop + loLabel.Height
+
+		loLabel.FontName 	= Thisform.cntMessages.Label23.FontName
+		loLabel.FontBold 	= Thisform.cntMessages.Label23.FontBold
+		loLabel.ForeColor 	= Thisform.cntMessages.Label23.ForeColor
+		loLabel.FontSize 	= Thisform.cntMessages.Label23.FontSize
+
+		loLabel.Caption 	= cMensajeAclaratorio
+		loLabel.AutoFit( 4 )
+
+		Thisform.cntMessages.Label23.Caption = cMensajeAclaratorio
+
+		lnWidth = Max( loLabel.Width, lnWidth )
+
+
+
+		loLabel.FontName 	= Thisform.cntMessages.Label24.FontName
+		loLabel.FontBold 	= Thisform.cntMessages.Label24.FontBold
+		loLabel.ForeColor 	= Thisform.cntMessages.Label24.ForeColor
+		loLabel.FontSize 	= Thisform.cntMessages.Label24.FontSize
+
+		loLabel.Caption 	= "Presione la tecla correspondiente a su opción"
+		loLabel.AutoFit( 4 )
+
+		Thisform.cntMessages.Label24.Caption = loLabel.Caption
+
+		lnWidth = Max( loLabel.Width, lnWidth )
+
+		For i = 1 To lnLen
+			If !Empty( laLines[ i ] )
+				lcLabelName = "lbl" + Transform( i )
+				With (.&lcLabelName) As Label
+					.Width = lnWidth
+				Endwith
+			Endif
+		Endfor
+
+		.Width 	= lnImagen + lnWidth + ( 2 * lnGap )
+		.Height = Max( .Height, lnTop + Thisform.cntMessages.Height + lnGap )
+
+	Endwith
+
+	If Thisform.AutoCenter = .T.
+		Thisform.AutoCenter = .F.
+		Thisform.AutoCenter = .T.
+	Endif
+
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE canrelease
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcCommand as String,;
+lcMsg as String
+Local llOk as Boolean
+
+Try
+
+	lcCommand = ""
+	llOk = .F.
+	If Thisform.nKeyPress = KEY_ESCAPE Or Thisform.nNivel = 0
+		llOk = .T.
+		
+	Else
+		llOk = Thisform.Autorizar()
+		
+		If !llOk
+			Text To lcMsg NoShow TextMerge Pretext 03
+			El Usuario no tiene el Permiso
+			necesario para continuar
+			EndText
+
+			Warning( lcMsg, "Autorización" )
+
+		EndIf
+		
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+Finally
+
+	
+EndTry
+
+Return llOk
+
+ENDPROC
+PROCEDURE seteo
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	Thisform.TitleBar = 0
+	Set Classlib To "v:\CloudFox\Fw\Comunes\vcx\prxbase.vcx" ADDITIVE
+	Thisform.AutoCenter = .T.
+	Thisform.nAlertColor = Thisform.ForeColor
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE setupproperties
+Lparameters oProperties
+
+Local lcCommand As String
+Local laMembers[1] As String
+Local cProperty As String
+
+
+Try
+
+	lcCommand = ""
+	
+	If Vartype( oProperties ) = 'O'
+
+		Amembers( laMembers, oProperties )
+
+		For Each cProperty In laMembers
+			Try
+
+				Thisform.&cProperty = Evaluate( "oProperties." + cProperty )
+
+			Catch To oErr
+				* No hago nada
+			Endtry
+
+		Endfor
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+
+Finally
+
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+nkeypress Codigo ASCII de la tecla presionada
+lfirsttime Se utiliza en el evento Activate()
+cfunciondeusuario Nombre de la funcion que se ejecuta en el evento Activate()
+ckeypresslist Lista de codigos ASCII separados por comas de las teclas habilitadas para devolver
+alignment Specifies the alignment of text associated with a control.
+nnivel Nivel mínimo del usuario para continuar
+nalertcolor Color del mensaje de alerta. Por defecto es Thisform.ForeColor
+*autosetup 
+*seteo Setea las propiedades generales de Form
+*setupproperties Setea las propiedades del form pasadas por parámetro
+*canrelease Permite cerrar el formulario
+*autorizar Pide autorización de un Usuario con Nivel Superior
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3U20VXPL1
+[CLASS] container
+[BASECLASS] container
+[OBJNAME] cntMessages
+[PARENT] UserKeyPress
+[START PROPERTIES]
+Anchor = 14
+Top = 96
+Left = 0
+Width = 400
+Height = 72
+BorderWidth = 3
+SpecialEffect = 0
+Name = "cntMessages"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3U20VXPL2
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] Label23
+[PARENT] UserKeyPress.cntMessages
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 12
+Anchor = 10
+Alignment = 2
+BackStyle = 0
+Caption = "Label23"
+Left = 8
+Top = 8
+Width = 400
+ForeColor = 0,128,64
+Name = "Label23"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3U20VXPL3
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] Label24
+[PARENT] UserKeyPress.cntMessages
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 12
+Anchor = 10
+Alignment = 2
+BackStyle = 0
+Caption = "Label24"
+Height = 17
+Left = 8
+Top = 44
+Width = 400
+ForeColor = 0,0,255
+Name = "Label24"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3U20ZZK2E
+[CLASS] image
+[BASECLASS] image
+[OBJNAME] Imagen
+[PARENT] UserKeyPress
+[START PROPERTIES]
+Picture = ..\..\fw\comunes\image\jpg\stop.jpg
+Stretch = 1
+BackStyle = 0
+Height = 72
+Left = 12
+Top = 12
+Width = 72
+Name = "Imagen"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[START RESERVED1]
+ ! ..\..\fw\comunes\include\praxis.h¦•s~\V! ..\..\fw\comunes\include\foxpro.h®–ÊrûF" ..\..\fw\comunes\include\strings.h¶—ZŠOJ' ..\..\tools\namespaces\include\system.h¾˜±ÙF[END RESERVED1]
+[EOF]

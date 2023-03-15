@@ -1,0 +1,564 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6510RG3R4
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6510RG3R5
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] Setup
+[START PROPERTIES]
+BorderStyle = 3
+Height = 223
+Width = 720
+ShowWindow = 2
+DoCreate = .T.
+ShowTips = .T.
+AutoCenter = .T.
+Caption = "Setup"
+MaxButton = .F.
+obiz = .NULL.
+_memberdata =      509<VFPData><memberdata name="obiz" display="oBiz"/><memberdata name="obiz_access" display="oBiz_Access"/><memberdata name="loadsetup" display="LoadSetup"/><memberdata name="inicializarcontroles" display="InicializarControles"/><memberdata name="oparam" display="oParam"/><memberdata name="savesetup" display="SaveSetup"/><memberdata name="cancelar" display="Cancelar"/><memberdata name="probar" display="Probar"/><memberdata name="grabar" display="Grabar"/><memberdata name="editar" display="Editar"/></VFPData>
+oparam = .NULL.
+Name = "Setup"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	Thisform.BorderStyle = 2
+	Thisform.LoadSetup()
+	Thisform.InicializarControles()
+	
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE Line
+LPARAMETERS nXCoord2, nYCoord2
+ENDPROC
+PROCEDURE Load
+Thisform.BindControls = .F.
+
+Set Cursor On
+Set Date DMY
+Set Century On
+Set Cpdialog Off
+Set Safety Off
+Set TablePrompt Off
+Set TableValidate To 0
+Set Deleted On
+
+Set Datasession To 1
+ENDPROC
+PROCEDURE Unload
+
+Thisform.oParam = Null
+Thisform.oBiz = Null
+
+Close Databases all
+Clear Events
+ENDPROC
+PROCEDURE cancelar
+Thisform.Release()
+ENDPROC
+PROCEDURE editar
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	Thisform.oBiz.Editar()
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE grabar
+Thisform.oBiz.Grabar( Thisform.oParam )
+Thisform.Cancelar()
+
+ENDPROC
+PROCEDURE inicializarcontroles
+Local lcCommand As String
+Local loCB As ComboBox
+
+Try
+
+	lcCommand = ""
+
+	Thisform.txtURL.ControlSource = "Thisform.oParam.cUrl"
+
+	loCB = Thisform.cboSeleccionar
+	For i = 1 To loCB.ListCount
+		Select Urls
+		Locate For Id = Val( loCB.List( i, 2 ) )
+
+		If Found()
+			If Alltrim( Urls.Url ) = Thisform.txtURL.Value
+				loCB.Selected( i ) = .T.
+			Endif
+		Endif
+	Endfor
+
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE loadsetup
+Local lcCommand as String
+Local loBiz As oSetup Of "Tools\Config\Setup\prg\Setup.prg"
+
+Try
+
+	lcCommand 	= ""
+	loBiz 		= Thisform.oBiz
+	Thisform.oParam = loBiz.LoadSetup()
+
+	Thisform.BindControls = .T.
+	
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	loBiz = Null
+
+EndTry
+
+ENDPROC
+PROCEDURE obiz_access
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+	If Vartype( Thisform.oBiz ) # "O"
+		Thisform.oBiz = Newobject( "oSetup", "Tools\Config\Setup\prg\Setup.prg" )
+	Endif
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+Return Thisform.oBiz
+
+ENDPROC
+PROCEDURE probar
+Thisform.oBiz.Probar( Thisform.oParam )
+ENDPROC
+PROCEDURE savesetup
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+	loBiz = Thisform.oBiz
+	loBiz.oParam = Thisform.oParam
+	loBiz.SaveSetup(  )
+
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	loBiz = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+obiz Referencia a la clase de negocios
+_memberdata XML Metadata for customizable properties
+oparam
+*obiz_access 
+*loadsetup 
+*inicializarcontroles 
+*savesetup 
+*cancelar 
+*probar 
+*grabar 
+*editar 
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6510RG3R4
+[CLASS] apply
+[CLASSLOC] ..\..\..\..\fw\comunes\vcx\buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdTest
+[PARENT] Setup
+[START PROPERTIES]
+Top = 180
+Left = 500
+Picture = ..\..\..\..\fw\comunes\image\bmp\hyperlink.bmp
+DisabledPicture = ..\..\..\..\fw\comunes\image\bmp\ok.bmp
+Caption = "Probar"
+Name = "cmdTest"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Probar()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6510ULNCA
+[CLASS] image
+[BASECLASS] image
+[OBJNAME] LogoPraxis
+[PARENT] Setup
+[START PROPERTIES]
+Picture = ..\..\..\..\fw\comunes\image\jpg\logopraxis.jpg
+Stretch = 1
+Height = 156
+Left = 12
+Top = 12
+Width = 156
+Name = "LogoPraxis"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6510ULNCB
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblPraxis
+[PARENT] Setup
+[START PROPERTIES]
+AutoSize = .T.
+FontBold = .T.
+FontSize = 12
+BackStyle = 0
+Caption = "Praxis Computación"
+Height = 22
+Left = 12
+Top = 180
+Width = 157
+TabIndex = 14
+ForeColor = 0,0,255
+Name = "lblPraxis"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6510RG3R4
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblURL
+[PARENT] Setup
+[START PROPERTIES]
+AutoSize = .T.
+BackStyle = 0
+Caption = "Dirección URL"
+Height = 17
+Left = 185
+Top = 111
+Width = 82
+TabIndex = 15
+Name = "lblURL"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6510ULNCD
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtURL
+[PARENT] Setup
+[START PROPERTIES]
+Enabled = .F.
+Height = 23
+Left = 276
+TabIndex = 12
+Top = 105
+Width = 432
+Name = "txtURL"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE LostFocus
+This.Value = Lower( Alltrim( This.Value ) )
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6510ULNCE
+[CLASS] save
+[CLASSLOC] ..\..\..\..\fw\comunes\vcx\buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdSave
+[PARENT] Setup
+[START PROPERTIES]
+Top = 180
+Left = 608
+Name = "cmdSave"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Grabar()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6510ULNCF
+[CLASS] image
+[BASECLASS] image
+[OBJNAME] Image1
+[PARENT] Setup
+[START PROPERTIES]
+Picture = ..\..\..\..\fw\comunes\image\jpg\cloud computing.jpg
+Stretch = 2
+Height = 84
+Left = 276
+Top = 12
+Width = 432
+Name = "Image1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6510ULNCG
+[CLASS] cancel
+[CLASSLOC] ..\..\..\..\fw\comunes\vcx\buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancel
+[PARENT] Setup
+[START PROPERTIES]
+Top = 180
+Left = 276
+Name = "cmdCancel"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Cancelar()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66P0KTWIP
+[CLASS] combobox
+[BASECLASS] combobox
+[OBJNAME] cboSeleccionar
+[PARENT] Setup
+[START PROPERTIES]
+Height = 24
+Left = 276
+Top = 144
+Width = 432
+Name = "cboSeleccionar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Local lcCommand as String
+Local i as Integer
+
+Try
+
+	lcCommand = ""
+	
+	This.BoundColumn 	= 2
+	This.BoundTo 		= .T.
+	This.ColumnCount 	= 1
+	This.RowSourceType 	= 0
+	This.RowSource 		= ""
+	This.Style			= 2
+	This.Sorted 		= .F.
+	
+	If !Used( "Urls" )
+		Use Urls Shared In 0
+	Endif
+	
+	Text To lcCommand NoShow TextMerge Pretext 15
+	Select *
+		From Urls
+		Where !Deleted()
+		Order By Orden,Alias
+		Into Cursor cUrsl ReadWrite
+	EndText
+
+	&lcCommand
+	lcCommand = ""
+	
+	Locate
+	
+	Scan 	
+	
+		This.AddItem( cUrsl.Alias )
+		This.List( This.NewIndex, 2 ) = Transform( cUrsl.Id )
+
+	EndScan
+	
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE InteractiveChange
+Local lcCommand As String
+Local lnId As Integer
+
+Try
+
+	lcCommand = ""
+
+	If !Used( "Urls" )
+		Use Urls Shared In 0
+	Endif
+
+	Select Urls
+	Locate For Id = Val( This.Value )
+
+	If Found()
+		Thisform.txtURL.Value = Alltrim( Urls.Url )
+	Endif
+
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66P0KTWIQ
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblSeleccionar
+[PARENT] Setup
+[START PROPERTIES]
+AutoSize = .T.
+BackStyle = 0
+Caption = "Seleccionar"
+Height = 17
+Left = 200
+Top = 147
+Width = 67
+TabIndex = 15
+Name = "lblSeleccionar"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66P0KTWIR
+[CLASS] open
+[CLASSLOC] ..\..\..\..\fw\comunes\vcx\buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdEditar
+[PARENT] Setup
+[START PROPERTIES]
+Top = 180
+Left = 396
+Caption = "Editar"
+Visible = .F.
+Name = "cmdEditar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Editar()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

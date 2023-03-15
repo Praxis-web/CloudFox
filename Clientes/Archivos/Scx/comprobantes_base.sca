@@ -1,0 +1,229 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6550PXLT8
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6550PXLT9
+[CLASS] browseform
+[CLASSLOC] ..\..\..\fw\comunes\vcx\prxbrowse.vcx
+[BASECLASS] form
+[OBJNAME] Browseform1
+[START PROPERTIES]
+DoCreate = .T.
+Name = "Browseform1"
+cntPagination.lblRegistros.Name = "lblRegistros"
+cntPagination.lblPagina.Name = "lblPagina"
+cntPagination.spnPagina.Name = "spnPagina"
+cntPagination.btnPrimero.Name = "btnPrimero"
+cntPagination.btnSiguiente.Name = "btnSiguiente"
+cntPagination.btnAnterior.Name = "btnAnterior"
+cntPagination.btnUltimo.Name = "btnUltimo"
+cntPagination.lblDe_99.Name = "lblDe_99"
+cntPagination.cmdPagina.Name = "cmdPagina"
+cntPagination.spnPageSize.Name = "spnPageSize"
+cntPagination.lblPageSize.Name = "lblPageSize"
+cntPagination.Name = "cntPagination"
+cmdAceptar.Name = "cmdAceptar"
+cmdIngTip.Name = "cmdIngTip"
+CMDCERRAR.Name = "CMDCERRAR"
+spnColumnsLock.Name = "spnColumnsLock"
+lblColumsLock.Name = "lblColumsLock"
+cmdConfigurar.Name = "cmdConfigurar"
+cntTitulo_Old.lblFecha.Name = "lblFecha"
+cntTitulo_Old.LBLTITULO.Name = "LBLTITULO"
+cntTitulo_Old.Label1.Name = "Label1"
+cntTitulo_Old.Name = "cntTitulo_Old"
+Botones.cmdAgregar.Name = "cmdAgregar"
+Botones.cmdBorrar.Name = "cmdBorrar"
+Botones.cmdRecuperar.Name = "cmdRecuperar"
+Botones.cmdEdit.Name = "cmdEdit"
+Botones.cmdFiltrar.Name = "cmdFiltrar"
+Botones.cmdAplicar.Name = "cmdAplicar"
+Botones.Name = "Botones"
+chkEditarEnGrilla.Alignment = 1
+chkEditarEnGrilla.Name = "chkEditarEnGrilla"
+chkActivos.Alignment = 0
+chkActivos.Name = "chkActivos"
+cntSearch.txtSearch.Name = "txtSearch"
+cntSearch.btnSearch.Name = "btnSearch"
+cntSearch.Name = "cntSearch"
+chkMuestraCamposEspeciales.Alignment = 0
+chkMuestraCamposEspeciales.Name = "chkMuestraCamposEspeciales"
+CNTTITULO.LBLFECHA.Name = "LBLFECHA"
+CNTTITULO.LBLTITULO.Name = "LBLTITULO"
+CNTTITULO.lblObservaciones.Name = "lblObservaciones"
+CNTTITULO.lblAsteriscos.Name = "lblAsteriscos"
+CNTTITULO.Name = "CNTTITULO"
+Grid.Name = "Grid"
+CNTFILTROS.cmdFiltrar.Name = "cmdFiltrar"
+CNTFILTROS.Visible = .T.
+CNTFILTROS.Name = "CNTFILTROS"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE CNTFILTROS.cmdFiltrar.Click
+ThisForm.CargarGrilla()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6K40PUWZE
+[CLASS] _combobox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] combobox
+[OBJNAME] cboModulo
+[PARENT] Browseform1.CNTFILTROS
+[START PROPERTIES]
+Left = 129
+Top = 21
+Width = 144
+cfieldname = Modulo
+ctable = Comprobante_Base
+cmodelo = Modulo
+lautomaticdisplay = .F.
+Name = "cboModulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+Local lcCommand As String
+Local loFilter As Object
+
+Try
+
+	lcCommand = ""
+
+	If !Empty( This.Value)
+		loFilter = Createobject( "Empty" )
+		AddProperty( loFilter, "Nombre", "Modulos" )
+		AddProperty( loFilter, "FieldName", "modulo" )
+		AddProperty( loFilter, "FieldRelation", "==" )
+		AddProperty( loFilter, "FieldValue", Transform( This.Value ))
+
+		ThisForm.AddFilter( loFilter )
+
+	Else
+		Thisform.RemoveFilter( "Modulos" )
+
+	Endif
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	loFilter = Null
+
+
+Endtry
+
+ENDPROC
+PROCEDURE ProgrammaticChange
+This.InteractiveChange()
+ENDPROC
+PROCEDURE initialize
+Local lcCommand As String
+Local loArchivo As Archivo Of "Clientes\Utiles\Prg\utRutina.prg",;
+    loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg',;
+    loField As oField Of 'Tools\DataDictionary\prg\oField.prg',;
+    loLabel As _label Of fw\comunes\vcx\_controles_base.vcx
+
+
+Try
+
+    lcCommand = ""
+    loArchivo 	= GetTable( This.cTable )
+
+    loColFields = loArchivo.oColFields
+    loField 	= loColFields.GetItem( This.cFieldName )
+    This.oField = loField
+
+    This.ToolTipText 	= "Módulos del Sistema"
+    If !Pemstatus( This.Parent.oRegistro, "Modulo", 5 )
+        AddProperty( This.Parent.oRegistro, "Modulo", 0 )
+    Endif
+
+    *!*	    This.Format 		= loField.cFormat
+    *!*	    This.InputMask 		= Replicate( "X", 50 )
+
+    lcLabelName = "lbl" + Substr( This.Name, 4 ) + "_" + Sys(2015)
+    loParent = This.Parent
+    loParent.Newobject( lcLabelName, "_label", "fw\comunes\vcx\_controles_base.vcx" )
+
+    * Vincular con el objeto Label
+    TEXT To lcCommand NoShow TextMerge Pretext 15
+	loLabel = loParent.<<lcLabelName>>
+    ENDTEXT
+
+    &lcCommand
+    lcCommand = ""
+
+    loField = This.oField
+
+    loLabel.Left = This.Left - loLabel.Width - Thisform.nGap
+    loLabel.Top = This.Top
+
+    loLabel.Caption		= Alltrim( loField.cCaption )
+    loLabel.AutoSize 	= .T.
+    loLabel.Visible 	= .T.
+
+    loLabel.oControl = This
+    This.oLabel = loLabel
+
+    This.ControlSource = "This.Parent.oRegistro.Modulo"
+    This.CargarCombo( .T. )
+
+
+Catch To oErr
+    Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+    loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+    loError.Cremark = lcCommand
+    loError.Process( oErr )
+    Throw loError
+
+Finally
+    loBiz = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE initializerows
+NoDefault
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

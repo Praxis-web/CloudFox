@@ -1,0 +1,546 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2ZS12SFLF
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2ZS12SFLG
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] FRMMODULOS
+[START PROPERTIES]
+BorderStyle = 2
+Height = 383
+Width = 455
+ShowWindow = 2
+DoCreate = .T.
+AutoCenter = .T.
+Caption = "Actualización de Niveles de Modulos"
+ControlBox = .F.
+Closable = .F.
+MaxButton = .F.
+MinButton = .F.
+WindowType = 1
+_memberdata =      269<VFPData><memberdata name="cancelar" display="Cancelar"/><memberdata name="aceptar" display="Aceptar"/><memberdata name="ouser" display="oUser"/><memberdata name="ouser_access" display="oUser_Access"/><memberdata name="documentacion" display="Documentacion"/></VFPData>
+ouser = Null
+Name = "FRMMODULOS"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Destroy
+Do While ! Empty( Txnlevel() )
+    Rollback
+
+Enddo
+
+Use In Select( 'Modulos' )
+
+ENDPROC
+PROCEDURE Init
+Local lcRootWorkFolder As String
+Local lcCommand As String
+Local lcMultilocks as String
+
+Try
+
+	Close Databases All
+	
+	lcMultilocks = Set("Multilocks")
+	Set Multilocks On
+	
+	If Vartype( DRCOMUN ) # "C"
+		DRCOMUN = "S:\Fenix\Dbf\DBF\"
+	EndIf
+
+	If Vartype( DRCOMUN ) = "C"
+		lcRootWorkFolder = DRCOMUN
+
+	Else
+		lcRootWorkFolder = DRVA
+
+	Endif
+	
+	TEXT To lcCommand NoShow TextMerge Pretext 15
+	Use '<<lcRootWorkFolder>>Modulos.Dbf' In 0 Again Alias Modulos Shared
+	ENDTEXT
+
+	&lcCommand
+	
+	If Type( "Modulos.Permiso" ) # "N"
+		Use in Select( "Modulos" )
+		
+		TEXT To lcCommand NoShow TextMerge Pretext 15
+		Use '<<lcRootWorkFolder>>Modulos.Dbf' In 0 Exclusive
+		ENDTEXT
+
+		&lcCommand
+		
+		Alter Table Modulos Add Column Permiso I
+		
+		Update Modulos Set Permiso = Nivel
+		
+		Use in Select( "Modulos" )
+		
+		TEXT To lcCommand NoShow TextMerge Pretext 15
+		Use '<<lcRootWorkFolder>>Modulos.Dbf' In 0 Again Alias Modulos Shared
+		ENDTEXT
+
+		&lcCommand
+
+
+	EndIf
+	
+	
+*!*		If Type( "Modulos.Permiso" ) # "N"
+*!*			Thisform.Grid.ColumnCount = 2
+*!*			Thisform.Grid.Width = 250 + 75 + 05
+*!*			Thisform.Width = Thisform.Grid.Width + 24
+*!*			
+*!*		Else	
+*!*			ThisForm.Grid.Permiso.Width = 75
+*!*				
+*!*		EndIf
+	
+	
+	CursorSetProp("Buffering", 5, "Modulos" )
+	
+
+	ThisForm.Grid.RecordSource = "Modulos"
+	ThisForm.Grid.RecordSourceType = 1
+	
+	ThisForm.Grid.Modulo.Width = 250
+	ThisForm.Grid.Modulo.Enabled = .F.
+	
+	
+	ThisForm.Grid.Nivel.Width = 75
+	
+
+
+
+Catch To oErr
+	Local loError as Errorhandler OF "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = NewObject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	
+
+Finally
+	Set Multilocks &lcMultilocks
+	
+EndTry
+
+ENDPROC
+PROCEDURE Unload
+Do While ! Empty( Txnlevel() )
+    Rollback
+
+Enddo
+
+Use In Select( 'Modulos' )
+
+ENDPROCPROCEDURE aceptar
+Try
+
+	If TableUpdate( 1, .T., "Modulos" )
+		Inform( "Los cambios se han guardado correctamente", "Actualización de Niveles de Módulos" )
+		Thisform.Release()
+		
+	Else
+		TableRevert( .T., "Modulos" )
+		Warning( "No se han podido guardar los cambios", "Actualización de Niveles de Módulos", 0 )
+		
+	Endif
+
+
+
+Catch To oErr
+	Local loError as Errorhandler OF "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = NewObject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+EndTry
+
+ENDPROC
+PROCEDURE cancelar
+If Confirm( "¿Desea abandonar los Cambios realizados?", "Actualización de Niveles de Módulos", .F. )
+	Thisform.Release()
+EndIf
+
+ENDPROC
+PROCEDURE documentacion
+*!*		- Permisos:
+*!*		En Administrar claves, hay dos parametros que administran
+*!*		los accesos
+*!*		NIVEL: Está asociado a la visibilidad de los modulos
+*!*			Si el modulo tiene un nivel de acceso mayor
+*!*			al del usuario, el usuario no lo ve.
+*!*		PERMISO: Está asociado a la variable publica CLAVE
+*!*			Si el módulo tiene un permiso mayor
+*!*			al del usuario, CLAVE pasa a ser cero.
+*!*			Si el permiso del módulo es igual o menor al del usuario,
+*!*			CLAVE toma el valor del Permiso del usuario.
+
+*!*		En Administrar Módulos, se indican los umbrales para los
+*!*		valores de Nivel y Permiso.
+*!*		Si un módulo tiene un valor de NIVEL=3, puede ser visto
+*!*		por todos los usuarios con NIVE>=3
+*!*		Si un módulo tiene un valor de PERMISO=3, CLAVE conservará
+*!*		su valor para los usuarios con PERMISO>=3. Para los usuarios
+*!*		con PERMISO<3, CLAVE=0.
+
+*!*		Ejemplo:
+*!*		
+*!*		• VENTAS: Deshabilitar F9/F10 y F10/F9 y tener solo acceso a modulos: 				
+*!*			ARCHIVOS/DEUDORES/ESTADISTICAS/STOCK/VENTAS
+
+*!*		• FACT:
+*!*			ARCHIVOS/DEUDORES/ESTADISTICAS/STOCK/VENTAS/VALORES.
+*!*			Pero solo en ventas y valores no tener habilitado F9/F10 y F10/F9.
+*!*		
+*!*		Modulo			Nivel	Permiso
+*!*		Acreedores		2		2
+*!*		Archivos		0		0
+*!*		Compras			2		2
+*!*		Contabilidad	2		2
+*!*		Deudores		0		0
+*!*		Estadisticas	0		0
+*!*		Stock			0		0
+*!*		Utiles			2		2
+*!*		Valores			1		2
+*!*		Ventas			0		2
+
+
+*!*		Los Usuarios
+*!*		Usuario		Nivel	Permiso
+*!*		VENTAS		0		0
+*!*		FACT		1		1
+*!*		ADMIN		5		5
+
+*!*		VENTAS 	tiene solo acceso a Archivos, Deudores, Estadisticas, Stock y Ventas
+*!*			CLAVE va ser siempre 0
+
+*!*		FACT 	tiene ademas acceso a Valores
+*!*			Para Archivos, Deudores, Estadisticas y Stock, CLAVE=1
+*!*			Para Ventas y Valores, CLAVE=0
+
+*!*		Cualquier usuario con Nivel entre 2 y 5, ve todos los modulos
+*!*		Cualquier usuario con Permiso entre 2 y 5, tiene CLAVE=Permiso
+*!*		Usuario con Nivel=5 es Administrador, y es el unico que puede acceder a
+*!*			Administrar Claves y Modulos
+
+ENDPROC
+PROCEDURE ouser_access
+If Vartype( Thisform.oUser ) # "O"
+	*Thisform.oUser = _Screen.oApp.oUser
+	Thisform.oUser = NewUser()
+Endif
+
+Return This.oUser
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+ouser
+*cancelar 
+*aceptar 
+*ouser_access 
+*documentacion 
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2ZS12SFLH
+[CLASS] grid
+[BASECLASS] grid
+[OBJNAME] Grid
+[PARENT] FRMMODULOS
+[START PROPERTIES]
+ColumnCount = 3
+AllowHeaderSizing = .F.
+AllowRowSizing = .F.
+DeleteMark = .F.
+Height = 277
+Left = 24
+RecordMark = .F.
+ScrollBars = 0
+Top = 24
+Width = 410
+AllowAutoColumnFit = 2
+Name = "Grid"
+Column1.ControlSource = ""
+Column1.Width = 250
+Column1.Name = "Modulo"
+Column2.ControlSource = ""
+Column2.Width = 75
+Column2.Name = "Nivel"
+Column3.Name = "Permiso"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2ZS14MNW7
+[CLASS] header
+[BASECLASS] header
+[OBJNAME] Header1
+[PARENT] FRMMODULOS.Grid.Modulo
+[START PROPERTIES]
+Caption = "Módulos"
+Name = "Header1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2ZS14MNW8
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] Text1
+[PARENT] FRMMODULOS.Grid.Modulo
+[START PROPERTIES]
+BorderStyle = 0
+Margin = 0
+ForeColor = 0,0,0
+BackColor = 255,255,255
+Name = "Text1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2ZS14MNW9
+[CLASS] header
+[BASECLASS] header
+[OBJNAME] Header1
+[PARENT] FRMMODULOS.Grid.Nivel
+[START PROPERTIES]
+Caption = "Nivel"
+Name = "Header1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2ZS14MNWA
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] Text1
+[PARENT] FRMMODULOS.Grid.Nivel
+[START PROPERTIES]
+BorderStyle = 0
+Margin = 0
+ForeColor = 0,0,0
+BackColor = 255,255,255
+Name = "Text1"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Valid
+Local llValid As Boolean
+Try
+
+	llValid = Between( This.Value, 0, 5 )
+
+	If !llValid
+		Warning( "Nivel debe estar en el rango de 0 ... 5", "Valor No Valido" )
+	Endif
+
+Catch To oErr
+	Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+Return llValid
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3IW14ITMA
+[CLASS] header
+[BASECLASS] header
+[OBJNAME] Header1
+[PARENT] FRMMODULOS.Grid.Permiso
+[START PROPERTIES]
+Caption = "Permiso"
+Name = "Header1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3IW14ITMB
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] Text1
+[PARENT] FRMMODULOS.Grid.Permiso
+[START PROPERTIES]
+BorderStyle = 0
+Margin = 0
+ForeColor = 0,0,0
+BackColor = 255,255,255
+Name = "Text1"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Valid
+Local llValid As Boolean
+Try
+
+	llValid = Between( This.Value, 0, 5 )
+
+	If !llValid
+		Warning( "Permiso debe estar en el rango de 0 ... 5", "Valor No Valido" )
+	Endif
+
+Catch To oErr
+	Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+Return llValid
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2ZT0RBPID
+[CLASS] shape
+[BASECLASS] shape
+[OBJNAME] Shape2
+[PARENT] FRMMODULOS
+[START PROPERTIES]
+OLEDragPicture = ..\..\..\
+Top = 324
+Left = 24
+Height = 39
+Width = 408
+Anchor = 14
+BackStyle = 0
+BorderWidth = 1
+Curvature = 20
+BorderColor = 128,128,128
+Name = "Shape2"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2ZT0RBPIE
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdAceptar
+[PARENT] FRMMODULOS
+[START PROPERTIES]
+Top = 331
+Left = 323
+Height = 25
+Width = 92
+Anchor = 12
+Picture = ..\image\bmp\manook.bmp
+Caption = "\<Aceptar"
+StatusBarText = "Aceptar"
+TabIndex = 6
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdAceptar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+
+Try
+
+	Thisform.Aceptar()
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2ZT0RBPIF
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancelar
+[PARENT] FRMMODULOS
+[START PROPERTIES]
+Top = 331
+Left = 36
+Height = 25
+Width = 92
+Picture = ..\image\bmp\manocancel.bmp
+Cancel = .T.
+Caption = "\<Cancelar"
+StatusBarText = "Cancelar"
+TabIndex = 9
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdCancelar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+Try
+
+	Thisform.Cancelar()
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

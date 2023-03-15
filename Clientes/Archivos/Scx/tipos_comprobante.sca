@@ -1,0 +1,185 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6550PXLT8
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6550PXLT9
+[CLASS] browseform
+[CLASSLOC] ..\..\..\fw\comunes\vcx\prxbrowse.vcx
+[BASECLASS] form
+[OBJNAME] Browseform1
+[START PROPERTIES]
+DoCreate = .T.
+Name = "Browseform1"
+cntPagination.lblRegistros.Name = "lblRegistros"
+cntPagination.lblPagina.Name = "lblPagina"
+cntPagination.spnPagina.Name = "spnPagina"
+cntPagination.btnPrimero.Name = "btnPrimero"
+cntPagination.btnSiguiente.Name = "btnSiguiente"
+cntPagination.btnAnterior.Name = "btnAnterior"
+cntPagination.btnUltimo.Name = "btnUltimo"
+cntPagination.lblDe_99.Name = "lblDe_99"
+cntPagination.cmdPagina.Name = "cmdPagina"
+cntPagination.spnPageSize.Name = "spnPageSize"
+cntPagination.lblPageSize.Name = "lblPageSize"
+cntPagination.Name = "cntPagination"
+cmdAceptar.Name = "cmdAceptar"
+cmdIngTip.Name = "cmdIngTip"
+CMDCERRAR.Name = "CMDCERRAR"
+spnColumnsLock.Name = "spnColumnsLock"
+lblColumsLock.Name = "lblColumsLock"
+cmdConfigurar.Name = "cmdConfigurar"
+cntTitulo_Old.LBLFECHA.Name = "LBLFECHA"
+cntTitulo_Old.LBLTITULO.Name = "LBLTITULO"
+cntTitulo_Old.Label1.Name = "Label1"
+cntTitulo_Old.Name = "cntTitulo_Old"
+Botones.cmdAgregar.Name = "cmdAgregar"
+Botones.cmdBorrar.Name = "cmdBorrar"
+Botones.cmdRecuperar.Name = "cmdRecuperar"
+Botones.cmdEdit.Name = "cmdEdit"
+Botones.cmdFiltrar.Name = "cmdFiltrar"
+Botones.cmdAplicar.Name = "cmdAplicar"
+Botones.Name = "Botones"
+chkEditarEnGrilla.Alignment = 1
+chkEditarEnGrilla.Name = "chkEditarEnGrilla"
+chkActivos.Alignment = 0
+chkActivos.Name = "chkActivos"
+cntSearch.txtSearch.Name = "txtSearch"
+cntSearch.btnSearch.Name = "btnSearch"
+cntSearch.Name = "cntSearch"
+chkMuestraCamposEspeciales.Alignment = 0
+chkMuestraCamposEspeciales.Name = "chkMuestraCamposEspeciales"
+CNTTITULO.LBLFECHA.Name = "LBLFECHA"
+CNTTITULO.LBLTITULO.Name = "LBLTITULO"
+CNTTITULO.LBLOBSERVACIONES.Name = "LBLOBSERVACIONES"
+CNTTITULO.LBLASTERISCOS.Name = "LBLASTERISCOS"
+CNTTITULO.Name = "CNTTITULO"
+Grid.Name = "Grid"
+cntFiltros.cmdFiltrar.Name = "cmdFiltrar"
+cntFiltros.Name = "cntFiltros"
+cntInformacion.Visible = .T.
+cntInformacion.Name = "cntInformacion"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE cntInformacion.autosize
+Local lcCommand As String
+Local loParent As oComprobante_Base Of "Clientes\Archivos\prg\Comprobante_Base.prg",;
+	loReturn as Object
+
+Try
+
+    lcCommand = ""
+    If This.Visible
+
+        This.lblComprobante_Base.Top 	= Thisform.nGap
+        This.lblComprobante_Base.Left 	= Thisform.nGap
+
+        This.lblModulo.Top 		= This.lblComprobante_Base.Top ;
+            + This.lblComprobante_Base.Height
+        This.lblModulo.Left  	= Thisform.nGap
+
+        This.Height = This.lblModulo.Top + This.lblModulo.Height && + Thisform.nGap
+
+    	loParent = Thisform.oBiz.oParent
+    	loReturn = loParent.GetByPK( loParent.nId )
+    	
+    	If loReturn.lOk
+    		This.lblModulo.Caption = "Módulo: " + loReturn.oRegistro.str_Modulo	
+    		This.lblComprobante_Base.Caption = "Comprobante Base: " + loReturn.oRegistro.Nombre
+    	EndIf
+
+    Else
+        This.Height = 0
+
+    Endif
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+	loParent = Null
+	loReturn = Null
+
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6KE0SGAIV
+[CLASS] _titulo
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] label
+[OBJNAME] lblComprobante_Base
+[PARENT] Browseform1.cntInformacion
+[START PROPERTIES]
+Caption = "Comprobante Base:"
+Left = 43
+Top = 8
+Name = "lblComprobante_Base"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE initialize
+NoDefault
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6KE0SGAIW
+[CLASS] _titulo
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] label
+[OBJNAME] lblModulo
+[PARENT] Browseform1.cntInformacion
+[START PROPERTIES]
+Caption = "Módulo:"
+Left = 38
+Top = 32
+Name = "lblModulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE initialize
+NoDefault
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

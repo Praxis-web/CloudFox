@@ -1,0 +1,280 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3UV0TNZ54
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3UV0TNZ55
+[CLASS] browseform
+[CLASSLOC] ..\vcx\prxbrowse.vcx
+[BASECLASS] form
+[OBJNAME] IMPRESORAS
+[START PROPERTIES]
+DoCreate = .T.
+Caption = "IMPRESORAS"
+Icon = ..\image\ico\impresora.ico
+_memberdata = <VFPData><memberdata name="getprinter" display="GetPrinter"/></VFPData>
+Name = "IMPRESORAS"
+cmdAceptar.ZOrderSet = 0
+cmdAceptar.Name = "cmdAceptar"
+CMDINGTIP.Name = "CMDINGTIP"
+cmdCerrar.ZOrderSet = 1
+cmdCerrar.Name = "cmdCerrar"
+spnColumnsLock.Top = -100
+spnColumnsLock.Visible = .F.
+spnColumnsLock.ZOrderSet = 2
+spnColumnsLock.Name = "spnColumnsLock"
+lblColumsLock.Top = -100
+lblColumsLock.Visible = .F.
+lblColumsLock.ZOrderSet = 3
+lblColumsLock.Name = "lblColumsLock"
+lblRegistros.ZOrderSet = 4
+lblRegistros.Name = "lblRegistros"
+cmdConfigurar.Top = -100
+cmdConfigurar.Visible = .F.
+cmdConfigurar.ZOrderSet = 5
+cmdConfigurar.Name = "cmdConfigurar"
+cntTitulo.lblFecha.Name = "lblFecha"
+cntTitulo.lblTitulo.AutoSize = .T.
+cntTitulo.lblTitulo.Name = "lblTitulo"
+cntTitulo.Label1.Name = "Label1"
+cntTitulo.ZOrderSet = 6
+cntTitulo.Name = "cntTitulo"
+Grid.Height = 228
+Grid.Left = 13
+Grid.Top = 48
+Grid.Width = 299
+Grid.ZOrderSet = 7
+Grid._memberdata =     2217<VFPData><memberdata name="performlayout" display="PerformLayout"/><memberdata name="adjustfitcolumn" display="AdjustFitColumn"/><memberdata name="fill" display="Fill"/><memberdata name="empty" display="Empty"/><memberdata name="setgridlayout" display="SetGridLayout"/><memberdata name="autosetup" display="AutoSetup"/><memberdata name="ocolgridlayout" display="oColGridLayout"/><memberdata name="cfitcolumn" display="cFitColumn"/><memberdata name="cfitcolumn_access" display="cFitColumn_Access"/><memberdata name="ocolgridlayout_access" display="oColGridLayout_Access"/><memberdata name="otable" display="oTable"/><memberdata name="otable_access" display="oTable_Access"/><memberdata name="cmaincursorname" display="cMainCursorName"/><memberdata name="cmaincursorname_access" display="cMainCursorName_Access"/><memberdata name="definetable" display="DefineTable"/><memberdata name="lcanupdate" display="lCanUpdate" favorites="True"/><memberdata name="lcastdatetime" display="lCastDateTime"/><memberdata name="lperformautosetup" display="lPerformAutoSetUp"/><memberdata name="noriginalwidth" display="nOriginalWidth"/><memberdata name="lischeckfitcolumn" display="lIsCheckFitColumn"/><memberdata name="columnmouseenter" display="ColumnMouseEnter"/><memberdata name="columnmouseleave" display="ColumnMouseLeave"/><memberdata name="nstatus" display="nStatus"/><memberdata name="beforedefinetable" display="BeforeDefineTable"/><memberdata name="oparam" display="oParam"/><memberdata name="cerrormessage" display="cErrorMessage"/><memberdata name="obiz" display="oBiz"/><memberdata name="obiz_access" display="oBiz_Access"/><memberdata name="ccursordetrabajo" display="cCursorDeTrabajo"/><memberdata name="ccursordetrabajo_access" display="cCursorDeTrabajo_Access"/><memberdata name="lperdiendoelfoco" display="lPerdiendoElFoco"/><memberdata name="ocolumn" display="oColumn"/><memberdata name="lusesdatadictionary" display="lUsesDataDictionary" favorites="True"/><memberdata name="lcancreate" display="lCanCreate" favorites="True"/><memberdata name="lcandelete" display="lCanDelete" favorites="True"/><memberdata name="reverttable" display="RevertTable"/><memberdata name="updatetable" display="UpdateTable"/></VFPData>
+
+Grid.lusesdatadictionary = .T.
+Grid.Name = "Grid"
+Botones.cmdAgregar.Name = "cmdAgregar"
+Botones.cmdBorrar.Name = "cmdBorrar"
+Botones.cmdRecuperar.Name = "cmdRecuperar"
+Botones.cmdEdit.Name = "cmdEdit"
+Botones.Top = 217
+Botones.ZOrderSet = 8
+Botones.Name = "Botones"
+chkEditarEnGrilla.Alignment = 1
+chkEditarEnGrilla.Name = "chkEditarEnGrilla"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Grid.AfterRowColChange
+Lparameters nColIndex
+
+DoDefault( nColIndex )
+
+ThisForm.edtPuerto.Refresh()
+ENDPROC
+PROCEDURE Grid.definetable
+Local lcCommand As String
+Local loTable As oTable Of "Tools\DataDictionary\prg\oTable.prg"
+Local loColFields As oColFields Of "Tools\DataDictionary\prg\oColFields.prg"
+Local loField As oField Of "Tools\DataDictionary\prg\oField.prg"
+
+Local i As Integer,;
+	lnLen As Integer
+
+Try
+
+	lcCommand = ""
+
+	loTable 	= This.oTable
+	loColFields = loTable.oColFields
+
+	*!*	Puerto
+	* No Mostrarlo en la grilla
+	loField = loColFields.GetItem( "Puerto" )
+	loField.nGridOrder = 0
+	loField.lVisible = .F.
+
+	*!*	Id
+	* No Mostrarlo en la grilla
+	loField = loColFields.GetItem( "Id" )
+	loField.nGridOrder = 0
+	loField.lVisible = .F.
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROCPROCEDURE Init
+Lparameters oParam As Object
+
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	Thisform.oParam = oParam
+
+	Thisform.cCursorDeTrabajo = Thisform.Grid.cCursorDeTrabajo
+	Thisform.edtPuerto.ControlSource = Thisform.cCursorDeTrabajo + ".Puerto"
+
+	DoDefault( oParam )
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE getprinter
+Local lcCommand as String,;
+lcPrinter as String
+
+Try
+
+	lcCommand = ""
+	lcPrinter = GetPrinter()
+	
+	If !Empty( lcPrinter )
+		Text To lcCommand NoShow TextMerge Pretext 15
+		Replace Puerto With '<<lcPrinter>>'
+			In <<Thisform.cCursorDeTrabajo>>
+		EndText
+
+		&lcCommand
+		
+		Thisform.Refresh()
+		
+	EndIf
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE synchronizebuttons
+DoDefault()
+
+ThisForm.cmdPuerto.Enabled = Thisform.lEdit
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+*getprinter Selecciona una impresora
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3UW0WCWEC
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdPuerto
+[PARENT] IMPRESORAS
+[START PROPERTIES]
+Top = 48
+Left = 324
+Height = 46
+Width = 92
+Anchor = 12
+Picture = ..\image\bmp\print.bmp
+Caption = ""
+ToolTipText = "Seleccionar Impresora"
+PicturePosition = 1
+ZOrderSet = 9
+Name = "cmdPuerto"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.GetPrinter()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3UW0WCWED
+[CLASS] editbox
+[BASECLASS] editbox
+[OBJNAME] edtPuerto
+[PARENT] IMPRESORAS
+[START PROPERTIES]
+Anchor = 14
+Height = 24
+Left = 12
+ReadOnly = .T.
+Top = 302
+Width = 300
+ZOrderSet = 10
+Name = "edtPuerto"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3UW0XG1ET
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblPuerto
+[PARENT] IMPRESORAS
+[START PROPERTIES]
+Anchor = 6
+Alignment = 2
+BackStyle = 0
+Caption = "Puerto"
+Height = 17
+Left = 13
+Top = 286
+Width = 50
+TabIndex = 10
+ZOrderSet = 11
+Name = "lblPuerto"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

@@ -1,0 +1,320 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VF7II
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VF7IJ
+[CLASS] crud_form_con_solapas
+[CLASSLOC] ..\..\..\frontend\vcx\crud.vcx
+[BASECLASS] form
+[OBJNAME] CLIENTE
+[START PROPERTIES]
+Top = 0
+Left = 0
+DoCreate = .T.
+cmodelo = Organizacion_Cliente
+Name = "CLIENTE"
+Crud_Shape.Name = "Crud_Shape"
+crud_buttons.cmdGrabar.Name = "cmdGrabar"
+crud_buttons.cmdEliminar.Name = "cmdEliminar"
+crud_buttons.cmdCancelar.Name = "cmdCancelar"
+crud_buttons.Name = "crud_buttons"
+crud_titulo.lblFecha.Name = "lblFecha"
+crud_titulo.LBLTITULO.Name = "LBLTITULO"
+crud_titulo.lblObservaciones.Name = "lblObservaciones"
+crud_titulo.lblAsteriscos.Name = "lblAsteriscos"
+crud_titulo.Name = "crud_titulo"
+crud_ajustes.Crud_Shape.Name = "Crud_Shape"
+crud_ajustes.spnOrden.Name = "spnOrden"
+crud_ajustes.chkActivo.Alignment = 0
+crud_ajustes.chkActivo.Name = "chkActivo"
+crud_ajustes.chkEs_Sistema.Alignment = 0
+crud_ajustes.chkEs_Sistema.Name = "chkEs_Sistema"
+crud_ajustes.lblMostrar.Name = "lblMostrar"
+crud_ajustes.lblOrden.Name = "lblOrden"
+crud_ajustes.Name = "crud_ajustes"
+crud_PageFrame.ErasePage = .T.
+crud_PageFrame.PageCount = 5
+crud_PageFrame.Principal.Crud_Shape.Name = "Crud_Shape"
+crud_PageFrame.Principal.Name = "Principal"
+crud_PageFrame.Crud_solapa2.Crud_Shape.Name = "Crud_Shape"
+crud_PageFrame.Crud_solapa2.Caption = "Contactos"
+crud_PageFrame.Crud_solapa2.Name = "Contactos"
+crud_PageFrame.Crud_solapa3.Crud_Shape.Name = "Crud_Shape"
+crud_PageFrame.Crud_solapa3.Caption = "Sucursales"
+crud_PageFrame.Crud_solapa3.Name = "Sucursales"
+crud_PageFrame.Crud_solapa4.Crud_Shape.Name = "Crud_Shape"
+crud_PageFrame.Crud_solapa4.Caption = "Datos Comerciales"
+crud_PageFrame.Crud_solapa4.Name = "Datos_Comerciales"
+crud_PageFrame.Crud_solapa5.Crud_Shape.Name = "Crud_Shape"
+crud_PageFrame.Crud_solapa5.Caption = "Varios"
+crud_PageFrame.Crud_solapa5.Name = "Varios"
+crud_PageFrame.Name = "crud_PageFrame"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNC9J
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtCodigo
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Left = 101
+Top = 28
+ctable = Organizacion
+nlabelspan = 2
+ncolumnsspan = 4
+Name = "txtCodigo"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNC9K
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtNombre
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Left = 235
+Top = 28
+ctable = Organizacion
+ntoprow = 1
+nlabelspan = 2
+ncolumnsspan = 8
+nleftcolumn = 5
+Name = "txtNombre"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNC9M
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtNombre_Fantasia
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Left = 235
+Top = 52
+ctable = Organizacion
+ntoprow = 2
+ncolumnsspan = 8
+nlabelspan = 2
+nleftcolumn = 5
+Name = "txtNombre_Fantasia"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNC9P
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtDocumento_Numero
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Left = 235
+Top = 76
+ctable = Organizacion
+ntoprow = 3
+ncolumnsspan = 8
+nlabelspan = 2
+nleftcolumn = 5
+Name = "txtDocumento_Numero"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNC9Q
+[CLASS] _combobox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] combobox
+[OBJNAME] cboCondicion_Iva
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Left = 103
+Top = 52
+ntoprow = 2
+nlabelspan = 2
+ncolumnsspan = 4
+cmodelo = Condicion_Iva
+ctable = Organizacion
+Name = "cboCondicion_Iva"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNC9T
+[CLASS] _combobox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] combobox
+[OBJNAME] cboTipo_Documento
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Left = 103
+Top = 76
+ntoprow = 3
+nlabelspan = 2
+ncolumnsspan = 4
+cmodelo = Afip_Documento
+ctable = Organizacion
+Name = "cboTipo_Documento"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNC9W
+[CLASS] _editbox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] editbox
+[OBJNAME] edtDomicilio
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Height = 26
+Left = 103
+Top = 100
+Width = 294
+ctable = Organizacion
+ncolumnsspan = 8
+nlabelposition = 2
+nlabelspan = 2
+nleftcolumn = 1
+ntoprow = 4
+nrowspan = 1
+Name = "edtDomicilio"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNC9Y
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtCodigo_Postal
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Left = 403
+Top = 100
+ctable = Organizacion
+nlabelspan = 2
+ncolumnsspan = 4
+ntoprow = 4
+nleftcolumn = 9
+Name = "txtCodigo_Postal"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNCA0
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtLocalidad
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Left = 103
+Top = 124
+ctable = Organizacion
+ntoprow = 5
+ncolumnsspan = 6
+nlabelspan = 2
+nleftcolumn = 1
+Name = "txtLocalidad"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNCA3
+[CLASS] _combobox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] combobox
+[OBJNAME] cboPais
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Left = 403
+Top = 124
+ntoprow = 5
+nlabelspan = 1
+ncolumnsspan = 3
+cmodelo = Pais
+ctable = Organizacion
+nleftcolumn = 7
+Name = "cboPais"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNCA6
+[CLASS] _combobox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] combobox
+[OBJNAME] cboProvincia
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Left = 511
+Top = 124
+ntoprow = 5
+nlabelspan = 1
+ncolumnsspan = 3
+cmodelo = Provincia
+ctable = Organizacion
+nleftcolumn = 10
+Name = "cboProvincia"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6D30VNCA9
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\..\xcloudfox\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtPagina_Web
+[PARENT] CLIENTE.crud_PageFrame.Principal
+[START PROPERTIES]
+Height = 23
+Left = 103
+Top = 148
+Width = 504
+ctable = Organizacion
+ntoprow = 6
+nlabelspan = 2
+Name = "txtPagina_Web"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[EOF]

@@ -1,0 +1,4901 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U0XBUWH
+[CLASS] prxform
+[CLASSLOC] prxbase.vcx
+[BASECLASS] form
+[OBJNAME] rptformviejo
+[START PROPERTIES]
+Height = 355
+Width = 500
+DoCreate = .T.
+Caption = "Reporte"
+nstatus = 1
+ousertier = .NULL.
+querymethod = 
+reportfilename = 
+gridformname = 
+nreportid = 1
+dataconfigurationkey = 
+cconfignexttierfilename = ObjectFactoryCfg.xml
+_memberdata =     2046<VFPData><memberdata name="oreturn" type="property" display="oReturn" favorites="True" override="True"/><memberdata name="gapsize" type="property" display="GapSize"/><memberdata name="performautofit" type="property" display="PerformAutofit"/><memberdata name="fontsize_assign" type="method" display="Fontsize_Assign"/><memberdata name="nstatus" type="property" display="nStatus"/><memberdata name="oerror_access" type="method" display="oError_Access"/><memberdata name="populateproperties" type="method" display="PopulateProperties"/><memberdata name="ousertier" type="property" display="oUserTier"/><memberdata name="ousertier_access" type="property" display="oUserTier_Access"/><memberdata name="cusertierclass" type="property" display="cUserTierClass" favorites="True"/><memberdata name="cusertierclasslibrary" type="property" display="cUserTierClassLibrary" favorites="True"/><memberdata name="cusertierclasslibraryfolder" type="property" display="cUserTierClassLibraryFolder" favorites="True"/><memberdata name="querymethod" type="property" display="QueryMethod" favorites="True"/><memberdata name="reportfilename" type="property" display="ReportFileName" favorites="True"/><memberdata name="gridformname" type="property" display="GridFormName" favorites="True"/><memberdata name="addfilters" type="method" display="AddFilters"/><memberdata name="loadorderbyfields" type="method" display="LoadOrderByFields"/><memberdata name="personalize" type="method" display="Personalize"/><memberdata name="nreportid" type="property" display="nReportId"/><memberdata name="generatequery" type="method" display="GenerateQuery"/><memberdata name="preview" type="method" display="Preview"/><memberdata name="dataconfigurationkey" type="property" display="DataConfigurationKey" favorites="True"/><memberdata name="cconfignexttierfilename" type="property" display="cConfigNextTierFileName" favorites="True"/><memberdata name="printreport" type="method" display="PrintReport"/><memberdata name="closecursors" type="method" display="CloseCursors"/></VFPData>
+
+Name = "rptformviejo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Lparameters toParam As Object
+
+Try
+
+	*!*		This.oError.TraceLogin = "Iniciando Formulario"
+	*!*		This.oError.Remark = ""
+
+	*!*		If !IsEmpty( toParam )
+	*!*			This.oError.Remark = "Cargando propiedades desde parámetros"
+	*!*			This.PopulateProperties( toParam )
+	*!*		Endif
+
+	* Por ahora, no hay reporte generico
+
+	*!*		If This.IsOk
+	*!*			Thisform.oUserTier.ReportSetUp( This.nReportId )
+	*!*		Endif
+
+	* Por ahora, los filtros los agrego a mano
+
+	*!*		If This.IsOk
+	*!*			This.oError.Remark = "Agregando Filtros"
+	*!*			This.AddFilters()
+	*!*		EndIf
+
+	* Por ahora, la colección Orderby se ordena a mano
+	If This.lIsOk
+		This.oError.Cremark = "Cargando campos para el ordenamiento"
+		This.LoadOrderByFields()
+	Endif
+
+	If This.PerformAutoSetUp
+		This.AutoSetUp()
+	Endif
+
+	ThisForm.PageFrame.Page1.Enabled = .F.
+	Thisform.PageFrame.ActivePage = 3
+
+Catch To oErr
+	This.lIsOk = .F.
+
+
+Finally
+
+Endtry
+
+Return This.lIsOk
+
+
+
+*!*	Lparameters toParam As Object
+
+*!*	Try
+
+*!*	*!*		This.oError.TraceLogin = "Iniciando Formulario"
+*!*	*!*		This.oError.Remark = ""
+
+*!*	*!*		If !IsEmpty( toParam )
+*!*	*!*			This.oError.Remark = "Cargando propiedades desde parámetros"
+*!*	*!*			This.PopulateProperties( toParam )
+*!*	*!*		Endif
+
+*!*		* Por ahora, no hay reporte generico
+
+*!*		*!*		If This.IsOk
+*!*		*!*			Thisform.oUserTier.ReportSetUp( This.nReportId )
+*!*		*!*		Endif
+
+*!*		* Por ahora, los filtros los agrego a mano
+
+*!*		*!*		If This.IsOk
+*!*		*!*			This.oError.Remark = "Agregando Filtros"
+*!*		*!*			This.AddFilters()
+*!*		*!*		EndIf
+
+*!*		* Por ahora, la colección Orderby se ordena a mano
+*!*		*!*		If This.IsOk
+*!*		*!*			This.oError.Remark = "Cargando campos para el ordenamiento"
+*!*		*!*			This.LoadOrderByFields()
+*!*		*!*		Endif
+
+*!*		If This.IsOk
+*!*			DoDefault()
+*!*		EndIf
+*!*		
+*!*		Thisform.pageFrame.ActivePage = 3
+
+*!*	Catch To oErr
+*!*		This.IsOk = .F.
+
+
+*!*	Finally
+
+*!*	Endtry
+
+*!*	Return This.IsOk
+
+ENDPROC
+PROCEDURE Load
+DoDefault()
+Thisform.BorderStyle = 2
+ENDPROC
+PROCEDURE QueryUnload
+Thisform.Release()
+ENDPROCPROCEDURE addfilters
+Local oFiltro As Object
+Local i As Integer
+Local loFF As Object
+Local lcName As String
+
+Try
+
+	This.oUserTier.GenericQuery_GetFilters()
+	
+	loFF = ThisForm.PageFrame.Filtros.FiltroFrame.Filtros
+
+	For i = 1 To Thisform.oUserTier.oColReportFilters.Count
+		oFiltro = Thisform.oUserTier.oColReportFilters.Item( i )
+
+		TEXT To lcCommand NoShow TextMerge Pretext 15
+		SET CLASSLIB TO '<<oFiltro.FilterClassLibraryFolder>><<oFiltro.FilterClassLibrary>>' ADDITIVE
+		ENDTEXT
+
+		&lcCommand
+
+		lcName = oFiltro.Name
+
+		loFF.AddObject( lcName, oFiltro.FilterClassLibrary + "." + oFiltro.FilterClass )
+
+		loFF.&lcName..Visible = .T.
+		loFF.&lcName..ChkInclude.Caption = oFiltro.Caption
+		loFF.&lcName..CursorName = oFiltro.CursorName
+		loFF.&lcName..FieldName = oFiltro.FieldName
+
+	Endfor
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	This.lIsOk = .F.
+
+Finally
+	oFiltro = Null
+	loFF = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE autosetup
+Local lnMaxHeight  As Integer,;
+	lnMaxWidth As Integer
+
+DoDefault()
+
+lnMaxHeight = Max( Thisform.OptionPanel.Height, ;
+	ThisForm.PageFrame.Height )
+
+lnMaxWidth = Thisform.PageFrame.Width + This.Gap + Thisform.OptionPanel.Width
+
+Thisform.PageFrame.Height = lnMaxHeight
+Thisform.OptionPanel.Height = lnMaxHeight
+
+Thisform.MarcoCancelar.Width = lnMaxWidth
+Thisform.Titulo.Width = lnMaxWidth
+
+ENDPROC
+PROCEDURE closecursors
+*!*	Local lnTotal As Integer	,;
+*!*		niCount As Integer		,;
+*!*		lcTable As String		,;
+*!*		loCatchErr As Exception
+*!*	Local Array laTables[1]
+
+*!*	Try
+
+*!*		lnTotal = Aused( laTables )
+*!*		For niCount = 1 To lnTotal
+*!*			lcTable = laTables[ niCount, 1 ]
+*!*			If Used( lcTable )
+*!*				Use In ( lcTable )
+*!*			Endif
+*!*		Next
+*!*		
+*!*	Catch To oErr
+*!*		This.oError.Process( oErr )
+
+*!*	Finally
+
+*!*	Endtry
+
+ENDPROC
+PROCEDURE generatequery
+Lparameters cAlias As String
+
+Local llOk As Boolean
+
+Try
+	llOk = .F.
+	Nodefault
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	llOk = .F.
+
+
+Finally
+
+Endtry
+
+Return llOk
+
+
+
+
+*!*	Lparameters cAlias as String
+
+*!*	Try
+
+*!*		Local lcWhere as String,;
+*!*		lcOrderBy as String
+*!*		
+*!*		If Empty( cAlias )
+*!*			cAlias = This.oUserTier.MainCursorName
+*!*		EndIf
+*!*		
+*!*		If Used( cAlias )
+*!*			Use in Alias( cAlias )
+*!*		EndIf
+*!*		
+*!*		lcWhere = ThisForm.PageFrame.Filtros.FiltroFrame.Filtros.GetWhereStatement()
+*!*		lcOrderBy = ThisForm.PageFrame.Page2.OrderByFrame.GetOrderByStatement()
+*!*		This.oUserTier.GetAll( lcWhere, cAlias, lcOrderBy )	
+*!*		
+*!*	Catch To oErr
+*!*		Local loError As UserTierError Of "fw\Actual\ErrorHandler\UserTierError.prg"
+*!*		loError = Newobject( "UserTierError", "UserTierError.prg" )
+*!*		loError.Process( oErr )
+
+
+*!*	Finally
+
+*!*	EndTry
+
+*!*	Return Used( cAlias )
+ENDPROC
+PROCEDURE loadorderbyfields
+*!*	Carga los ListBox de Origen y Destino desde la colección oColReportOrderBy
+*!*	e indica una vinculación entre cada elemento del ListBox y el índice
+*!*	que tiene el objeto en la colección
+
+Try
+
+	Local i As Integer
+	Local loField As Object
+	Local loSLB As ListBox,;
+		loTLB As ListBox
+	Local loColOB As ColReportOrderBy Of "Fw\Comun\Prg\ColReportOrderBy.prg"
+
+	* Obtengo referencias a los Listbox Source (loSLB) y Target (loTLB)
+	loSLB = Thisform.PageFrame.Page2.OrderByFrame.SourceList.Dato
+	loTLB = Thisform.PageFrame.Page2.OrderByFrame.TargetList.Dato
+
+	Thisform.oUserTier.FillColOrderByFields( Thisform.QueryMethod )
+
+
+	* Obtengo una referencia a la colección ColBandLayout (loColBL)
+	loColOB = Thisform.oUserTier.oColReportOrderBy
+
+
+	For i = 1 To loColOB.Count
+		* Voy asignando cada elemento al ListBox correspondiente
+		loField = loColOB.Item( i )
+
+		If loField.Selected
+			* Si el objeto está seleccionado, lo agrego al TargetListBox,
+			* que contiene los elementos seleccionados
+			loTLB.AddItem( loField.DisplayValue )
+
+			* Guardo el índice del objeto, para poder referenciarlo despues
+			loTLB.ItemData( loTLB.NewIndex ) = i
+
+		Else
+			* Si no, lo agrego al SourceListBox, que contiene los elementos
+			* disponibles
+			loSLB.AddItem( loField.DisplayValue )
+
+			* Guardo el índice del objeto, para poder referenciarlo despues
+			loSLB.ItemData( loSLB.NewIndex ) = i
+
+		Endif
+
+	Endfor
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	This.lIsOk = .F.
+
+
+Finally
+	loSLB = Null
+	loTLB = Null
+	loColOB = Null
+	loField = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE ousertier_access
+Try
+
+
+	If Vartype( This.oUserTier ) <> "O"
+
+		With Thisform As rptform OF "V:\SistemasPraxisV2\fw\comunes\vcx\prxreportform.vcx"
+
+			Local loParam As Object
+			Local loNextTierFactory As ObjectFactory Of "Fw\Comun\Prg\ObjectFactory.prg"
+
+*!*				loParam = Createobject( "Empty" )
+*!*				AddProperty( loParam, "ObjectName", .cDataConfigurationKey  )
+*!*				AddProperty( loParam, "TierLevel", "User" )
+*!*				AddProperty( loParam, "cObjectFactoryFileName", .cConfigNextTierFileName )
+*!*				AddProperty( loParam, "uParameter", .DataSessionId )
+
+*!*				loNextTierFactory = Newobject( "ObjectFactory",;
+*!*					"ObjectFactory.prg",;
+*!*					"",;
+*!*					loParam )
+
+*!*				.oUserTier = loNextTierFactory.Getobject()
+
+
+			loNextTierFactory = NewObjectFactory()
+
+			.oUserTier = loNextTierFactory.Getobject( .cDataConfigurationKey, "User" )
+
+		Endwith
+	Endif
+
+Catch To oErr
+	This.lIsOk = .F.
+	This.oError.Process( oErr )
+
+
+Finally
+	loParam = Null
+	loNextTierFactory = Null
+
+Endtry
+
+Return This.oUserTier
+
+ENDPROC
+PROCEDURE personalize
+Try
+
+	Do form "V:\SistemasPraxisV2\fw\comunes\scx\Report Layout Form.scx" ;
+	with Thisform.oUserTier, Thisform.nReportId
+	
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+EndTry
+
+ENDPROC
+PROCEDURE populateproperties
+Lparameters toParam
+
+Try
+
+	If Vartype( toParam ) == "O"
+		Local laMembers[1] As String
+
+		Amembers( laMembers, toParam )
+
+		For Each cProperty In laMembers
+			Try
+				Thisform.&cProperty = toParam.&cProperty
+
+			Catch To oErr
+				* No hago nada
+
+			Finally
+
+			Endtry
+
+		Endfor
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	This.lIsOk
+
+Finally
+
+Endtry
+
+ENDPROC
+PROCEDURE preview
+*#INCLUDE "ERP\ArchivosYTablas\Include\Archivos.h"
+
+Try
+
+	If Thisform.GenerateQuery()
+		* Ejecutar la Vista Previa
+
+		Report Form ( Addbs(TABLAS_FRX) + This.ReportFileName ) TO PRINTER PROMPT NODIALOG Preview
+		
+		Thisform.CloseCursors()
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+ENDPROC
+PROCEDURE printreport
+*#INCLUDE "ERP\ArchivosYTablas\Include\Archivos.h"
+
+Try
+
+	If Thisform.GenerateQuery()
+		* Ejecutar la Vista Previa
+
+		Report Form ( Addbs(TABLAS_FRX) + This.ReportFileName ) TO PRINTER PROMPT Noconsole
+		
+		Thisform.CloseCursors()
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+ENDPROC
+PROCEDURE reportfilename_access
+*To do: Modify this routine for the Access method
+RETURN THIS.ReportFileName
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+8[END RESERVED2]
+[START RESERVED3]
+nstatus
+ousertier
+querymethod Nombre del metodo de oUserTier que se deberá llamar
+reportfilename Nombre del archivo .frx que se llamará para ejecutar el reporte
+gridformname Nombre del GridForm que se llamará para mostrar la consulta
+nreportid Permite llamar al metodo SetReportLayout con distintos parámetros
+dataconfigurationkey
+cconfignexttierfilename
+*ousertier_access 
+*addfilters Carga los filtros a partir de información recibida desde la oUserTier
+*loadorderbyfields Carga la lista de campos disponibles para el ordenamiento a partir de información recibida desde la oUserTier
+*personalize 
+*generatequery 
+*preview 
+*printreport 
+*reportfilename_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U14CWHO
+[CLASS] rptoptionpanel
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] container
+[OBJNAME] OptionPanel
+[PARENT] rptformviejo
+[START PROPERTIES]
+Top = 56
+Left = 380
+TabIndex = 3
+StatusBarText = "Tipo de salida del Reporte"
+Name = "OptionPanel"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+cmdGrid.Visible = .F.
+cmdGrid.Name = "cmdGrid"
+cmdPreview.Name = "cmdPreview"
+cmdExport.Visible = .F.
+cmdExport.Name = "cmdExport"
+CMDPRINTREPORT.Name = "CMDPRINTREPORT"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U15G40H
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] MarcoCancelar
+[PARENT] rptformviejo
+[START PROPERTIES]
+Top = 268
+Left = 20
+Width = 432
+Height = 60
+TabIndex = 4
+StatusBarText = "Seleccionar una acción "
+Name = "MarcoCancelar"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Caption = "Ordenado por"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+If Vartype( This.oColObjects ) <> "O"
+	This.oColObjects = OrderControlsByKey( This )
+Endif
+
+
+This.cmdCancel.Top = This.TopMargin
+This.cmdCancel.Left = This.LeftMargin
+This.Width = This.LeftMargin + This.cmdCancel.Width +This.LeftMargin
+This.Height = This.TopMargin + This.cmdCancel.Height + This.BottomMargin
+
+This.CmdPersonalize.Top = This.TopMargin
+This.CmdPersonalize.Left = This.LeftMargin
+This.CmdPersonalize.Anchor = ANCHOR_Top_Absolute + ;
+	ANCHOR_Bottom_Absolute + ;
+	ANCHOR_Right_Absolute
+
+
+
+With This
+	.ZOrder( 1 )
+	.BorderWidth 	= 0
+	.BackColor 		= .Parent.BackColor
+Endwith
+
+With This.Shape As Shape
+	.Top 		= 0
+	.Left 		= 0
+	.Height 	= This.Height
+	.Width 		= This.Width
+	.BackColor 	= .Parent.BackColor
+	.ZOrder( 1 )
+	.Anchor = ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+Endwith
+
+With This.lblTitulo
+	.Top 			= 0
+	.Left 		= This.Shape.Left + ( .Height / 2 )
+	.BackColor 	= .Parent.BackColor
+	.DisabledBackColor = Thisform.BackColor
+Endwith
+
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U0XM044
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancel
+[PARENT] rptformviejo.MarcoCancelar
+[START PROPERTIES]
+Top = 12
+Left = 8
+Cancel = .T.
+Caption = " Cancelar"
+Name = "cmdCancel"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Release()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0R4FZD
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdPersonalize
+[PARENT] rptformviejo.MarcoCancelar
+[START PROPERTIES]
+Top = 16
+Left = 324
+Picture = ..\image\bmp\label.bmp
+DisabledPicture = ..\..\..\
+Cancel = .T.
+Caption = "Personalizar"
+Visible = .F.
+Name = "cmdPersonalize"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Personalize()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25W106H5J
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] Titulo
+[PARENT] rptformviejo
+[START PROPERTIES]
+Top = 0
+Left = 20
+Width = 272
+Height = 48
+TabIndex = 1
+Name = "Titulo"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Try
+
+	This.lblReportName.Top = This.TopMargin
+	This.lblReportName.Left = This.LeftMargin
+	This.lblReportName.AutoFit()
+
+	This.Width = This.LeftMargin + This.lblReportName.Width + This.RightMargin
+	This.Height = This.TopMargin + This.lblReportName.Height + This.BottomMargin
+	
+	With This
+		.ZOrder( 1 )
+		.BorderWidth 	= 0
+		.BackColor 		= .Parent.BackColor
+	Endwith
+
+	With This.Shape As Shape
+		.Top 		= 0
+		.Left 		= 0
+		.Height 	= This.Height
+		.Width 		= This.Width
+		.BackColor 	= .Parent.BackColor
+		.ZOrder( 1 )
+		.Anchor = ANCHOR_Top_Absolute + ;
+			ANCHOR_Left_Absolute + ;
+			ANCHOR_Bottom_Absolute + ;
+			ANCHOR_Right_Absolute
+
+	Endwith
+
+	With This.lblTitulo
+		.Top 			= 0
+		.Left 		= This.Shape.Left + ( .Height / 2 )
+		.BackColor 	= .Parent.BackColor
+		.DisabledBackColor = Thisform.BackColor
+	Endwith
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+EndTry
+
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25W106H9S
+[CLASS] prxlabel
+[CLASSLOC] prxbase.vcx
+[BASECLASS] label
+[OBJNAME] lblReportName
+[PARENT] rptformviejo.Titulo
+[START PROPERTIES]
+AutoSize = .T.
+FontBold = .T.
+FontSize = 20
+Caption = "Título del Reporte"
+Height = 35
+Left = 22
+Top = 13
+Width = 239
+TabIndex = 4
+Name = "lblReportName"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0Q1CMR
+[CLASS] rptmainpageframe
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] pageframe
+[OBJNAME] PageFrame
+[PARENT] rptformviejo
+[START PROPERTIES]
+ErasePage = .T.
+Top = 56
+Left = 8
+Width = 368
+Height = 208
+TabIndex = 2
+Name = "PageFrame"
+PRXPAGE1.Name = "PRXPAGE1"
+PRXPAGE2.Name = "PRXPAGE2"
+prxpage3.Name = "prxpage3"
+RPTVISTA1.Shape.Name = "Shape"
+RPTVISTA1.SHPLABEL.Name = "SHPLABEL"
+RPTVISTA1.LBLTITULO.Name = "LBLTITULO"
+RPTVISTA1.ACTIONS.Shape.Name = "Shape"
+RPTVISTA1.ACTIONS.SHPLABEL.Name = "SHPLABEL"
+RPTVISTA1.ACTIONS.LBLTITULO.Name = "LBLTITULO"
+RPTVISTA1.ACTIONS.CMDAPPLY.Name = "CMDAPPLY"
+RPTVISTA1.ACTIONS.CMDSAVE.Name = "CMDSAVE"
+RPTVISTA1.ACTIONS.CMDDELETE.Name = "CMDDELETE"
+RPTVISTA1.ACTIONS.Name = "ACTIONS"
+RPTVISTA1.VISTA.Shape.Name = "Shape"
+RPTVISTA1.VISTA.SHPLABEL.Name = "SHPLABEL"
+RPTVISTA1.VISTA.LBLTITULO.Name = "LBLTITULO"
+RPTVISTA1.VISTA.VISTAS.Name = "VISTAS"
+RPTVISTA1.VISTA.Name = "VISTA"
+RPTVISTA1.Name = "RPTVISTA1"
+ORDERBYFRAME.Shape.Name = "Shape"
+ORDERBYFRAME.SHPLABEL.Name = "SHPLABEL"
+ORDERBYFRAME.LBLTITULO.Name = "LBLTITULO"
+ORDERBYFRAME.SOURCELIST.Label.Name = "Label"
+ORDERBYFRAME.SOURCELIST.CHECKBUTTON.Name = "CHECKBUTTON"
+ORDERBYFRAME.SOURCELIST.DATO.Name = "DATO"
+ORDERBYFRAME.SOURCELIST.Name = "SOURCELIST"
+ORDERBYFRAME.MOVERBUTTONS.Shape.Name = "Shape"
+ORDERBYFRAME.MOVERBUTTONS.SHPLABEL.Name = "SHPLABEL"
+ORDERBYFRAME.MOVERBUTTONS.LBLTITULO.Name = "LBLTITULO"
+ORDERBYFRAME.MOVERBUTTONS.ADDONE.Name = "ADDONE"
+ORDERBYFRAME.MOVERBUTTONS.ADDALL.Name = "ADDALL"
+ORDERBYFRAME.MOVERBUTTONS.REMOVEALL.Name = "REMOVEALL"
+ORDERBYFRAME.MOVERBUTTONS.REMOVEONE.Name = "REMOVEONE"
+ORDERBYFRAME.MOVERBUTTONS.Name = "MOVERBUTTONS"
+ORDERBYFRAME.TARGETLIST.Label.Name = "Label"
+ORDERBYFRAME.TARGETLIST.CHECKBUTTON.Name = "CHECKBUTTON"
+ORDERBYFRAME.TARGETLIST.DATO.Name = "DATO"
+ORDERBYFRAME.TARGETLIST.Name = "TARGETLIST"
+ORDERBYFRAME.Name = "ORDERBYFRAME"
+FILTROFRAME.Shape.Name = "Shape"
+FILTROFRAME.SHPLABEL.Name = "SHPLABEL"
+FILTROFRAME.LBLTITULO.Name = "LBLTITULO"
+FILTROFRAME.FILTROS.Name = "FILTROS"
+FILTROFRAME.Name = "FILTROFRAME"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptformviejo
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hlA‡@ ..\include\foxpro.h	*z
+; ..\include\strings.h&
+:[é:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U0XM044
+[CLASS] prxform
+[CLASSLOC] prxbase.vcx
+[BASECLASS] form
+[OBJNAME] rptgridform
+[START PROPERTIES]
+Height = 425
+Width = 642
+DoCreate = .T.
+Caption = "Grid Form"
+ControlBox = .F.
+Name = "rptgridform"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0PJEVV
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] MarcoCancelar
+[PARENT] rptgridform
+[START PROPERTIES]
+Top = 228
+Left = 8
+Width = 468
+Height = 60
+TabIndex = 4
+Name = "MarcoCancelar"
+Shape.Name = "Shape"
+SHPLABEL.Name = "SHPLABEL"
+lblTitulo.Caption = "Ordenado por"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+If Vartype( This.oColObjects ) <> "O"
+	This.oColObjects = OrderControlsByKey( This )
+Endif
+
+
+This.cmdCancel.Top = This.TopMargin
+This.cmdCancel.Left = This.LeftMargin
+This.Width = This.LeftMargin + This.cmdCancel.Width +This.LeftMargin
+
+This.Height = This.TopMargin + This.cmdCancel.Height + This.BottomMargin
+
+With This
+	.ZOrder( 1 )
+	.BorderWidth 	= 0
+	.BackColor 		= .Parent.BackColor
+Endwith
+
+With This.Shape As Shape
+	.Top 		= 0
+	.Left 		= 0
+	.Height 	= This.Height
+	.Width 		= This.Width
+	.BackColor 	= .Parent.BackColor
+	.ZOrder( 1 )
+	.Anchor = ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+Endwith
+
+With This.lblTitulo
+	.Top 			= 0
+	.Left 		= This.Shape.Left + ( .Height / 2 )
+	.BackColor 	= .Parent.BackColor
+	.DisabledBackColor = Thisform.BackColor
+Endwith
+
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0PJEYR
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancel
+[PARENT] rptgridform.MarcoCancelar
+[START PROPERTIES]
+Top = 12
+Left = 8
+Cancel = .T.
+Caption = " Cancelar"
+Name = "cmdCancel"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Release()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptgridform
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hlA‡@ ..\include\foxpro.h	*z
+; ..\include\strings.h&
+:[é:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U0XN6KU
+[CLASS] prxactiongrid
+[CLASSLOC] prxmainform.vcx
+[BASECLASS] grid
+[OBJNAME] rptgrid
+[START PROPERTIES]
+Name = "reportgrid"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptgrid
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U0XORRE
+[CLASS] prxpageframe
+[CLASSLOC] prxbase.vcx
+[BASECLASS] pageframe
+[OBJNAME] rptpageframeviejo
+[START PROPERTIES]
+ErasePage = .T.
+Width = 340
+Height = 196
+tabsrows = 1
+nupdatefontsize = 0
+pagefontsize = 0
+pagefontname = 
+pagebackcolor = 0
+lautosetup = .T.
+_memberdata =      721<VFPData><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="pageactivates" type="method" display="PageActivates"/><memberdata name="pagedeactivates" type="method" display="PageDeactivates"/><memberdata name="pagefontname" type="property" display="PageFontName"/><memberdata name="pagefontsize" type="property" display="PageFontSize"/><memberdata name="pagebackcolor" type="property" display="PageBackColor"/><memberdata name="lautosetup" type="property" display="lAutoSetup" favorites="True"/><memberdata name="tabsrows" type="property" display="TabsRows" favorites="True"/></VFPData>
+
+Name = "rptpageframe"
+PRXPAGE1.Name = "PRXPAGE1"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+If Empty( This.PageBackColor )
+	This.PageBackColor = Thisform.BackColor
+Endif
+
+*DoDefault()
+If Vartype( _Screen.oApp ) = "O"
+	This.PageFontSize = This.PageFontSize + _Screen.oApp.nUpdateFontSize
+Endif
+
+
+ENDPROC
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+Local loAutoSetup As AutoSetUp Of "FW\Comun\Prg\AutoSetUp.prg"
+
+Local oPage As Page
+Local oObj As Object
+Local lnMaxHeight As Integer,;
+	lnMaxWidth As Integer
+
+Try
+
+	lnMaxHeight = 0
+	lnMaxWidth = 0
+
+	For Each oPage In This.Pages
+		oPage.AddProperty( "oColObjects" )
+		oPage.AddProperty( "Height" )
+		oPage.AddProperty( "Width" )
+		oPage.AddProperty( "IsActive", .F. )
+
+		If !Empty( This.PageBackColor )
+			oPage.BackColor = This.PageBackColor
+		Endif
+
+		If !Empty( This.PageFontSize )
+			Try
+				Local lnFS As Integer
+				lnFS = oPage.FontSize
+				oPage.FontSize = This.PageFontSize
+
+			Catch To oErr
+				oPage.FontSize = lnFS
+
+			Finally
+
+			Endtry
+
+		Endif
+
+		If !Empty( This.PageFontName )
+			oPage.FontName = This.PageFontName
+		Endif
+
+		Bindevent( oPage, "Activate", This, "PageActivates" )
+		Bindevent( oPage, "Deactivate", This, "PageDeactivates" )
+
+		oPage.oColObjects = OrderControlsByKey( oPage )
+
+		loAutoSetup = Newobject("AutoSetUp", "AutoSetUp.prg")
+
+		If !loAutoSetup.Process( oPage,;
+				This.TopMargin,;
+				This.LeftMargin,;
+				This.RightMargin,;
+				This.BottomMargin,;
+				This.Gap )
+
+			Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+			loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+			loError.Process( loAutoSetup.oError )
+
+		Else
+			lnMaxHeight = Max( lnMaxHeight, oPage.Height )
+			lnMaxWidth = Max( lnMaxWidth, oPage.Width )
+
+			Do Case
+			Case oPage.Name = "Page1"
+				lnHeight1 = oPage.Height
+				lnWidth1 = oPage.Width
+				
+			Case oPage.Name = "Page2"
+				lnHeight2 = oPage.Height
+				lnWidth2 = oPage.Width
+
+			Otherwise
+
+			EndCase
+		Endif
+	Endfor
+
+	If This.Tabs
+		lnMaxHeight = lnMaxHeight + TABS_HEIGHT
+	Endif
+
+	This.Height = lnMaxHeight && + This.TopMargin + This.BottomMargin
+	This.Width = lnMaxWidth && + This.LeftMargin + This.RightMargin
+
+	For Each oPage In This.Pages
+		For Each oObj In oPage.Objects
+			If PemStatus( oObj, "FitToParent", 5 )
+				oObj.FitToParent()
+			Endif
+		Endfor
+	Endfor
+
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loAutoSetup = .F.
+
+Endtry
+
+
+ENDPROC
+PROCEDURE nupdatefontsize_assign
+Lparameters tuNewValue
+This.nUpdateFontSize = tuNewValue
+
+Try
+
+	Local loAutoSetup As AutoSetUp Of "FW\Comun\Prg\AutoSetUp.prg"
+
+	Local oPage As Page
+	Local oObj As Object
+	Local lnMaxHeight As Integer,;
+		lnMaxWidth As Integer
+
+	lnMaxHeight = 0
+	lnMaxWidth = 0
+
+	This.PageFontSize = This.PageFontSize + tuNewValue
+
+	For Each oPage In This.Pages
+
+		For Each oObj in oPage.oColObjects
+			oObj.nUpdateFontSize = tuNewValue
+		EndFor
+		
+		If !Empty( This.PageFontSize )
+			Try
+				Local lnFS As Integer
+				lnFS = oPage.FontSize
+				oPage.FontSize = This.PageFontSize
+
+			Catch To oErr
+				oPage.FontSize = lnFS
+
+			Finally
+
+			Endtry
+		Endif
+
+		loAutoSetup = Newobject("AutoSetUp", "AutoSetUp.prg")
+
+		If !loAutoSetup.Process( oPage,;
+				This.TopMargin,;
+				This.LeftMargin,;
+				This.RightMargin,;
+				This.BottomMargin,;
+				This.Gap )
+
+			Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+			loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+			loError.Process( loAutoSetup.oError )
+
+		Else
+			lnMaxHeight = Max( lnMaxHeight, oPage.Height )
+			lnMaxWidth = Max( lnMaxWidth, oPage.Width )
+
+		Endif
+	Endfor
+
+	This.Height = lnMaxHeight + This.TopMargin + This.BottomMargin
+	This.Width = lnMaxWidth + This.LeftMargin + This.RightMargin
+
+	For Each oPage In This.Pages
+		For Each oObj In oPage.Objects
+			If Lower( oObj.Class ) = "ccmarco" Or ;
+					Lower( oObj.Class ) = "abmchildgrid"
+				oObj.FitToParent()
+			Endif
+		Endfor
+	Endfor
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+
+ENDPROCPROCEDURE pageactivates
+
+Try
+
+	Local oPage As Page
+
+	oPage = This.Pages[ This.ActivePage ]
+	If Vartype( oPage ) == "O"
+
+		If !oPage.IsActive
+			oPage.FontBold = .T.
+			oPage.IsActive = .T.
+			
+		Endif
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	oPage = Null
+
+Endtry
+
+
+ENDPROC
+PROCEDURE pagedeactivates
+Try
+
+	Local oPage As Page
+
+	oPage = This.Pages[ This.ActivePage ]
+	If Vartype( oPage ) == "O"
+		oPage.FontBold = .F.
+		oPage.IsActive = .F.
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	oPage = Null
+
+Endtry
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+tabsrows
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptpageframeviejo
+[START RESERVED1]
+  ..\include\praxis.hlA‡@ ..\include\foxpro.h	*z
+; ..\include\strings.h&
+:[é:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U0XYDIH
+[CLASS] cancel
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] rptbutton
+[START PROPERTIES]
+AutoSize = .F.
+DisabledPicture = ..\..\..\..\
+Cancel = .F.
+SpecialEffect = 2
+ccommand = Release
+Name = "rptbutton"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptbutton
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U0Y0J30
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] rptoptionpanelviejo
+[START PROPERTIES]
+Width = 114
+Height = 123
+Name = "rptoptionpanel"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+If Vartype( This.oColObjects ) <> "O"
+	This.oColObjects = OrderControlsByKey( This )
+Endif
+
+This.cmdPreview.Top = This.TopMargin
+This.cmdPrint.Top = This.cmdPreview.Top + This.cmdPreview.Height + This.Gap
+This.CmdExport.Top = This.cmdPrint.Top + This.cmdPrint.Height + This.Gap
+This.CmdGrid.Top = This.CmdExport.Top + This.CmdExport.Height + This.Gap
+
+This.cmdPreview.Left = This.LeftMargin
+This.cmdPrint.Left = This.LeftMargin
+This.CmdExport.Left = This.LeftMargin
+This.CmdGrid.Left = This.LeftMargin
+
+This.Width = This.LeftMargin + This.CmdGrid.Width + This.RightMargin
+This.Height = This.CmdGrid.Top + This.CmdGrid.Height + This.BottomMargin
+
+With This
+	.ZOrder( 1 )
+	.BorderWidth 	= 0
+	.BackColor 		= .Parent.BackColor
+Endwith
+
+With This.Shape As Shape
+	.Top 		= 0
+	.Left 		= 0
+	.Height 	= This.Height
+	.Width 		= This.Width
+	.BackColor 	= .Parent.BackColor
+	.ZOrder( 1 )
+	.Anchor = ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+Endwith
+
+With This.lblTitulo
+	.Top 			= 0
+	.Left 		= This.Shape.Left + ( .Height / 2 )
+	.BackColor 	= .Parent.BackColor
+	.DisabledBackColor = Thisform.BackColor
+Endwith
+
+
+*!*	This.CmdGrid.Anchor = ANCHOR_Bottom_Absolute
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+5[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U13VYI5
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdPreview
+[PARENT] rptoptionpanelviejo
+[START PROPERTIES]
+Top = 7
+Left = 6
+Picture = ..\image\bmp\preview.bmp
+DisabledPicture = ..\image\bmp\#preview.bmp
+Caption = " Vista Previa"
+Name = "cmdPreview"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.PreviewReport()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U13VYI8
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdPrint
+[PARENT] rptoptionpanelviejo
+[START PROPERTIES]
+Top = 34
+Left = 6
+Picture = ..\image\bmp\print.bmp
+DisabledPicture = ..\image\bmp\#print.bmp
+Caption = " Imprimir"
+Name = "cmdPrint"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+=MessageBox( Program() )
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U0XM044
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdExport
+[PARENT] rptoptionpanelviejo
+[START PROPERTIES]
+Top = 61
+Left = 6
+Picture = ..\image\bmp\export.bmp
+DisabledPicture = ..\image\bmp\#export.bmp
+Caption = " Exportar"
+Name = "cmdExport"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Export()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U18P2MD
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdGrid
+[PARENT] rptoptionpanelviejo
+[START PROPERTIES]
+Top = 88
+Left = 6
+Picture = ..\image\bmp\grid.bmp
+DisabledPicture = ..\..\..\
+Caption = " Grilla"
+Name = "cmdGrid"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+=MessageBox( Program() )
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptoptionpanelviejo
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hlA‡@ ..\include\foxpro.h	*z
+; ..\include\strings.h&
+:[é:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25V0WOS7A
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] rptfiltro
+[START PROPERTIES]
+Width = 336
+Height = 166
+_memberdata =     1062<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="gap" type="property" display="Gap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="lautosetup" type="property" display="lAutoSetup"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="fittoparent" type="method" display="FitToParent"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="bottommargin" type="Property" favorites="True"/><memberdata name="resalttittle" type="property" display="ResaltTittle" favorites="True"/><memberdata name="oldshapecolor" type="property" display="OldShapeColor"/><memberdata name="lresalttittle" type="property" display="lResaltTittle" favorites="True"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="performautosetup" type="Property" favorites="True"/></VFPData>
+
+Name = "rptfiltro"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Caption = "Filtrado por"
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+This.Filtros.Autofit()
+DoDefault()
+
+This.Height = This.nTopPadding + This.Filtros.Height + This.nBottomPadding
+This.Width = This.nLeftPadding + This.Filtros.Width + This.nRightPadding
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25V0WTIK4
+[CLASS] cntfiltro
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] Filtros
+[PARENT] rptfiltro
+[START PROPERTIES]
+Top = 24
+Left = 9
+lautosetup = .T.
+Name = "Filtros"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+    * DA 2009-09-09(11:27:47)
+    With This As prxcontainer Of "fw\comunes\vcx\prxbase.vcx"
+        If Thisform.lIsOk And .ClassBeforeInit()
+            If .HookBeforeInit()
+
+                .BorderWidth = 0
+                If Pemstatus( Thisform, "oFiltro", 5 )
+                    Thisform.oFiltro = This
+                EndIf
+
+                .HookAfterInit()
+                .ClassAfterInit()
+            Endif
+        Endif
+    Endwith
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Thisform.lIsOk = .F.
+
+Finally
+    loError = Null
+
+Endtry
+
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptfiltro
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27E0P9OJ2
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] rptvista
+[START PROPERTIES]
+Width = 378
+Height = 203
+Name = "rptvista"
+Shape.Name = "Shape"
+SHPLABEL.Name = "SHPLABEL"
+lblTitulo.Caption = "Vista"
+lblTitulo.TabIndex = 3
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+DoDefault()
+
+This.Actions.Anchor = ANCHOR_Top_Absolute + ;
+		ANCHOR_Right_Absolute
+		
+This.Vista.Anchor = ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+7[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27E0PYFPZ
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] Actions
+[PARENT] rptvista
+[START PROPERTIES]
+Top = 40
+Left = 252
+Width = 108
+Height = 99
+TabIndex = 2
+Name = "Actions"
+Shape.Name = "Shape"
+SHPLABEL.Name = "SHPLABEL"
+lblTitulo.Top = -100
+lblTitulo.Visible = .F.
+lblTitulo.Width = 50
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+This.CmdApply.Top 	= This.TopMargin
+This.CmdSave.Top 	= This.CmdApply.Top + This.CmdApply.Height + This.Gap
+This.CmdDelete.Top 	= This.CmdSave.Top + This.CmdSave.Height + This.Gap
+
+This.CmdApply.Left 	= This.LeftMargin
+This.CmdSave.Left 	= This.LeftMargin
+This.CmdDelete.Left = This.LeftMargin
+
+This.CmdApply.Width = This.CmdDelete.Width
+This.CmdSave.Width 	= This.CmdDelete.Width
+
+
+This.Width 	= This.LeftMargin + This.CmdDelete.Width + This.RightMargin
+This.Height = This.CmdDelete.Top + This.CmdDelete.Height + This.BottomMargin
+
+With This
+	.ZOrder( 1 )
+	.BorderWidth 	= 0
+	.BackColor 		= .Parent.BackColor
+Endwith
+
+With This.Shape As Shape
+	.Top 		= 0
+	.Left 		= 0
+	.Height 	= This.Height
+	.Width 		= This.Width
+	.BackColor 	= .Parent.BackColor
+	.ZOrder( 1 )
+	.Anchor = ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+Endwith
+
+With This.lblTitulo
+	.Top 			= 0
+	.Left 		= This.Shape.Left + ( .Height / 2 )
+	.BackColor 	= .Parent.BackColor
+	.DisabledBackColor = Thisform.BackColor
+Endwith
+
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27E0PYFQR
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdApply
+[PARENT] rptvista.Actions
+[START PROPERTIES]
+Top = 8
+Left = 4
+Picture = ..\image\bmp\ok.bmp
+DisabledPicture = ..\..\..\..\
+Caption = "Aplicar"
+StatusBarText = "Aplica la configuración de la vista seleccionada"
+ToolTipText = "Aplica la configuración de la vista seleccionada"
+Name = "cmdApply"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27E0PYFR8
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdSave
+[PARENT] rptvista.Actions
+[START PROPERTIES]
+Top = 37
+Left = 3
+Picture = ..\image\bmp\save.bmp
+Caption = "Grabar"
+StatusBarText = "Graba una nueva vista"
+ToolTipText = "Graba una nueva vista"
+Name = "cmdSave"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27E0PYFRQ
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdDelete
+[PARENT] rptvista.Actions
+[START PROPERTIES]
+Top = 66
+Left = 2
+Picture = ..\image\bmp\delete.bmp
+DisabledPicture = ..\image\bmp\#delete.bmp
+Caption = "Eliminar"
+StatusBarText = "Elimina la vista seleccionada"
+ToolTipText = "Elimina la vista seleccionada"
+Name = "cmdDelete"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27E0RNL3T
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] Vista
+[PARENT] rptvista
+[START PROPERTIES]
+Top = 24
+Left = 16
+Width = 212
+Height = 140
+TabIndex = 1
+Name = "Vista"
+Shape.Name = "Shape"
+SHPLABEL.Name = "SHPLABEL"
+lblTitulo.Top = -100
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+This.Vistas.Top = This.TopMargin
+This.Vistas.Left = This.LeftMargin
+
+This.Width = This.LeftMargin + This.Vistas.Width + This.RightMargin
+This.Height = This.TopMargin + This.Vistas.Height + This.BottomMargin
+
+With This
+	.ZOrder( 1 )
+	.BorderWidth 	= 0
+	.BackColor 		= .Parent.BackColor
+Endwith
+
+With This.Shape As Shape
+	.Top 		= 0
+	.Left 		= 0
+	.Height 	= This.Height
+	.Width 		= This.Width
+	.BackColor 	= .Parent.BackColor
+	.ZOrder( 1 )
+	.Visible = .F.
+	.Anchor = ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+Endwith
+
+
+This.Vistas.Anchor = ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27E0RNL9U
+[CLASS] prxlistbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] listbox
+[OBJNAME] Vistas
+[PARENT] rptvista.Vista
+[START PROPERTIES]
+Height = 130
+Left = 4
+Top = 5
+Width = 200
+Name = "Vistas"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptvista
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hlA‡@ ..\include\foxpro.h	*z
+; ..\include\strings.h&
+:[é:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0PFJ7C
+[CLASS] prxform
+[CLASSLOC] prxbase.vcx
+[BASECLASS] form
+[OBJNAME] rptlayout
+[START PROPERTIES]
+Height = 451
+Width = 707
+DoCreate = .T.
+Caption = "Personalizar"
+ControlBox = .F.
+WindowType = 1
+nstatus = 1
+ousertier = .NULL.
+nreportid = 1
+_memberdata =     1542<VFPData><memberdata name="oreturn" type="property" display="oReturn" favorites="True" override="True"/><memberdata name="oreturnobject" type="property" display="oReturnObject"/><memberdata name="oerror" type="property" display="oError"/><memberdata name="isok" type="property" display="IsOk"/><memberdata name="otxtproperties" type="property" display="oTxtProperties"/><memberdata name="gapsize" type="property" display="GapSize"/><memberdata name="gap" type="property" display="Gap"/><memberdata name="bottommargin" type="property" display="BottomMargin"/><memberdata name="leftmargin" type="property" display="LeftMargin"/><memberdata name="performautofit" type="property" display="PerformAutofit"/><memberdata name="rightmargin" type="property" display="RightMargin"/><memberdata name="topmargin" type="property" display="TopMargin"/><memberdata name="autosetup" type="method" display="AutoSetup"/><memberdata name="performautosetup" type="property" display="PerformAutoSetup"/><memberdata name="ocolobjects" type="property" display="oColObjects"/><memberdata name="handleevents" type="method" display="HandleEvents"/><memberdata name="apply" type="method" display="Apply"/><memberdata name="nstatus" type="property" display="nStatus"/><memberdata name="loadlayoutfields" type="method" display="LoadLayoutFields"/><memberdata name="ousertier" type="property" display="oUserTier"/><memberdata name="nreportid" type="property" display="nReportId"/><memberdata name="interactivechange" type="method" display="InteractiveChange"/></VFPData>
+
+Name = "rptlayout"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Lparameters oEntity As Object, nReportId as Integer
+
+
+Try
+
+	This.oUserTier = oEntity
+	This.nReportId = nReportId
+	
+	If This.lIsOk
+		This.oError.Cremark = "Cargando los campos que se muestran"
+		This.LoadLayoutFields()
+	Endif
+
+	If This.lIsOk
+		DoDefault()
+	Endif
+
+Catch To oErr
+	This.lIsOk = .F.
+
+
+Finally
+
+Endtry
+
+Return This.lIsOk
+
+ENDPROC
+PROCEDURE apply
+* Aplico las modificaciones que se produjeron entre los items
+* seleccionados y los disponibles
+Try
+
+	Local i As Integer, ;
+		lnIndex As Integer
+	Local loField As Object
+	Local loSLB As ListBox,;
+		loTLB As ListBox
+	Local loColBL As ColBandLayout Of "Fw\Comun\Prg\ColReportLayout.prg"
+	Local lnKey As Integer
+
+	* Obtengo referencias a los Listbox Source (loSLB) y Target (loTLB)
+	loSLB = Thisform.LayoutsFields.LeftFrame.frmFields.SourceList.Dato
+	loTLB = Thisform.LayoutsFields.LeftFrame.frmFields.TargetList.Dato
+
+	* Obtengo el índice de la colección ColBandLayout dentro de la colección oColReportFields
+	lnKey = Thisform.oUserTier.oColReportFields.GetKey( Lower( "__" + Any2Char( This.nReportId ) + "__" ) )
+
+	If !Empty( lnKey )
+		* Obtengo una referencia a la colección ColBandLayout (loColBL)	
+		loColBL = Thisform.oUserTier.oColReportFields.Item( lnKey )
+
+		* Recorro el ListBox de Disponibles
+		For i = 1 To loSLB.ListCount
+			* Obtengo una referencia al elemento de la colección
+			loField = loColBL.Item( loSLB.ItemData( i ) )
+			
+			* Lo marco como NO SELECCIONADO
+			loField.Selected = .F.
+			
+			* Actualizo el Encabezado
+			loField.oHeader.Caption = loSLB.List( i )
+		Endfor
+
+		* Recorro el ListBox de Seleccionados
+		For i = 1 To loTLB.ListCount
+			* Obtengo una referencia al elemento de la colección
+			loField = loColBL.Item( loTLB.ItemData( i ) )
+			
+			* Lo marco como SELECCIONADO
+			loField.Selected = .T.
+
+			* Actualizo el Encabezado
+			loField.oHeader.Caption = loTLB.List( i )
+			
+			* Indico el orden
+			loField.TabOrder = i
+			
+		Endfor
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	loSLB = Null
+	loTLB = Null
+	loColBL = Null
+	loField = Null
+
+Endtry
+
+Thisform.Release()
+
+ENDPROC
+PROCEDURE autosetup
+Local lnMaxHeight  As Integer,;
+	lnMaxWidth As Integer
+
+DoDefault()
+
+*!*	lnMaxHeight = Max( Thisform.OptionPanel.Height, ;
+*!*		ThisForm.PageFrame.Height )
+
+lnMaxWidth = Thisform.LayoutsFields.Width
+
+Thisform.MarcoCancelar.Width = lnMaxWidth
+
+Thisform.Width = Thisform.LeftMargin + lnMaxWidth + Thisform.RightMargin
+Thisform.Height = Thisform.MarcoCancelar.Top + Thisform.MarcoCancelar.Height + Thisform.BottomMargin
+
+
+ENDPROCPROCEDURE loadlayoutfields
+*!*	Carga los ListBox de Origen y Destino desde la colección ColBandLayout
+*!*	e indica una vinculación entre cada elemento del ListBox y el índice
+*!*	que tiene el objeto en la colección
+
+Try
+
+	Local i As Integer
+	Local loField As Object
+	Local loSLB As ListBox,;
+		loTLB As ListBox
+	Local loColBL As ColBandLayout Of "Fw\Comun\Prg\ColReportLayout.prg"
+	Local lnKey As Integer
+
+	* Obtengo referencias a los Listbox Source (loSLB) y Target (loTLB)
+	loSLB = Thisform.LayoutsFields.LeftFrame.frmFields.SourceList.Dato
+	loTLB = Thisform.LayoutsFields.LeftFrame.frmFields.TargetList.Dato
+
+	* Obtengo el índice de la colección ColBandLayout dentro de la colección oColReportFields
+	lnKey = Thisform.oUserTier.oColReportFields.GetKey( Lower( "__" + Any2Char( This.nReportId ) + "__" ) )
+
+	If !Empty( lnKey )
+		* Obtengo una referencia a la colección ColBandLayout (loColBL)
+		loColBL = Thisform.oUserTier.oColReportFields.Item( lnKey )
+
+		For i = 1 To loColBL.Count
+			* Voy asignando cada elemento al ListBox correspondiente
+			loField = loColBL.Item( i )
+
+			If loField.Selected
+				* Si el objeto está seleccionado, lo agrego al TargetListBox,
+				* que contiene los elementos seleccionados
+				loTLB.AddItem( loField.oHeader.Caption )
+				
+				* Guardo el índice del objeto, para poder referenciarlo despues
+				loTLB.ItemData( loTLB.NewIndex ) = i
+
+			Else
+				* Si no, lo agrego al SourceListBox, que contiene los elementos
+				* disponibles
+				loSLB.AddItem( loField.oHeader.Caption )
+				
+				* Guardo el índice del objeto, para poder referenciarlo despues
+				loSLB.ItemData( loSLB.NewIndex ) = i
+
+			Endif
+
+		Endfor
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	This.lIsOk = .F.
+
+
+Finally
+	loSLB = Null
+	loTLB = Null
+	loColBL = Null
+	loField = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+5[END RESERVED2]
+[START RESERVED3]
+nstatus
+ousertier
+nreportid
+*loadlayoutfields 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0PK03J
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] MarcoCancelar
+[PARENT] rptlayout
+[START PROPERTIES]
+Top = 376
+Left = 20
+Width = 616
+Height = 60
+TabIndex = 2
+StatusBarText = "Seleccionar una acción "
+Name = "MarcoCancelar"
+Shape.Name = "Shape"
+SHPLABEL.Name = "SHPLABEL"
+lblTitulo.Caption = "Ordenado por"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+If Vartype( This.oColObjects ) <> "O"
+	This.oColObjects = OrderControlsByKey( This )
+Endif
+
+This.cmdCancel.Top = This.TopMargin
+This.cmdCancel.Left = This.LeftMargin
+
+This.CmdApply.Top = This.TopMargin
+This.CmdApply.Left = This.LeftMargin
+
+This.Width = This.LeftMargin + This.CmdApply.Width +This.LeftMargin
+This.Height = This.TopMargin + This.CmdApply.Height + This.BottomMargin
+
+
+This.cmdApply.Anchor = ANCHOR_Top_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+
+With This
+	.ZOrder( 1 )
+	.BorderWidth 	= 0
+	.BackColor 		= .Parent.BackColor
+Endwith
+
+With This.Shape As Shape
+	.Top 		= 0
+	.Left 		= 0
+	.Height 	= This.Height
+	.Width 		= This.Width
+	.BackColor 	= .Parent.BackColor
+	.ZOrder( 1 )
+	.Anchor = ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+Endwith
+
+With This.lblTitulo
+	.Top 			= 0
+	.Left 		= This.Shape.Left + ( .Height / 2 )
+	.BackColor 	= .Parent.BackColor
+	.DisabledBackColor = Thisform.BackColor
+Endwith
+
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0PK064
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancel
+[PARENT] rptlayout.MarcoCancelar
+[START PROPERTIES]
+Top = 12
+Left = 8
+Cancel = .T.
+Caption = " Cancelar"
+Name = "cmdCancel"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Release()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0S0K06
+[CLASS] apply
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdApply
+[PARENT] rptlayout.MarcoCancelar
+[START PROPERTIES]
+Top = 12
+Left = 244
+SpecialEffect = 2
+Name = "cmdApply"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0T1186
+[CLASS] rptlayoutfields
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] container
+[OBJNAME] LayoutsFields
+[PARENT] rptlayout
+[START PROPERTIES]
+Top = 4
+Left = 20
+Width = 738
+Height = 316
+TabIndex = 1
+Name = "LayoutsFields"
+Shape.Name = "Shape"
+SHPLABEL.Name = "SHPLABEL"
+lblTitulo.Name = "lblTitulo"
+LeftFrame.Shape.Name = "Shape"
+LeftFrame.SHPLABEL.Name = "SHPLABEL"
+LeftFrame.lblTitulo.Name = "lblTitulo"
+LeftFrame.frmTittle.Shape.Name = "Shape"
+LeftFrame.frmTittle.SHPLABEL.Name = "SHPLABEL"
+LeftFrame.frmTittle.lblTitulo.Name = "lblTitulo"
+LeftFrame.frmTittle.ibsTitulo.Label.Name = "Label"
+LeftFrame.frmTittle.ibsTitulo.CHECKBUTTON.Name = "CHECKBUTTON"
+LeftFrame.frmTittle.ibsTitulo.Dato.Name = "Dato"
+LeftFrame.frmTittle.ibsTitulo.Name = "ibsTitulo"
+LeftFrame.frmTittle.Name = "frmTittle"
+LeftFrame.frmFields.Shape.Name = "Shape"
+LeftFrame.frmFields.SHPLABEL.Name = "SHPLABEL"
+LeftFrame.frmFields.lblTitulo.Name = "lblTitulo"
+LeftFrame.frmFields.SourceList.Label.Name = "Label"
+LeftFrame.frmFields.SourceList.CHECKBUTTON.Name = "CHECKBUTTON"
+LeftFrame.frmFields.SourceList.Dato.Name = "Dato"
+LeftFrame.frmFields.SourceList.Name = "SourceList"
+LeftFrame.frmFields.MoverButtons.Shape.Name = "Shape"
+LeftFrame.frmFields.MoverButtons.SHPLABEL.Name = "SHPLABEL"
+LeftFrame.frmFields.MoverButtons.lblTitulo.Name = "lblTitulo"
+LeftFrame.frmFields.MoverButtons.addone.Name = "addone"
+LeftFrame.frmFields.MoverButtons.addall.Name = "addall"
+LeftFrame.frmFields.MoverButtons.removeall.Name = "removeall"
+LeftFrame.frmFields.MoverButtons.removeone.Name = "removeone"
+LeftFrame.frmFields.MoverButtons.Name = "MoverButtons"
+LeftFrame.frmFields.TargetList.Label.Name = "Label"
+LeftFrame.frmFields.TargetList.CHECKBUTTON.Name = "CHECKBUTTON"
+LeftFrame.frmFields.TargetList.Dato.Name = "Dato"
+LeftFrame.frmFields.TargetList.Name = "TargetList"
+LeftFrame.frmFields.Name = "frmFields"
+LeftFrame.Name = "LeftFrame"
+RightFrame.Shape.Name = "Shape"
+RightFrame.SHPLABEL.Name = "SHPLABEL"
+RightFrame.lblTitulo.Name = "lblTitulo"
+RightFrame.frmEdit.Shape.Name = "Shape"
+RightFrame.frmEdit.SHPLABEL.Name = "SHPLABEL"
+RightFrame.frmEdit.lblTitulo.Name = "lblTitulo"
+RightFrame.frmEdit.cmdEditFont.Top = 123
+RightFrame.frmEdit.cmdEditFont.Left = 20
+RightFrame.frmEdit.cmdEditFont.Name = "cmdEditFont"
+RightFrame.frmEdit.iboption.Label.Name = "Label"
+RightFrame.frmEdit.iboption.CHECKBUTTON.Name = "CHECKBUTTON"
+RightFrame.frmEdit.iboption.Dato.optTittle.Left = 5
+RightFrame.frmEdit.iboption.Dato.optTittle.Top = 5
+RightFrame.frmEdit.iboption.Dato.optTittle.Name = "optTittle"
+RightFrame.frmEdit.iboption.Dato.optHeader.Left = 5
+RightFrame.frmEdit.iboption.Dato.optHeader.Top = 24
+RightFrame.frmEdit.iboption.Dato.optHeader.Name = "optHeader"
+RightFrame.frmEdit.iboption.Dato.optField.Left = 5
+RightFrame.frmEdit.iboption.Dato.optField.Top = 43
+RightFrame.frmEdit.iboption.Dato.optField.Name = "optField"
+RightFrame.frmEdit.iboption.Dato.Height = 63
+RightFrame.frmEdit.iboption.Dato.Left = 0
+RightFrame.frmEdit.iboption.Dato.Top = 3
+RightFrame.frmEdit.iboption.Dato.Width = 150
+RightFrame.frmEdit.iboption.Dato.Name = "Dato"
+RightFrame.frmEdit.iboption.Top = 30
+RightFrame.frmEdit.iboption.Left = 11
+RightFrame.frmEdit.iboption.Width = 150
+RightFrame.frmEdit.iboption.Height = 70
+RightFrame.frmEdit.iboption.Name = "iboption"
+RightFrame.frmEdit.cmdEditColor.Top = 120
+RightFrame.frmEdit.cmdEditColor.Left = 108
+RightFrame.frmEdit.cmdEditColor.Name = "cmdEditColor"
+RightFrame.frmEdit.Top = 80
+RightFrame.frmEdit.Left = 8
+RightFrame.frmEdit.Width = 188
+RightFrame.frmEdit.Height = 164
+RightFrame.frmEdit.Name = "frmEdit"
+RightFrame.frmHeader.Shape.Name = "Shape"
+RightFrame.frmHeader.SHPLABEL.Name = "SHPLABEL"
+RightFrame.frmHeader.lblTitulo.Name = "lblTitulo"
+RightFrame.frmHeader.ibsHeader.Label.Name = "Label"
+RightFrame.frmHeader.ibsHeader.CHECKBUTTON.Name = "CHECKBUTTON"
+RightFrame.frmHeader.ibsHeader.Dato.Name = "Dato"
+RightFrame.frmHeader.ibsHeader.Name = "ibsHeader"
+RightFrame.frmHeader.Name = "frmHeader"
+RightFrame.frmColumns.Shape.Name = "Shape"
+RightFrame.frmColumns.SHPLABEL.Name = "SHPLABEL"
+RightFrame.frmColumns.lblTitulo.Name = "lblTitulo"
+RightFrame.frmColumns.ibnColumnas.Label.Name = "Label"
+RightFrame.frmColumns.ibnColumnas.CHECKBUTTON.Name = "CHECKBUTTON"
+RightFrame.frmColumns.ibnColumnas.Dato.Name = "Dato"
+RightFrame.frmColumns.ibnColumnas.Name = "ibnColumnas"
+RightFrame.frmColumns.Name = "frmColumns"
+RightFrame.Name = "RightFrame"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE RightFrame.frmHeader.ibsHeader.Dato.InteractiveChange
+Local o as ListBox
+o = This.parent.parent.parent.parent.LeftFrame.frmFields.TargetList.Dato
+o.List( o.ListIndex ) = Alltrim( This.Value )
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptlayout
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hlA‡@ ..\include\foxpro.h	*z
+; ..\include\strings.h&
+:[é:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0PTGVE
+[CLASS] rptpageframe
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] pageframe
+[OBJNAME] rptmainpageframe
+[START PROPERTIES]
+ErasePage = .T.
+PageCount = 3
+Width = 392
+Height = 247
+Name = "rptmainpageframe"
+Page1.Caption = "Selecionar Vista"
+Page1.Name = "Page1"
+Page2.Caption = "Ordenamiento"
+Page2.Name = "Page2"
+Page3.Caption = "Filtros"
+Page3.Name = "Filtros"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+4[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0PYYEH
+[CLASS] rptvista
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] container
+[OBJNAME] Rptvista1
+[PARENT] rptmainpageframe.Page1
+[START PROPERTIES]
+Top = 12
+Left = 7
+StatusBarText = "Seleccionar una vista predefinida"
+Name = "Rptvista1"
+Shape.Name = "Shape"
+lblTitulo.Name = "lblTitulo"
+Actions.Shape.Name = "Shape"
+Actions.lblTitulo.Name = "lblTitulo"
+Actions.cmdApply.Name = "cmdApply"
+Actions.cmdSave.Name = "cmdSave"
+Actions.cmdDelete.Name = "cmdDelete"
+Actions.StatusBarText = "Seleccionar una acción"
+Actions.Name = "Actions"
+Vista.Shape.Name = "Shape"
+Vista.lblTitulo.Name = "lblTitulo"
+Vista.Vistas.Name = "Vistas"
+Vista.Width = 200
+Vista.Name = "Vista"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _29E0TRNLJ
+[CLASS] rptorderby
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] container
+[OBJNAME] OrderByFrame
+[PARENT] rptmainpageframe.Page2
+[START PROPERTIES]
+Top = 8
+Left = 7
+Name = "OrderByFrame"
+Shape.Name = "Shape"
+lblTitulo.Name = "lblTitulo"
+SourceList.Label.Name = "Label"
+SourceList.Dato.Name = "Dato"
+SourceList.Name = "SourceList"
+MoverButtons.Shape.Name = "Shape"
+MoverButtons.lblTitulo.Name = "lblTitulo"
+MoverButtons.addone.Name = "addone"
+MoverButtons.addall.Name = "addall"
+MoverButtons.removeall.Name = "removeall"
+MoverButtons.removeone.Name = "removeone"
+MoverButtons.Name = "MoverButtons"
+TargetList.Label.Name = "Label"
+TargetList.Dato.Name = "Dato"
+TargetList.Name = "TargetList"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0PYYKP
+[CLASS] rptfiltro
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] container
+[OBJNAME] FiltroFrame
+[PARENT] rptmainpageframe.Filtros
+[START PROPERTIES]
+Top = 8
+Left = 3
+StatusBarText = "Aplicar los filtros necesarios"
+Name = "FiltroFrame"
+Shape.Name = "Shape"
+lblTitulo.Name = "lblTitulo"
+Filtros.Name = "Filtros"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptmainpageframe
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0PU8FK
+[CLASS] rptpageframe
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] pageframe
+[OBJNAME] rptlayoutpageframe
+[START PROPERTIES]
+ErasePage = .T.
+Width = 505
+Height = 285
+Name = "rptlayoutpageframe"
+prxpage1.Name = "prxpage1"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptlayoutpageframe
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F0SCSZ0
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] rptlayoutfields
+[START PROPERTIES]
+Width = 738
+Height = 355
+_memberdata =     1198<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="gap" type="property" display="Gap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="lautosetup" type="property" display="lAutoSetup"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="fittoparent" type="method" display="FitToParent"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="bottommargin" type="Property" favorites="True"/><memberdata name="resalttittle" type="property" display="ResaltTittle" favorites="True"/><memberdata name="oldshapecolor" type="property" display="OldShapeColor"/><memberdata name="lresalttittle" type="property" display="lResaltTittle" favorites="True"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="synchronizecontrols" type="method" display="SynchronizeControls"/><memberdata name="setfont" type="method" display="SetFont"/><memberdata name="setcolor" type="method" display="SetColor"/></VFPData>
+
+Name = "rptlayoutfields"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Caption = "Personalizar Reporte"
+lblTitulo.TabIndex = 6
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+This.lSubscribeToHandleEvents = .T.
+
+DoDefault()
+
+This.RightFrame.frmEdit.IbOption.Dato.Value = 3
+This.RightFrame.frmColumns.ibnColumnas.Dato.Value = 1
+ENDPROC
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lnMaxHeight as Integer
+
+DoDefault()
+
+lnMaxHeight = Max( This.LeftFrame.Height, This.RightFrame.Height )
+
+This.LeftFrame.Height = lnMaxHeight
+This.RightFrame.Height = lnMaxHeight
+
+ENDPROCPROCEDURE handleevents
+Lparameters oCtrl As Object, uParam As Variant
+
+Do Case
+	Case uParam.Id = "cmdEditFont"
+		This.SetFont( oCtrl.Value )
+		
+	Case uParam.Id = "cmdEditColor"
+		This.SetColor( oCtrl.Value )
+
+Endcase
+
+ENDPROC
+PROCEDURE setcolor
+Lparameters nSelected As Integer
+
+*!*	Do Case
+*!*		Case nSelected = 1 && Tittle
+*!*			Messagebox( "Titulo" )
+
+*!*		Case nSelected = 2 && Header
+*!*			Messagebox( "Header" )
+
+*!*		Case nSelected = 3 && Fields
+*!*			Messagebox( "Fields" )
+
+*!*		Otherwise
+
+*!*	EndCase
+
+*!*	MessageBox( GetFont( "Times New Roman", 16, "BI", 1 ) )
+
+Try
+
+	If nSelected = 1 && Tittle
+		Messagebox( "Titulo" )
+
+	Else
+
+		Local loField As Object,;
+			loElement As Object
+		Local loTLB As ListBox
+		Local loColBL As ColBandLayout Of "Fw\Comun\Prg\ColReportLayout.prg"
+		Local lnKey As Integer,;
+		lnSelectedColor as Integer
+		
+		Local lcFontStyle As String
+
+		* Obtengo referencias al Listbox Target (loTLB)
+		loTLB = Thisform.LayoutsFields.LeftFrame.frmFields.TargetList.Dato
+
+		* Obtengo el índice de la colección ColBandLayout dentro de la colección oColReportFields
+		lnKey = Thisform.oUserTier.oColReportFields.GetKey( Lower( "__" + Any2Char( Thisform.nReportId ) + "__" ) )
+
+		If !Empty( lnKey )
+			* Obtengo una referencia a la colección ColBandLayout (loColBL)
+			loColBL = Thisform.oUserTier.oColReportFields.Item( lnKey )
+
+			* Del item seleccionado obtengo el índice para el elemento de la colección
+
+			loField = loColBL.Item( loTLB.ItemData( loTLB.ListIndex ) )
+
+			If nSelected = 2 && Header
+				loElement = loField.oHeader
+
+			Else nSelected = 3 && Fields
+				loElement = loField.oDetail
+
+			Endif
+
+*!*				lcFontStyle = FontStyle( loElement )
+*!*				lcSelectedFont = Getfont( loElement.FontName, loElement.FontSize, lcFontStyle )
+
+*!*				lcFontStyle = FontStyle( loElement )
+			lnSelectedColor = GetColor( loElement.ForeColor )
+
+			If lnSelectedColor > -1
+				loElement.ForeColor = lnSelectedColor
+			Endif
+
+		Endif
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	loTLB = Null
+	loColBL = Null
+	loField = Null
+	loElement = Null
+
+Endtry
+
+
+ENDPROC
+PROCEDURE setfont
+Lparameters nSelected As Integer
+
+*!*	Do Case
+*!*		Case nSelected = 1 && Tittle
+*!*			Messagebox( "Titulo" )
+
+*!*		Case nSelected = 2 && Header
+*!*			Messagebox( "Header" )
+
+*!*		Case nSelected = 3 && Fields
+*!*			Messagebox( "Fields" )
+
+*!*		Otherwise
+
+*!*	EndCase
+
+*!*	MessageBox( GetFont( "Times New Roman", 16, "BI", 1 ) )
+
+Try
+
+	If nSelected = 1 && Tittle
+		Messagebox( "Titulo" )
+
+	Else
+
+		Local loField As Object,;
+			loElement As Object
+		Local loTLB As ListBox
+		Local loColBL As ColBandLayout Of "Fw\Comun\Prg\ColReportLayout.prg"
+		Local lnKey As Integer
+
+		Local lcFontStyle As String,;
+			lcSelectedFont As String
+
+
+		* Obtengo referencias al Listbox Target (loTLB)
+		loTLB = Thisform.LayoutsFields.LeftFrame.frmFields.TargetList.Dato
+
+		* Obtengo el índice de la colección ColBandLayout dentro de la colección oColReportFields
+		lnKey = Thisform.oUserTier.oColReportFields.GetKey( Lower( "__" + Any2Char( Thisform.nReportId ) + "__" ) )
+
+		If !Empty( lnKey )
+			* Obtengo una referencia a la colección ColBandLayout (loColBL)
+			loColBL = Thisform.oUserTier.oColReportFields.Item( lnKey )
+
+			* Del item seleccionado obtengo el índice para el elemento de la colección
+
+			loField = loColBL.Item( loTLB.ItemData( loTLB.ListIndex ) )
+
+			If nSelected = 2 && Header
+				loElement = loField.oHeader
+
+			Else nSelected = 3 && Fields
+				loElement = loField.oDetail
+
+			Endif
+
+			lcFontStyle = FontStyle( loElement )
+			lcSelectedFont = Getfont( loElement.FontName, loElement.FontSize, lcFontStyle )
+
+			If !Empty( lcSelectedFont )
+				loElement.FontName = Getwordnum( lcSelectedFont, 1, "," )
+				loElement.FontSize = Val( Getwordnum( lcSelectedFont, 2, "," ) )
+				FontStyle( loElement, Getwordnum( lcSelectedFont, 3, "," ) )
+			Endif
+
+		Endif
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	loTLB = Null
+	loColBL = Null
+	loField = Null
+	loElement = Null
+
+Endtry
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+14[END RESERVED2]
+[START RESERVED3]
+*setfont 
+*setcolor 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U0XM044
+[CLASS] marcoinvisible
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] LeftFrame
+[PARENT] rptlayoutfields
+[START PROPERTIES]
+Top = 23
+Left = 1
+Width = 400
+Height = 321
+Name = "LeftFrame"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.TabIndex = 3
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+DoDefault()
+
+This.frmTittle.ibsTitulo.Anchor = ANCHOR_Top_Absolute + ;
+	ANCHOR_Left_Absolute + ;
+	ANCHOR_Bottom_Absolute + ;
+	ANCHOR_Right_Absolute
+	
+This.frmTittle.ibsTitulo.Dato.Anchor = ANCHOR_Top_Absolute + ;
+	ANCHOR_Left_Absolute + ;
+	ANCHOR_Bottom_Absolute + ;
+	ANCHOR_Right_Absolute
+
+This.FrmTittle.Width = This.Width - This.LeftMargin - This.RightMargin
+This.FrmFields.Width = This.Width - This.LeftMargin - This.RightMargin
+
+This.frmFields.Anchor = ANCHOR_Bottom_Absolute
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U0XM044
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] frmTittle
+[PARENT] rptlayoutfields.LeftFrame
+[START PROPERTIES]
+Top = 6
+Left = 7
+Width = 380
+Height = 64
+TabIndex = 1
+StatusBarText = "Modificar el Título del Reporte"
+Name = "frmTittle"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Caption = "Título del Reporte"
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+This.lSubscribeToHandleEvents = .T.
+DoDefault()
+ENDPROC
+PROCEDURE handleevents
+Lparameters oCtrl As Object, uParam As Variant
+
+Do Case
+	Case uParam.Id = "opgObjectSelector"
+		Do Case
+			Case oCtrl.Value = 1 && Tittle
+				This.Enabled = .T.
+
+			Case oCtrl.Value = 2 && Header
+				This.Enabled = .F.
+
+			Case oCtrl.Value = 3 && Fields
+				This.Enabled = .F.
+
+		Endcase
+	Otherwise
+
+Endcase
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] RESERVED  
+[CLASS] ibstring
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibsTitulo
+[PARENT] rptlayoutfields.LeftFrame.frmTittle
+[START PROPERTIES]
+Top = 29
+Left = 12
+Width = 300
+ToolTipText = "Modificar el Título del Reporte"
+Name = "ibsTitulo"
+Label.Visible = .F.
+Label.Width = 0
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.Left = 0
+Dato.Top = 0
+Dato.Width = 300
+Dato.length = 50
+Dato.Name = "Dato"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _29B0VVC5A
+[CLASS] rptmover
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] container
+[OBJNAME] frmFields
+[PARENT] rptlayoutfields.LeftFrame
+[START PROPERTIES]
+Top = 82
+Left = 8
+Name = "frmFields"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Caption = "Campos"
+lblTitulo.Name = "lblTitulo"
+SourceList.Label.Caption = "Disponibles"
+SourceList.Label.Name = "Label"
+SourceList.CheckButton.Name = "CheckButton"
+SourceList.Dato.Name = "Dato"
+SourceList.Name = "SourceList"
+MoverButtons.Shape.Name = "Shape"
+MoverButtons.shpLabel.Name = "shpLabel"
+MoverButtons.lblTitulo.Name = "lblTitulo"
+MoverButtons.addone.Name = "addone"
+MoverButtons.addall.Name = "addall"
+MoverButtons.removeall.Name = "removeall"
+MoverButtons.removeone.Name = "removeone"
+MoverButtons.Name = "MoverButtons"
+TargetList.Label.Caption = "Seleccionados"
+TargetList.Label.Name = "Label"
+TargetList.CheckButton.Name = "CheckButton"
+TargetList.Dato.Sorted = .F.
+TargetList.Dato.Name = "Dato"
+TargetList.lsubscribetohandleevents = .T.
+TargetList.Name = "TargetList"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+This.lSubscribeToHandleEvents = .T.
+DoDefault()
+ENDPROC
+PROCEDURE handleevents
+Lparameters oCtrl As Object, uParam As Variant
+
+Do Case
+	Case uParam.Id = "opgObjectSelector"
+		Do Case
+			Case oCtrl.Value = 1 && Tittle
+				This.Enabled = .F.
+
+			Case oCtrl.Value = 2 && Header
+				This.Enabled = .T.
+
+			Case oCtrl.Value = 3 && Fields
+				This.Enabled = .T.
+
+		Endcase
+	Otherwise
+
+Endcase
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F11UYXX
+[CLASS] marcoinvisible
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] RightFrame
+[PARENT] rptlayoutfields
+[START PROPERTIES]
+Top = 24
+Left = 424
+Width = 248
+Height = 316
+Name = "RightFrame"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.TabIndex = 4
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+DoDefault()
+
+This.frmHeader.IbsHeader.Anchor = ANCHOR_Top_Absolute + ;
+	ANCHOR_Left_Absolute + ;
+	ANCHOR_Bottom_Absolute + ;
+	ANCHOR_Right_Absolute
+	
+This.frmHeader.IbsHeader.Dato.Anchor = ANCHOR_Top_Absolute + ;
+	ANCHOR_Left_Absolute + ;
+	ANCHOR_Bottom_Absolute + ;
+	ANCHOR_Right_Absolute
+
+
+This.frmHeader.Width = This.Width - This.LeftMargin - This.RightMargin
+This.FrmEdit.Width = This.Width - This.LeftMargin - This.RightMargin
+This.FrmColumns.Width = This.Width - This.LeftMargin - This.RightMargin
+
+This.frmColumns.Anchor = ANCHOR_Bottom_Absolute + ;
+	ANCHOR_Right_Absolute
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F11UYYW
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] frmEdit
+[PARENT] rptlayoutfields.RightFrame
+[START PROPERTIES]
+Top = 76
+Left = 8
+Width = 188
+Height = 172
+TabIndex = 2
+StatusBarText = "Seleccionar el objeto con el que se va a trabajar"
+Name = "frmEdit"
+Shape.Visible = .F.
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Caption = "Editar"
+lblTitulo.Visible = .F.
+lblTitulo.TabIndex = 4
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _25U0XN6KU
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdEditFont
+[PARENT] rptlayoutfields.RightFrame.frmEdit
+[START PROPERTIES]
+Top = 84
+Left = 8
+Height = 72
+Width = 64
+Picture = ..\image\ico\font2.ico
+DisabledPicture = ..\..\..\..\
+Caption = "Fuentes"
+TabIndex = 2
+SpecialEffect = 0
+PicturePosition = 7
+lautosetup = .T.
+Name = "cmdEditFont"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local loParam As Object
+
+loParam = Createobject( "Empty" )
+AddProperty( loParam, "Id", "cmdEditFont" )
+
+Thisform.HandleEvents( This.Parent.IbOption.Dato, loParam )
+
+
+ENDPROC
+PROCEDURE Init
+DoDefault()
+BindEvent( ThisForm, "HandleEvents", This, "HandleEvents" )
+ENDPROC
+PROCEDURE handleevents
+Lparameters oCtrl As Object, uParam As Variant
+
+Do Case
+	Case uParam.Id = "opgObjectSelector"
+		Do Case
+			Case oCtrl.Value = 1 && Tittle
+				This.StatusBarText = "Modificar las fuentes del Título"
+
+			Case oCtrl.Value = 2 && Header
+				This.StatusBarText = "Modificar las fuentes del Encabezado"
+				
+			Case oCtrl.Value = 3 && Fields
+				This.StatusBarText = "Modificar las fuentes del campo seleccionado"
+				
+		EndCase
+		
+		This.ToolTipText = This.StatusBarText
+		
+	Otherwise
+
+Endcase
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F11UZ0X
+[CLASS] iboption
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] IbOption
+[PARENT] rptlayoutfields.RightFrame.frmEdit
+[START PROPERTIES]
+Top = 30
+Left = 11
+TabIndex = 1
+Name = "IbOption"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.ButtonCount = 3
+Dato.Prxoptionbutton1.Caption = "Título"
+Dato.Prxoptionbutton1.Left = 5
+Dato.Prxoptionbutton1.Top = 5
+Dato.Prxoptionbutton1.Name = "optTittle"
+Dato.Prxoptionbutton2.Caption = "Encabezado"
+Dato.Prxoptionbutton2.Left = 5
+Dato.Prxoptionbutton2.Top = 24
+Dato.Prxoptionbutton2.Name = "optHeader"
+Dato.Prxoptionbutton3.Caption = "Campos"
+Dato.Prxoptionbutton3.Value = 1
+Dato.Prxoptionbutton3.Left = 5
+Dato.Prxoptionbutton3.Top = 43
+Dato.Prxoptionbutton3.Name = "optField"
+Dato.BorderStyle = 0
+Dato.Value = 3
+Dato.Name = "Dato"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _29T0YXEHJ
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdEditColor
+[PARENT] rptlayoutfields.RightFrame.frmEdit
+[START PROPERTIES]
+Top = 84
+Left = 80
+Height = 72
+Width = 64
+Picture = ..\image\ico\getcolor.ico
+DisabledPicture = ..\..\..\..\
+Caption = "Color"
+TabIndex = 3
+SpecialEffect = 0
+PicturePosition = 7
+lautosetup = .T.
+Name = "cmdEditColor"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local loParam As Object
+
+loParam = Createobject( "Empty" )
+AddProperty( loParam, "Id", "cmdEditColor" )
+
+Thisform.HandleEvents( This.Parent.IbOption.Dato, loParam )
+
+
+ENDPROC
+PROCEDURE Init
+DoDefault()
+BindEvent( ThisForm, "HandleEvents", This, "HandleEvents" )
+ENDPROC
+PROCEDURE handleevents
+Lparameters oCtrl As Object, uParam As Variant
+
+Do Case
+	Case uParam.Id = "opgObjectSelector"
+		Do Case
+			Case oCtrl.Value = 1 && Tittle
+				This.StatusBarText = "Modificar el color del Título"
+
+			Case oCtrl.Value = 2 && Header
+				This.StatusBarText = "Modificar el color del Encabezado"
+				
+			Case oCtrl.Value = 3 && Fields
+				This.StatusBarText = "Modificar el color del campo seleccionado"
+				
+		EndCase
+		
+		This.ToolTipText = This.StatusBarText
+		
+	Otherwise
+
+Endcase
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F11UZ3G
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] frmHeader
+[PARENT] rptlayoutfields.RightFrame
+[START PROPERTIES]
+Top = 5
+Left = 3
+Width = 156
+Height = 64
+TabIndex = 1
+StatusBarText = "Modificar el Encabezado del campo seleccionado"
+Name = "frmHeader"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Caption = "Encabezado"
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+This.lSubscribeToHandleEvents = .T.
+DoDefault()
+ENDPROC
+PROCEDURE handleevents
+Lparameters oCtrl As Object, uParam As Variant
+
+Do Case
+	Case uParam.Id = "opgObjectSelector"
+		Do Case
+			Case oCtrl.Value = 1 && Tittle
+				This.Enabled = .F.
+
+			Case oCtrl.Value = 2 && Header
+				This.Enabled = .T.
+
+			Case oCtrl.Value = 3 && Fields
+				This.Enabled = .F.
+
+		Endcase
+	Otherwise
+
+Endcase
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27F11UZ4B
+[CLASS] ibstring
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibsHeader
+[PARENT] rptlayoutfields.RightFrame.frmHeader
+[START PROPERTIES]
+Top = 29
+Left = 12
+Width = 136
+Height = 23
+ToolTipText = "Modificar el Encabezado del campo seleccionado"
+lsubscribetohandleevents = .T.
+Name = "ibsHeader"
+Label.Visible = .F.
+Label.Width = 0
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.Height = 27
+Dato.Left = 0
+Dato.Top = 0
+Dato.Width = 136
+Dato.length = 15
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE handleevents
+Lparameters oCtrl as Object, uParam as Variant
+
+Try
+	Do Case
+	Case uParam.Id = "ListBox"
+		This.Dato.Value = oCtrl.DisplayValue
+		
+	Otherwise
+
+	EndCase
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+EndTry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27G0N97EG
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] frmColumns
+[PARENT] rptlayoutfields.RightFrame
+[START PROPERTIES]
+Top = 260
+Left = 8
+Width = 380
+Height = 64
+TabIndex = 3
+StatusBarText = "Indicar en cuantas columnas se desea imprimir el reporte"
+Name = "frmColumns"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Caption = "Columnas"
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _27G0N97GB
+[CLASS] ibnumeric
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibnColumnas
+[PARENT] rptlayoutfields.RightFrame.frmColumns
+[START PROPERTIES]
+Top = 16
+Left = 16
+TabIndex = 3
+Name = "ibnColumnas"
+Label.Caption = "Cantidad de Columnas"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.InputMask = "9"
+Dato.Name = "Dato"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptlayoutfields
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hlA‡@ ..\include\foxpro.h	*z
+; ..\include\strings.h&
+:[é:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _29B0UWTMO
+[CLASS] moverlists
+[CLASSLOC] moverlists.vcx
+[BASECLASS] container
+[OBJNAME] rptmover
+[START PROPERTIES]
+Name = "rptmover"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+SourceList.Label.Name = "Label"
+SourceList.CheckButton.Name = "CheckButton"
+SourceList.Dato.Name = "Dato"
+SourceList.Name = "SourceList"
+MoverButtons.Shape.Name = "Shape"
+MoverButtons.shpLabel.Name = "shpLabel"
+MoverButtons.lblTitulo.Name = "lblTitulo"
+MoverButtons.addone.Name = "addone"
+MoverButtons.addall.Name = "addall"
+MoverButtons.removeall.Visible = .F.
+MoverButtons.removeall.Name = "removeall"
+MoverButtons.removeone.Name = "removeone"
+MoverButtons.Name = "MoverButtons"
+TargetList.Label.Name = "Label"
+TargetList.CheckButton.Name = "CheckButton"
+TargetList.Dato.MoverBars = .T.
+TargetList.Dato.Name = "Dato"
+TargetList.Top = 28
+TargetList.Left = 215
+TargetList.Name = "TargetList"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE moveselected
+Lparameters oSource As ListBox,;
+	oTarget As ListBox
+
+Local lnCnt  As Integer,;
+	lnMoved As Integer
+
+Try
+
+	lnMoved = 1
+	If oSource.MultiSelect = .T.
+		* The ListCount value changes whenever the RemoveItem method is called
+		lnCnt = 1
+		Do While lnCnt <= oSource.ListCount
+			If oSource.Selected( lnCnt )
+				oTarget.AddItem( oSource.List( lnCnt ) )
+				oTarget.ItemData( oTarget.NewIndex ) = oSource.ItemData( lnCnt )
+				oSource.RemoveItem( lnCnt )
+				lnMoved = lnCnt
+
+			Else
+				lnCnt = lnCnt + 1
+				
+			Endif
+		Enddo
+
+	Else
+		lnCnt = oSource.ListIndex
+		If !Empty( lnCnt )
+			oTarget.AddItem( oSource.List( lnCnt ) )
+			oTarget.ItemData( oTarget.NewIndex ) = oSource.ItemData( lnCnt )
+			oSource.RemoveItem( lnCnt )
+			lnMoved = lnCnt
+
+		Endif
+
+	Endif
+
+	If !Empty( oSource.ListCount )
+		oSource.Selected( Min( lnMoved, oSource.ListCount ) ) = .T.
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptmover
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _29E0TPMUJ
+[CLASS] rptmover
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] container
+[OBJNAME] rptorderby
+[START PROPERTIES]
+Width = 380
+Height = 185
+_memberdata =     1860<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="gap" type="property" display="Gap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="lautosetup" type="property" display="lAutoSetup"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="fittoparent" type="method" display="FitToParent"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="bottommargin" type="Property" favorites="True"/><memberdata name="resalttittle" type="property" display="ResaltTittle" favorites="True"/><memberdata name="oldshapecolor" type="property" display="OldShapeColor"/><memberdata name="lresalttittle" type="property" display="lResaltTittle" favorites="True"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="addone" type="method" display="AddOne"/><memberdata name="removeone" type="method" display="RemoveOne"/><memberdata name="addall" type="method" display="AddAll"/><memberdata name="removeall" type="method" display="RemoveAll"/><memberdata name="selectall" type="method" display="SelectAll"/><memberdata name="moveselected" type="method" display="MoveSelected"/><memberdata name="candropicon" type="property" display="CanDropIcon"/><memberdata name="dragthreshold" type="property" display="DragThreshold"/><memberdata name="mousex" type="property" display="MouseX"/><memberdata name="mousey" type="property" display="MouseY"/><memberdata name="nodropicon" type="property" display="NoDropIcon"/><memberdata name="contextualmenu" type="method" display="ContextualMenu"/><memberdata name="getorderbystatement" type="method" display="GetOrderByStatement"/></VFPData>
+
+Name = "rptorderby"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Caption = "Opciones"
+lblTitulo.Name = "lblTitulo"
+SourceList.Label.Visible = .F.
+SourceList.Label.Name = "Label"
+SourceList.CheckButton.Name = "CheckButton"
+SourceList.Dato.Height = 100
+SourceList.Dato.Name = "Dato"
+SourceList.Top = 27
+SourceList.Left = 10
+SourceList.Width = 150
+SourceList.Height = 149
+SourceList.nlength = 20
+SourceList.Name = "SourceList"
+MoverButtons.Shape.Name = "Shape"
+MoverButtons.shpLabel.Name = "shpLabel"
+MoverButtons.lblTitulo.Name = "lblTitulo"
+MoverButtons.addone.Name = "addone"
+MoverButtons.addall.Name = "addall"
+MoverButtons.removeall.Name = "removeall"
+MoverButtons.removeone.Name = "removeone"
+MoverButtons.Name = "MoverButtons"
+TargetList.Label.Visible = .F.
+TargetList.Label.Name = "Label"
+TargetList.CheckButton.Name = "CheckButton"
+TargetList.Dato.Height = 100
+TargetList.Dato.Name = "Dato"
+TargetList.Top = 27
+TargetList.Left = 215
+TargetList.Width = 150
+TargetList.Height = 145
+TargetList.nlength = 20
+TargetList.Name = "TargetList"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE cdataconfigurationkey_access
+If Empty( This.cDataConfigurationKey )
+	This.cDataConfigurationKey = Thisform.cDataConfigurationKey
+
+EndIf && Empty( This.cDataConfigurationKey )
+
+Return This.cDataConfigurationKey
+ENDPROCPROCEDURE getorderbystatement
+Try
+
+	Local lcOrderBy As String
+	Local loField As OrderByField Of "Fw\Comun\Prg\ColReportOrderBy.prg"
+	Local loTLB As ListBox
+	Local loColOrderBy As Collection
+	Local i As Integer,;
+		j As Integer
+
+	lcOrderBy = ""
+	loColOrderBy = Thisform.oEntity.oColReportOrderBy
+	loTLB = This.TargetList.Dato
+	
+	* Recorre el ListBox de los campos Seleccionados
+
+	For i = 1 To loTLB.ListCount
+	
+		* Recupera el índice del elemento en la colección
+		j = loTLB.ItemData( i )
+		
+		* Recupera la referencia al campo
+		loField = loColOrderBy.Item( j )
+		
+		If Empty( loField.TableName )
+			lcOrderBy = lcOrderBy + ", " + loField.FieldName
+			
+		Else	
+			lcOrderBy = lcOrderBy + ", " + loField.TableName + "." + loField.FieldName
+			
+		Endif
+
+		
+
+	Endfor
+
+
+	lcOrderBy = Substr( lcOrderBy, 3 )
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	loField = Null
+	loTLB = Null
+	loColOrderBy = Null
+
+Endtry
+
+Return lcOrderBy
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+*getorderbystatement 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptorderby
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2G80MQ63X
+[CLASS] rptform
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] form
+[OBJNAME] lblform
+[START PROPERTIES]
+DoCreate = .T.
+_memberdata =     2104<VFPData><memberdata name="oreturn" type="property" display="oReturn" favorites="True" override="True"/><memberdata name="gapsize" type="property" display="GapSize"/><memberdata name="performautofit" type="property" display="PerformAutofit"/><memberdata name="fontsize_assign" type="method" display="Fontsize_Assign"/><memberdata name="nstatus" type="property" display="nStatus"/><memberdata name="oerror_access" type="method" display="oError_Access"/><memberdata name="populateproperties" type="method" display="PopulateProperties"/><memberdata name="ousertier" type="property" display="oUserTier"/><memberdata name="ousertier_access" type="property" display="oUserTier_Access"/><memberdata name="cusertierclass" type="property" display="cUserTierClass" favorites="True"/><memberdata name="cusertierclasslibrary" type="property" display="cUserTierClassLibrary" favorites="True"/><memberdata name="cusertierclasslibraryfolder" type="property" display="cUserTierClassLibraryFolder" favorites="True"/><memberdata name="querymethod" type="property" display="QueryMethod" favorites="True"/><memberdata name="reportfilename" type="property" display="ReportFileName" favorites="True"/><memberdata name="gridformname" type="property" display="GridFormName" favorites="True"/><memberdata name="addfilters" type="method" display="AddFilters"/><memberdata name="loadorderbyfields" type="method" display="LoadOrderByFields"/><memberdata name="personalize" type="method" display="Personalize"/><memberdata name="nreportid" type="property" display="nReportId"/><memberdata name="generatequery" type="method" display="GenerateQuery"/><memberdata name="preview" type="method" display="Preview"/><memberdata name="dataconfigurationkey" type="property" display="DataConfigurationKey" favorites="True"/><memberdata name="cconfignexttierfilename" type="property" display="cConfigNextTierFileName" favorites="True"/><memberdata name="printreport" type="method" display="PrintReport"/><memberdata name="closecursors" type="method" display="CloseCursors"/><memberdata name="export" type="method" display="Export"/></VFPData>
+
+Name = "lblform"
+OptionPanel.Shape.Name = "Shape"
+OptionPanel.lblTitulo.Name = "lblTitulo"
+OptionPanel.shpLabel.Name = "shpLabel"
+OptionPanel.cmdPreview.Name = "cmdPreview"
+OptionPanel.cmdPrint.Name = "cmdPrint"
+OptionPanel.cmdExport.Name = "cmdExport"
+OptionPanel.cmdGrid.Name = "cmdGrid"
+OptionPanel.Name = "OptionPanel"
+MarcoCancelar.Shape.Name = "Shape"
+MarcoCancelar.lblTitulo.Name = "lblTitulo"
+MarcoCancelar.shpLabel.Name = "shpLabel"
+MarcoCancelar.cmdCancel.Name = "cmdCancel"
+MarcoCancelar.cmdPersonalize.Name = "cmdPersonalize"
+MarcoCancelar.Name = "MarcoCancelar"
+Titulo.Shape.Name = "Shape"
+Titulo.lblTitulo.Name = "lblTitulo"
+Titulo.shpLabel.Name = "shpLabel"
+Titulo.lblReportName.Name = "lblReportName"
+Titulo.Name = "Titulo"
+PageFrame.ErasePage = .T.
+PageFrame.Page1.Rptvista1.Shape.Name = "Shape"
+PageFrame.Page1.Rptvista1.lblTitulo.Name = "lblTitulo"
+PageFrame.Page1.Rptvista1.shpLabel.Name = "shpLabel"
+PageFrame.Page1.Rptvista1.Actions.Shape.Name = "Shape"
+PageFrame.Page1.Rptvista1.Actions.lblTitulo.Name = "lblTitulo"
+PageFrame.Page1.Rptvista1.Actions.shpLabel.Name = "shpLabel"
+PageFrame.Page1.Rptvista1.Actions.cmdApply.Name = "cmdApply"
+PageFrame.Page1.Rptvista1.Actions.cmdSave.Name = "cmdSave"
+PageFrame.Page1.Rptvista1.Actions.cmdDelete.Name = "cmdDelete"
+PageFrame.Page1.Rptvista1.Actions.Name = "Actions"
+PageFrame.Page1.Rptvista1.Vista.Shape.Name = "Shape"
+PageFrame.Page1.Rptvista1.Vista.lblTitulo.Name = "lblTitulo"
+PageFrame.Page1.Rptvista1.Vista.shpLabel.Name = "shpLabel"
+PageFrame.Page1.Rptvista1.Vista.Vistas.Name = "Vistas"
+PageFrame.Page1.Rptvista1.Vista.Name = "Vista"
+PageFrame.Page1.Rptvista1.Name = "Rptvista1"
+PageFrame.Page1.Name = "Page1"
+PageFrame.Page2.OrderByFrame.Shape.Name = "Shape"
+PageFrame.Page2.OrderByFrame.lblTitulo.Name = "lblTitulo"
+PageFrame.Page2.OrderByFrame.shpLabel.Name = "shpLabel"
+PageFrame.Page2.OrderByFrame.SourceList.Label.Name = "Label"
+PageFrame.Page2.OrderByFrame.SourceList.CheckButton.Name = "CheckButton"
+PageFrame.Page2.OrderByFrame.SourceList.Dato.Name = "Dato"
+PageFrame.Page2.OrderByFrame.SourceList.Name = "SourceList"
+PageFrame.Page2.OrderByFrame.MoverButtons.Shape.Name = "Shape"
+PageFrame.Page2.OrderByFrame.MoverButtons.lblTitulo.Name = "lblTitulo"
+PageFrame.Page2.OrderByFrame.MoverButtons.shpLabel.Name = "shpLabel"
+PageFrame.Page2.OrderByFrame.MoverButtons.addone.Name = "addone"
+PageFrame.Page2.OrderByFrame.MoverButtons.addall.Name = "addall"
+PageFrame.Page2.OrderByFrame.MoverButtons.removeall.Name = "removeall"
+PageFrame.Page2.OrderByFrame.MoverButtons.removeone.Name = "removeone"
+PageFrame.Page2.OrderByFrame.MoverButtons.Name = "MoverButtons"
+PageFrame.Page2.OrderByFrame.TargetList.Label.Name = "Label"
+PageFrame.Page2.OrderByFrame.TargetList.CheckButton.Name = "CheckButton"
+PageFrame.Page2.OrderByFrame.TargetList.Dato.Name = "Dato"
+PageFrame.Page2.OrderByFrame.TargetList.Name = "TargetList"
+PageFrame.Page2.OrderByFrame.Name = "OrderByFrame"
+PageFrame.Page2.Name = "Page2"
+PageFrame.Filtros.FiltroFrame.Shape.Name = "Shape"
+PageFrame.Filtros.FiltroFrame.lblTitulo.Name = "lblTitulo"
+PageFrame.Filtros.FiltroFrame.shpLabel.Name = "shpLabel"
+PageFrame.Filtros.FiltroFrame.Filtros.Name = "Filtros"
+PageFrame.Filtros.FiltroFrame.Name = "FiltroFrame"
+PageFrame.Filtros.Name = "Filtros"
+PageFrame.Name = "PageFrame"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE export
+Try
+
+	Local lcRuta As String
+	lcRuta = ""
+	If Thisform.GenerateQuery()
+		* Exportar la consulta
+
+		lcRuta = Putfile("Nombre","","xls")
+		If !Empty( lcRuta )
+			
+			* Se especifica que campos se graban
+			Select Alias( "cContactos" )
+			Text To lcCommand NoShow TextMerge Pretext 15
+			Copy To (lcRuta) Fields DescripcionCliente,Titulo,Nombre,Inicial,Apellido,Direccion,CodigoPostal,DescripcionLocalidad,DescripcionProvincia type XLS
+			ENDTEXT
+
+			&lcCommand
+
+		EndIf
+
+
+		Thisform.CloseCursors()
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+ENDPROC
+PROCEDURE preview
+
+Try
+
+
+	If Thisform.GenerateQuery()
+		* Ejecutar la Vista Previa
+
+		****Report Form ( Addbs(OSMECON_FRX) + This.ReportFileName ) Preview
+		Label Form ( Addbs(OSMECON_FRX) + This.ReportFileName ) TO PRINTER PROMPT Preview
+		
+		Thisform.CloseCursors()
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+*!*	#INCLUDE "ERP\Actual\Comun\Include\ERP.h"
+*!*	#INCLUDE "Tools\Actual\Report Builder\Include\OOReportBuilder.h"
+
+*!*	Try
+*!*		Local loReport As frxErpBaseReport Of "ERP\Actual\Comun\Frx\frxErpBaseReport.prg"
+*!*		This.GenerateQuery()
+
+
+*!*		Open Database ( Addbs(ERP_FRX) + "Reportes" )
+
+*!*		Use cLogo In 0
+*!*		Use cTitulo In 0
+*!*		Use cEncabezado In 0
+
+*!*		loReport = Newobject( "frxErpBaseReport",;
+*!*			Addbs(ERP_FRX) + "frxErpBaseReport.prg",;
+*!*			"",;
+*!*			Set("Datasession") )
+
+*!*		loReport.cFecha = DateMask()
+*!*		loReport.cReportMainTittle = "Este es el Título Principal"
+*!*		loReport.cReportSubTittle = "Aca va el SubTítulo"
+*!*		loReport.cObservaciones1 = "Ordenado Alfabéticamente"
+
+*!*		
+
+
+*!*		loFrmHeader = loReport.SelectFrxObject( "Page.Header.frmPageHeaderFrame.frmEncabezado", "frmMainEncabezado" )
+*!*		loDetail = loReport.SelectFrxObject( "Details.Detail1.Bodie" )
+*!*		loFrmDetail = loDetail.CreateFrxObject( FRX_FRAME, "frmMainDetalle" )
+
+*!*		* Obtengo el índice de la colección ColBandLayout dentro de la colección oColReportFields
+*!*		lnKey = Thisform.oUserTier.oColReportFields.GetKey( Lower( "__" + Any2Char( Thisform.nReportId ) + "__" ) )
+
+*!*		If !Empty( lnKey )
+*!*			* Obtengo una referencia a la colección ColBandLayout (loColBL)
+*!*			loColBL = Thisform.oUserTier.oColReportFields.Item( lnKey )
+
+*!*			Local i As Integer,;
+*!*				j As Integer,;
+*!*				k As Integer
+
+*!*			* Cargo las columnas en el orden seleccionado
+*!*			k = 1
+*!*			For j=1 To loColBL.Count
+
+*!*				For i=1 To loColBL.Count
+
+*!*					oObj = loColBL.Item( i )
+*!*					
+*!*					If oObj.Selected And oObj.TabOrder = k
+*!*					
+*!*						* Sincronizar el ancho del título con la columna
+*!*						oObj.SynchronizeColumns()
+
+*!*						* Agregar el Título al objeto PageHeader
+*!*						loField = oObj.oHeader
+*!*						loCampo = loFrmHeader.CreateFrxObject( FRX_FIELD, oObj.oHeader.Name )
+*!*						SynchronizeObjects( loCampo, loField )
+*!*						loCampo.oParent = loFrmHeader
+
+*!*						* Agregar el campo al objeto Detail
+*!*						loField = oObj.oDetail
+*!*						loCampo = loFrmDetail.CreateFrxObject( FRX_FIELD, oObj.oDetail.Name )
+*!*						SynchronizeObjects( loCampo, loField )
+*!*						loCampo.oParent = loFrmDetail
+
+*!*						k = k + 1
+
+*!*					Endif
+
+*!*				Endfor
+
+*!*				If k > loColBL.Count
+*!*					Exit
+*!*				Endif
+*!*			Endfor
+*!*		Endif
+
+
+*!*		* Crear el objeto DataObject
+*!*		Local loDataObject As objDataObject Of "Tools\Report Builder\Source\Bands\objDataObject.prg"
+
+*!*		loDataObject = loReport.CreateFrxObject( FRX_DATAOBJ, "DataObject1", "",;
+*!*			loReport.cDataObjClass,;
+*!*			loReport.cDataObjLibrary,;
+*!*			loReport.cDataObjLibraryFolder )
+
+
+*!*		* Indicar el nombre de la tabla principal
+*!*		loDataObject.Expression = [Alias = '] + Thisform.oUserTier.MainCursorName + [']
+
+*!*		* Crear el archivo .FRX
+*!*		loReport.CreateFrxFile( Addbs(ERP_FRX) + "frxERPBaseReport" )
+
+*!*		If loReport.IsOK
+*!*			* Ejecutar la Vista Previa
+*!*			Report Form ( Addbs(ERP_FRX) + "frxERPBaseReport" ) Preview
+*!*		Endif
+
+*!*	Catch To oErr
+*!*		Local loError As UserTierError Of "fw\Actual\ErrorHandler\UserTierError.prg"
+*!*		loError = Newobject( "UserTierError", "UserTierError.prg" )
+*!*		loError.Process( oErr )
+
+
+*!*	Finally
+*!*		Close Databases All
+
+*!*	Endtry
+
+ENDPROC
+PROCEDURE printreport
+
+
+Try
+
+
+	If Thisform.GenerateQuery()
+		* Imprimir el reporte
+
+		Label Form ( Addbs(OSMECON_FRX) + This.ReportFileName ) To Printer Prompt Noconsole
+		
+		Thisform.CloseCursors()
+		
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+*export 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] lblform
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PT0JCMDS
+[CLASS] mainform
+[CLASSLOC] prxmainform.vcx
+[BASECLASS] form
+[OBJNAME] rptform
+[START PROPERTIES]
+Height = 526
+Width = 648
+DoCreate = .T.
+Caption = "Reporte"
+cgridformname = 
+cquerymethod = 
+creportfilename = 
+cdataconfigurationkey = 
+ocolfiltros = .NULL.
+_memberdata =     1172<VFPData>
+	<memberdata name="npaddingtop" type="property" display="nPaddingTop"/>
+	<memberdata name="npaddingbottom" type="property" display="nPaddingBottom"/>
+	<memberdata name="npaddingleft" type="property" display="nPaddingLeft"/>
+	<memberdata name="npaddingright" type="property" display="nPaddingRight"/>
+	<memberdata name="addfilters" type="method" display="AddFilters"/><memberdata name="cgridformname" type="property" display="cGridFormName"/><memberdata name="cquerymethod" type="property" display="cQueryMethod"/><memberdata name="creportfilename" type="property" display="cReportFileName"/><memberdata name="creportfilename_access" type="method" display="cReportFileName_Access"/><memberdata name="generatequery" type="method" display="GenerateQuery"/><memberdata name="loadorderbyfields" type="method" display="LoadOrderByFields"/><memberdata name="printreport" type="method" display="PrintReport"/><memberdata name="cdataconfigurationkey" type="property" display="cDataConfigurationKey"/><memberdata name="ocolfiltros" type="property" display="oColFiltros"/><memberdata name="ocolfiltros_access" type="property" display="oColFiltros_Access"/></VFPData>
+
+Name = "rptform"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Load
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	DoDefault()
+	Thisform.BorderStyle = 2
+
+Catch To oErr
+	loError = ThisForm.oError
+	ThisForm.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+EndTry
+
+ENDPROC
+PROCEDURE QueryUnload
+
+Thisform.Release()
+
+ENDPROC
+PROCEDURE addfilters
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local oFiltro As Object
+Local i As Integer
+Local loFF As Object
+Local lcName As String
+Try
+*!*	    loError = Thisform.oError
+*!*	    loError.Remark = ''
+*!*	    loError.TraceLogin = ''
+
+*!*	    This.oEntity.GenericQuery_GetFilters()
+
+*!*	    loFF = Thisform.PageFrame.Filtros.FiltroFrame.Filtros
+
+*!*	    For i = 1 To Thisform.oEntity.oColReportFilters.Count
+*!*	        oFiltro = Thisform.oEntity.oColReportFilters.Item( i )
+
+*!*	        TEXT To lcCommand NoShow TextMerge Pretext 15
+*!*			SET CLASSLIB TO '<<oFiltro.FilterClassLibraryFolder>><<oFiltro.FilterClassLibrary>>' ADDITIVE
+*!*	        ENDTEXT
+
+*!*	        &lcCommand
+
+*!*	        lcName = oFiltro.Name
+
+*!*	        loFF.AddObject( lcName, oFiltro.FilterClassLibrary + "." + oFiltro.FilterClass )
+
+*!*	        loFF.&lcName..Visible = .T.
+*!*	        loFF.&lcName..ChkInclude.Caption = oFiltro.Caption
+*!*	        loFF.&lcName..CursorName = oFiltro.CursorName
+*!*	        loFF.&lcName..FieldName = oFiltro.FieldName
+
+*!*	    Endfor
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+    oFiltro = Null
+    loFF = Null
+Endtry
+
+ENDPROC
+PROCEDURE classafterautosetup
+
+DoDefault()
+
+*!*	Local loError As prxErrorHandler Of "FW\ErrorHandler\prxErrorHandler.prg"
+*!*	Local lnMaxHeight  As Integer,;
+*!*	    lnMaxWidth As Integer
+*!*	Try
+*!*	    loError = Thisform.oError
+*!*	    loError.Remark = ''
+*!*	    loError.TraceLogin = ''
+
+*!*	    DoDefault()
+
+*!*	    lnMaxHeight = Max( Thisform.OptionPanel.Height, ;
+*!*	        ThisForm.PageFrame.Height )
+
+*!*	    lnMaxWidth = Thisform.PageFrame.Width + This.nGap + Thisform.OptionPanel.Width
+
+*!*	    Thisform.PageFrame.Height = lnMaxHeight
+*!*	    Thisform.OptionPanel.Height = lnMaxHeight
+
+*!*	    Thisform.MarcoCancelar.Width = lnMaxWidth
+*!*	    Thisform.Titulo.Width = lnMaxWidth
+
+
+*!*	Catch To oErr
+*!*	    loError = Thisform.oError
+*!*	    Thisform.cXMLoError = loError.Process( oErr )
+*!*	    Throw loError
+
+*!*	Finally
+*!*	    loError = Thisform.oError
+*!*	    loError.Remark = ''
+*!*	    loError.TraceLogin = ''
+*!*	    loError = Null
+
+*!*	Endtry
+
+ENDPROC
+PROCEDURE classafterinit
+Lparameters toParam As Object
+
+#INCLUDE "FW\TierAdapter\Include\TA.h"
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	ThisForm.AutoCenter = .T.
+	Thisform.oFirstFocus = Null
+	Thisform.nStatus = IS_EDITING
+	Thisform.BindControls = .T.
+	
+
+Catch To oErr
+	loError = ThisForm.oError
+	ThisForm.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+EndTry
+
+Return DoDefault()
+
+ENDPROC
+PROCEDURE classbeforeinit
+Lparameters toParam As Object
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+    * Por ahora, la colección Orderby se ordena a mano
+    If This.lIsOk
+        This.LoadOrderByFields()
+
+    Endif
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+EndTry
+
+Return DoDefault()
+
+ENDPROC
+PROCEDURE creportfilename_access
+*To do: Modify this routine for the Access method
+Return This.cReportFileName
+
+ENDPROC
+PROCEDURE generatequery
+Lparameters cAlias As String
+
+Local llOk As Boolean
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	llOk = .F.
+	Nodefault
+
+Catch To oErr
+	loError = ThisForm.oError
+	ThisForm.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+EndTry
+
+Return llOk
+ENDPROC
+PROCEDURE loadorderbyfields
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local i As Integer
+Local loField As Object
+Local loSLB As ListBox
+Local loTLB As ListBox
+Local loColOB As ColReportOrderBy Of "Fw\Comunes\Prg\ColReportOrderBy.prg"
+
+Try
+
+    *!*	Carga los ListBox de Origen y Destino desde la colección oColReportOrderBy
+    *!*	e indica una vinculación entre cada elemento del ListBox y el índice
+    *!*	que tiene el objeto en la colección
+
+
+*!*	    * Obtengo referencias a los Listbox Source (loSLB) y Target (loTLB)
+*!*	    loSLB = Thisform.PageFrame.Prxpage1.OrderByFrame.SourceList.Dato
+*!*	    loTLB = Thisform.PageFrame.Prxpage1.OrderByFrame.TargetList.Dato
+
+*!*	    Thisform.oEntity.FillColOrderByFields( Thisform.cQueryMethod )
+
+
+*!*	    * Obtengo una referencia a la colección ColBandLayout (loColBL)
+*!*	    loColOB = Thisform.oEntity.oColReportOrderBy
+
+
+*!*	    For i = 1 To loColOB.Count
+*!*	        * Voy asignando cada elemento al ListBox correspondiente
+*!*	        loField = loColOB.Item( i )
+
+*!*	        If loField.Selected
+*!*	            * Si el objeto está seleccionado, lo agrego al TargetListBox,
+*!*	            * que contiene los elementos seleccionados
+*!*	            loTLB.AddItem( loField.DisplayValue )
+
+*!*	            * Guardo el índice del objeto, para poder referenciarlo despues
+*!*	            loTLB.ItemData( loTLB.NewIndex ) = i
+
+*!*	        Else
+*!*	            * Si no, lo agrego al SourceListBox, que contiene los elementos
+*!*	            * disponibles
+*!*	            loSLB.AddItem( loField.DisplayValue )
+
+*!*	            * Guardo el índice del objeto, para poder referenciarlo despues
+*!*	            loSLB.ItemData( loSLB.NewIndex ) = i
+
+*!*	        Endif
+
+*!*	    Endfor
+
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+    loSLB = Null
+    loTLB = Null
+    loColOB = Null
+    loField = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE nstatus_assign
+Lparameters vNewVal As Boolean
+
+DoDefault( vNewVal )
+
+Do While !Empty( Txnlevel() )
+	This.oEntity.TransactionEnd()
+Enddo
+
+ENDPROC
+PROCEDURE ocolfiltros_access
+
+If Vartype( This.oColFiltros ) # "O"
+	This.oColFiltros = Newobject( "PrxCollection", "PrxBaseLibrary.prg" )
+
+Endif
+Return This.oColFiltros
+
+ENDPROCPROCEDURE oentity_access
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    With This As rptform Of FW\Comunes\vcx\prxreportform.vcx
+        If Vartype( .oEntity ) # 'O' And !Thisform.lExit
+			* DA 2009-08-07(11:41:22)
+			* La entidad la debe instanciar el formulario
+            .oEntity = .InstanciateEntity( .cDataConfigurationKey )
+        Endif
+    Endwith
+Catch To oErr
+    loError = This.oError
+    This.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+Return This.oEntity
+
+ENDPROC
+PROCEDURE previewreport
+*#INCLUDE "ERP\ArchivosYTablas\Include\Archivos.h"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+    If Thisform.GenerateQuery()
+        * Ejecutar la Vista Previa
+
+        Report Form ( Addbs(TABLAS_FRX) + This.cReportFileName ) To Printer Prompt Nodialog Preview
+
+    Endif
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE printreport
+*#INCLUDE "ERP\ArchivosYTablas\Include\Archivos.h"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+    If Thisform.GenerateQuery()
+        * Ejecutar la Vista Previa
+
+        Report Form ( Addbs(TABLAS_FRX) + This.cReportFileName ) To Printer Prompt Noconsole
+
+    Endif
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE releaseobjects
+This.oColCombos = Null
+This.oButtons = Null
+This.oColFiltros = Null
+This.oColIB = Null
+This.oColKeyFinder = Null
+This.oEntity = Null
+This.oFirstFocus = Null
+This.oGlobalSettings = Null
+This.oImagelist = Null
+
+DoDefault()
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+9[END RESERVED2]
+[START RESERVED3]
+cgridformname
+cquerymethod
+creportfilename
+*addfilters 
+*printreport 
+*generatequery 
+*loadorderbyfields 
+*creportfilename_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PT0K36HZ
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] Titulo
+[PARENT] rptform
+[START PROPERTIES]
+Top = 12
+Left = 20
+Width = 272
+Height = 48
+TabIndex = 2
+ZOrderSet = 0
+nfitmode = 5
+lfittoparent = .T.
+lsamerowasprevious = .T.
+Name = "Titulo"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+Lparameters tlOnlyPosition As Boolean
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    loError = Thisform.oError
+    loError.Cremark = ''
+    loError.Ctracelogin = ''
+
+    This.lblReportName.Top = This.nTopPadding
+    This.lblReportName.Left = This.nLeftPadding
+    This.lblReportName.AutoFit()
+
+    This.Width = This.nLeftPadding + This.lblReportName.Width + This.nRightPadding
+    This.Height = This.nTopPadding + This.lblReportName.Height + This.nBottomPadding
+
+    With This
+        .ZOrder( 1 )
+        .BorderWidth 	= 0
+        .BackColor 		= .Parent.BackColor
+    Endwith
+
+    With This.Shape As Shape
+        .Top 		= 0
+        .Left 		= 0
+        .Height 	= This.Height
+        .Width 		= This.Width
+        .BackColor 	= .Parent.BackColor
+        .ZOrder( 1 )
+        .Anchor = ANCHOR_Top_Absolute + ;
+            ANCHOR_Left_Absolute + ;
+            ANCHOR_Bottom_Absolute + ;
+            ANCHOR_Right_Absolute
+
+    Endwith
+
+    With This.lblTitulo
+        .Top 			= 0
+        .Left 		= This.Shape.Left + ( .Height / 2 )
+        .BackColor 	= .Parent.BackColor
+        .DisabledBackColor = Thisform.BackColor
+    Endwith
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Thisform.oError
+    loError.Cremark = ''
+    loError.Ctracelogin = ''
+    loError = Null
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PT0K36JA
+[CLASS] prxlabel
+[CLASSLOC] prxbase.vcx
+[BASECLASS] label
+[OBJNAME] lblReportName
+[PARENT] rptform.Titulo
+[START PROPERTIES]
+AutoSize = .T.
+FontBold = .T.
+FontSize = 20
+Caption = "Título del Reporte"
+Left = 22
+Top = 13
+Name = "lblReportName"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PT0K36JB
+[CLASS] rptoptionpanel
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] container
+[OBJNAME] OptionPanel
+[PARENT] rptform
+[START PROPERTIES]
+Top = 60
+Left = 528
+TabIndex = 4
+ZOrderSet = 1
+StatusBarText = "Tipo de Salida del Reporte"
+lsamerowasprevious = .T.
+Name = "OptionPanel"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+cmdGrid.Visible = .F.
+cmdGrid.Name = "cmdGrid"
+cmdPreview.Name = "cmdPreview"
+cmdExport.Visible = .F.
+cmdExport.Name = "cmdExport"
+cmdPrintReport.Name = "cmdPrintReport"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PT0L44N8
+[CLASS] rptpageframe
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] pageframe
+[OBJNAME] PageFrame
+[PARENT] rptform
+[START PROPERTIES]
+ErasePage = .T.
+ActivePage = 1
+Top = 60
+Left = 12
+Width = 516
+Height = 376
+TabIndex = 3
+ZOrderSet = 2
+lfittoparent = .F.
+Name = "PageFrame"
+prxpage1.Caption = "Filtros"
+prxpage1.Name = "prxpage1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PU0MVIQQ
+[CLASS] abstractbutton
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdDebugInfo
+[PARENT] rptform
+[START PROPERTIES]
+Top = 0
+Left = 0
+Height = 21
+Width = 16
+FontBold = .T.
+Caption = "?"
+TabIndex = 1
+ZOrderSet = 3
+lperformautosetup = .F.
+lautosetup = .F.
+Name = "cmdDebugInfo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Refresh
+
+With This As CommandButton
+	.Move( 0, 0 )
+	.ZOrder()
+	.lEnabled = .T.
+	.lIsActive = .T.
+	.Enabled = .T.
+Endwith
+
+ENDPROC
+PROCEDURE RightClick
+
+Local lnOpcion As Number
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+
+	lnOpcion = xmenu( 'Ver Bordes;Ocultar Bordes' )
+
+	Do Case
+		Case lnOpcion = 1
+			VerBordes( Thisform )
+
+		Case lnOpcion = 2
+			OCultarBordes( Thisform )
+
+		Otherwise
+
+	Endcase
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+Endtry
+
+ENDPROCPROCEDURE autosetup
+Lparameters tvParam As Variant
+With This As CommandButton
+	.Move( 0, 0 )
+	.ZOrder()
+	.lEnabled = .T.
+	.lIsActive = .T.
+	.Enabled = .T.
+Endwith
+
+ENDPROC
+PROCEDURE hookbeforeclick
+* Cancelo el evento
+#Define CR Chr( 13 )
+Local lcInfo As String
+Local lnRecno As Number
+Local lnReccount As Number
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local llIsTrans As Boolean
+Local lnBuffer As Number
+Local llBof As Boolean
+Local llEof As Boolean
+Local lcSQL As String
+Local lcTables As String
+Local lnWhereType As Number
+
+Try
+
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	lcInfo = ''
+
+	TEXT To lcInfo NoShow TextMerge Pretext 1 + 2 ADDITIVE
+		Caption: <<Thisform.Caption>>
+		DataSessionId: <<Thisform.DataSessionId>>
+		WindowType: <<Thisform.WindowType>>
+		cDataConfigurationKey: <<thisform.cDataConfigurationKey>>
+		BindControls: <<Thisform.BindControls>>
+		oEntity.Name: <<Thisform.oEntity.Name>>
+		oEntity.Class: <<Thisform.oEntity.Class>>
+		oEntity.ClassLibrary: <<Thisform.oEntity.ClassLibrary>>
+		oEntity.ParentClass: <<Thisform.oEntity.ParentClass>>
+		oEntity.lIsChild: <<Thisform.oEntity.lIsChild>>
+		oEntity.nEntidadId: <<Thisform.oEntity.nEntidadId>>
+		Txnlevel: <<Txnlevel()>>
+		Tablas:
+
+
+	ENDTEXT
+
+	For i = 1 To Aused( lAUsed )
+		lcAlias = Alias( lAUsed[ i, 1 ] )
+		lnRecno = SaveRecNo( lcAlias )
+		llIsTrans = IsTransactable( lcAlias )
+		llBof = Bof( lcAlias )
+		llEof = Eof( lcAlias )
+
+		Try
+			lnBuffer = CursorGetProp( "Buffering", lcAlias )
+		Catch To oErr
+			lnBuffer = 0
+		Endtry
+
+		Try
+			lnSourceType = CursorGetProp( "SourceType", lcAlias )
+		Catch To oErr
+			lnSourceType = 0
+		Endtry
+
+		Try
+			lcSourceName = CursorGetProp( "SourceName", lcAlias )
+		Catch To oErr
+			lcSourceName = ''
+		Endtry
+
+		Try
+			lcSQL = CursorGetProp( "SQL", lcAlias )
+		Catch To oErr
+			lcSQL = ''
+		Endtry
+
+		Try
+			lcTables = CursorGetProp( "Tables", lcAlias )
+		Catch To oErr
+			lcTables = ''
+		Endtry
+
+		Try
+			lcDatabase = CursorGetProp( "Database", lcAlias )
+		Catch To oErr
+			lcDatabase = ''
+		Endtry
+
+		Try
+			lnWhereType = CursorGetProp( "WhereType", lcAlias )
+		Catch To oErr
+			lnWhereType = 0
+		Endtry
+
+		* lnReccount = Reccount( Alias( lAUsed[ i, 1 ] ) )
+		TEXT To lcCommand NoShow TextMerge Pretext 15
+		Calculate Cnt() for ! Deleted( '<<lcAlias>>' ) to lnReccount in <<lcAlias>>
+
+		ENDTEXT
+
+		Try
+			&lcCommand
+		Catch To oErr
+			lnReccount = 0
+		Endtry
+
+		TEXT To lcInfo NoShow TextMerge Pretext 1 + 2 ADDITIVE
+			<<lcAlias>> bof: <<llBof>> eof: <<llEof>> reg: <<lnRecno>> de <<lnReccount>> Tx: <<llIsTrans>> Bf: <<lnBuffer>> St: <<lnSourceType>> Sn: <<lcSourceName>> SQL: <<lcSQL>> Db: <<lcDatabase>> Tbl: <<lcTables>> Wt: <<lnWhereType>>
+
+		ENDTEXT
+
+		RestRecNo( lnRecno, Alias( lAUsed[ i, 1 ] ) )
+
+	Endfor
+	Messagebox( lcInfo )
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+Endtry
+
+Return .F.
+
+ENDPROC
+PROCEDURE hookbeforeinit
+
+With This As CommandButton
+	.Visible = ! IsRuntime()&&  And ( Thisform.WindowType = 1 )
+	Bindevent( Thisform, 'HookAfterAutoSetup', This, 'AutoSetup' )
+	.Move( 0, 0 )
+	.lEnabled = .T.	
+	.lIsActive = .T.
+	.Enabled = .T.
+	.ZOrder()
+Endwith
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2Q10PBCIL
+[CLASS] optionpanelbase
+[CLASSLOC] prxmainform.vcx
+[BASECLASS] container
+[OBJNAME] MarcoCancelar
+[PARENT] rptform
+[START PROPERTIES]
+Top = 444
+Left = 12
+Width = 400
+Height = 66
+TabIndex = 5
+ZOrderSet = 4
+ncolspan = 2
+lfittoparent = .T.
+nfitmode = 5
+Name = "MarcoCancelar"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE hookafterautosetup
+Lparameters tlOnlyPosition As Boolean
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+This.cmdCancel.Anchor = ANCHOR_Top_Absolute ;
+	+ ANCHOR_Bottom_Absolute ;
+	+ ANCHOR_Left_Absolute
+
+This.CmdPersonalize.Anchor = ANCHOR_Top_Absolute ;
+	+ ANCHOR_Bottom_Absolute ;
+	+ ANCHOR_Right_Absolute
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2Q10PBCQI
+[CLASS] cancel
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancel
+[PARENT] rptform.MarcoCancelar
+[START PROPERTIES]
+Top = 25
+Left = 12
+ccommand = Release
+Name = "cmdCancel"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2Q10PBCRG
+[CLASS] rptbutton
+[CLASSLOC] prxreportform.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdPersonalize
+[PARENT] rptform.MarcoCancelar
+[START PROPERTIES]
+Top = 24
+Left = 258
+Picture = ..\image\bmp\label.bmp
+DisabledPicture = ..\..\..\
+Cancel = .T.
+Caption = "Personalizar"
+Visible = .F.
+Name = "cmdPersonalize"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptform
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\..\tieradapter\include\ta.hÖ[bn1@ ..\include\praxis.hÞ\lA‡@ ..\include\foxpro.hæ]*z
+; ..\include\strings.hî^:[é:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PT0KGHOZ
+[CLASS] prxpageframe
+[CLASSLOC] prxbase.vcx
+[BASECLASS] pageframe
+[OBJNAME] rptpageframe
+[START PROPERTIES]
+ErasePage = .T.
+Width = 340
+Height = 196
+Name = "rptpageframe"
+prxpage1.Name = "prxpage1"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+
+If Empty( This.PageBackColor )
+	This.PageBackColor = Thisform.BackColor
+	
+EndIf
+
+DoDefault()
+
+ENDPROC
+PROCEDURE beforebindcontrols
+Local lcCursorName As String
+Local loPage As Page
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	lcCursorName = Thisform.oEntity.cEntityCursor
+
+	If Used( lcCursorName )
+
+		loPage = This.Pages( This.ActivePage )
+
+		For Each oControl In Thisform.oColIb
+			If oControl.lHasControlSource
+				If Empty( oControl.Dato.ControlSource ) ;
+						And oControl.Visible ;
+						And Lower( oControl.cBelongToPage ) == Lower( loPage.PageName )
+
+					If Empty( oControl.cCursorName )
+						oControl.cCursorName = lcCursorName
+					Endif
+
+					If Empty( oControl.cFieldName )
+						oControl.cFieldName = Substr( oControl.Name, 4 )
+					Endif
+
+					oControl.Dato.ControlSource = oControl.cCursorName + "." + oControl.cFieldName
+
+				Endif
+			Endif
+
+		Endfor
+
+		For Each oCombo In Thisform.oColCombos
+			If oCombo.Visible ;
+					And Lower( oCombo.cBelongToPage ) == Lower( loPage.PageName )
+				oCombo.PopulateCombo()
+			Endif
+		Endfor
+
+	Endif
+
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROCPROCEDURE pageactivates
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    loError = Thisform.oError
+    loError.Cremark = ''
+    loError.Ctracelogin = ''
+
+    Local oPage As Page
+
+    oPage = This.Pages[ This.ActivePage ]
+    If Vartype( oPage ) == "O"
+
+        If !oPage.lIsActive
+            oPage.FontBold = .T.
+            oPage.lIsActive = .T.
+
+        Endif
+    Endif
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Thisform.oError
+    loError.Cremark = ''
+    loError.Ctracelogin = ''
+    loError = Null
+	oPage = Null
+Endtry
+
+ENDPROC
+PROCEDURE pagedeactivates
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    loError = Thisform.oError
+    loError.Cremark = ''
+    loError.Ctracelogin = ''
+
+    Local oPage As Page
+
+    oPage = This.Pages[ This.ActivePage ]
+    If Vartype( oPage ) == "O"
+        oPage.FontBold = .F.
+        oPage.lIsActive = .F.
+
+    Endif
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Thisform.oError
+    loError.Cremark = ''
+    loError.Ctracelogin = ''
+    loError = Null
+	oPage = Null
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptpageframe
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PT0OI4SH
+[CLASS] optionpanelbase
+[CLASSLOC] prxmainform.vcx
+[BASECLASS] container
+[OBJNAME] rptoptionpanel
+[START PROPERTIES]
+Width = 114
+Height = 123
+Name = "rptoptionpanel"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.TabIndex = 5
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+5[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PT0P42IU
+[CLASS] grilla
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdGrid
+[PARENT] rptoptionpanel
+[START PROPERTIES]
+Top = 84
+Left = 12
+TabIndex = 4
+Name = "cmdGrid"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PT0P42JP
+[CLASS] preview
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdPreview
+[PARENT] rptoptionpanel
+[START PROPERTIES]
+Top = 12
+Left = 12
+TabIndex = 1
+Name = "cmdPreview"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PT0P42K5
+[CLASS] export
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdExport
+[PARENT] rptoptionpanel
+[START PROPERTIES]
+Top = 60
+Left = 12
+TabIndex = 3
+Name = "cmdExport"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PT0P42KK
+[CLASS] report
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdPrintReport
+[PARENT] rptoptionpanel
+[START PROPERTIES]
+Top = 36
+Left = 12
+TabIndex = 2
+ccommand = PrintReport
+Name = "cmdPrintReport"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rptoptionpanel
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

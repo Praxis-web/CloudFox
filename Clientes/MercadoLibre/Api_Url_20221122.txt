@@ -1,0 +1,20 @@
+2022/11/22 19:16:31
+
+Method   		= 'GET'
+Url      		= 'https://prx-ecommerce-signin.herokuapp.com/meli/apis/MeLi/1/'
+Async    		= '.F.'
+User     		= ''
+Password 		= ''
+Authorization 	= 'TOKEN b06ed251318786ecb01ab3c566c9b582ece4e727'
+Accept          = ''
+Content-Type 	= 'application/json'
+Body			= ''
+Status			= '200'
+ResponseText	= '{"id":1,"ts":"2021-12-03T11:41:12.076000-03:00","uts":"2022-11-22T19:16:18.267281-03:00","borrado":false,"nombre":"Blanco Claudio's","descripcion":"","activo":true,"orden":2,"es_sistema":false,"client_id":"7193455697653451","client_secret":"iVjl3JwYaFC4aDvDGkaGhr54HvDTrMIV","redirect_uri":"https://prx-ecommerce-signin.herokuapp.com/meli/apis/mlCode","server_authorization_code":"TG-637d4a31efe0ed0001eb2353-216790425","access_token":"APP_USR-7193455697653451-112218-78617b34e1b8ca7a90304193b3429a31-216790425","user_id":216790425,"refresh_token":"TG-637d4a32efe0ed0001eb2356-216790425","invalid_token":false,"cliente_praxis":2}'
+
+
+Send            = 0.201
+Json to Vfp     = 0.002
+
+
+

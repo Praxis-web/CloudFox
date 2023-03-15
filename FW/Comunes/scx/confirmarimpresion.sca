@@ -1,0 +1,610 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3RO0TLEH5
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3RO0TLEH6
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] PEDIRSALIDA
+[START PROPERTIES]
+BorderStyle = 1
+Top = 0
+Left = 0
+Height = 204
+Width = 336
+DoCreate = .T.
+Caption = "Confirmar Impresión"
+Closable = .F.
+MaxButton = .F.
+MinButton = .F.
+Icon = ..\image\ico\impresora.ico
+TitleBar = 0
+WindowType = 1
+ncopias = 0
+_memberdata = <VFPData><memberdata name="ncopias" display="nCopias"/><memberdata name="oreturn" display="oReturn"/><memberdata name="autofit" display="Autofit"/><memberdata name="oparame" display="oParame"/></VFPData>
+oreturn = Null
+oparame = .NULL.
+Name = "PEDIRSALIDA"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Lparameters oParame As Object
+
+Local lcCommand As String
+Local loReturn As Object
+
+Try
+
+	lcCommand = ""
+	
+	Thisform.oParame = oParame
+
+	If oParame.nCopias > 0
+		Thisform.spnCopias.Visible 	= .T.
+		Thisform.lblCopias.Visible 	= .T.
+		ThisForm.spnCopias.Value 	= oParame.nCopias
+	Endif
+
+	Thisform.nCopias = oParame.nCopias
+
+	If !Empty( oParame.cPicture )
+		Thisform.Imagen.Picture = oParame.cPicture
+	Endif
+
+	Do Case
+		Case oParame.nDefaultButton = 0
+			Thisform.cmdCancelar.SetFocus()
+
+		Case oParame.nDefaultButton = 1
+			Thisform.CmdExportar.SetFocus()
+
+		Case oParame.nDefaultButton = 2 And oParame.nCopias > 0
+			Thisform.cmdCancelar.SetFocus()
+
+	Endcase
+
+	If Getwordcount( oParame.cSalidas, "," ) > 1
+		Thisform.cboExportar.Clear()
+		Thisform.cboExportar.cSalidas = oParame.cSalidas
+		Thisform.cboExportar.cDefault = oParame.cDefault
+		Thisform.cboExportar.Init()
+		Thisform.cboExportar.Value = oParame.cDefault
+		Thisform.cboExportar.Visible = .T.
+
+	Else
+		Thisform.cboExportar.Value = oParame.cDefault
+
+	Endif
+
+	If !Empty( oParame.cMensaje )
+		Thisform.lblMensaje.Caption = oParame.cMensaje
+	Endif
+
+	If !Pemstatus( oParame, "cMailTo", 5 )
+		AddProperty( oParame, "cMailTo", "" )
+	EndIf
+	ThisForm.txtMail.Value = oParame.cMailTo
+	
+	If Empty( oParame.cMailTo )
+		ThisForm.txtMail.Visible = .F.
+	EndIf
+
+	This.TitleBar 	= Iif( oParame.lTitleBar, 1, 0 )
+	This.Caption 	= oParame.cCaption
+
+
+	loReturn = Createobject( "Empty" )
+	AddProperty( loReturn, "nStatus", -1 )
+	AddProperty( loReturn, "nCopias", oParame.nCopias )
+	AddProperty( loReturn, "cSalida", oParame.cDefault )
+	AddProperty( loReturn, "cMailTo", oParame.cMailTo )
+
+	Thisform.oReturn = loReturn
+
+	Thisform.AutoFit()
+	Thisform.AutoCenter = .T.
+
+	Thisform.Visible = .T.
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+Finally
+	loReturn = Null
+	oParame = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE Load
+This.Visible = .F.
+ENDPROCPROCEDURE Unload
+Return Thisform.oReturn
+ENDPROC
+PROCEDURE autofit
+Local lcCommand as String
+Local lnTop as Integer
+
+Try
+
+	lcCommand = ""
+	
+	lnTop = 12
+	
+	If ThisForm.spnCopias.Visible Or Thisform.cboExportar.Visible
+		ThisForm.spnCopias.Top = lnTop
+		ThisForm.lblCopias.Top = lnTop
+		
+		ThisForm.spnCopias.Left = ThisForm.Width - ThisForm.spnCopias.Width - 12
+		ThisForm.lblCopias.Left = ThisForm.spnCopias.Left - ThisForm.lblCopias.Width - 12
+		
+*!*			ThisForm.spnCopias.Anchor = 8
+*!*			ThisForm.lblCopias.Anchor = 8
+		
+		ThisForm.cboExportar.Top = lnTop
+		ThisForm.cboExportar.Left = 12
+
+		lnTop = lnTop + 36
+	EndIf
+	
+	ThisForm.Imagen.Top 	= lnTop
+	ThisForm.lblMensaje.Top = lnTop
+	
+	ThisForm.Imagen.Left 		= Thisform.Width - ThisForm.Imagen.Width - 12
+	ThisForm.lblMensaje.Left 	= ThisForm.Imagen.Left - ThisForm.lblMensaje.Width - 12
+	
+	If ThisForm.lblMensaje.Left < 12
+		ThisForm.lblMensaje.Left 	= 12
+		ThisForm.Imagen.Left 		= 12 + ThisForm.lblMensaje.Width + 12
+		Thisform.Width = ThisForm.Imagen.Left + ThisForm.Imagen.Width + 12
+	EndIf
+	
+*!*		ThisForm.Imagen.Anchor = 8
+*!*		ThisForm.lblMensaje.Anchor = 8
+	
+	lnTop = ThisForm.Imagen.Top + ThisForm.Imagen.Height + 24
+	
+	ThisForm.txtMail.Top 		= lnTop
+	
+	lnTop = ThisForm.txtMail.Top + 48
+	
+	ThisForm.cmdCancelar.Top 	= lnTop
+	ThisForm.cmdCancelar.Left 	= 12
+	
+	ThisForm.CmdExportar.Top 	= lnTop
+	ThisForm.CmdExportar.Left 	= Thisform.Width - ThisForm.CmdExportar.Width - 12
+	
+	Thisform.Height = ThisForm.CmdExportar.Top + ThisForm.CmdExportar.Height + 12
+	
+
+Catch To loErr
+
+Finally
+
+
+EndTry
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+ncopias
+_memberdata XML Metadata for customizable properties
+oreturn Referencia al objeto que se devuelve
+oparame
+*autofit Auto-resizes one or all visible grid columns.
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3RO0U0J01
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancelar
+[PARENT] PEDIRSALIDA
+[START PROPERTIES]
+Top = 144
+Left = 13
+Height = 48
+Width = 120
+FontSize = 14
+Picture = ..\image\bmp\close.bmp
+Cancel = .T.
+Caption = "Cancela"
+StatusBarText = "Cancelar"
+TabIndex = 3
+SpecialEffect = 2
+PicturePosition = 1
+PictureMargin = 1
+Name = "cmdCancelar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Try
+
+	Thisform.oReturn.nStatus = -1
+	
+	Thisform.Release()
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3SB0N503C
+[CLASS] spinner
+[BASECLASS] spinner
+[OBJNAME] spnCopias
+[PARENT] PEDIRSALIDA
+[START PROPERTIES]
+Height = 24
+InputMask = "99"
+KeyboardHighValue = 99
+KeyboardLowValue = 1
+Left = 263
+SpinnerHighValue =  99.00
+SpinnerLowValue =   1.00
+TabIndex = 1
+Top = 12
+Visible = .F.
+Width = 61
+Value = 1
+Name = "spnCopias"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3SB0N503D
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblCopias
+[PARENT] PEDIRSALIDA
+[START PROPERTIES]
+AutoSize = .T.
+Alignment = 1
+BackStyle = 0
+Caption = "Copias"
+Height = 17
+Left = 210
+Top = 16
+Visible = .F.
+Width = 42
+TabIndex = 4
+Name = "lblCopias"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3SB0N503E
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdExportar
+[PARENT] PEDIRSALIDA
+[START PROPERTIES]
+Top = 144
+Left = 204
+Height = 48
+Width = 120
+FontSize = 14
+Picture = ..\image\ico\impresora.ico
+Caption = "Imprimir"
+TabIndex = 2
+PicturePosition = 1
+Name = "cmdExportar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	Thisform.oReturn.nStatus = 0
+	Thisform.oReturn.nCopias = ThisForm.spnCopias.Value
+	Thisform.oReturn.cSalida = ThisForm.cboExportar.Value
+	Thisform.oReturn.cMailTo = ThisForm.txtMail.Value
+	
+	Thisform.Release()
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _4CY0SGNPV
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblMensaje
+[PARENT] PEDIRSALIDA
+[START PROPERTIES]
+FontSize = 14
+WordWrap = .T.
+BackStyle = 0
+Caption = "Confirma Salida"
+Height = 50
+Left = 72
+Top = 53
+Width = 252
+TabIndex = 5
+Name = "lblMensaje"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _4CY0SGNPW
+[CLASS] image
+[BASECLASS] image
+[OBJNAME] imagen
+[PARENT] PEDIRSALIDA
+[START PROPERTIES]
+Picture = ..\image\ico\help 05.ico
+Stretch = 1
+BackStyle = 0
+Height = 44
+Left = 13
+Top = 53
+Width = 72
+Name = "imagen"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _4QB10DGFE
+[CLASS] cboexportar
+[CLASSLOC] ..\vcx\queryform.vcx
+[BASECLASS] combobox
+[OBJNAME] cboExportar
+[PARENT] PEDIRSALIDA
+[START PROPERTIES]
+Height = 24
+Left = 13
+Top = 12
+Visible = .F.
+Width = 179
+Name = "cboExportar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcCommand As String
+Local loCmdExportar As CommandButton,;
+	loCmdCancelar As CommandButton
+
+Try
+
+	lcCommand = ""
+	External File Print.Bmp,;
+		Preview.Bmp,;
+		Export.Bmp,;
+		Pdf.Bmp,;
+		Pdf_1.Ico
+
+	loCmdExportar = Thisform.cmdExportar
+	loCmdCancelar = Thisform.cmdCancelar
+
+	Thisform.lblCopias.Enabled = .F.
+	Thisform.spnCopias.Enabled = .F.
+
+
+	Do Case
+		Case This.Value = S_IMPRESORA
+			loCmdExportar.Caption = "Imprimir"
+			loCmdExportar.Picture = 'Fw\Comunes\Image\Bmp\Print.Bmp'
+			Thisform.lblCopias.Enabled 	= .T.
+			Thisform.spnCopias.Enabled 	= .T.
+			Thisform.txtMail.Visible 	= .F.
+
+			If Empty( Thisform.oParame.cMensaje )
+				Thisform.lblMensaje.Caption = "Confirma Impresión"
+			Endif
+
+		Case This.Value = S_VISTA_PREVIA
+			loCmdExportar.Caption 		= "Exportar"
+			loCmdExportar.Picture 		= 'Fw\Comunes\Image\Bmp\Preview.Bmp'
+			Thisform.txtMail.Visible 	= .F.
+
+			If Empty( Thisform.oParame.cMensaje )
+				Thisform.lblMensaje.Caption = "Confirma Vista Previa"
+			Endif
+
+		Case This.Value = S_HOJA_DE_CALCULO
+			loCmdExportar.Caption 		= "Exportar"
+			loCmdExportar.Picture 		= 'Fw\Comunes\Image\Bmp\Export.Bmp'
+			Thisform.txtMail.Visible 	= .F.
+			
+			If Empty( Thisform.oParame.cMensaje )
+				Thisform.lblMensaje.Caption = "Confirma Salida a Excel"
+			Endif
+			
+		Case This.Value = S_PANTALLA
+			loCmdExportar.Caption 		= "Pantalla"
+			loCmdExportar.Picture 		= 'Fw\Comunes\Image\Bmp\Grid.Bmp'
+			Thisform.txtMail.Visible 	= .F.
+			
+			If Empty( Thisform.oParame.cMensaje )
+				Thisform.lblMensaje.Caption = "Confirma Salida a Pantalla"
+			Endif
+			
+
+		Case This.Value = S_PDF
+			loCmdExportar.Caption = "Exportar"
+			loCmdExportar.Picture = 'Fw\Comunes\Image\Bmp\Pdf_1.Ico'
+			loCmdExportar.Top = loCmdCancelar.Top + loCmdCancelar.Height - loCmdExportar.Height
+			Thisform.txtMail.Visible 	= .F.
+
+			If Empty( Thisform.oParame.cMensaje )
+				Thisform.lblMensaje.Caption = "Confirma Salida a PDF"
+			Endif
+
+		Case This.Value = S_CSV
+			loCmdExportar.Caption = "CSV"
+			loCmdExportar.Picture = 'Fw\Comunes\Image\Bmp\New.Bmp'
+			Thisform.txtMail.Visible 	= .F.
+			
+			If Empty( Thisform.oParame.cMensaje )
+				Thisform.lblMensaje.Caption = "Confirma Salida a CSV"
+			Endif
+			
+
+		Case This.Value = S_SDF
+			loCmdExportar.Caption = "Texto"
+			loCmdExportar.Picture = 'Fw\Comunes\Image\Bmp\New.Bmp'
+			Thisform.txtMail.Visible 	= .F.
+			
+			If Empty( Thisform.oParame.cMensaje )
+				Thisform.lblMensaje.Caption = "Confirma Salida a TXT"
+			Endif
+			
+
+		Case This.Value = S_MAIL
+			loCmdExportar.Caption = "Enviar"
+			loCmdExportar.Picture = "Fw\Comunes\Image\ico\eMail2.ico"
+			Thisform.txtMail.Visible 	= .T.
+			
+			If Empty( Thisform.oParame.cMensaje )
+				Thisform.lblMensaje.Caption = "Confirma Envío de e-Mail"
+			Endif
+			
+		Otherwise
+
+	Endcase
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE ProgrammaticChange
+This.InteractiveChange()
+ENDPROC
+PROCEDURE hookbeforeinit
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+* RA 2013-04-22(18:06:18)
+* Edite este metodo para inicializar las opciones de salida
+* Si no se edita, se utilizan las opciones por default, definidas en GetOutputOptions()
+
+Local lcCommand As String,;
+	lcSalidas As String,;
+	lcPDF As String
+
+Try
+
+	lcCommand = ""
+	lcSalidas = ""
+
+	If Empty( This.cSalidas )
+		lcPDF =  Iif( This.lPDFCreator, S_PDF + ",", "" )
+
+		TEXT To lcSalidas NoShow TextMerge Pretext 15
+		<<S_IMPRESORA>>,
+		<<lcPDF>>
+		<<S_VISTA_PREVIA>>
+		ENDTEXT
+
+		This.cSalidas = lcSalidas
+		This.cDefault = S_IMPRESORA
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+Finally
+
+
+Endtry
+
+Return .T.
+
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _5MT0O41EM
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtMail
+[PARENT] PEDIRSALIDA
+[START PROPERTIES]
+Height = 23
+Left = 12
+Top = 108
+Visible = .F.
+Width = 312
+Name = "txtMail"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 0, 14, 8, 23, 18, 51, 4, 1
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h¦•s~\V ..\include\foxpro.h®–ÊrûF ..\include\strings.h¶—ZŠOJ* ..\..\..\tools\namespaces\include\system.h¾˜±ÙF[END RESERVED1]
+[EOF]

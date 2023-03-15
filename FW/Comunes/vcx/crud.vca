@@ -1,0 +1,2119 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1Y30L14CQ
+[CLASS] prxgrid
+[CLASSLOC] basecontrols.vcx
+[BASECLASS] grid
+[OBJNAME] crudgrid
+[START PROPERTIES]
+MemberClassLibrary = ..\..\tieradapter\comun\prxbaselibrary.prg
+MemberClass = "PrxColumn"
+ColumnCount = -1
+AllowHeaderSizing = .F.
+AllowRowSizing = .F.
+DeleteMark = .F.
+GridLines = 0
+Height = 183
+RecordMark = .F.
+RowHeight = 16
+ScrollBars = 2
+Width = 295
+GridLineColor = 192,192,192
+HighlightForeColor = 0,0,64
+HighlightStyle = 2
+AllowAutoColumnFit = 2
+AllowCellSelection = .F.
+Optimize = .T.
+casociatedcursor = 
+lcastdatetime = .T.
+gridautofit = .T.
+nlastkeystroke = 0
+csearchbuffer = 
+nupdatefontsize = 0
+rowsperpage = 0
+cfitcolumn = 
+nlastrow = 0
+ocolgridlayout = .NULL.
+noriginalwidth = 0
+lischeckfitcolumn = .F.
+otable = .NULL.
+cmaincursorname = 
+_memberdata =     4169<VFPData><memberdata name="fillgrid" type="method" display="FillGrid"/><memberdata name="handlesearch" type="method" display="HandleSearch"/><memberdata name="asociatedcursor" type="property" display="AsociatedCursor" favorites="True"/><memberdata name="castdatetime" type="property" display="CastDateTime" favorites="True"/><memberdata name="fieldlist" type="property" display="FieldList" favorites="True"/><memberdata name="gridautofit" type="property" display="GridAutofit" favorites="True"/><memberdata name="headercaptions" type="property" display="HeaderCaptions" favorites="True"/><memberdata name="lastkeystroke" type="property" display="LastKeyStroke"/><memberdata name="pkfield" type="property" display="PKField" favorites="True"/><memberdata name="searchbuffer" type="property" display="SearchBuffer"/><memberdata name="oder" type="property" display="Oder" favorites="True"/><memberdata name="order" type="property" display="Order" favorites="True"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="emptygrid" type="method" display="EmptyGrid"/><memberdata name="rowsperpage" type="property" display="RowsPerPage" favorites="True"/><memberdata name="performlayout" type="method" display="PerformLayout"/><memberdata name="enabled_assign" type="method" display="Enabled_Assign"/><memberdata name="fitcolumn" type="property" display="FitColumn"/><memberdata name="adjustfitcolumn" type="method" display="AdjustFitColumn"/><memberdata name="getfields" type="method" display="GetFields"/><memberdata name="adjustgridtocolumns" type="method" display="AdjustGridToColumns"/><memberdata name="autosetup" type="method" display="AutoSetUp"/><memberdata name="setselected" type="method" display="SetSelected"/><memberdata name="llllllPerformAutoSetUp" type="property" display="llllllPerformAutoSetUp" favorites="True"/><memberdata name="fill" type="method" display="Fill"/><memberdata name="classbeforefill" type="method" display="ClassBeforeFill"/><memberdata name="classafterfill" type="method" display="ClassAfterFill"/><memberdata name="hookbeforefill" type="method" display="HookBeforeFill"/><memberdata name="hookafterfill" type="method" display="HookAfterFill"/><memberdata name="empty" type="method" display="Empty"/><memberdata name="classbeforeempty" type="method" display="ClassBeforeEmpty"/><memberdata name="classafterempty" type="method" display="ClassAfterEmpty"/><memberdata name="hookbeforeempty" type="method" display="HookBeforeEmpty"/><memberdata name="hookafterempty" type="method" display="HookAfterEmpty"/><memberdata name="nlastrow" type="property" display="nLastRow"/><memberdata name="casociatedcursor" type="property" display="cAsociatedCursor" favorites="True"/><memberdata name="lcastdatetime" type="property" display="lCastDateTime" favorites="True"/><memberdata name="cfitcolumn" type="property" display="cFitColumn" favorites="True"/><memberdata name="csearchbuffer" type="property" display="cSearchBuffer"/><memberdata name="nlastkeystroke" type="property" display="nLastKeystroke"/><memberdata name="ocolgridlayout" display="oColGridLayout"/><memberdata name="ocolgridlayout_access" display="oColGridLayout_Access"/><memberdata name="noriginalwidth" type="property" display="nOriginalWidth"/><memberdata name="cfitcolumn_access" type="property" display="cFitColumn_Access" favorites="True"/><memberdata name="lischeckfitcolumn" type="property" display="lIsCheckFitColumn"/><memberdata name="columnmouseenter" type="method" display="ColumnMouseEnter"/><memberdata name="columnmouseleave" type="method" display="ColumnMouseLeave"/><memberdata name="setgridlayout" display="SetGridLayout"/><memberdata name="otable" display="oTable"/><memberdata name="otable_access" display="oTable_Access"/><memberdata name="definetable" display="DefineTable"/><memberdata name="cmaincursorname" display="cMainCursorName"/><memberdata name="cmaincursorname_access" display="cMainCursorName_Access"/><memberdata name="oentity" display="oEntity"/><memberdata name="oentity_access" display="oEntity_Access"/></VFPData>
+oentity = Null
+Name = "crudgrid"
+[END PROPERTIES]
+[START PROTECTED]
+nlastkeystroke
+csearchbuffer
+nlastrow
+noriginalwidth
+lischeckfitcolumn
+classbeforefill
+classafterfill
+classbeforeempty
+classafterempty
+[END PROTECTED]
+[START METHODS]
+PROCEDURE Destroy
+
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	With This As prxactiongrid Of FW\Comunes\vcx\prxmainform.vcx
+		* .oColGridLayout.Remove( -1 )
+		.oColGridLayout = Null
+		.oEntity = Null
+
+	Endwith
+	Unbindevents( This )
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE KeyPress
+Lparameters nKeyCode As Integer, nShiftAltCtrl As Integer
+
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+    Do Case
+        Case nShiftAltCtrl = 0
+            Do Case
+                Case nKeyCode > 31
+                    This.HandleSearch( nKeyCode )
+                Otherwise
+                    DoDefault( nKeyCode, nShiftAltCtrl )
+            Endcase
+        Otherwise
+            DoDefault( nKeyCode, nShiftAltCtrl )
+    EndCase
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE Resize
+
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+	
+	With This As prxactiongrid Of FW\Comunes\vcx\prxmainform.vcx
+		If This.ColumnCount > 0
+			This.AdjustFitColumn()
+		Endif
+	Endwith
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE adjustfitcolumn
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lnFitColumnWidth As Integer
+Local lnTotalColumnsWidth As Integer
+Local loColumn As Column
+Local loFitColumn As Column
+Local lcFitColumn As String
+	
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	lnFitColumnWidth = 0
+	lnTotalColumnsWidth = 0
+	loFitColumn = Null
+	With This As prxactiongrid Of FW\Comunes\vcx\prxmainform.vcx
+		lcFitColumn = .cFitColumn
+		If ! Empty( lcFitColumn )
+			lcFitColumn = Lower( lcFitColumn )
+			For Each loColumn In This.Columns
+				If Lower( loColumn.Name ) = lcFitColumn
+					lnFitColumnWidth = loColumn.Width
+					loFitColumn = loColumn
+
+				Endif && Lower( loColumn.Name ) = lcFitColumn
+				lnTotalColumnsWidth = lnTotalColumnsWidth + loColumn.Width
+			Endfor
+			If Empty( lnFitColumnWidth )
+				Assert .F. Message "No existe la columna " + lcFitColumn
+
+			Else
+
+*!*					If This.ScrollBars >= 2 && Tiene la ScrollBar Vertical
+*!*						lnTotalColumnsWidth = lnTotalColumnsWidth + SCROLLBARS_WIDTH
+*!*					Endif
+
+				
+				Try
+				
+					loFitColumn.Width = lnFitColumnWidth + ( .Width - lnTotalColumnsWidth )					
+				
+				Catch To oErr
+					lnWidth = lnFitColumnWidth + ( .Width - lnTotalColumnsWidth )					
+
+				Finally
+
+				EndTry
+
+				
+
+			Endif && Empty( lnFitColumnWidth )
+
+		Endif && ! Empty( lcFitColumn )
+
+	EndWith
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loColumn = Null
+	loFitColumn = Null
+	
+EndTry
+	
+
+ENDPROC
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lnTotalColumnsWidth As Integer
+Local loColumn As Column
+Local loItem As Object
+Local iQ As Number
+Local lnColumnWidth As Number
+	
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+
+
+
+	With This As prxactiongrid Of FW\Comunes\vcx\prxmainform.vcx
+		If .lPerformAutoSetUp
+			lnTotalColumnsWidth = 0
+
+			.ColumnCount = .oColGridLayout.Count
+			iQ = 1
+
+			For Each loColumn In .Columns
+				loItem = .oColGridLayout.Item( iQ )
+				loColumn.ReadOnly = .T.
+				.PerformLayout( loColumn, loItem )
+				lnColumnWidth = loItem.ColumnWidth
+				lnTotalColumnsWidth = lnTotalColumnsWidth + lnColumnWidth
+				If Pemstatus( loColumn, 'nOriginalWidth', 5 )
+					loColumn.nOriginalWidth = lnColumnWidth
+
+				Endif && PemStatus( loColumn, 'nOriginalWidth', 5 )
+				iQ = iQ + 1
+
+			Endfor
+
+			If This.ScrollBars >= 2 && Tiene la ScrollBar Vertical
+				lnTotalColumnsWidth = lnTotalColumnsWidth + SCROLLBARS_WIDTH
+			EndIf
+
+			.Width = lnTotalColumnsWidth
+			.nOriginalWidth = lnTotalColumnsWidth
+
+		Endif
+	EndWith
+	
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loItem = Null
+	loColumn = Null
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE cfitcolumn_access
+
+Local loData
+Local loColFilter As ColFilters Of "fw\tieradapter\comun\prxbaselibrary.prg"
+Local loFilter As oFilter Of "fw\tieradapter\comun\prxbaselibrary.prg"
+Local loColData As PrxCollection Of fw\tieradapter\comun\prxbaselibrary.prg
+Local loField As oGridLayout Of "Fw\comunes\Prg\colGridLayout.Prg"
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+
+    With This As prxactiongrid Of fw\Comunes\vcx\prxmainform.vcx
+        If Empty( .cFitColumn ) And ! .lIsCheckFitColumn
+            loColFilter = Newobject( 'ColFilters', 'fw\tieradapter\comun\prxbaselibrary.prg' )
+            loFilter = loColFilter.New ( 'FiltroFitColumn' )
+            loFilter.cField = 'lFitColumn'
+            loFilter.cOperator = '='
+            loFilter.cExpr = '.T.'
+            loColData = .oColGridLayout.Where ( loColFilter )
+            If loColData.Count > 0
+            	loField = loColData.Item(1)
+				.cFitColumn = loField.Name
+            EndIf
+
+            .lIsCheckFitColumn = .T.
+
+        Endif && Empty( .cFitColumn ) And ! .lIsCheckFitColumn
+
+    Endwith
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+    loColFilter = Null
+    loFilter = Null
+    loColData = Null
+	
+	
+EndTry
+
+Return This.cFitColumn
+
+ENDPROC
+PROCEDURE classbeforeempty
+
+Return .T.
+
+ENDPROC
+PROCEDURE classbeforefill
+
+Return .T.
+
+ENDPROC
+PROCEDURE cmaincursorname_access
+If Empty( This.cMainCursorName )
+	This.cMainCursorName = Thisform.oEntity.cEntityCursor
+	
+*!*		cMainCursorName = "cClientes"
+*!*		cEntityCursor = "Clientes"
+	
+EndIf
+
+Return This.cMainCursorName
+
+ENDPROC
+PROCEDURE columnmouseenter
+Lparameters tnButton As Number, tnShift As Number, tnXCoord As Number, tnYCoord As Number
+
+#INCLUDE "FW\TierAdapter\Include\TA.h"
+
+Debugout Datetime(), Program()
+
+If Inlist( Thisform.nStatus, IS_EDITING, IS_READING )
+	This.SetAll( 'MousePointer', 15 )
+
+Else && Inlist( Thisform.nStatus, IS_EDITING, IS_READING )
+	This.SetAll( 'MousePointer', 0 )
+
+Endif && Inlist( Thisform.nStatus, IS_EDITING, IS_READING )
+
+ENDPROC
+PROCEDURE columnmouseleave
+Lparameters tnButton As Number, tnShift As Number, tnXCoord As Number, tnYCoord As Number
+
+Debugout Datetime(), Program()
+
+This.SetAll( 'MousePointer', 0 )
+
+ENDPROC
+PROCEDURE definetable
+Local lcCommand as String
+Local loColTables As ColTables Of "Tools\Sincronizador\ColDataBases.prg"
+Local loTable As oTable Of "Tools\Sincronizador\ColDataBases.prg"
+
+Try
+
+	lcCommand = ""
+	loColTables = NewColTables()
+	loTable = loColTables.GetItem( This.cMainCursorName )
+	
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+
+Finally
+	
+	
+EndTry
+
+Return loTable
+
+ENDPROC
+PROCEDURE empty
+Local loColumn As Column
+	
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	With This As prxactiongrid Of fw\comunes\vcx\prxmainform.vcx
+		If .ClassBeforeEmpty()
+			If .HookBeforeEmpty()
+				* Apago todo antes, para despues volver a conectarlo
+				For Each loColumn In .Columns
+					With loColumn As Column
+						.ReadOnly = .T.
+						.ControlSource = ''
+						
+					EndWith
+					
+				Next
+				
+				* .RecordSource = ''
+				
+				.Refresh()
+				.HookAfterEmpty()
+				.ClassAfterEmpty()
+				
+			Endif
+		Endif
+	EndWith
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loColumn = Null
+	
+	
+EndTry
+	
+
+ENDPROC
+PROCEDURE fill
+
+Local lnColumns As Integer
+Local i As Integer
+Local q As Integer
+Local llLockScreen As Boolean
+Local llDone As Boolean
+Local lcAsociatedCursor As String
+Local laColumnWidth[ 1 ] As Integer
+Local llRestoreColW As Boolean
+
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	llLockScreen = Thisform.LockScreen
+	Thisform.LockScreen = .T.
+	llRestoreColW = .F.
+
+	With This As prxactiongrid Of fw\comunes\vcx\prxmainform.vcx
+		If .ClassBeforeFill()
+			If .HookBeforeFill()
+
+				lcAsociatedCursor = This.oEntity.cMainCursorName && This.cMainCursorName
+
+				If Used( lcAsociatedCursor )
+					If .ColumnCount > 0
+						* Guardo la configuración de las columnas, para restaurarlas despues
+						Dimension laColumnWidth[ .ColumnCount ]
+						Store 0 To laColumnWidth
+						For q = 1 To .ColumnCount
+							With .Columns[ q ] As Column
+								laColumnWidth[ q ] = .Width
+								* Apago todo antes, para despues volver a conectarlo
+								.ReadOnly = .T.
+								.ControlSource = ''
+
+							Endwith
+
+						Endfor
+						llRestoreColW = .T.
+
+					Endif && .ColumnCount > 0
+
+					* Builds the grid
+					llDone = .F.
+
+					* A veces quedaba una columna, pese a que ColumnCount = 0
+					* Con esto me aseguro de eliminar todas las columnas (RA: 01/10/2008)
+					Do While ! llDone
+						Try
+							loColumn = .Columns( 1 )
+							.RemoveObject( loColumn.Name )
+						Catch To oErr
+							llDone = .T.
+						Finally
+						Endtry
+					Enddo
+
+
+
+					.ColumnCount = -1
+					.RecordSource = ""
+
+					lnColumns = .oColGridLayout.Count
+
+					.ColumnCount = lnColumns
+
+					.RecordSource = lcAsociatedCursor
+
+					lnGridWidth = 0
+
+
+					For q = 1 To lnColumns
+						With .Columns[ q ] As Column
+							.ReadOnly = .T.
+							This.PerformLayout( This.Columns[ q ], This.oColGridLayout.Item( q ) )
+							.ControlSource = lcAsociatedCursor + "." + .ControlSource
+							If This.lCastDateTime
+								If Vartype( Evaluate( .ControlSource ) ) == "T"
+									.ControlSource = "=Ttod( " + .ControlSource + " )"
+
+								Endif && Vartype( Evaluate( .ControlSource ) ) == "T"
+
+							Endif && This.CastDateTime
+
+							If Vartype( Evaluate( .ControlSource ) ) == "C"
+								loGridLayout = This.oColGridLayout.Item( q )
+								If loGridLayout.IsNumeric
+									.ControlSource = "Val( " + .ControlSource + " )"
+
+								Endif && loGridLayout.IsNumeric
+
+							Endif && Vartype( Evaluate( .ControlSource ) ) == "C"
+
+						Endwith
+					Next
+
+					.Refresh()
+
+					If lnColumns = 1
+						* Si muestro una sola columna, saco las líneas divisorias y pongo
+						* el ancho de la columna al máximo
+						.GridLines = 0
+						.Columns[ 1 ].Width = This.Width
+					Else && lnColumns = 1
+						.GridLines = 2
+					Endif && lnColumns = 1
+
+					If llRestoreColW
+						* Restauro la configuración de las columnas que pudiera
+						* haber hecho el usuario
+						Try
+							For q = 1 To .ColumnCount
+								.Columns[ q ].Width = laColumnWidth[ q ]
+
+							Endfor
+						Catch To oErr
+							* Si algo falla ....
+							.AutoFit()
+
+						Finally
+						Endtry
+					Endif && llRestoreColW
+
+
+					.AdjustFitColumn()
+					.Refresh()
+
+				Endif
+
+				.HookAfterFill()
+				.ClassAfterFill()
+
+			Endif
+		Endif
+	Endwith
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	Thisform.LockScreen = llLockScreen
+	loGridLayout = Null
+
+Endtry
+
+
+ENDPROC
+PROCEDURE handlesearch
+Lparameters tnKeyCode As Integer
+
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	
+    With This As prxactiongrid Of FW\Comunes\vcx\prxmainform.vcx
+        * If the time of the last keystroke exceeded
+        * Incremental Seek setting, then reinitialize buffer
+        If ( Seconds() - .nLastKeystroke ) > _Incseek
+            .cSearchBuffer = ''
+
+        EndIf && ( Seconds() - .nLastKeystroke ) > _Incseek
+        * Stores this keystroke time
+        .nLastKeystroke = Seconds()
+        .cSearchBuffer = .cSearchBuffer + Upper( Chr( tnKeyCode ) )
+        Select ( .RecordSource )
+        * @TODO Chequear si no hay indice activo  si se puede realizar la busqueda
+        *		En el modelo nuevo los indices no servirian
+        *		para la busqueda, si los armamos con una expresion compuesta.
+        If Empty( Key() )
+            * No active index
+
+        Else && Empty( Key() )
+            * @TODO Se pueden implementar busquedas mas inteligentes utilizando el operador like
+            * If the active index is of character type, then search
+            If Type( Key() ) = "C"
+                Seek .cSearchBuffer
+                .Refresh()
+
+            EndIf && Type( Key() ) = "C"
+
+        EndIf && Empty( Key() )
+    EndWith
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE hookbeforeempty
+
+Return .T.
+
+ENDPROC
+PROCEDURE hookbeforefill
+
+Return .T.
+
+ENDPROC
+PROCEDURE nupdatefontsize_assign
+Lparameters tuNewValue As Integer
+
+Local lnFS0 As Integer
+Local lnFS1 As Integer
+Local loColumn As Column
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+
+    With This As prxactiongrid Of fw\comunes\vcx\prxmainform.vcx
+        For Each loColumn In .Columns
+            Try
+                lnFS0 = loColumn.FontSize
+                lnFS1 = loColumn.Controls[ 1 ].FontSize
+                loColumn.FontSize = loColumn.FontSize + tuNewValue
+                loColumn.Controls[ 1 ].FontSize = loColumn.Controls[ 1 ].FontSize + tuNewValue
+                If tuNewValue >= 0
+                    loColumn.Width = Round( loColumn.Width * 1.1, 0 )
+                Else
+                    loColumn.Width = Round( loColumn.Width * 0.9, 0 )
+                Endif
+            Catch To oErr
+                loColumn.FontSize = lnFS0
+                loColumn.Controls[ 1 ].FontSize = lnFS1
+            Finally
+            Endtry
+        Endfor
+    EndWith
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+    loColumn = Null
+    This.nUpdateFontSize = tuNewValue
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE ocolgridlayout_access
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	With This As prxactiongrid Of FW\Comunes\vcx\prxmainform.vcx
+		If Vartype( .oColGridLayout ) # 'O'
+			.oColGridLayout = Newobject( "colGridLayout",  ;
+				"Fw\Comun\Prg\colGridLayout.prg" )
+
+			.SetGridLayout()
+
+		Endif && Vartype( .oColGridLayout ) # 'O'
+
+	Endwith
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+
+Return This.oColGridLayout
+
+ENDPROC
+PROCEDURE oentity_access
+If Vartype( This.oEntity ) # "O"
+	This.oEntity = Thisform.oEntity
+Endif
+Return This.oEntity
+
+ENDPROCPROCEDURE otable_access
+If Vartype( This.oTable ) # "O"
+	This.oTable = This.DefineTable()
+Endif
+
+Return This.oTable
+
+ENDPROC
+PROCEDURE performlayout
+Lparameters toColumn As Column, toParam As oGridLayout Of "Fw\Comunes\Prg\colGridLayout.Prg"
+
+Local laMember[1]
+* Local lnLen As Integer
+Local i As Integer
+Local lcSourceProperty As String
+Local lcTargetProperty As String
+Local lcPrefix As String
+Local loControl As Object
+
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	
+	* lnLen = Amembers( laMember, toParam, 0, "U" )
+	* For i = 1 To lnLen
+	For i = 1 To Amembers( laMember, toParam, 0, "U" )
+		Try
+			lcSourceProperty = laMember[ i ]
+			lcTargetProperty = Substr( lcSourceProperty, 7 )
+			lcPrefix = Lower( Substr( lcSourceProperty, 1, 6 ) )
+
+			Do Case
+				Case lcPrefix == "header"
+					toColumn.Controls[1].&lcTargetProperty = toParam.&lcSourceProperty
+
+				Case lcPrefix  == "column"
+					toColumn.&lcTargetProperty = toParam.&lcSourceProperty
+
+				Case Lower( lcSourceProperty ) == 'ocurrentcontrol'
+
+					If ! IsEmpty( toParam.oCurrentControl )
+
+						If ! ( Lower( toColumn.CurrentControl ) == Lower( toParam.oCurrentControl.Name ) )
+							toColumn.RemoveObject( toColumn.CurrentControl )
+							toColumn.Newobject( toParam.oCurrentControl.Name,;
+								toParam.oCurrentControl.Name,;
+								toParam.oCurrentControl.Class )
+
+							lcControlName = toParam.oCurrentControl.Name
+							toColumn.&lcControlName..Visible = .T.
+
+							toColumn.CurrentControl = toParam.oCurrentControl.Name
+
+						Endif && ! ( Lower( toColumn.CurrentControl ) == Lower( toParam.oCurrentControl.Name ) )
+
+					Endif && ! IsEmpty( toParam.oCurrentControl )
+
+				Otherwise
+			EndCase
+			
+		Catch To oErr
+			Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+			loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+			loError.Ctracelogin = 'Source Property: ' + lcSourceProperty + CR ;
+				+ 'Target Property: ' + lcTargetProperty + CR ;
+				+ 'Prefix: ' + lcPrefix
+
+			loError.Cremark = lcCommand
+			loError.Process( oErr )
+			
+
+		Finally
+		EndTry
+		
+	EndFor
+	
+	AddProperty( toColumn, "oField", toParam.oField )
+	AddProperty( toColumn, "Check", toParam.oField.Check )
+	If !Empty( toColumn.Check )
+		toColumn.Check = Strtran( toColumn.Check,;
+			toParam.oField.Name,;
+			"loCurrentControl.Value",;
+			-1,;
+			-1,;
+			1 )
+	Endif
+	
+	
+	If toParam.lFitColumn
+		This.cFitColumn = toParam.ColumnName
+	Endif && toParam.lFitColumn
+
+	For Each loControl In toColumn.Controls
+		If Lower( loControl.BaseClass ) == "header"
+			* Nothing to do for Headers
+		Else && loControl.BaseClass = "Header"
+			* Binds all the controls' *Click events to the grid's
+			If Pemstatus( loControl, "Click", 5 )
+				Bindevent( loControl, "Click", This, "Click" )
+
+			Endif && Pemstatus( loControl, "Click", 5 )
+
+			If Pemstatus( loControl, "DblClick", 5 )
+				Bindevent( loControl, "DblClick", This, "DblClick" )
+
+			Endif && Pemstatus( loControl, "DblClick", 5 )
+
+			If Pemstatus( loControl, "RightClick", 5 )
+				Bindevent( loControl, "RightClick", This, "RightClick" )
+
+			Endif && Pemstatus( loControl, "RightClick", 5 )
+
+			If Pemstatus( loControl, "KeyPress", 5 )
+				Bindevent( loControl, "KeyPress", This, "KeyPress" )
+
+			Endif && Pemstatus( loControl, "KeyPress", 5 )
+
+			If Pemstatus( loControl, "MouseEnter", 5 )
+				Bindevent( loControl, "MouseEnter", This, "ColumnMouseEnter" )
+
+			Endif && Pemstatus( loControl, "MouseEnter", 5 )
+
+			If Pemstatus( loControl, "MouseLeave", 5 )
+				Bindevent( loControl, "MouseLeave", This, "ColumnMouseLeave" )
+
+			Endif && Pemstatus( loControl, "MouseLeave", 5 )
+
+		Endif && loControl.BaseClass = "Header"
+
+	Next
+	
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loControl = Null
+	
+EndTry
+	
+ENDPROC
+PROCEDURE setgridlayout
+Local loField As oField Of "Tools\Sincronizador\colDataBases.prg"
+Local loFieldAux As oField Of "Tools\Sincronizador\colDataBases.prg"
+Local loTable As oTable Of "Tools\Sincronizador\colDataBases.prg"
+Local loGridLayout As oGridLayout Of "Fw\Comunes\Prg\colGridLayout.prg"
+Local loColData As PrxCollection Of fw\tieradapter\comun\prxbaselibrary.prg
+Local loColFields As ColFields Of "Tools\Sincronizador\colDataBases.prg"
+*
+Local lcName As String
+Local lcWhere As String
+*
+Local lnCnt As Integer
+Local i As Integer
+Local j As Integer
+Local lnIndex As Integer
+
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	lnCnt = 0
+
+	* Obtengo la tabla
+	loTable = This.oTable
+
+	*!*	lcWhere = 'lShowInGrid = .T. '
+	lcWhere = ' nGridOrder # 0 '
+
+	loColData =  loTable.oColFields.Query( "", 0, .F., "", lcWhere, .F., 'nGridOrder' )
+
+	For i = 1 To loColData.Count
+		loField = loColData.Item[ i ]
+		lnCnt = lnCnt + 1 && Contador para ver cuantos Objetos se han procesado
+
+		If .F. && ! Empty( loField.References )
+			* RA 2012-04-14(09:49:27)
+			* Por ahora no analizo las referencias
+			
+			loTable = loColTables.GetItem( loField.References )
+			loColFields = loTable.oColFields.Query( '', 0, .F., '', ' nDefaultReference # 0 ', .F., 'nDefaultReference' )
+			For j = 1 To loColFields.Count
+				loFieldAux = loColFields.Item[ j ]
+				* DA 2009-07-15(11:55:58)
+				* Tomo la configuración del campo original sin importar si se reemplazó
+				= loFieldAux.Caption
+				lcName = Lower( loField.References + loFieldAux.Name )
+				lnIndex = .oColGridLayout.GetKey( lcName )
+				If Empty( lnIndex )
+					loGridLayout = .oColGridLayout.NewFromField( loFieldAux, lcName )
+
+					If .lHasDefault
+						loGridLayout.ColumnDynamicFontBold = 'Iif( Default = 1, .T., .F. )'
+
+					Endif && .lHasDefault
+
+					* DA 2009-07-15(11:55:58)
+					* Tomo la configuración del campo original sin importar si se reemplazó
+					loGridLayout.lFitColumn = loFieldAux.lFitColumn
+					loGridLayout.Width = Iif( loField.nGridOrder > 0, loGridLayout.Width, 0 )
+					loGridLayout.ColumnWidth = Iif( loField.nGridOrder > 0, loGridLayout.ColumnWidth, 0 )
+
+				Endif && Empty( lnIndex )
+
+			Endfor
+
+		Else && ! Empty( loField.References )
+			loFieldAux = loField
+			lcName = Lower( loFieldAux.Name )
+			lnIndex = .oColGridLayout.GetKey( lcName )
+			If Empty( lnIndex )
+				* DA 2009-07-15(11:55:58)
+				* Tomo la configuración del campo original sin importar si se reemplazó
+				= loFieldAux.Caption
+				loGridLayout = .oColGridLayout.NewFromField( loFieldAux, lcName )
+
+*!*					If .lHasDefault
+*!*						loGridLayout.ColumnDynamicFontBold = 'Iif( Default = 1, .T., .F. )'
+
+*!*					Endif && .lHasDefault
+
+				* DA 2009-07-15(11:55:58)
+				* Tomo la configuración del campo original sin importar si se reemplazó
+				loGridLayout.lFitColumn = loFieldAux.lFitColumn
+				loGridLayout.Width = Iif( loFieldAux.nGridOrder > 0, loGridLayout.Width, 0 )
+				loGridLayout.ColumnWidth = Iif( loFieldAux.nGridOrder > 0, loGridLayout.ColumnWidth, 0 )
+
+			Endif && Empty( lnIndex )
+
+		Endif && ! Empty( loField.References )
+
+	Endfor
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loField = Null
+	loFieldAux = Null
+	loTable = Null
+	loGridLayout = Null
+	loColData = Null
+	
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+casociatedcursor Nombre del Cursor Asociado. Es el cursor real, sobre el que se replican todas las acciones.
+lcastdatetime Indica si convierte los campos DateTime a Date, antes de mostrarlos en la grilla
+gridautofit Indica si la grilla ejecuta el metodo Autofit() en forma automática
+nlastkeystroke Guarda el momento en que se precionó la última tecla
+csearchbuffer Guarda el string de búsqueda
+order Indica el número de la columna por la que se ordena la grilla
+nupdatefontsize
+rowsperpage Cantidad de líneas a mostrar. Si está en 0, se utiliza el valor declarado en la UserTier para la entidad.
+cfitcolumn Nombre de la Columna que absorbe las diferencias en el ancho para que ajuste perfecto
+performautosetup Indeica si la grilla se adapta automáticamente a la colección oColLayout
+nlastrow
+ocolgridlayout
+noriginalwidth
+lischeckfitcolumn
+otable Tabla asociada a la grilla
+cmaincursorname
+oentity Referencia a la Entidad asociada a la grilla
+*handlesearch Búsqueda incremental dentro de la columna activa
+*nupdatefontsize_assign 
+*performlayout Obtiene las propiedades para cada columna de la colección This.oColLayout
+*adjustfitcolumn Ajusta el ancho de la columna indicada en FitColumn
+*fill Llena la grilla con datos
+*classbeforefill 
+*classafterfill 
+*hookbeforefill 
+*hookafterfill 
+*empty Vacia los datos de la grilla
+*classbeforeempty 
+*classafterempty 
+*hookbeforeempty 
+*hookafterempty 
+*ocolgridlayout_access 
+*cfitcolumn_access 
+*columnmouseenter 
+*columnmouseleave 
+*setgridlayout Define los campos de la grilla asociada a partir de una tabla
+*otable_access 
+*definetable Define el objeto oTable
+*cmaincursorname_access 
+*oentity_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] crudgrid
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h~lA‡@ ..\include\foxpro.h†*z
+; ..\include\strings.hŽ:[é: ..\..\tieradapter\include\ta.h–bn1@[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40LEY3L
+[CLASS] prxform
+[CLASSLOC] basecontrols.vcx
+[BASECLASS] form
+[OBJNAME] crudform
+[START PROPERTIES]
+Height = 480
+Width = 720
+DoCreate = .T.
+Caption = "ABM"
+Closable = .F.
+_memberdata =      439<VFPData><memberdata name="create" display="Create"/><memberdata name="read" display="Read"/><memberdata name="update" display="Update"/><memberdata name="list" display="List"/><memberdata name="setactivepage" display="SetActivePage"/><memberdata name="listone" display="ListOne"/><memberdata name="listall" display="ListAll"/><memberdata name="cancel" display="Cancel"/><memberdata name="filtrargrilla" display="FiltrarGrilla"/></VFPData>
+Name = "crudform"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE cancel
+Thisform.SetActivePage( 1 )
+ENDPROC
+PROCEDURE create
+Thisform.SetActivePage( 2 )
+ENDPROC
+PROCEDURE delete
+Thisform.SetActivePage( 2 )
+ENDPROCPROCEDURE filtrargrilla
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	MessageBox( Program())
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE hookbeforeinit
+Lparameters toParam As Object
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loPageFrame As crudPageFrame Of v:\clipper2fox\fw\comunes\vcx\crud.vcx
+Local loOpciones As crudlOpciones Of v:\clipper2fox\fw\comunes\vcx\crud.vcx
+Local loDatos As Marco Of v:\clipper2fox\fw\comunes\vcx\marcos.vcx
+Local loGrid  As crudGrid Of v:\clipper2fox\fw\comunes\vcx\crud.vcx
+Local loBuscar as crudSearch OF v:\clipper2fox\fw\comunes\vcx\crud.vcx
+Local loMarco As Marco Of v:\clipper2fox\fw\comunes\vcx\marcos.vcx
+Local loEntityPageFrame As InnerPageFrame Of v:\clipper2fox\fw\comunes\vcx\crud.vcx
+
+
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+	loPageFrame = Thisform.PageFrame
+	loOpciones 	= Thisform.PageFrame.prxPage1.Opciones
+	loDatos 	= Thisform.PageFrame.prxPage1.Marco
+	loGrid		= ThisForm.PageFrame.prxpage1.Grid
+	loBuscar 	= ThisForm.PageFrame.prxpage1.Buscar
+
+	loPageFrame.Top 	= 0
+	loPageFrame.Left 	= 0
+	loPageFrame.Height 	= Thisform.Height
+	loPageFrame.Width 	= Thisform.Width
+
+	loOpciones.Top 		= Thisform.Height - loOpciones.Height - Thisform.nBottomPadding
+	loOpciones.Left 	= Thisform.nLeftPadding
+	
+	
+	loGrid.AutoSetUp()
+	loGrid.Left = Thisform.nLeftPadding
+
+	loBuscar.Autosetup() 	
+	loBuscar.Top 	= Thisform.nTopPadding
+	loBuscar.Left 	= loGrid.Left + loGrid.Width + Thisform.nLeftPadding
+	loBuscar.Width 	= loPageFrame.Width - loBuscar.Left - Thisform.nRightPadding
+
+	
+	loDatos.Autosetup()
+	loDatos.Top 	= loBuscar.Top + loBuscar.Height + Thisform.nGap
+	loDatos.Left 	= loGrid.Left + loGrid.Width + Thisform.nLeftPadding
+	loDatos.Height 	= loOpciones.Top - loDatos.Top - Thisform.nBottomPadding
+	loDatos.Width 	= loPageFrame.Width - loDatos.Left - Thisform.nRightPadding
+	
+	loGrid.Height = loDatos.Height + loBuscar.Height + Thisform.nGap
+
+	Thisform.MinWidth 	= loOpciones.Width + Thisform.nLeftPadding + Thisform.nRightPadding
+	Thisform.MinHeight 	= 300
+
+	loPageFrame.Anchor =  ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+	loOpciones.Anchor =  ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute
+
+	loBuscar.Anchor =  ANCHOR_Top_Absolute + ;
+		ANCHOR_Right_Absolute + ;
+		ANCHOR_Left_Absolute
+
+
+	loDatos.Anchor =  ANCHOR_Top_Absolute + ;
+		ANCHOR_Right_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute
+
+	loGrid.Anchor =  ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute
+
+	loEntityPageFrame 	= ThisForm.PageFrame.Edit.EntityPageFrame
+	loOpciones 			= ThisForm.PageFrame.Edit.Opciones
+	loMarco   			= ThisForm.PageFrame.Edit.EntityPageFrame.prxPage1.Marco
+
+	loOpciones.Top 		= Thisform.Height - loOpciones.Height - Thisform.nBottomPadding
+	loOpciones.Left 	= Thisform.nLeftPadding
+
+	loEntityPageFrame.Top 		= loPageFrame.Top
+	loEntityPageFrame.Left 		= loPageFrame.Left
+	loEntityPageFrame.Height 	= loOpciones.Top - loEntityPageFrame.Top - Thisform.nBottomPadding
+	loEntityPageFrame.Width 	= loPageFrame.Width
+	
+	loOpciones.Width 			= loEntityPageFrame.Width - Thisform.nLeftPadding - Thisform.nRightPadding
+
+	loMarco.Top 		= Thisform.nTopPadding
+	loMarco.Left 		= Thisform.nLeftPadding
+	loMarco.Height 		= loEntityPageFrame.Height - Thisform.nTopPadding - Thisform.nBottomPadding - Iif( loEntityPageFrame.lHasTabs, TABS_HEIGHT, 0 )
+
+	loEntityPageFrame.Anchor =  ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+	loOpciones.Anchor =  ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+	loMarco.Anchor =  ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE read
+Thisform.SetActivePage( 2 )
+ENDPROC
+PROCEDURE save
+Thisform.SetActivePage( 1 )
+ENDPROC
+PROCEDURE setactivepage
+Lparameters nPage as Integer
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	ThisForm.PageFrame.ActivePage = nPage
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE update
+Thisform.SetActivePage( 2 )
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED3]
+*create 
+*read 
+*update 
+*list A character string array used to access the items in a ComboBox or ListBox control.
+*setactivepage Activa una página del PageFrame
+*listone Imprime la entidad actual
+*listall Imprime todas las entidades señaladas
+*cancel Cancela la edición de la entidad actual
+*filtrargrilla Filtra la Grilla de Navegacion por el criterio indicado en CrudSearch
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M50W7XAT
+[CLASS] crudpageframe
+[CLASSLOC] crud.vcx
+[BASECLASS] pageframe
+[OBJNAME] PageFrame
+[PARENT] crudform
+[START PROPERTIES]
+ErasePage = .T.
+Top = 0
+Left = 0
+Height = 480
+lhastabs = .F.
+Name = "PageFrame"
+prxpage1.marco.Shape.Name = "Shape"
+prxpage1.marco.shpLabel.Name = "shpLabel"
+prxpage1.marco.lblTitulo.Name = "lblTitulo"
+prxpage1.marco.Name = "marco"
+prxpage1.Opciones.Shape.Name = "Shape"
+prxpage1.Opciones.shpLabel.Name = "shpLabel"
+prxpage1.Opciones.lblTitulo.Name = "lblTitulo"
+prxpage1.Opciones.Create.Name = "Create"
+prxpage1.Opciones.Read.Name = "Read"
+prxpage1.Opciones.Update.Name = "Update"
+prxpage1.Opciones.Delete.Name = "Delete"
+prxpage1.Opciones.List.Name = "List"
+prxpage1.Opciones.close.Name = "close"
+prxpage1.Opciones.Name = "Opciones"
+prxpage1.Grid.Name = "Grid"
+prxpage1.Buscar.Shape.Name = "Shape"
+prxpage1.Buscar.SHPLABEL.Name = "SHPLABEL"
+prxpage1.Buscar.LBLTITULO.Name = "LBLTITULO"
+prxpage1.Buscar.TXTBUSCAR.Name = "TXTBUSCAR"
+prxpage1.Buscar.CMDBUSCAR.Name = "CMDBUSCAR"
+prxpage1.Buscar.CBOBUSCAR.Name = "CBOBUSCAR"
+prxpage1.Buscar.Name = "Buscar"
+prxpage1.Name = "prxpage1"
+edit.marco.Shape.Name = "Shape"
+edit.marco.shpLabel.Name = "shpLabel"
+edit.marco.lblTitulo.Name = "lblTitulo"
+edit.marco.Name = "marco"
+edit.Opciones.Shape.Name = "Shape"
+edit.Opciones.shpLabel.Name = "shpLabel"
+edit.Opciones.lblTitulo.Name = "lblTitulo"
+edit.Opciones.Cancel.Name = "Cancel"
+edit.Opciones.SAVE.Name = "SAVE"
+edit.Opciones.List.Name = "List"
+edit.Opciones.Name = "Opciones"
+edit.EntityPageFrame.ErasePage = .T.
+edit.EntityPageFrame.prxpage1.marco.Shape.Name = "Shape"
+edit.EntityPageFrame.prxpage1.marco.shpLabel.Name = "shpLabel"
+edit.EntityPageFrame.prxpage1.marco.lblTitulo.Name = "lblTitulo"
+edit.EntityPageFrame.prxpage1.marco.Name = "marco"
+edit.EntityPageFrame.prxpage1.Name = "prxpage1"
+edit.EntityPageFrame.Name = "EntityPageFrame"
+edit.Name = "edit"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] crudform
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h&~lA‡@ ..\include\foxpro.h.*z
+; ..\include\strings.h6€:[é:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40RY0AG
+[CLASS] marcoinvisible
+[CLASSLOC] marcos.vcx
+[BASECLASS] container
+[OBJNAME] crudlopciones
+[START PROPERTIES]
+Width = 576
+Height = 26
+Name = "crudlopciones"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+7[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40SECWI
+[CLASS] new
+[CLASSLOC] botones.vcx
+[BASECLASS] commandbutton
+[OBJNAME] Create
+[PARENT] crudlopciones
+[START PROPERTIES]
+Top = 0
+Left = 96
+SpecialEffect = 2
+ccommand = Create
+Name = "Create"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40SECWX
+[CLASS] preview
+[CLASSLOC] botones.vcx
+[BASECLASS] commandbutton
+[OBJNAME] Read
+[PARENT] crudlopciones
+[START PROPERTIES]
+Top = 0
+Left = 192
+Caption = "Consultar"
+SpecialEffect = 2
+ccommand = Read
+Name = "Read"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40SECXD
+[CLASS] edit
+[CLASSLOC] botones.vcx
+[BASECLASS] commandbutton
+[OBJNAME] Update
+[PARENT] crudlopciones
+[START PROPERTIES]
+Top = 0
+Left = 288
+SpecialEffect = 2
+ccommand = Update
+Name = "Update"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40SECXS
+[CLASS] delete
+[CLASSLOC] botones.vcx
+[BASECLASS] commandbutton
+[OBJNAME] Delete
+[PARENT] crudlopciones
+[START PROPERTIES]
+Top = 0
+Left = 384
+SpecialEffect = 2
+Name = "Delete"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40SECY8
+[CLASS] report
+[CLASSLOC] botones.vcx
+[BASECLASS] commandbutton
+[OBJNAME] List
+[PARENT] crudlopciones
+[START PROPERTIES]
+Top = 0
+Left = 480
+SpecialEffect = 2
+ccommand = List
+Name = "List"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40TDJMU
+[CLASS] close
+[CLASSLOC] botones.vcx
+[BASECLASS] commandbutton
+[OBJNAME] Close
+[PARENT] crudlopciones
+[START PROPERTIES]
+Top = 0
+Left = 0
+SpecialEffect = 2
+Name = "Close"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] crudlopciones
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40SSTHC
+[CLASS] marcoinvisible
+[CLASSLOC] marcos.vcx
+[BASECLASS] container
+[OBJNAME] savecancel
+[START PROPERTIES]
+Width = 288
+Height = 27
+Name = "savecancel"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+4[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40T4EKZ
+[CLASS] cancel
+[CLASSLOC] botones.vcx
+[BASECLASS] commandbutton
+[OBJNAME] Cancel
+[PARENT] savecancel
+[START PROPERTIES]
+Top = 0
+Left = 0
+Anchor = 7
+Name = "Cancel"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40T4ELF
+[CLASS] save
+[CLASSLOC] botones.vcx
+[BASECLASS] commandbutton
+[OBJNAME] Save
+[PARENT] savecancel
+[START PROPERTIES]
+Top = 0
+Left = 192
+Anchor = 13
+SpecialEffect = 2
+Name = "Save"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40T4ELU
+[CLASS] report
+[CLASSLOC] botones.vcx
+[BASECLASS] commandbutton
+[OBJNAME] List
+[PARENT] savecancel
+[START PROPERTIES]
+Top = 0
+Left = 96
+Anchor = 13
+SpecialEffect = 2
+ccommand = ListOne
+Name = "List"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] savecancel
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M40TF0GB
+[CLASS] prxpageframe
+[CLASSLOC] basecontrols.vcx
+[BASECLASS] pageframe
+[OBJNAME] _crudpageframe
+[START PROPERTIES]
+ErasePage = .T.
+MemberClassLibrary = crud.vcx
+MemberClass = "crudpage"
+PageCount = 2
+Anchor = 15
+Top = 0
+Width = 720
+Height = 480
+Tabs = .F.
+Name = "crudpageframe"
+Crudpage1.marco.Shape.Name = "Shape"
+Crudpage1.marco.shpLabel.Name = "shpLabel"
+Crudpage1.marco.lblTitulo.Caption = "Navegar"
+Crudpage1.marco.lblTitulo.Name = "lblTitulo"
+Crudpage1.marco.Anchor = 7
+Crudpage1.marco.Height = 418
+Crudpage1.marco.Name = "marco"
+Crudpage1.Caption = "Browse"
+Crudpage1.Name = "Browse"
+Crudpage2.marco.Shape.Name = "Shape"
+Crudpage2.marco.shpLabel.Name = "shpLabel"
+Crudpage2.marco.lblTitulo.Name = "lblTitulo"
+Crudpage2.marco.Top = -500
+Crudpage2.marco.Visible = .F.
+Crudpage2.marco.Name = "marco"
+Crudpage2.Caption = "Edit"
+Crudpage2.Name = "Edit"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+4[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M50QBB9S
+[CLASS] crudlopciones
+[CLASSLOC] crud.vcx
+[BASECLASS] container
+[OBJNAME] Opciones
+[PARENT] _crudpageframe.Browse
+[START PROPERTIES]
+Anchor = 6
+Top = 442
+Left = 12
+Name = "Opciones"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+Create.Name = "Create"
+Read.Name = "Read"
+update.Name = "update"
+Delete.Name = "Delete"
+List.Name = "List"
+close.Name = "close"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M50QBBBY
+[CLASS] innerpageframe
+[CLASSLOC] crud.vcx
+[BASECLASS] pageframe
+[OBJNAME] PageFrame
+[PARENT] _crudpageframe.Edit
+[START PROPERTIES]
+ErasePage = .T.
+Top = 0
+Left = 0
+Width = 720
+Height = 418
+Name = "PageFrame"
+prxpage1.Name = "prxpage1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M50QFDDL
+[CLASS] savecancel
+[CLASSLOC] crud.vcx
+[BASECLASS] container
+[OBJNAME] Opciones
+[PARENT] _crudpageframe.Edit
+[START PROPERTIES]
+Anchor = 14
+Top = 430
+Left = 12
+Width = 696
+Name = "Opciones"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+Cancel.Name = "Cancel"
+SAVE.Left = 600
+SAVE.Name = "SAVE"
+List.Left = 504
+List.Name = "List"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] _crudpageframe
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M50PH0M9
+[CLASS] prxpageframe
+[CLASSLOC] basecontrols.vcx
+[BASECLASS] pageframe
+[OBJNAME] innerpageframe
+[START PROPERTIES]
+ErasePage = .T.
+PageCount = 1
+Width = 720
+Height = 418
+Name = "innerpageframe"
+Prxpage1.marco.Shape.Name = "Shape"
+Prxpage1.marco.shpLabel.Name = "shpLabel"
+Prxpage1.marco.lblTitulo.Caption = "Nombre De La Entidad"
+Prxpage1.marco.lblTitulo.Name = "lblTitulo"
+Prxpage1.marco.Anchor = 0
+Prxpage1.marco.Width = 700
+Prxpage1.marco.Height = 376
+Prxpage1.marco.Name = "marco"
+Prxpage1.Caption = "Prxpage1"
+Prxpage1.Name = "Prxpage1"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] innerpageframe
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M50PNN4C
+[CLASS] prxpage
+[CLASSLOC] basecontrols.vcx
+[BASECLASS] page
+[OBJNAME] crudpage
+[START PROPERTIES]
+Name = "crudpage"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M50PTHWV
+[CLASS] marco
+[CLASSLOC] marcos.vcx
+[BASECLASS] container
+[OBJNAME] Marco
+[PARENT] crudpage
+[START PROPERTIES]
+Top = 6
+Left = 6
+Width = 300
+Height = 250
+Name = "Marco"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] crudpage
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M50VSC26
+[CLASS] prxpageframe
+[CLASSLOC] basecontrols.vcx
+[BASECLASS] pageframe
+[OBJNAME] crudpageframe
+[START PROPERTIES]
+ErasePage = .T.
+MemberClassLibrary = basecontrols.vcx
+PageCount = 2
+Width = 720
+Height = 480
+Name = "crudpageframe"
+Prxpage1.marco.Shape.Name = "Shape"
+Prxpage1.marco.shpLabel.Name = "shpLabel"
+Prxpage1.marco.lblTitulo.Caption = "Entidad"
+Prxpage1.marco.lblTitulo.Name = "lblTitulo"
+Prxpage1.marco.Top = 152
+Prxpage1.marco.Left = 323
+Prxpage1.marco.Width = 372
+Prxpage1.marco.Height = 264
+Prxpage1.marco.TabIndex = 4
+Prxpage1.marco.ZOrderSet = 0
+Prxpage1.marco.Name = "marco"
+Prxpage1.Caption = "Browse"
+Prxpage1.Name = "Prxpage1"
+Prxpage2.marco.Shape.Name = "Shape"
+Prxpage2.marco.shpLabel.Name = "shpLabel"
+Prxpage2.marco.lblTitulo.Name = "lblTitulo"
+Prxpage2.marco.Top = -500
+Prxpage2.marco.Width = 696
+Prxpage2.marco.Height = 400
+Prxpage2.marco.Visible = .F.
+Prxpage2.marco.Name = "marco"
+Prxpage2.Caption = "Edit"
+Prxpage2.Name = "Edit"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+6[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M50WQAT4
+[CLASS] crudlopciones
+[CLASSLOC] crud.vcx
+[BASECLASS] container
+[OBJNAME] Opciones
+[PARENT] crudpageframe.Prxpage1
+[START PROPERTIES]
+Top = 418
+Left = 6
+TabIndex = 3
+ZOrderSet = 1
+Name = "Opciones"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+Create.Name = "Create"
+Read.Name = "Read"
+Update.Name = "Update"
+Delete.Name = "Delete"
+List.Name = "List"
+close.Name = "close"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M613WXVP
+[CLASS] crudgrid
+[CLASSLOC] crud.vcx
+[BASECLASS] grid
+[OBJNAME] Grid
+[PARENT] crudpageframe.Prxpage1
+[START PROPERTIES]
+Height = 408
+Left = 8
+TabIndex = 2
+Top = 8
+Width = 300
+Name = "Grid"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M61A16ID
+[CLASS] crudsearch
+[CLASSLOC] crud.vcx
+[BASECLASS] container
+[OBJNAME] Buscar
+[PARENT] crudpageframe.Prxpage1
+[START PROPERTIES]
+Top = 19
+Left = 328
+TabIndex = 1
+Name = "Buscar"
+Shape.Name = "Shape"
+SHPLABEL.Name = "SHPLABEL"
+LBLTITULO.Name = "LBLTITULO"
+txtBuscar.Name = "txtBuscar"
+cmdBuscar.Name = "cmdBuscar"
+cboBuscar.Name = "cboBuscar"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M50XT6ST
+[CLASS] savecancel
+[CLASSLOC] crud.vcx
+[BASECLASS] container
+[OBJNAME] Opciones
+[PARENT] crudpageframe.Edit
+[START PROPERTIES]
+Top = 412
+Left = 6
+Name = "Opciones"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+Cancel.Name = "Cancel"
+SAVE.Name = "SAVE"
+List.Name = "List"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M517CJRV
+[CLASS] innerpageframe
+[CLASSLOC] crud.vcx
+[BASECLASS] pageframe
+[OBJNAME] EntityPageFrame
+[PARENT] crudpageframe.Edit
+[START PROPERTIES]
+ErasePage = .T.
+Top = 0
+Left = 0
+Height = 422
+Name = "EntityPageFrame"
+prxpage1.marco.Shape.Name = "Shape"
+prxpage1.marco.shpLabel.Name = "shpLabel"
+prxpage1.marco.lblTitulo.Name = "lblTitulo"
+prxpage1.marco.Name = "marco"
+prxpage1.Caption = "Acción"
+prxpage1.Name = "prxpage1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] crudpageframe
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M619I1PB
+[CLASS] marco
+[CLASSLOC] marcos.vcx
+[BASECLASS] container
+[OBJNAME] crudsearch
+[START PROPERTIES]
+Width = 363
+Height = 101
+Name = "crudsearch"
+Shape.Name = "Shape"
+SHPLABEL.Name = "SHPLABEL"
+LBLTITULO.Caption = "Buscar"
+LBLTITULO.Name = "LBLTITULO"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autosetup
+Lparameters tlOnlyPosition As Boolean
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+DoDefault( tlOnlyPosition )
+
+This.txtBuscar.Anchor = ANCHOR_Top_Absolute ;
+	+ ANCHOR_Left_Absolute ;
+	+ ANCHOR_Right_Absolute
+
+This.cmdBuscar.Anchor = ANCHOR_Top_Absolute ;
+	+ ANCHOR_Right_Absolute
+
+This.cboBuscar.Anchor = ANCHOR_Top_Absolute ;
+	+ ANCHOR_Left_Absolute ;
+	+ ANCHOR_Right_Absolute
+
+This.CboCondicion.Anchor = ANCHOR_Top_Absolute ;
+	+ ANCHOR_Left_Absolute ;
+	+ ANCHOR_Right_Absolute
+
+
+*!*	This.txtBuscar.Anchor = ANCHOR_Top_Absolute ;
+*!*		+ ANCHOR_Left_Absolute ;
+*!*		+ ANCHOR_Bottom_Absolute ;
+*!*		+ ANCHOR_Right_Absolute
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+5[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M619VG1C
+[CLASS] prxtextbox
+[CLASSLOC] basecontrols.vcx
+[BASECLASS] textbox
+[OBJNAME] txtBuscar
+[PARENT] crudsearch
+[START PROPERTIES]
+Height = 21
+Left = 8
+Top = 25
+Width = 336
+Name = "txtBuscar"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M619VG1S
+[CLASS] search
+[CLASSLOC] botones.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdBuscar
+[PARENT] crudsearch
+[START PROPERTIES]
+Top = 47
+Left = 247
+Height = 49
+Width = 96
+FontBold = .T.
+FontSize = 14
+PicturePosition = 7
+Alignment = 2
+ccommand = FiltrarGrilla
+Name = "cmdBuscar"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3M50PNN4C
+[CLASS] prxcombobox
+[CLASSLOC] basecontrols.vcx
+[BASECLASS] combobox
+[OBJNAME] cboBuscar
+[PARENT] crudsearch
+[START PROPERTIES]
+Height = 24
+Left = 8
+Top = 47
+Width = 232
+Name = "cboBuscar"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3MA0NNMG6
+[CLASS] prxcombobox
+[CLASSLOC] basecontrols.vcx
+[BASECLASS] combobox
+[OBJNAME] cboCondicion
+[PARENT] crudsearch
+[START PROPERTIES]
+Height = 24
+Left = 8
+Top = 72
+Width = 232
+Name = "cboCondicion"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+#Define S_ALL				"Todos"
+#Define S_BEGINWITH			"Comienza Con"
+#Define S_CONTAINTHETEXT	"Contiene El Texto"
+#Define S_EQUAL				"Es Igual A"
+#Define S_DIFFERENT			"Es Diferente A"
+#Define S_LOWER				"Es Menor Que"
+#Define S_LOWEREQUAL		"Es Menor O Igual A"
+#Define S_UPPER				"Es Mayor Que"
+#Define S_UPPEREQUAL		"Es Mayor O Igual A"
+#Define S_ISBETWEEN			"Se Encuentra Entre"
+
+DoDefault()
+
+With This as ComboBox
+	.RowSourceType = 1
+	.BoundTo = .T.
+	.BoundColumn = 2
+
+*!*		Do Case
+*!*			Case This.Parent.FieldType = T_CHARACTER
+			.RowSource	= S_ALL + ",*," 	;
+				+ S_BEGINWITH + ",like," 	;
+				+ S_CONTAINTHETEXT + ",%,"	;
+				+ S_EQUAL		+ ",!#,"	;
+				+ S_DIFFERENT	+ ",#,"		;
+				+ S_LOWER		+ ",<,"		;
+				+ S_LOWEREQUAL	+ ",<=,"	;
+				+ S_UPPER		+ ",>,"		;
+				+ S_UPPEREQUAL	+ ",>=,"	;
+				+ S_ISBETWEEN	+ ",E"
+
+*!*			Case Inlist( This.Parent.FieldType, T_DATE, T_DATETIME, T_NUMERIC )
+*!*				.RowSource	= S_EQUAL + ",!#,"	;
+*!*					+ S_DIFFERENT	+ ",#,"		;
+*!*					+ S_LOWER		+ ",<,"		;
+*!*					+ S_LOWEREQUAL	+ ",<=,"	;
+*!*					+ S_UPPER		+ ",>,"		;
+*!*					+ S_UPPEREQUAL	+ ",>=,"	;
+*!*					+ S_ISBETWEEN	+ ",E"
+
+*!*			Otherwise
+*!*				Assert .F. Message "No se reconoce el tipo " + This.Parent.FieldType
+
+*!*		Endcase
+
+	.ColumnWidths	= Alltrim( Str( This.Width ) ) + ",0"
+	***.Selected( 3 ) = .T.
+	.Value = "*"
+
+Endwith
+
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] crudsearch
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 14, 9, 23, 18, 50, 4, 1
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h&~lA‡@ ..\include\foxpro.h.*z
+; ..\include\strings.h6€:[é:[END RESERVED1]
+[EOF]

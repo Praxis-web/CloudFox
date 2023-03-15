@@ -1,0 +1,147 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6700ZJRCG
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6700ZJRCH
+[CLASS] form_base
+[CLASSLOC] ..\..\..\frontend\vcx\crud.vcx
+[BASECLASS] form
+[OBJNAME] IMPORTAR_MAESTROS
+[START PROPERTIES]
+DoCreate = .T.
+Caption = ""
+ctitulodelprograma = Importar Maestros
+Name = "IMPORTAR_MAESTROS"
+Crud_Shape.Name = "Crud_Shape"
+crud_buttons.cmdGrabar.Name = "cmdGrabar"
+crud_buttons.cmdEliminar.Name = "cmdEliminar"
+crud_buttons.cmdCancelar.Name = "cmdCancelar"
+crud_buttons.Name = "crud_buttons"
+CRUD_TITULO.LBLFECHA.Name = "LBLFECHA"
+CRUD_TITULO.LBLTITULO.Name = "LBLTITULO"
+CRUD_TITULO.LBLOBSERVACIONES.Name = "LBLOBSERVACIONES"
+CRUD_TITULO.LBLASTERISCOS.Name = "LBLASTERISCOS"
+CRUD_TITULO.Name = "CRUD_TITULO"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE grabar
+Local lcCommand as String
+Local loBiz As oImportarMaestros Of "Clientes\Utiles\prg\ImportarMaestros.prg"
+
+Try
+
+	lcCommand = ""
+	loBiz = Thisform.oBiz
+	loBiz.Importar( This.oRegistro )
+	
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	loBiz = Null
+
+
+EndTry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6700ZJRCG
+[CLASS] _checkbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] checkbox
+[OBJNAME] chkRubro
+[PARENT] IMPORTAR_MAESTROS
+[START PROPERTIES]
+Top = 78
+Left = 132
+Alignment = 0
+Caption = "Grupos"
+Value = .F.
+lautomaticdisplay = .F.
+cfieldname = Grupo
+Name = "chkRubro"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6700ZJRCG
+[CLASS] _checkbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] checkbox
+[OBJNAME] chkSubGrupos
+[PARENT] IMPORTAR_MAESTROS
+[START PROPERTIES]
+Top = 108
+Left = 132
+AutoSize = .T.
+Alignment = 0
+Caption = "SubGrupos"
+Value = .F.
+lautomaticdisplay = .F.
+cfieldname = SubGrupo
+Name = "chkSubGrupos"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _67110B5XS
+[CLASS] _checkbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] checkbox
+[OBJNAME] chkArticulos
+[PARENT] IMPORTAR_MAESTROS
+[START PROPERTIES]
+Top = 132
+Left = 132
+AutoSize = .T.
+Alignment = 0
+Caption = "Artículos"
+Value = .F.
+lautomaticdisplay = .F.
+cfieldname = Articulo
+Name = "chkArticulos"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[EOF]

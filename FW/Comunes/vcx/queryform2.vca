@@ -1,0 +1,2129 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3OM0MHQN3
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] frmquery
+[START PROPERTIES]
+Height = 216
+Width = 600
+DoCreate = .T.
+AutoCenter = .T.
+Caption = "Query Form"
+ControlBox = .F.
+Closable = .F.
+MaxButton = .F.
+MinButton = .F.
+WindowType = 1
+_memberdata =     1529<VFPData><memberdata name="cancelar" display="Cancelar"/><memberdata name="consulta" display="Consulta"/><memberdata name="wclav" display="WCLAV"/><memberdata name="ntipodelistado" display="nTipoDeListado"/><memberdata name="clave" display="CLAVE"/><memberdata name="i_ingtip" display="I_IngTip"/><memberdata name="lingtip" display="lIngTip" favorites="True"/><memberdata name="lingtipactivo" display="lIngTipActivo"/><memberdata name="lingtipactivo_assign" display="lIngTipActivo_Assign"/><memberdata name="loldlkeypreview" display="lOldlKeyPreview"/><memberdata name="synchronizebuttons" display="SynchronizeButtons"/><memberdata name="wclav_assign" display="WCLAV_Assign"/><memberdata name="ningtip1" display="nIngTip1"/><memberdata name="ningtip2" display="nIngTip2"/><memberdata name="ningtipstatus" display="nIngTipStatus"/><memberdata name="ningtipaction" display="nIngTipAction" favorites="True"/><memberdata name="abrirarchivos" display="AbrirArchivos"/><memberdata name="exportar" display="Exportar"/><memberdata name="autosize" display="Autosize"/><memberdata name="sincronizarcheckbox" display="SincronizarCheckbox"/><memberdata name="oparametros" display="oParametros"/><memberdata name="oparametros_access" display="oParametros_Access"/><memberdata name="obiz" display="oBiz"/><memberdata name="obiz_access" display="oBiz_Access"/><memberdata name="cbizclass" display="cBizClass"/><memberdata name="cbizclasslib" display="cBizClassLib"/><memberdata name="initializecontrols" display="InitializeControls"/></VFPData>
+wclav = .F.
+ntipodelistado = 0
+clave = 5
+lingtip = .T.
+lingtipactivo = .T.
+loldlkeypreview = .F.
+ningtip1 = -8
+ningtip2 = -9
+ningtipstatus = 0
+ningtipaction = 2
+oparametros = .NULL.
+obiz = .NULL.
+cbizclass = 
+cbizclasslib = 
+Name = "frmquery"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Lparameters oBiz As Entity2 Of "Fw\TierAdapter\Comun\Entity2.prg"
+
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+	Thisform.oBiz = oBiz
+
+	* RA 2014-03-21(14:06:48)
+	* Si oBiz no es un objeto, aquí se instancia
+	oBiz = Thisform.oBiz
+	
+	Thisform.DataSessionId = oBiz.DataSessionId
+	This.BindControls = .T.
+	
+	Thisform.InitializeControls()
+	Thisform.Autosize()
+	
+
+	If Thisform.lIngTip = .T. And Thisform.CLAVE > 0
+		Thisform.cmdExportar.Visible = .F.
+		Thisform.cmdIngTip.Visible = .T.
+		Thisform.I_IngTip()
+
+	Else
+		Thisform.lOldlKeyPreview = Thisform.KeyPreview
+		Thisform.cmdExportar.Visible = .T.
+		Thisform.cmdIngTip.Visible = .F.
+
+		Thisform.WCLAV = "A"
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE KeyPress
+Lparameters nKeyCode, nShiftAltCtrl
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+		
+	If Thisform.lIngTipActivo
+		If Inlist( nKeyCode, Thisform.nIngTip1, Thisform.nIngTip2 )
+		
+		
+			*Wait WINDOW noclear nowait "Se apreto " + Transform( nKeyCode )
+			Do Case
+				Case Thisform.nIngTipStatus = 0	&& h00
+					* Es la primer Tecla presionada
+					If nKeyCode = Thisform.nIngTip1
+						Thisform.nIngTipStatus = 2	&&	h10
+
+					Else
+						Thisform.nIngTipStatus = 1	&&	h01
+
+						If Thisform.nIngTipAction = 1
+							* Solo vale la primer tecla presionada primero
+							* Limpiar buffer de IngTip
+							Thisform.nIngTipStatus = 0
+
+						Endif
+
+					Endif
+
+				Case Thisform.nIngTipStatus = 1	&& h01
+
+					If nKeyCode = Thisform.nIngTip1
+						* Se completo el orden Segunda + Primera
+
+						Thisform.WCLAV = "M"
+						Thisform.lIngTipActivo = .F.
+
+					Else
+						* Se presiono 2 veces la Segunda
+						* Limpiar buffer de IngTip
+						Thisform.nIngTipStatus = 0
+
+					Endif
+
+				Case Thisform.nIngTipStatus = 2	&& h10
+					If nKeyCode = Thisform.nIngTip2
+						* Se completo el orden Primera + Segunda
+
+						Thisform.WCLAV = "B"
+						Thisform.lIngTipActivo = .F.
+
+					Else
+						* Se presiono 2 veces la Primera
+						* Limpiar buffer de IngTip
+						Thisform.nIngTipStatus = 0
+
+					Endif
+
+			Endcase
+
+		Else
+			* Limpiar buffer de IngTip
+			Thisform.nIngTipStatus = 0	&& h00
+			*Wait WINDOW noclear nowait "Se apreto " + Transform( nKeyCode )
+
+		Endif
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE Load
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+	Set Cursor On
+
+	This.CLAVE = GetGlobal( "Clave" )
+	
+	Thisform.BorderStyle = 0
+	Thisform.BindControls = .F.
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE autosize
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcCommand as String
+Local lnUnits as Integer
+
+Try
+
+	lcCommand = ""
+	lnUnits = 12
+	
+	ThisForm.cntTitulo.Top 		= 0
+	ThisForm.cntTitulo.Left 	= 0
+	ThisForm.cntTitulo.Width 	= Thisform.Width
+	ThisForm.cntTitulo.Anchor 	= ANCHOR_Top_Absolute + ANCHOR_Left_Absolute + ANCHOR_Right_Absolute
+	
+	ThisForm.cmdCancelar.Left = lnUnits
+	ThisForm.cmdCancelar.Top = Thisform.Height - ThisForm.cmdCancelar.Height - lnUnits
+
+		
+	
+	ThisForm.shpBotones.Top 	= ThisForm.cmdCancelar.Top - ( lnUnits * 2 )
+	ThisForm.shpBotones.Left 	= 0
+	ThisForm.shpBotones.Width 	= Thisform.Width
+
+	
+	
+	ThisForm.lblSalida.Top 		= ThisForm.cmdCancelar.Top
+	ThisForm.cboExportar.Top 	= ThisForm.cmdCancelar.Top
+	ThisForm.cmdExportar.Top 	= ThisForm.cmdCancelar.Top
+	ThisForm.cmdIngTip.Top		= ThisForm.cmdExportar.Top
+	ThisForm.cmdIngTip.Left 	= ThisForm.cmdExportar.Left
+	
+	
+	ThisForm.shpBotones.Anchor 	= ANCHOR_Bottom_Absolute + ANCHOR_Left_Absolute + ANCHOR_Right_Absolute
+	ThisForm.cmdCancelar.Anchor = ANCHOR_Bottom_Absolute + ANCHOR_Left_Absolute
+	ThisForm.lblSalida.Anchor 	= ANCHOR_Bottom_Absolute + ANCHOR_Right_Absolute
+	ThisForm.cboExportar.Anchor = ANCHOR_Bottom_Absolute + ANCHOR_Right_Absolute
+	ThisForm.cmdExportar.Anchor = ANCHOR_Bottom_Absolute + ANCHOR_Right_Absolute
+
+	*!*	#DEFINE ANCHOR_Top_Left 				000
+	*!*	#DEFINE ANCHOR_Top_Absolute 			001
+	*!*	#DEFINE ANCHOR_Left_Absolute 			002
+	*!*	#DEFINE ANCHOR_Bottom_Absolute 			004
+	*!*	#DEFINE ANCHOR_Right_Absolute 			008
+	*!*	#DEFINE ANCHOR_Top_Relative 			016
+	*!*	#DEFINE ANCHOR_Left_Relative 			032
+	*!*	#DEFINE ANCHOR_Bottom_Relative 			064
+	*!*	#DEFINE ANCHOR_Right_Relative 			128
+	*!*	#DEFINE ANCHOR_Horizontal_Fixed_Size 	256
+	*!*	#DEFINE ANCHOR_Vertical_Fixed_Size 		512
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE cancelar
+Thisform.Release()
+ENDPROC
+PROCEDURE exportar
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE i_ingtip
+Local lcCommand as String
+Local llOldKeyPreview as Boolean
+Try
+
+	lcCommand = ""
+	If Thisform.lIngTip
+		Thisform.lIngTipActivo = .T.
+	EndIf
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE initializecontrols
+* RA 2014-01-20(20:58:28)
+* Este método es llamado por Init() y sirve para inicializar los controles
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE lingtipactivo_assign
+Lparameters tlIngTipActivo
+
+
+Thisform.lIngTipActivo = tlIngTipActivo
+
+
+If tlIngTipActivo
+	Thisform.lOldlKeyPreview = Thisform.KeyPreview
+	Thisform.KeyPreview = .T.
+
+	Thisform.SetAll( "Enabled", .F. )
+	Thisform.Enabled = .T.
+	Thisform.CmdIngTip.Enabled = .T.
+	Thisform.CmdIngTip.Visible = .T.
+	Thisform.cmdExportar.Top = -500
+	Thisform.cmdExportar.Visible = .F.
+	Thisform.CmdCancelar.Enabled = .T.
+
+Else
+	Thisform.KeyPreview = Thisform.lOldlKeyPreview
+	
+	Thisform.CmdIngTip.Top = -500
+	Thisform.cmdExportar.Top = Thisform.CmdCancelar.Top
+	Thisform.cmdExportar.Visible = .T.
+
+	With Thisform.cboExportar As ComboBox
+		.Value = .Value
+	Endwith
+
+	Thisform.SetAll( "Enabled", .T. )
+	Thisform.SincronizarCheckbox()
+
+Endif
+
+ENDPROC
+PROCEDURE obiz_access
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+	If Vartype( Thisform.oBiz ) # "O"
+		Thisform.oBiz = Newobject( Thisform.cBizClass, Thisform.cBizClassLib )
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+Return This.oBiz
+
+ENDPROC
+PROCEDURE oparametros_access
+If Vartype( Thisform.oParametros ) # "O"
+	Thisform.oParametros = Thisform.oBiz.ParametrosDeLaVista()
+EndIf
+
+Return This.oParametros
+
+ENDPROC
+PROCEDURE wclav_assign
+Lparameters tWCLAV
+
+Thisform.WCLAV = tWCLAV
+
+If Inlist( tWCLAV, "A", "B", "M" )
+	Thisform.lIngTipActivo = .F.
+
+	Do Case
+		Case tWCLAV = "B"
+			Thisform.Caption = "* " + Thisform.Caption
+
+		Case tWCLAV = "M"
+			Thisform.Caption = "** " + Thisform.Caption
+			
+		Otherwise
+
+	Endcase
+EndIf
+
+Try
+
+	Thisform.oParametros.WCLAV = tWCLAV
+
+Catch To oErr
+
+Finally
+
+EndTry
+
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+12[END RESERVED2]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+wclav
+ntipodelistado 0: Por Remito; 1: Por Pedido
+clave
+lingtip
+lingtipactivo
+loldlkeypreview
+ningtip1 Primera Tecla
+ningtip2
+ningtipstatus
+ningtipaction
+oparametros Referencia al objeto oParametros, cuyas propiedades son el ControlSource de los controles que parametrizan la búsqueda
+obiz Referencia a la clase de negocios que maneja la consulta
+cbizclass Nombre de la clase de negocios
+cbizclasslib Librería de la clase de negocios
+*cancelar 
+*consulta 
+*i_ingtip 
+*lingtipactivo_assign 
+*synchronizebuttons 
+*wclav_assign 
+*abrirarchivos 
+*exportar 
+*autosize Permite ajustar controles programaticamente
+*sincronizarcheckbox Permite poner código para disparar los ProgramaticChange() de cada checkbox
+*oparametros_access 
+*obiz_access 
+*initializecontrols 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED7]
+Formulario de consultas[END RESERVED7]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3OM0MHQPB
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancelar
+[PARENT] frmquery
+[START PROPERTIES]
+Top = 172
+Left = 24
+Height = 24
+Width = 84
+Picture = ..\image\bmp\close.bmp
+Cancel = .T.
+Caption = "Cerrar"
+TabIndex = 11
+PicturePosition = 1
+Name = "cmdCancelar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Cancelar()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZA10EBED
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdExportar
+[PARENT] frmquery
+[START PROPERTIES]
+AutoSize = .T.
+Top = 172
+Left = 456
+Height = 27
+Width = 116
+Picture = ..\image\bmp\ok.bmp
+Caption = "Ingresar Datos"
+TabIndex = 10
+PicturePosition = 1
+Name = "cmdExportar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+If Thisform.lIngTipActivo
+	Thisform.WCLAV = "A"
+
+Else
+	Thisform.Exportar()
+
+Endif
+Wait Clear
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZF0RQAKZ
+[CLASS] container
+[BASECLASS] container
+[OBJNAME] cntTitulo
+[PARENT] frmquery
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 600
+Height = 36
+BorderWidth = 3
+SpecialEffect = 0
+Name = "cntTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcCommand As String,;
+lcEmpresa as String
+
+#If .F.
+	Local Variant As VariantNameSpace Of 'Tools\Namespaces\Prg\VariantNameSpace.prg'
+	Local CacheManager As CacheManager Of 'Tools\Namespaces\Prg\CacheManager.prg'
+	Local Control As ControlNameSpace Of 'Tools\Namespaces\Prg\ControlNameSpace.prg'
+	Local Cursor As CursorNameSpace Of 'Tools\Namespaces\Prg\CursorNameSpace.prg'
+	Local Logical As LogicalNameSpace Of 'Tools\Namespaces\Prg\LogicalNameSpace.prg'
+	Local Datetime As DateTimeNameSpace Of 'Tools\Namespaces\Prg\DateTimeNameSpace.prg'
+	Local GUI As GUINameSpace Of 'Tools\Namespaces\Prg\GUINameSpace.prg'
+	Local Number As NumberNameSpace Of 'Tools\Namespaces\Prg\NumberNameSpace.prg'
+	Local Object As ObjectNameSpace Of 'Tools\Namespaces\Prg\ObjectNameSpace.prg'
+	Local Sql As SQLNameSpace Of 'Tools\Namespaces\Prg\SQLNameSpace.prg'
+	Local String As StringNameSpace Of 'Tools\Namespaces\Prg\StringNameSpace.prg'
+	Local Vector As VectorNameSpace Of 'Tools\Namespaces\Prg\VectorNameSpace.prg'
+	Local XML As XMLNamespace Of 'Tools\Namespaces\Prg\XMLNamespace.prg'
+	Local Environment As EnvironmentNamespace Of 'Tools\Namespaces\Prg\EnvironmentNamespace.prg'
+	Local IO As IONameSpace Of 'Tools\Namespaces\Prg\IONameSpace.prg'
+	Local System As SystemNameSpace Of 'Tools\Namespaces\Prg\SystemNameSpace.prg'
+	Local Exception As ExceptionNameSpace Of 'Tools\Namespaces\Prg\ExceptionNameSpace.prg'
+#EndIf
+
+
+Try
+
+	lcCommand = ""
+
+	This.LblObservaciones.Caption = ""
+
+	This.lblFecha.Top = 02
+	This.lblFecha.Left = This.Width - This.lblFecha.Width - 05
+
+	This.lblFecha.Anchor = ANCHOR_Top_Absolute +;
+		ANCHOR_Right_Absolute
+
+
+	This.lblTitulo.Left = 05
+	This.lblTitulo.Top = 02
+	This.lblTitulo.Anchor = ANCHOR_Top_Absolute +;
+		ANCHOR_Left_Absolute
+
+	This.LblObservaciones.Left = 05
+	This.LblObservaciones.Top = 02
+	This.LblObservaciones.Anchor = ANCHOR_Top_Absolute +;
+		ANCHOR_Left_Absolute
+
+	This.lblFecha.Caption = Datetime.DateMask( GetGlobal( "dFechaHoy" ), "Mm d9, yyyy" )
+
+	Try
+		lcEmpresa = _Screen.oApp.cEmpresa
+		*lcEmpresa = lcEmpresa + " - "
+
+	Catch To oErr
+		lcEmpresa = ""
+
+	Finally
+
+	Endtry
+
+	Thisform.Caption = lcEmpresa && + _Screen.Caption
+
+	This.Label1.Left 			= 0
+	This.lblTitulo.Left 		= This.Label1.Width
+	This.lblObservaciones.Left 	= This.lblTitulo.Left + This.lblTitulo.Width + 10
+
+	_Screen.Caption = _Screen.oApp.cScreenCaption + " - " + lcEmpresa + " - " + This.lblTitulo.Caption
+
+	*!*	#DEFINE ANCHOR_Top_Left 				000
+	*!*	#DEFINE ANCHOR_Top_Absolute 			001
+	*!*	#DEFINE ANCHOR_Left_Absolute 			002
+	*!*	#DEFINE ANCHOR_Bottom_Absolute 			004
+	*!*	#DEFINE ANCHOR_Right_Absolute 			008
+	*!*	#DEFINE ANCHOR_Top_Relative 			016
+	*!*	#DEFINE ANCHOR_Left_Relative 			032
+	*!*	#DEFINE ANCHOR_Bottom_Relative 			064
+	*!*	#DEFINE ANCHOR_Right_Relative 			128
+	*!*	#DEFINE ANCHOR_Horizontal_Fixed_Size 	256
+	*!*	#DEFINE ANCHOR_Vertical_Fixed_Size 		512
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZF0RQANK
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblFecha
+[PARENT] frmquery.cntTitulo
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 12
+Anchor = 8
+Alignment = 1
+BackStyle = 0
+Caption = "Fecha"
+Height = 22
+Left = 500
+Top = 3
+Width = 146
+ForeColor = 0,0,255
+Name = "lblFecha"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZF0RQANU
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblTitulo
+[PARENT] frmquery.cntTitulo
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 12
+Alignment = 0
+BackStyle = 0
+Caption = "Título del programa"
+Height = 22
+Left = 6
+Top = 7
+Width = 198
+ForeColor = 0,0,255
+Name = "lblTitulo"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZF0RQAO4
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] Label1
+[PARENT] frmquery.cntTitulo
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 12
+Alignment = 1
+BackStyle = 0
+Caption = ""
+Height = 22
+Left = 450
+Top = 5
+Width = 34
+ForeColor = 0,0,255
+Name = "Label1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZF0RQAOE
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblObservaciones
+[PARENT] frmquery.cntTitulo
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 12
+Alignment = 0
+BackStyle = 0
+Caption = "Observaciones"
+Height = 22
+Left = 216
+Top = 7
+Width = 198
+ForeColor = 0,0,255
+Name = "lblObservaciones"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZG0SOQQJ
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdIngTip
+[PARENT] frmquery
+[START PROPERTIES]
+AutoSize = .T.
+Top = -500
+Left = 456
+Height = 27
+Width = 116
+Picture = ..\image\bmp\ok.bmp
+Caption = "Ingresar Datos"
+TabIndex = 10
+PicturePosition = 1
+Name = "cmdIngTip"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+If Thisform.lIngTipActivo
+	Thisform.WCLAV = "A"
+
+Else
+	Thisform.Exportar()
+
+Endif
+Wait Clear
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _41Z0OFVQP
+[CLASS] shpmarco
+[CLASSLOC] queryform2.vcx
+[BASECLASS] shape
+[OBJNAME] shpBotones
+[PARENT] frmquery
+[START PROPERTIES]
+Top = 156
+Left = 0
+Height = 0
+Width = 576
+Curvature = 0
+Name = "shpBotones"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _41Z0OFVQY
+[CLASS] lbltitulo
+[CLASSLOC] queryform2.vcx
+[BASECLASS] label
+[OBJNAME] lblSalida
+[PARENT] frmquery
+[START PROPERTIES]
+Caption = "Salida"
+Left = 263
+Top = 174
+Name = "lblSalida"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _41Z0OFVR9
+[CLASS] cboexportar
+[CLASSLOC] queryform2.vcx
+[BASECLASS] combobox
+[OBJNAME] cboExportar
+[PARENT] frmquery
+[START PROPERTIES]
+Height = 24
+Left = 324
+Top = 172
+Width = 120
+Name = "cboExportar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcCommand As String
+Local loCmdExportar As CommandButton,;
+	loCmdCancelar As CommandButton
+
+Try
+
+	lcCommand = ""
+	External File Print.Bmp,;
+		Preview.Bmp,;
+		Export.Bmp,;
+		Pdf.Bmp
+
+	loCmdExportar = Thisform.cmdExportar
+	loCmdCancelar = Thisform.cmdCancelar
+
+	loCmdExportar.Top = loCmdCancelar.Top
+	loCmdExportar.Height  = loCmdCancelar.Height
+
+	Do Case
+		Case This.Value = S_IMPRESORA
+			loCmdExportar.Caption = "Imprimir"
+			loCmdExportar.Picture = 'Fw\Comunes\Image\Bmp\Print.Bmp'
+
+
+		Case This.Value = S_VISTA_PREVIA
+			loCmdExportar.Caption = "Exportar"
+			loCmdExportar.Picture = 'Fw\Comunes\Image\Bmp\Preview.Bmp'
+
+
+		Case This.Value = S_HOJA_DE_CALCULO
+			loCmdExportar.Caption = "Exportar"
+			loCmdExportar.Picture = 'Fw\Comunes\Image\Bmp\Export.Bmp'
+
+
+		Case This.Value = S_PANTALLA
+			loCmdExportar.Caption = "Pantalla"
+			loCmdExportar.Picture = 'Fw\Comunes\Image\Bmp\Grid.Bmp'
+
+		Case This.Value = S_PDF
+			loCmdExportar.Caption = "Exportar"
+			loCmdExportar.Picture = 'Fw\Comunes\Image\Bmp\Pdf.Bmp'
+			loCmdExportar.Top = loCmdCancelar.Top + loCmdCancelar.Height - loCmdExportar.Height
+
+
+		Case This.Value = S_CSV
+			loCmdExportar.Caption = "CSV"
+			loCmdExportar.Picture = 'Fw\Comunes\Image\Bmp\New.Bmp'
+
+		Case This.Value = S_SDF
+			loCmdExportar.Caption = "Texto"
+			loCmdExportar.Picture = 'Fw\Comunes\Image\Bmp\New.Bmp'
+
+		Otherwise
+
+	Endcase
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE ProgrammaticChange
+This.InteractiveChange()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] frmquery
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h†Ýq–ŠD ..\include\foxpro.hŽÞ*z
+; ..\include\strings.h–ß–…­B6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.hžà•v¿B ..\include\foxpro.h¦á*z
+;[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZA10EBED
+[CLASS] combobox
+[BASECLASS] combobox
+[OBJNAME] cboexportar
+[START PROPERTIES]
+BoundColumn = 2
+Height = 24
+Style = 2
+Width = 100
+BoundTo = .T.
+_memberdata =      301<VFPData><memberdata name="hookbeforeinit" display="HookBeforeInit"/><memberdata name="lpdfcreator" display="lPDFCreator"/><memberdata name="lpdfcreator_access" display="lPDFCreator_Access"/><memberdata name="csalidas" display="cSalidas"/><memberdata name="initialize" display="Initialize"/></VFPData>
+lpdfcreator = .F.
+csalidas = 
+Name = "cboexportar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	If Pemstatus( Thisform, 'InitializeControls', 5 )
+		Bindevent( Thisform, 'InitializeControls', This, 'Initialize', 1 )
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE hookbeforeinit
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+* RA 2013-04-22(18:06:18)
+* Edite este metodo para inicializar las opciones de salida
+* Si no se edita, se utilizan las opciones por default, definidas en GetOutputOptions()
+
+Local lcCommand As String,;
+	lcSalidas As String,;
+	lcPDF As String
+
+Try
+
+	lcCommand = ""
+	lcSalidas = ""
+
+	lcPDF =  Iif( This.lPDFCreator, S_PDF + ",", "" )
+
+	*!*		TEXT To lcSalidas NoShow TextMerge Pretext 15
+	*!*			<<S_IMPRESORA>>,
+	*!*			<<S_VISTA_PREVIA>>,
+	*!*			<<S_HOJA_DE_CALCULO>>,
+	*!*			<<iif( This. lcPDF
+	*!*			<<S_PANTALLA>>,
+	*!*		EndText
+	*!*
+	This.cSalidas = lcSalidas
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+Return .T.
+
+
+ENDPROC
+PROCEDURE initialize
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loOutputOptions As Object
+Local i As Integer,;
+	lnLen As Integer,;
+	lnDefault As Integer
+
+Local lcCommand As String
+Local lcSalidas As String,;
+	lcDefault As String
+
+Local llPDF As Boolean
+
+Try
+
+	lcCommand = ""
+	
+	This.HookBeforeInit()
+	
+	lcSalidas = This.cSalidas
+
+	With This As ComboBox
+
+		If Empty( lcSalidas )
+			loOutputOptions = GetOutputOptions()
+
+			lcSalidas = loOutputOptions.cSalidas
+			lcDefault = loOutputOptions.cDefault
+		EndIf
+		
+		If Empty( lcDefault )
+			lcDefault = S_PANTALLA
+		EndIf
+		
+		If Empty( At( lcDefault, lcSalidas ) )
+			lcSalidas = lcDefault + "," + lcSalidas
+		EndIf
+
+		lcSalida = lcDefault
+
+		lnLen =  Getwordcount( lcSalidas, "," )
+
+
+		For i = 1 To lnLen
+			lcOpcion = Alltrim( Getwordnum( lcSalidas, i, "," ))
+
+			If lcOpcion = lcDefault
+				lnDefault = i
+			Endif
+
+			Do Case
+				Case lcOpcion = S_IMPRESORA
+					.AddItem( "Impresora" )
+
+				Case lcOpcion = S_VISTA_PREVIA
+					.AddItem( "Vista Previa" )
+
+				Case lcOpcion = S_HOJA_DE_CALCULO
+					.AddItem( "Hoja de Cálculo" )
+
+				Case lcOpcion = S_PANTALLA
+					.AddItem( "Pantalla" )
+
+				Case lcOpcion = S_PDF
+					.AddItem( "Archivo PDF" )
+
+				Case lcOpcion = S_CSV
+					.AddItem( "Archivo de Texto (CSV)" )
+
+				Case lcOpcion = S_SDF
+					.AddItem( "Archivo de Texto (SDF)" )
+
+				Case lcOpcion = S_LISTADO_DOS
+					.AddItem( "Listado Tipo DOS" )
+
+				Otherwise
+					TEXT To lcMsg NoShow TextMerge Pretext 15
+						Opcion No reconocida '<<lcOpcion>>'
+					ENDTEXT
+
+					Error lcMsg
+
+			Endcase
+
+			.List[.NewIndex, 2] = lcOpcion
+
+		Endfor
+
+		If Empty( lnDefault )
+			lnDefault = 1
+		Endif
+
+		.Selected( lnDefault ) = .T.
+		
+		If !PemStatus( Thisform, "oParametros", 5 )
+			Thisform.AddProperty( "oParametros", CreateObject( "Empty" ) )
+		EndIf
+		
+		If !PemStatus( Thisform.oParametros, "cSalida", 5 )
+			AddProperty( Thisform.oParametros, "cSalida", " " )
+		EndIf
+
+		If PemStatus( Thisform, "oParametros", 5 )
+			.ControlSource = "Thisform.oParametros.cSalida"
+		EndIf
+
+	EndWith
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+
+Finally
+
+
+Endtry
+
+ENDPROCPROCEDURE lpdfcreator_access
+Local llPDF As Boolean
+Local loPDF As Object
+
+Try
+
+	lcCommand = ""
+
+	Try
+		* Verificar que PDFCreator esté Instalado
+		loPDF = Createobject("PDFCreator.clsPDFCreator")
+		llPDF = .T.
+
+	Catch To oErr
+		llPDF = .F.
+
+	Finally
+		loPDF = Null
+
+	Endtry
+
+	This.lPDFCreator = llPDF
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+
+Return This.lPDFCreator
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+lpdfcreator Indica si PDFCreator está instalado
+csalidas Definicion de las opciones de salida que se muestran en el combo
+*hookbeforeinit Metodo que se ejecuta antes del init()
+*lpdfcreator_access 
+*initialize 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cboexportar
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h–Õq–ŠD ..\include\foxpro.hžÖ*z
+; ..\include\strings.h¦×–…­B6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h®Ø•v¿B ..\include\foxpro.h¶Ù*z
+;[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZA16PMAW
+[CLASS] checkbox
+[BASECLASS] checkbox
+[OBJNAME] chkfiltro
+[START PROPERTIES]
+Height = 17
+Width = 64
+AutoSize = .T.
+Alignment = 0
+BackStyle = 0
+Caption = "chkFiltro"
+Value = .F.
+oasociatedcontrol = .NULL.
+_memberdata = <VFPData><memberdata name="oasociatedcontrol" display="oAsociatedControl"/><memberdata name="centidad" display="cEntidad"/><memberdata name="initialize" display="Initialize"/></VFPData>
+centidad = 
+Name = "chkfiltro"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	If Pemstatus( Thisform, 'InitializeControls', 5 )
+		Bindevent( Thisform, 'InitializeControls', This, 'Initialize', 1 )
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE InteractiveChange
+Local lcCommand As String
+
+Local loAsociatedControl As Object
+
+Try
+
+	lcCommand = ""
+
+	loAsociatedControl = This.oAsociatedControl
+
+	This.FontBold = This.Value
+
+	If Vartype( loAsociatedControl ) = "O"
+		loAsociatedControl.Enabled = This.Value
+
+		If This.Value
+			loAsociatedControl.SetFocus()
+		Endif
+	Endif
+
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE ProgrammaticChange
+This.InteractiveChange()
+ENDPROC
+PROCEDURE initialize
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	
+	If !Pemstatus( Thisform, "oParametros", 5 )
+		Thisform.AddProperty( "oParametros", Createobject( "Empty" ) )
+	Endif
+
+	If !Pemstatus( Thisform.oParametros, "l" + This.cEntidad, 5 )
+		AddProperty( Thisform.oParametros, "l" + This.cEntidad, .F. )
+	Endif
+
+	If Pemstatus( Thisform, "oParametros", 5 )
+		This.ControlSource = "Thisform.oParametros.l" + This.cEntidad
+	Endif
+	
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+oasociatedcontrol Referencia al control asociado al CheckBox
+_memberdata XML Metadata for customizable properties
+centidad Nombre de la entidad
+*initialize 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] chkfiltro
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZA16UOAY
+[CLASS] cbo_base
+[CLASSLOC] abm_form.vcx
+[BASECLASS] combobox
+[OBJNAME] cboentidades
+[START PROPERTIES]
+BoundColumn = 2
+Height = 24
+Style = 2
+Width = 150
+ItemTips = .T.
+BoundTo = .T.
+cdescripcion = Nombre
+centidad = 
+_memberdata = <VFPData><memberdata name="cdescripcion" display="cDescripcion" favorites="True"/><memberdata name="centidad" display="cEntidad"/><memberdata name="centidad_access" display="cEntidad_Access"/></VFPData>
+Name = "cboentidades"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE ProgrammaticChange
+This.InteractiveChange()
+ENDPROC
+PROCEDURE centidad_access
+If Empty( This.cEntidad )
+	This.cEntidad = Substr( This.Name, 4 )
+Endif
+Return This.cEntidad
+
+ENDPROC
+PROCEDURE initialize
+Local lcCommand As String
+
+Local i As Integer,;
+	lnLen As Integer,;
+	lnDefault As Integer
+
+Local llHasDefault As Boolean
+
+Local loBiz As Entity2 Of "Fw\TierAdapter\Comun\Entity2.prg"
+Local loCollection As CollectionBase Of Tools\namespaces\prg\CollectionBase.prg
+Local loRegistro As Object
+
+Try
+
+	lcCommand 	= ""
+	llHasDefault = .F.
+	lnDefault = 1
+
+	loBiz = This.oBiz
+	loCollection = loBiz.GetFromCache()
+
+	Try
+
+		loRegistro = loCollection.Item( 1 )
+		llHasDefault = Pemstatus( loRegistro, "Default", 5 )
+
+	Catch To oErr
+
+	Finally
+
+	EndTry
+	
+	i = 0
+	
+	
+
+	For Each loRegistro In loCollection
+		Set Step On
+		i = i + 1
+		lcItem = Alltrim( Evaluate( "loRegistro." + This.cDescripcion ))
+		This.AddItem( lcItem )
+		
+*!*			This.AddItem( Alltrim( Evaluate( "loRegistro." + This.cDescripcion )))
+		This.List( This.NewIndex, 2 ) = Transform( loRegistro.Id )
+
+		If llHasDefault
+			If loRegistro.Default = .T.
+				lnDefault = i
+			EndIf
+		EndIf
+	EndFor
+	
+
+	Try
+
+		This.Selected( lnDefault )	= .T.
+
+	Catch To oErr
+
+	Finally
+
+	Endtry
+
+	If !Pemstatus( Thisform, "oParametros", 5 )
+		Thisform.AddProperty( "oParametros", Createobject( "Empty" ) )
+	Endif
+
+	If !Pemstatus( Thisform.oParametros, "n" + This.cEntidad, 5 )
+		AddProperty( Thisform.oParametros, "n" + This.cEntidad, 0 )
+	Endif
+
+	If Pemstatus( Thisform, "oParametros", 5 )
+		This.ControlSource = "Thisform.oParametros.n" + This.cEntidad
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loRegistro 		= Null
+	loCollection 	= Null
+	loBiz 			= Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+cdescripcion Contiene el nombre del campo que es la DESCRIPCION  de la entidad
+centidad Nombre de la entidad
+*centidad_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cboentidades
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZF0O8SGI
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lbltitulo
+[START PROPERTIES]
+AutoSize = .T.
+FontName = "MS Sans Serif"
+FontSize = 12
+BackStyle = 0
+Caption = "Titulo"
+Height = 22
+Width = 40
+ForeColor = 96,96,96
+Name = "lbltitulo"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] lbltitulo
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZF0OY57X
+[CLASS] shape
+[BASECLASS] shape
+[OBJNAME] shpmarco
+[START PROPERTIES]
+Height = 17
+Width = 100
+BackStyle = 0
+Curvature = 30
+BorderColor = 192,192,192
+Name = "shpmarco"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] shpmarco
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZF0UUW6R
+[CLASS] keycalmonthform
+[CLASSLOC] tadatepicker.vcx
+[BASECLASS] container
+[OBJNAME] fecha
+[START PROPERTIES]
+oasociatedcontrol = .NULL.
+_memberdata =      588<VFPData><memberdata name="oasociatedcontrol" display="oAsociatedControl"/><memberdata name="dprimerfechavalida" display="dPrimerFechaValida" favorites="True"/><memberdata name="dultimafechavalida" display="dUltimaFechaValida" favorites="True"/><memberdata name="cdescripcionfecha" display="cDescripcionFecha" favorites="True"/><memberdata name="ncomportamiento" display="nComportamiento" favorites="True"/><memberdata name="inicializar" display="Inicializar"/><memberdata name="centidad" display="cEntidad" favorites="True"/><memberdata name="initialize" display="Initialize"/></VFPData>
+dprimerfechavalida = {}
+dultimafechavalida = {}
+cdescripcionfecha = Fecha Inicial
+ncomportamiento = 0
+centidad = FechaInicial
+Name = "fecha"
+keydate.Name = "keydate"
+cmdKeyDate.Name = "cmdKeyDate"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+DoDefault()
+
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	If Pemstatus( Thisform, 'InitializeControls', 5 )
+		Bindevent( Thisform, 'InitializeControls', This, 'Initialize', 1 )
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE inicializar
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	This.dPrimerFechaValida = GetGlobal( "dPrimerFechaValida" )
+	This.dUltimaFechaValida = GetGlobal( "dLastDate" )
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE initialize
+Lparameters lnWidth, lnHeight	&& Optional Width and Height
+
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	
+	If !Pemstatus( Thisform, "oParametros", 5 )
+		Thisform.AddProperty( "oParametros", Createobject( "Empty" ) )
+	Endif
+
+	If !Pemstatus( Thisform.oParametros, "d" + This.cEntidad, 5 )
+		AddProperty( Thisform.oParametros, "d" + This.cEntidad, .F. )
+	Endif
+
+	If Pemstatus( Thisform, "oParametros", 5 )
+		This.ControlSource = "Thisform.oParametros.d" + This.cEntidad
+	Endif
+
+	This.Inicializar()	
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+
+
+
+ENDPROC
+PROCEDURE keydate.Valid
+
+Local lcCommand As String,;
+	lcMsg As String,;
+	lcCentury as String
+	
+Local llValid As Boolean
+Local ldFechaAuxiliar As Date,;
+	ldPrimerFechaValida As Date,;
+	ldUltimaFechaValida As Date
+
+
+Try
+
+	lcCommand = ""
+	llValid = .T.
+	lcCentury = Set("Century" )
+	Set Century On
+
+	If Empty( This.Value )
+		If Not This.lAllowBlankDate
+			llValid = .F.
+			TEXT To lcMsg NoShow TextMerge Pretext 03
+			La <<This.Parent.cDescripcionFecha>>
+			NO PUEDE ESTAR VACIA
+			ENDTEXT
+
+		Endif
+
+	Else
+		If Year( This.Value ) = 0
+			llValid = .F.
+
+			TEXT To lcMsg NoShow TextMerge Pretext 03
+			Falta indicar el año en la <<This.Parent.cDescripcionFecha>>
+			ENDTEXT
+
+		Endif
+
+	Endif
+
+	If llValid
+	
+		If !Empty( This.Parent.dPrimerFechaValida )
+			ldPrimerFechaValida = This.Parent.dPrimerFechaValida
+			
+		Else
+			ldPrimerFechaValida = GetGlobal( "dPrimerFechaValida" )
+			
+		Endif
+
+
+		If !Empty( This.Parent.dUltimaFechaValida )
+			ldUltimaFechaValida = This.Parent.dUltimaFechaValida
+			
+		Else
+			ldUltimaFechaValida = GetGlobal( "dLastDate" )
+			
+		Endif
+
+		If !Empty( This.Parent.nComportamiento )
+			Do Case
+				Case This.Parent.nComportamiento = 1	&& Rango Inical
+					ldFechaAuxiliar = This.Parent.oAsociatedControl.Value
+					llValid = Between( This.Value, ldPrimerFechaValida, ldUltimaFechaValida )
+					
+					If llValid
+						If ldFechaAuxiliar < This.Value
+							This.Parent.oAsociatedControl.Value = This.Value
+						EndIf
+						
+					Else
+						TEXT To lcMsg NoShow TextMerge Pretext 03
+						La <<This.Parent.cDescripcionFecha>>
+						NO SE ENCUENTRA DENTRO DEL RANGO PERMITIDO
+						
+						( Entre <<ldPrimerFechaValida>> y <<ldUltimaFechaValida>> )
+						EndText
+						
+						Stop( lcMsg, "ERROR EN FECHA" )
+
+					Endif
+
+				Case This.Parent.nComportamiento = 2	&& Rango Final
+					ldPrimerFechaValida = This.Parent.oAsociatedControl.Value
+					llValid = Between( This.Value, ldPrimerFechaValida, ldUltimaFechaValida )
+					
+					If !llValid
+						TEXT To lcMsg NoShow TextMerge Pretext 03
+						La <<This.Parent.cDescripcionFecha>>
+						NO SE ENCUENTRA DENTRO DEL RANGO PERMITIDO
+						
+						( Entre <<ldPrimerFechaValida>> y <<ldUltimaFechaValida>> )
+						EndText
+						
+						Stop( lcMsg, "ERROR EN FECHA" )
+						
+						This.Value = ldPrimerFechaValida
+						
+					Endif
+
+				Otherwise
+
+			Endcase
+
+		EndIf
+		
+	Else
+		Stop( lcMsg, "ERROR EN FECHA" )
+		 	
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+
+Finally
+	Set Century &lcCentury
+
+Endtry
+
+Return llValid
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+oasociatedcontrol Referencia al control FechaInicial/ FechaFinal asociado para control de rangos
+_memberdata XML Metadata for customizable properties
+dprimerfechavalida Si está vacía, no se utiliza para la validación
+dultimafechavalida Si está vacía, no se utiliza para la validación
+cdescripcionfecha Se utiliza para los mensajes al usuario
+ncomportamiento 0 - Individual; 1 - Es el rango Incial; 2 - Es el rango Final
+centidad Nombre de la enidad para vincularse a oParametros
+*inicializar Inicializa los valores de la primer y ultima fecha válida
+*initialize 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] fecha
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZG0NXZEW
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblcomun
+[START PROPERTIES]
+AutoSize = .T.
+BackStyle = 0
+Caption = "Label"
+Height = 17
+Width = 33
+Name = "lblcomun"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] lblcomun
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZG0QMV86
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtentidadrango
+[START PROPERTIES]
+Height = 23
+Width = 100
+ncomportamiento = 0
+_memberdata =      325<VFPData><memberdata name="ncomportamiento" display="nComportamiento" favorites="True"/><memberdata name="oasociatedcontrol" display="oAsociatedControl"/><memberdata name="ogrupo" display="oGrupo"/><memberdata name="centidad" display="cEntidad" favorites="True"/><memberdata name="initialize" display="Initialize"/></VFPData>
+oasociatedcontrol = .NULL.
+ogrupo = .NULL.
+centidad = ArticuloInicial
+Name = "txtentidadrango"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	If Pemstatus( Thisform, 'InitializeControls', 5 )
+		Bindevent( Thisform, 'InitializeControls', This, 'Initialize', 1 )
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE initialize
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+
+	If !Pemstatus( Thisform, "oParametros", 5 )
+		Thisform.AddProperty( "oParametros", Createobject( "Empty" ) )
+	Endif
+
+	If !Pemstatus( Thisform.oParametros, "c" + This.cEntidad, 5 )
+		AddProperty( Thisform.oParametros, "c" + This.cEntidad, .F. )
+	Endif
+
+	If Pemstatus( Thisform, "oParametros", 5 )
+		This.ControlSource = "Thisform.oParametros.c" + This.cEntidad
+	Endif
+	
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+ncomportamiento 0 - Individual; 1 - Es el rango Incial; 2 - Es el rango Final
+_memberdata XML Metadata for customizable properties
+oasociatedcontrol Referencia al control ArticuloInicial/ ArticuloFinal asociado para control de rangos
+ogrupo Referencia al Grupo del Articulo
+centidad
+*initialize 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] txtentidadrango
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3ZG0QNMA2
+[CLASS] txtentidadrango
+[CLASSLOC] queryform.vcx
+[BASECLASS] textbox
+[OBJNAME] txtgrupoarticulo
+[START PROPERTIES]
+Height = 23
+Width = 30
+Name = "txtgrupoarticulo"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] txtgrupoarticulo
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _41B11HDPL
+[CLASS] txtentidadrango
+[CLASSLOC] queryform.vcx
+[BASECLASS] textbox
+[OBJNAME] txtcodigoarticulo
+[START PROPERTIES]
+Name = "txtcodigoarticulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+
+	This.InputMask = Alltrim( GetValue( "PictArt", "ar0Art" ))
+	
+	DoDefault()
+	
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE KeyPress
+Lparameters nKeyCode, nShiftAltCtrl
+
+Do Case
+	Case nKeyCode = 28
+		Private puGrup As Variant,;
+			puNume As Variant,;
+			pnId As Integer,;
+			pcOrden as String
+			
+		pcOrden = "CODIGO"	
+		puGrup 	= ExtractGrup( This.Value )
+		puNume 	= ExtractNume( This.Value  )
+		pnId 	= 0
+		
+		loObj = prxLista()
+		
+		This.Value = loObj.Codigo
+	
+
+	Otherwise
+		DoDefault( nKeyCode, nShiftAltCtrl )
+Endcase
+
+ENDPROC
+PROCEDURE Valid
+
+Local lcCommand As String,;
+	lcMsg As String
+
+Local llValid As Boolean
+
+
+Try
+
+	lcCommand = ""
+	
+	* RA 2014-01-26(12:45:27)
+	* OJO:
+	*	FALTA VALIDAR PARA GRUPO+ARTICULO
+	
+	llValid = .T.
+
+	If !Empty( This.nComportamiento )
+		Do Case
+			Case This.nComportamiento = 1	&& Rango Inical
+					If This.oAsociatedControl.Value < This.Value
+						This.oAsociatedControl.Value = This.Value
+					Endif
+
+			Case This.nComportamiento = 2	&& Rango Final
+				ldPrimerFechaValida = This.oAsociatedControl.Value
+				llValid = This.Value >= This.oAsociatedControl.Value
+
+				If !llValid
+					TEXT To lcMsg NoShow TextMerge Pretext 03
+					El Codigo Debe Ser
+					Mayor o Igual a <<This.oAsociatedControl.Value>>
+					ENDTEXT
+
+					Stop( lcMsg, "ERROR DE CODIGO" )
+
+					This.Value = This.oAsociatedControl.Value
+
+				Endif
+
+			Otherwise
+
+		Endcase
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+
+Finally
+
+Endtry
+
+Return llValid
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] txtcodigoarticulo
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _41B11RC4J
+[CLASS] txtentidadrango
+[CLASSLOC] queryform.vcx
+[BASECLASS] textbox
+[OBJNAME] txtcodigocliente
+[START PROPERTIES]
+Name = "txtcodigocliente"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] txtcodigocliente
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _41Z0NQ4P8
+[CLASS] _optiongroup
+[CLASSLOC] _controles_base.vcx
+[BASECLASS] optiongroup
+[OBJNAME] optconsultas
+[START PROPERTIES]
+Name = "optconsultas"
+_optionbutton1.Left = 5
+_optionbutton1.Top = 6
+_optionbutton1.Name = "_optionbutton1"
+_optionbutton2.Left = 5
+_optionbutton2.Top = 25
+_optionbutton2.Name = "_optionbutton2"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] optconsultas
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

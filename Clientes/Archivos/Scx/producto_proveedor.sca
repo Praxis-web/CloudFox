@@ -1,0 +1,342 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65D0RJSH4
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65D0RJSH5
+[CLASS] crud_form
+[CLASSLOC] ..\..\..\frontend\vcx\crud.vcx
+[BASECLASS] form
+[OBJNAME] Articulo_Proveedor
+[START PROPERTIES]
+Top = 0
+Left = 0
+Height = 422
+Width = 718
+DoCreate = .T.
+cmodelo = Articulo_Proveedor
+Name = "Articulo_Proveedor"
+Crud_Shape.Top = 48
+Crud_Shape.Left = 12
+Crud_Shape.Height = 312
+Crud_Shape.Width = 696
+Crud_Shape.Name = "Crud_Shape"
+CRUD_BUTTONS.CMDGRABAR.Name = "CMDGRABAR"
+CRUD_BUTTONS.CMDELIMINAR.Name = "CMDELIMINAR"
+CRUD_BUTTONS.cmdCancelar.Name = "cmdCancelar"
+CRUD_BUTTONS.Top = 372
+CRUD_BUTTONS.Left = 0
+CRUD_BUTTONS.TabIndex = 7
+CRUD_BUTTONS.Name = "CRUD_BUTTONS"
+CRUD_TITULO.LBLFECHA.Name = "LBLFECHA"
+CRUD_TITULO.LBLTITULO.Name = "LBLTITULO"
+CRUD_TITULO.LBLOBSERVACIONES.Name = "LBLOBSERVACIONES"
+CRUD_TITULO.LBLASTERISCOS.Name = "LBLASTERISCOS"
+CRUD_TITULO.TabIndex = 9
+CRUD_TITULO.Name = "CRUD_TITULO"
+CRUD_AJUSTES.CRUD_SHAPE.Name = "CRUD_SHAPE"
+CRUD_AJUSTES.spnOrden.Name = "spnOrden"
+CRUD_AJUSTES.chkActivo.Alignment = 0
+CRUD_AJUSTES.chkActivo.Name = "chkActivo"
+CRUD_AJUSTES.chkEs_Sistema.Alignment = 0
+CRUD_AJUSTES.chkEs_Sistema.Name = "chkEs_Sistema"
+CRUD_AJUSTES.lblMostrar.Name = "lblMostrar"
+CRUD_AJUSTES.lblOrden.Name = "lblOrden"
+CRUD_AJUSTES.TabIndex = 8
+CRUD_AJUSTES.Name = "CRUD_AJUSTES"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE hookafterinit
+Local lcCommand As String
+Local loBiz As oModelo Of "FrontEnd\Prg\Modelo.prg"
+
+Try
+
+    lcCommand = ""
+
+    If Pemstatus( Thisform.oRegistro, "Articulo_Id", 5 )
+        If Empty( Thisform.oRegistro.Articulo_Id )
+            loBiz = Thisform.oBiz
+            Thisform.oRegistro.Articulo_Id = loBiz.oParent.nId
+        Endif
+
+    Else
+        If Empty( Thisform.oRegistro.Articulo )
+            loBiz = Thisform.oBiz
+            Thisform.oRegistro.Articulo = loBiz.oParent.nId
+        Endif
+
+    Endif
+
+    If !PemStatus( Thisform.oRegistro, "Cotizacion", 5 )
+		AddProperty( Thisform.oRegistro, "Cotizacion", 0 )
+    EndIf
+
+    Thisform.cboMoneda.InteractiveChange()
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+    loBiz = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _67P0QI2HO
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtCondiciones
+[PARENT] Articulo_Proveedor
+[START PROPERTIES]
+Left = 204
+TabIndex = 4
+Top = 132
+ntoprow = 5
+ncolumnsspan = 8
+lusecuetext = .F.
+Name = "txtCondiciones"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE LostFocus
+Local lcCommand as String
+Local loBiz As oPrecioDeVenta Of "Clientes\Archivos\prg\Producto.prg"
+
+Try
+
+	lcCommand = ""
+	DoDefault()
+	loBiz = Thisform.oBiz
+	loBiz.CalcularPrecios( Thisform.oRegistro )
+	Thisform.Refresh()
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	loBiz = Null
+
+
+EndTry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6GH0QZGE3
+[CLASS] _txtsearch
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] selProveedor
+[PARENT] Articulo_Proveedor
+[START PROPERTIES]
+Left = 198
+TabIndex = 1
+Top = 55
+cmodelo = Organizacion_Proveedor
+Name = "selProveedor"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6IA0SGTAM
+[CLASS] cbomoneda
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_comunes.vcx
+[BASECLASS] combobox
+[OBJNAME] cboMoneda
+[PARENT] Articulo_Proveedor
+[START PROPERTIES]
+Left = 204
+TabIndex = 2
+Top = 84
+ncolumnsspan = 6
+ntoprow = 3
+lshowcotizacion = .T.
+Name = "cboMoneda"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+#Define _COTIZACION 3
+#Define _SIGNO		4
+
+Local lcCommand As String,;
+    lcNombre As String,;
+    lcSigno As String
+
+Local lnId As Integer
+Local lnCotizacion As Number
+Local loBiz As oPrecioDeCompra Of "Clientes\Archivos\prg\Producto.prg"
+
+Try
+
+    lcCommand = ""
+
+    DoDefault()
+
+    lnId			= This.Value
+    lcNombre		= This.DisplayValue
+    lnCotizacion 	= Val( This.List( This.ListItemId, _COTIZACION ))
+    lcSigno			= This.List( This.ListItemId, _SIGNO )
+
+    If lnCotizacion = 1
+    	ThisForm.numCosto_Final_Calculado.Visible = .F.
+    	ThisForm.numCosto_Final_Calculado.oLabel.Visible = .F.
+
+    Else
+    	ThisForm.numCosto_Final_Calculado.oLabel.Caption = lcSigno
+    	ThisForm.numCosto_Final_Calculado.Visible = .T.
+    	ThisForm.numCosto_Final_Calculado.oLabel.Visible = .T.
+
+    EndIf
+
+    Thisform.oRegistro.Cotizacion = lnCotizacion
+
+	loBiz = Thisform.oBiz
+	loBiz.CalcularPrecios( Thisform.oRegistro )
+	This.Value = lnId
+	Thisform.Refresh()
+
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+	loBiz = Null
+
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65D0RJSH4
+[CLASS] _numbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] numCosto_Base
+[PARENT] Articulo_Proveedor
+[START PROPERTIES]
+Left = 344
+TabIndex = 3
+Top = 117
+ntoprow = 4
+ncolumnsspan = 6
+Name = "numCosto_Base"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE LostFocus
+Local lcCommand as String
+Local loBiz As oPrecioDeCompra Of "Clientes\Archivos\prg\Producto.prg"
+
+Try
+
+	lcCommand = ""
+	DoDefault()
+	loBiz = Thisform.oBiz
+	loBiz.CalcularPrecios( Thisform.oRegistro )
+	Thisform.Refresh()
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	loBiz = Null
+
+
+EndTry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6IC0MO3OL
+[CLASS] _numbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] numCosto_Final_Calculado
+[PARENT] Articulo_Proveedor
+[START PROPERTIES]
+Left = 336
+TabIndex = 5
+Top = 156
+ntoprow = 7
+ncolumnsspan = 6
+Name = "numCosto_Final_Calculado"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6IC0MO3ON
+[CLASS] _numbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] numCosto_En_Moneda_Corriente
+[PARENT] Articulo_Proveedor
+[START PROPERTIES]
+Left = 336
+TabIndex = 6
+Top = 192
+ntoprow = 8
+ncolumnsspan = 6
+Name = "numCosto_En_Moneda_Corriente"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[EOF]

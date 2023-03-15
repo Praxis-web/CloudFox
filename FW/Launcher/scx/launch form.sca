@@ -1,0 +1,699 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0WNE7Z
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0WNE80
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] Form1
+[START PROPERTIES]
+BorderStyle = 1
+Height = 473
+Width = 742
+ShowWindow = 2
+DoCreate = .T.
+AutoCenter = .T.
+Caption = "Sistemas Praxis"
+MaxButton = .F.
+Icon = ..\..\..\
+_memberdata =     1099<VFPData><memberdata name="declare" display="Declare"/><memberdata name="startprocess" display="StartProcess"/><memberdata name="ocolprocess" display="oColProcess"/><memberdata name="ouser" type="property" display="oUser"/><memberdata name="lalreadyinstanciated" type="property" display="lAlreadyInstanciated"/><memberdata name="llogged" type="property" display="lLogged"/><memberdata name="logging" type="method" display="Logging"/><memberdata name="buf2dword" type="method" display="Buf2dWord"/><memberdata name="logout" type="method" display="Logout"/><memberdata name="cuser" display="cUser"/><memberdata name="loging" type="method" display="Loging"/><memberdata name="nprocessattr" display="nProcessAttr"/><memberdata name="nthreadattr" display="nThreadAttr"/><memberdata name="ninherithandles" display="nInheritHandles"/><memberdata name="ncreationflags" display="nCreationFlags"/><memberdata name="nenvironment" display="nEnvironment"/><memberdata name="ccurrentdirectory" display="cCurrentDirectory"/><memberdata name="ccurrentdirectory_access" display="cCurrentDirectory_Access"/></VFPData>
+ocolprocess = .NULL.
+ouser = .NULL.
+cuser = 
+nprocessattr = 0
+nthreadattr = 0
+ninherithandles = 0
+ncreationflags = 0
+nenvironment = 0
+ccurrentdirectory = 
+Name = "Form1"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Activate
+Try
+
+	If IsNull( Thisform.oUser )
+		Thisform.Loging()
+		Thisform.WindowState = 0
+	EndIf
+
+Catch To oErr
+	Local loError as PrxErrorHandler OF "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = NewObject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Thisform.Release()
+
+Finally
+
+EndTry
+
+ENDPROC
+PROCEDURE Init
+Local llOk as Boolean
+
+Try
+
+	llOk = .T.
+	
+	Thisform.oColProcess = CreateObject( "Collection" )
+
+Catch To oErr
+	Local loError as PrxErrorHandler OF "fw\ErrorHandler\prxErrorHandler.prg"
+	
+	llOk = .F.
+
+	loError = NewObject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+EndTry
+
+Return llOk
+
+ENDPROC
+PROCEDURE Load
+Thisform.Declare()
+Set Safety Off
+
+ENDPROC
+PROCEDURE QueryUnload
+Local lcMsg As String
+Local lcProgs As String
+Local lnWHandle As Integer
+Local lcWindowTittle As String
+Local i As Integer
+Local llDone As Boolean
+
+Try
+
+	If !Empty( Thisform.oColProcess.Count )
+		llDone = .F.
+
+		Do While !llDone
+			For i = 1 To Thisform.oColProcess.Count
+				lcWindowTittle = Thisform.oColProcess.GetKey( i )
+
+				If Empty( FindWindow( Null, lcWindowTittle ))
+					Thisform.oColProcess.Remove( i )
+					Loop
+				Endif
+			Endfor
+			llDone = .T.
+		Enddo
+	Endif
+
+
+	If !Empty( Thisform.oColProcess.Count )
+		lcProgs = ""
+
+		For i = 1 To Thisform.oColProcess.Count
+			lcWindowTittle = Proper( Thisform.oColProcess.GetKey( i ))
+			lcProgs = lcProgs + lcWindowTittle + Chr(13)
+		Endfor
+
+		TEXT To lcMsg NoShow TextMerge Pretext 3
+		Los Siguientes Procesos Aun Estan Abiertos:
+		<<lcProgs>>
+		ENDTEXT
+
+		Warning( lcMsg )
+
+		NoDefault
+		
+	Else
+		Erase "User.Cfg"	
+
+	Endif
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+
+ENDPROC
+PROCEDURE Unload
+Clear Events
+ENDPROC
+PROCEDURE buf2dword
+Lparameters tcBuffer As String
+
+Return Asc(Substr(tcBuffer, 1,1)) + ;
+	BitLShift(Asc(Substr(tcBuffer, 2,1)),  8) +;
+	BitLShift(Asc(Substr(tcBuffer, 3,1)), 16) +;
+	BitLShift(Asc(Substr(tcBuffer, 4,1)), 24)
+
+
+
+ENDPROC
+PROCEDURE ccurrentdirectory_access
+return This.cCurrentDirectory
+
+ENDPROC
+PROCEDURE declare
+Try
+
+	Declare Integer CloseHandle In kernel32 Integer hObject
+
+	Declare Integer TerminateJobObject In kernel32;
+		INTEGER hJob, Long uExitCode
+
+	Declare Integer CreateJobObject In kernel32;
+		INTEGER lpJobAttributes, String lpName
+
+	Declare Integer AssignProcessToJobObject In kernel32;
+		INTEGER hJob, Integer hProcess
+
+	Declare Integer FindExecutable In shell32;
+		STRING lpFile, String lpDir, String @lpResult
+
+	Declare Integer GetSystemDirectory In kernel32;
+		STRING @ lpBuffer, Integer nSize
+
+	Declare Integer CreateProcess In kernel32;
+		STRING lpApplicationName, String lpCommandLine,;
+		INTEGER lpProcessAttr, Integer lpThreadAttr,;
+		INTEGER bInheritHandles, Integer dwCreationFlags,;
+		INTEGER lpEnvironment, String lpCurrentDirectory,;
+		STRING @lpStartupInfo, String @lpProcessInformation
+
+	Declare Integer GetHandleInformation In kernel32;
+		INTEGER   hObject,;
+		INTEGER @ lpdwFlags
+
+	Declare Integer FindWindow In user32;
+		STRING lpClassName, String lpWindowName
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+ENDPROC
+PROCEDURE loging
+
+Local lnClave As Integer
+Local loUser As Object
+
+Try
+
+	Thisform.WindowState = 0
+	Do Form "FW\Comunes\Scx\frmLogin" To loUser
+
+	If loUser.lOk = .T.
+		Thisform.oUser = loUser
+		Thisform.cUser = ObjectToXml( loUser )
+		StrToFile( Thisform.cUser, "User.Cfg" )
+		
+	Else
+		Text To lcCommand NoShow TextMerge Pretext 15
+		No Ha podido Registrarse Correctamente
+		El Programa Se Cerrará
+		EndText
+
+		Error lcCommand
+
+	Endif
+
+Catch To oErr
+	Local loError as PrxErrorHandler OF "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = NewObject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+
+Return
+
+ENDPROC
+PROCEDURE startprocess
+Lparameters tcAppName As String, tcCmdLine As String, tcWindowTittle As String
+
+#Define START_INFO_SIZE  68
+
+Local lcProcInfo As String, lcStartInfo As String
+Local lnResult As Integer, lnhProcess As Integer
+Local lcVersion as String
+Local lcUserCfg as String
+
+Local lnProcessAttr As Integer,;
+	lnThreadAttr As Integer,;
+	lnInheritHandles As Integer,;
+	lnCreationFlags As Integer,;
+	lnEnvironment As Integer
+
+
+Local lcCurrentDirectory As String
+Local i As Integer
+
+Try
+
+	If Empty( FindWindow( Null, tcWindowTittle ))
+		
+		lcVersion = "1.0"
+		lcUserCfg = "User.Cfg"
+		
+		lnhProcess = 0
+		lnResult = 0
+		lcProcInfo = Repli(Chr(0), 16)
+		lcStartInfo = Padr(Chr(START_INFO_SIZE), START_INFO_SIZE, Chr(0))
+
+		If Not Empty(m.tcCmdLine)
+			tcCmdLine = " '" + Alltrim(tcCmdLine) + "'"
+			
+		Else
+			tcCmdLine = [ '] + tcWindowTittle + [' '] + lcVersion + [' '] + lcUserCfg + [']
+			
+		Endif
+
+		lnProcessAttr = 0
+		lnThreadAttr = 0
+		lnInheritHandles = 0
+		lnCreationFlags = 0
+		lnEnvironment = 0
+
+		lcCurrentDirectory = Sys(5)+Sys(2003)
+
+		lnResult = CreateProcess(tcAppName,;
+			tcCmdLine,;
+			lnProcessAttr,;
+			lnThreadAttr,;
+			lnInheritHandles,;
+			lnCreationFlags,;
+			lnEnvironment,;
+			lcCurrentDirectory,;
+			@lcStartInfo, ;
+			@lcProcInfo)
+
+		If lnResult <> 0
+			*!*	retrieve process handle from PROCINFO structure
+			lnhProcess = Thisform.buf2dword(Substr(lcProcInfo, 1,4))
+
+		Else
+			Error "No se pudo ejecutar " + 	tcAppName
+
+		Endif
+
+		If lnhProcess > 32
+			i = Thisform.oColProcess.GetKey( Upper( tcWindowTittle ))
+
+			If !Empty( i )
+				Thisform.oColProcess.Remove( i )
+			Endif
+
+			Thisform.oColProcess.Add( lnhProcess, Upper( tcWindowTittle ))
+
+		Endif
+
+	Endif
+
+
+
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+Return m.lnhProcess
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+ocolprocess
+ouser
+cuser
+nprocessattr
+nthreadattr
+ninherithandles
+ncreationflags
+nenvironment
+ccurrentdirectory
+*declare 
+*startprocess 
+*buf2dword 
+*loging 
+*logout 
+*ccurrentdirectory_access 
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0WNE7Z
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] Contabilidad
+[PARENT] Form1
+[START PROPERTIES]
+Top = 23
+Left = 24
+Height = 85
+Width = 215
+FontBold = .T.
+FontSize = 20
+Picture = ..\..\comunes\image\ico\calc4.ico
+Caption = "Contabilidad"
+TabIndex = 1
+SpecialEffect = 2
+PicturePosition = 13
+Name = "Contabilidad"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local lcAppName as String, lcCmdLine as String , lcCurrentDirectory as String
+Local lcWindowsTittle as String
+
+Try
+
+*!*		lcCurrentDirectory = Sys(5)+Sys(2003)
+*!*		Cd "C:\Praxis\Clipper2Fox"
+*!*		lcAppName = "C:\Praxis\Clipper2Fox\Contable.Exe"
+
+	lcAppName = "Contable.Exe"
+	lcCmdLine = ""
+	lcWindowsTittle = "Contable"
+	
+	lnWHandle = Thisform.StartProcess( lcAppName, lcCmdLine, lcWindowsTittle )
+	
+	
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+*!*		Cd (lcCurrentDirectory)
+
+Endtry
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0WNE82
+[CLASS] image
+[BASECLASS] image
+[OBJNAME] imgLogo
+[PARENT] Form1
+[START PROPERTIES]
+Picture = ..\..\comunes\image\jpg\logopraxis.jpg
+Stretch = 2
+Height = 204
+Left = 266
+Top = 132
+Width = 213
+Name = "imgLogo"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0YQLWB
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] Utiles
+[PARENT] Form1
+[START PROPERTIES]
+Top = 363
+Left = 506
+Height = 84
+Width = 210
+FontBold = .T.
+FontSize = 20
+Picture = ..\..\comunes\image\ico\toolbox.ico
+Caption = "Utiles"
+TabIndex = 8
+SpecialEffect = 2
+PicturePosition = 13
+Name = "Utiles"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local lcAppName as String, lcCmdLine as String , lcCurrentDirectory as String
+Local lcWindowsTittle as String
+
+Try
+
+*!*		lcCurrentDirectory = Sys(5)+Sys(2003)
+*!*		Cd "C:\Praxis\Clipper2Fox"
+*!*		lcAppName = "C:\Praxis\Clipper2Fox\prUtiles.Exe"
+	
+	lcAppName = "prUtiles.Exe"
+	lcCmdLine = ""
+	lcWindowsTittle = "Utiles"
+	
+
+	lnWHandle = Thisform.StartProcess( lcAppName, lcCmdLine, lcWindowsTittle )
+	
+	
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+*!*		Cd (lcCurrentDirectory)
+
+Endtry
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0YQLWC
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] Stock
+[PARENT] Form1
+[START PROPERTIES]
+Top = 363
+Left = 24
+Height = 85
+Width = 215
+FontBold = .T.
+FontSize = 20
+Picture = ..\..\comunes\image\ico\containr.ico
+Caption = "Stock"
+TabIndex = 4
+SpecialEffect = 2
+PicturePosition = 13
+Name = "Stock"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0YQLWD
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] Acreedores
+[PARENT] Form1
+[START PROPERTIES]
+Top = 252
+Left = 506
+Height = 84
+Width = 210
+FontBold = .T.
+FontSize = 20
+Picture = ..\..\comunes\image\ico\grupos.ico
+Caption = "Acreedores"
+TabIndex = 7
+SpecialEffect = 2
+PicturePosition = 13
+Name = "Acreedores"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0YQLWE
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] Deudores
+[PARENT] Form1
+[START PROPERTIES]
+Top = 252
+Left = 24
+Height = 85
+Width = 215
+FontBold = .T.
+FontSize = 20
+Picture = ..\..\comunes\image\ico\group.ico
+Caption = "Deudores"
+TabIndex = 3
+SpecialEffect = 2
+PicturePosition = 13
+Name = "Deudores"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0YQLWF
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] Ventas
+[PARENT] Form1
+[START PROPERTIES]
+Top = 132
+Left = 24
+Height = 85
+Width = 215
+FontBold = .T.
+FontSize = 20
+Picture = ..\..\comunes\image\ico\money.ico
+Caption = "Ventas"
+TabIndex = 2
+SpecialEffect = 2
+PicturePosition = 13
+Name = "Ventas"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0YQLWG
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] Compras
+[PARENT] Form1
+[START PROPERTIES]
+Top = 132
+Left = 506
+Height = 84
+Width = 210
+FontBold = .T.
+FontSize = 20
+Picture = ..\..\comunes\image\ico\earnmoney.ico
+Caption = "Compras"
+TabIndex = 6
+SpecialEffect = 2
+PicturePosition = 13
+Name = "Compras"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0YQLWH
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] Valores
+[PARENT] Form1
+[START PROPERTIES]
+Top = 23
+Left = 506
+Height = 84
+Width = 210
+FontBold = .T.
+FontSize = 20
+Picture = ..\..\comunes\image\ico\monedas.ico
+Caption = "Valores"
+TabIndex = 5
+SpecialEffect = 2
+PicturePosition = 13
+Name = "Valores"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0WNE7Z
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] Label1
+[PARENT] Form1
+[START PROPERTIES]
+FontBold = .T.
+FontName = "Times New Roman"
+FontSize = 26
+Alignment = 2
+BackStyle = 0
+Caption = "Sistemas"
+Height = 43
+Left = 266
+Top = 362
+Width = 213
+ForeColor = 255,255,128
+Name = "Label1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SR0YZVNL
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] Label2
+[PARENT] Form1
+[START PROPERTIES]
+FontBold = .T.
+FontName = "Times New Roman"
+FontSize = 26
+Alignment = 2
+BackStyle = 0
+Caption = "Fenix"
+Height = 43
+Left = 266
+Top = 402
+Width = 213
+ForeColor = 255,255,128
+Name = "Label2"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 20, 13, 33, 25, 71, 7, 1
+[END PROPERTIES]
+[EOF]

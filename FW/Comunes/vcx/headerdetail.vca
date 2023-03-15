@@ -1,0 +1,251 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1X411ERS8
+[CLASS] prxgrid
+[CLASSLOC] prxbase.vcx
+[BASECLASS] grid
+[OBJNAME] hdgrid
+[START PROPERTIES]
+Name = "hdgrid"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] hdgrid
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1X910VS7B
+[CLASS] prxform
+[CLASSLOC] prxbase.vcx
+[BASECLASS] form
+[OBJNAME] oldhdmainform
+[START PROPERTIES]
+Height = 500
+Width = 700
+DoCreate = .T.
+llllllPerformAutoSetUp = .T.
+Name = "hdmainform"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+This.PageFrame.PageCount = 3
+This.PageFrame.PageCount = 2
+This.PageFrame.Visible = .T.
+DoDefault()
+
+ENDPROC
+PROCEDURE autosetup
+This.PageFrame.Left = 0
+This.Width = This.pageFrame.Width
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1X9114A2L
+[CLASS] hdpageframe
+[CLASSLOC] headerdetail.vcx
+[BASECLASS] pageframe
+[OBJNAME] PageFrame
+[PARENT] oldhdmainform
+[START PROPERTIES]
+ErasePage = .T.
+PageCount = 2
+Top = 48
+Left = 4
+Width = 696
+Height = 352
+llllllPerformAutoSetUp = .T.
+Name = "PageFrame"
+HdPage1.Name = "HdPage1"
+HdPage2.Name = "HdPage2"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] oldhdmainform
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1X91924RF
+[CLASS] pageframe
+[BASECLASS] pageframe
+[OBJNAME] hdpageframe
+[START PROPERTIES]
+ErasePage = .T.
+MemberClassLibrary = ..\prg\headerdetail.prg
+MemberClass = "HdPage"
+PageCount = 2
+ActivePage = 1
+Width = 241
+Height = 169
+llllllPerformAutoSetUp = .F.
+ocolobjects = .F.
+nTopPadding = 10
+nBottomPadding = 10
+nLeftPadding = 10
+nRightPadding = 10
+nGap = 0
+_memberdata =       91<VFPData><memberdata name="ocolobjects" type="property" display="oColObjects"/></VFPData>
+
+maxwidth = 0
+maxheight = 0
+Name = "hdpageframe"
+HdPage1.Caption = "Encabezado"
+HdPage1.Name = "HdPage1"
+HdPage2.Caption = "Detalle"
+HdPage2.Name = "HdPage2"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Destroy
+For Each oPage in This.Pages
+	oPage.Destroy()
+EndFor
+This.oColObjects = .F.
+ENDPROC
+PROCEDURE Init
+If This.lPerformAutoSetUp
+	This.AutoSetup()
+EndIf
+ENDPROC
+PROCEDURE autosetup
+For Each oPage in This.Pages
+	If oPage.lPerformAutoSetUp
+		oPage.AutoSetup()
+	EndIf
+	oPage.oColObjects = .F.
+EndFor
+
+This.Width = This.MaxWidth
+This.Height = This.MaxHeight + 30
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+performautosetup
+ocolobjects
+topmargin
+bottommargin
+leftmargin
+rightmargin
+gap
+_memberdata XML Metadata for customizable properties
+maxwidth Specifies the maximum width the Form can be resized to.
+maxheight Specifies the maximum height to which the Form can be sized.
+*autosetup 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] hdpageframe
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1XI118QAD
+[CLASS] mainform
+[CLASSLOC] prxmainform.vcx
+[BASECLASS] form
+[OBJNAME] hdmainform
+[START PROPERTIES]
+Height = 500
+Width = 700
+DoCreate = .T.
+Caption = "Header Detail"
+nlevel = 2
+Name = "hdmainform"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Lparameters txIdEntity, tlModalWindowType
+
+This.PageFrame.PageCount = 3
+This.PageFrame.PageCount = 2
+This.PageFrame.Visible = .T.
+DoDefault( txIdEntity, tlModalWindowType )
+
+ENDPROC
+PROCEDURE autosetup
+This.PageFrame.AutoSetup()
+This.PageFrame.Left = 0
+This.Width = This.pageFrame.Width
+If This.AutoCenter
+	This.Top = ( _Screen.Height - This.Height ) / 2
+	This.Left = ( _Screen.Width - This.Width ) / 2
+EndIf
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1XI11G8ER
+[CLASS] hdpageframe
+[CLASSLOC] headerdetail.vcx
+[BASECLASS] pageframe
+[OBJNAME] PageFrame
+[PARENT] hdmainform
+[START PROPERTIES]
+ErasePage = .T.
+Top = 50
+Left = 0
+Width = 700
+Height = 350
+Name = "PageFrame"
+HdPage1.Name = "HdPage1"
+HdPage2.Name = "HdPage2"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] hdmainform
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

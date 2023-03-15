@@ -1,0 +1,427 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6IA0RXL63
+[CLASS] _combobox
+[CLASSLOC] _controles_base.vcx
+[BASECLASS] combobox
+[OBJNAME] cbomoneda
+[START PROPERTIES]
+olblcotizacion = .NULL.
+lshowcotizacion = .F.
+_memberdata =     2932<VFPData><memberdata name="olabel" display="oLabel"/><memberdata name="initialize" display="Initialize"/><memberdata name="cfieldname" display="cFieldName"/><memberdata name="ctable" display="cTable" favorites="True"/><memberdata name="llabelautosize" display="lLabelAutosize"/><memberdata name="nalignment" display="nAlignment"/><memberdata name="nlabelposition" display="nLabelPosition" favorites="True"/><memberdata name="ofield" display="oField"/><memberdata name="cargarcombo" display="CargarCombo"/><memberdata name="obiz" display="oBiz"/><memberdata name="obiz_access" display="oBiz_Access"/><memberdata name="cclassname" display="cClassName"/><memberdata name="cclasslibrary" display="cClassLibrary"/><memberdata name="cmodelo" display="cModelo" favorites="True"/><memberdata name="lautomaticdisplay" display="lAutomaticDisplay"/><memberdata name="ncolumnsspan" display="nColumnsSpan" favorites="True"/><memberdata name="nheight" display="nHeight"/><memberdata name="nlabelspan" display="nLabelSpan" favorites="True"/><memberdata name="nleftcolumn" display="nLeftColumn" favorites="True"/><memberdata name="nrowspan" display="nRowSpan" favorites="True"/><memberdata name="ntoprow" display="nTopRow" favorites="True"/><memberdata name="nverticalalignment" display="nVerticalAlignment"/><memberdata name="nwidth" display="nWidth"/><memberdata name="initializerows" display="InitializeRows"/><memberdata name="afterbindcontrols" display="AfterBindControls"/><memberdata name="omodelo" display="oModelo"/><memberdata name="omodelo_access" display="oModelo_Access"/><memberdata name="cargarlistbox" display="CargarListBox"/><memberdata name="ofiltros" display="oFiltros"/><memberdata name="filtrar" display="Filtrar"/><memberdata name="addfilter" display="AddFilter"/><memberdata name="removefilter" display="RemoveFilter"/><memberdata name="lischild" display="lIsChild"/><memberdata name="oparent" display="oParent"/><memberdata name="vincularalcombopadre" display="VincularAlComboPadre"/><memberdata name="sincronizarconelpadre" display="SincronizarConElPadre"/><memberdata name="lvalid" display="lValid"/><memberdata name="cdisplayfieldname" display="cDisplayFieldName"/><memberdata name="enabled" display="Enabled"/><memberdata name="enabled_assign" display="Enabled_Assign"/><memberdata name="lalreadyloaded" display="lAlreadyLoaded"/><memberdata name="uparentid" display="uParentId"/><memberdata name="lreadonly" display="lReadOnly"/><memberdata name="visible" display="Visible"/><memberdata name="visible_assign" display="Visible_Assign"/><memberdata name="oacciones" display="oAcciones"/><memberdata name="cfieldname_access" display="cFieldName_Access"/><memberdata name="llazyload" display="lLazyLoad"/><memberdata name="olblcotizacion" display="oLblCotizacion"/><memberdata name="lshowcotizacion" display="lShowCotizacion" favorites="True"/><memberdata name="mostrarcotizacion" display="MostrarCotizacion"/></VFPData>
+
+cmodelo = Moneda
+Name = "cbomoneda"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+#Define _COTIZACION 3
+#Define _SIGNO		4
+
+Local lcCommand As String,;
+    lcNombre As String,;
+    lcSigno As String
+
+Local lnId As Integer
+Local lnCotizacion As Number
+
+Try
+
+    lcCommand = ""
+
+    lnId			= This.Value
+    lcNombre		= This.DisplayValue
+    lnCotizacion 	= Val( This.List( This.ListItemId, _COTIZACION ))
+    lcSigno			= This.List( This.ListItemId, _SIGNO )
+
+    If This.lShowCotizacion
+		This.MostrarCotizacion()
+    EndIf
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE MouseDown
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+#Define _COTIZACION 3
+
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+Local lcCommand As String,;
+    lcCotizacion As String
+Local loModelo As oModelo Of "FrontEnd\Prg\Modelo.prg",;
+    loRegistro As Object
+Local lnOption As Integer
+
+Try
+
+    lcCommand = ""
+
+    Do Case
+        Case nButton = 2 And nShift = 0 && Right Click
+
+            loModelo = This.oModelo
+
+            loRegistro = Createobject( "Empty" )
+
+            Define Popup Emergente SHORTCUT Relative From Mrow(),Mcol()
+
+            lcCotizacion = This.List( This.ListItemId, _COTIZACION )
+
+            If Val( lcCotizacion ) > 1
+                Define Bar 101 Of Emergente ;
+                    Prompt "Cotización $" + Alltrim( lcCotizacion )
+                Define Bar 991 Of Emergente Prompt "\-"
+            Endif
+
+            Define Bar ABM_ALTA Of Emergente ;
+                Prompt "Agregar " + Alltrim( loModelo.cTituloEnForm ) ;
+                Picture "v:\CloudFox\FW\Comunes\image\bmp\new.bmp"
+
+            Define Bar ABM_MODIFICACION Of Emergente ;
+                Prompt "Editar " + Alltrim( loModelo.cTituloEnForm ) ;
+                Picture "v:\CloudFox\FW\Comunes\image\bmp\edit.bmp"
+
+            Define Bar 99 Of Emergente Prompt "\-"
+
+            Define Bar 10 Of Emergente ;
+                Prompt "Refrescar Datos" ;
+                Picture "v:\CloudFox\FW\Comunes\image\ico\refresh.ico"
+
+            On Selection Bar ABM_ALTA Of Emergente lnOption = ABM_ALTA
+            On Selection Bar ABM_MODIFICACION Of Emergente lnOption = ABM_MODIFICACION
+            On Selection Bar 10 Of Emergente lnOption = 10
+
+            Activate Popup Emergente
+
+            If Not Empty( lnOption )
+
+                Do Case
+                    Case lnOption = ABM_ALTA
+                        AddProperty( loRegistro, loModelo.cPKField )
+                        AddProperty( loRegistro, "ABM", ABM_ALTA )
+                        loModelo.LaunchEditForm( loRegistro )
+
+                    Case lnOption = ABM_MODIFICACION
+                        AddProperty( loRegistro, loModelo.cPKField, This.Value )
+                        AddProperty( loRegistro, "ABM", ABM_MODIFICACION )
+                        loModelo.LaunchEditForm( loRegistro )
+
+                    Case lnOption = 10
+                        This.CargarCombo()
+
+                Endcase
+
+            Endif
+
+
+    Endcase
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+    loModelo = Null
+
+
+Endtry
+
+
+ENDPROC
+PROCEDURE afterbindcontrols
+Local lcCommand As String,;
+    lcLabelName As String
+
+
+Try
+
+    lcCommand = ""
+    DoDefault()
+    lcLabelName = "lbl" + Substr( This.Name, 4 ) + "_Cotizacion_" + Sys(2015)
+    This.Parent.Newobject( lcLabelName, "_label", "fw\comunes\vcx\_controles_base.vcx" )
+
+    * Vincular con el objeto Label
+    TEXT To lcCommand NoShow TextMerge Pretext 15
+	This.oLblCotizacion = This.Parent.<<lcLabelName>>
+    ENDTEXT
+
+    &lcCommand
+    lcCommand = ""
+
+    This.oLblCotizacion.Top 	= This.oLabel.Top
+    This.oLblCotizacion.Left 	= This.Left + This.Width + 12
+
+    If This.lShowCotizacion
+        This.MostrarCotizacion()
+    Endif
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE cargarcombo
+Lparameters lForceLoad As Boolean
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcCommand As String,;
+    lcAlias As String,;
+    lcTo_Field As String,;
+    lcStr_Field As String ,;
+    lcControlSource As String
+
+Local loModelo As oModelo Of "FrontEnd\Prg\Modelo.prg",;
+    loCboPadre As _combobox Of "v:\cloudfox\fw\comunes\vcx\_controles_base.vcx",;
+    loParam As Object,;
+    loFiltros As CollectionBase Of Tools\Namespaces\Prg\CollectionBase.Prg,;
+    loField As oField Of 'Tools\DataDictionary\prg\oField.prg',;
+    loChoices As Object,;
+    loReturn As Object
+
+Local llCarga As Boolean
+Local lnLen As Integer,;
+    i As Integer
+
+
+Try
+
+    lcCommand = ""
+    llCarga = .T.
+
+    lcControlSource = ""
+
+    If Pemstatus( This.Parent, "lLazyLoad", 5 )
+        llCarga = !This.Parent.lLazyLoad
+    Endif
+
+    loField = This.oField
+
+    If IsEmpty( loField.oChoices )
+
+        loModelo = This.oModelo
+        loModelo.cTrace = Program()
+
+        If This.lIsChild
+            If !Empty( This.uParentId )
+                loModelo.oParent.nId = This.uParentId
+
+            Else
+                llCarga = .F.
+
+            Endif
+        Endif
+
+        If llCarga
+            If This.lLazyLoad And !lForceLoad
+                Try
+
+                    * Si el formulario trajo la FK y el nombre de la FK
+                    * los carga de allí
+
+                    If Lower( Right( This.cFieldName, 3 )) == "_id"
+                        lcStr_Field = Substr( This.cFieldName, 1, Len( This.cFieldName ) - 3 )
+
+                    Else
+                        lcStr_Field = This.cFieldName
+
+                    Endif
+
+                    lcControlSource = ""
+                    lnLen = GetWordCount( This.ControlSource, "." )
+
+                    For i = 1 to lnLen - 1
+                    	lcControlSource = lcControlSource + GetWordNum( This.ControlSource, i, "." ) + "."
+                    EndFor
+
+                    This.AddItem( Evaluate( lcControlSource + "Str_" + lcStr_Field ))
+                    This.List( This.NewIndex, 2 ) = Transform( Evaluate( lcControlSource + This.cFieldName  ) )
+
+
+                    This.List( This.NewIndex, 3 ) = Transform( Evaluate( lcControlSource + "Cotizacion" ) )
+                    This.List( This.NewIndex, 4 ) = Alltrim( Transform( lcControlSource + Evaluate( "str_Signo" ) ))
+
+
+                    llCarga = .F.
+
+                Catch To oErr
+
+                Finally
+
+                Endtry
+
+            Endif
+        Endif
+
+        If llCarga
+
+            If Empty( loField.cFK_ToField )
+                lcTo_Field = loModelo.cPKField
+
+            Else
+                lcTo_Field = loField.cFK_ToField
+
+            Endif
+
+            This.Filtrar( lForceLoad )
+
+            loFiltros = This.oFiltros
+
+            loParam = Createobject( "Empty" )
+            AddProperty( loParam, "oFilterCriteria", loFiltros )
+
+            lcAlias = loModelo.cMainCursorName + Sys(2015)
+            AddProperty( loParam, "cAlias", lcAlias )
+
+            loReturn = loModelo.GetByWhere( loParam )
+
+            This.Clear()
+            If loField.lNull
+                This.AddItem( "---------" )
+                This.List( This.NewIndex, 2 ) = Transform( 0 )
+            Endif
+
+            If loReturn.lOk
+                If !This.lLazyLoad Or lForceLoad
+
+                    Select Alias( lcAlias )
+                    Locate
+                    Scan
+                        This.AddItem( Alltrim( Evaluate( lcAlias + "." + This.cDisplayFieldName )))
+                        This.List( This.NewIndex, 2 ) = Transform( Evaluate( lcTo_Field ) )
+                        This.List( This.NewIndex, 3 ) = Transform( Evaluate( lcAlias + ".Cotizacion" ) )
+                        This.List( This.NewIndex, 4 ) = Alltrim( Transform( Evaluate( lcAlias + ".Signo" )) )
+                    Endscan
+
+                Else
+                    This.AddItem( Evaluate( "loReturn.oRegistro." + This.cDisplayFieldName ))
+                    This.List( This.NewIndex, 2 ) = Transform( Evaluate( "loReturn.oRegistro." + lcTo_Field  ) )
+                    This.List( This.NewIndex, 3 ) = Transform( Evaluate( "loReturn.oRegistro.Cotizacion" ) )
+                    This.List( This.NewIndex, 4 ) = Alltrim( Transform( Evaluate( "loReturn.oRegistro.Signo" ) ))
+
+                Endif
+
+                If Isnull( Evaluate( This.ControlSource ))
+                    TEXT To lcCommand NoShow TextMerge Pretext 15
+                	<<This.ControlSource>> = 0
+                    ENDTEXT
+
+                    &lcCommand
+                    lcCommand = ""
+
+                Endif
+            Endif
+        Endif
+
+    Else
+        For Each loChoice In loField.oChoices
+            This.AddItem( Alltrim( loChoice.Descripcion ))
+            This.List( This.NewIndex, 2 ) = Transform( loChoice.Valor )
+        Endfor
+
+    Endif
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+    loFiltro = Null
+    loFiltros = Null
+    loParam = Null
+    loModelo = Null
+
+    If !Empty( lcAlias )
+        Use In Select( lcAlias )
+    Endif
+
+
+Endtry
+
+ENDPROC
+PROCEDURE mostrarcotizacion
+#Define _COTIZACION 3
+
+Local lcCommand as String,;
+lcCotizacion as String
+
+Try
+
+	lcCommand = ""
+    lcCotizacion = This.List( This.ListItemId, _COTIZACION )
+    This.oLblCotizacion.Caption 	= "( $" + Alltrim( lcCotizacion ) + " )"
+    This.oLblCotizacion.AutoSize 	= .T.
+
+    This.oLblCotizacion.Visible 	= Val( lcCotizacion ) > 1
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+olblcotizacion Label con la cotización de la moneda
+lshowcotizacion Indica si el control muestra la cotización
+*mostrarcotizacion 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cbomoneda
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h6ªnfdV ..\include\foxpro.h>«ÊrûF ..\include\strings.hF¬ZŠOJ* ..\..\..\tools\namespaces\include\system.hN­±ÙF[END RESERVED1]
+[EOF]

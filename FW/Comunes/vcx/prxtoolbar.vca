@@ -1,0 +1,601 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S513JO1N
+[CLASS] prxcommandbutton
+[CLASSLOC] prxbase.vcx
+[BASECLASS] commandbutton
+[OBJNAME] toolbarbutton
+[START PROPERTIES]
+Height = 22
+Width = 22
+Caption = ""
+SpecialEffect = 2
+_memberdata =      216<VFPData><memberdata name="disabledpicture" type="property" favorites="True"/><memberdata name="picture" type="Property" favorites="True"/><memberdata name="tooltiptext" type="Property" favorites="True"/></VFPData>
+
+Name = "toolbarbutton"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] toolbarbutton
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S513PYRO
+[CLASS] prxtoolbar
+[CLASSLOC] prxbase.vcx
+[BASECLASS] toolbar
+[OBJNAME] prxtoolbar
+[START PROPERTIES]
+Height = 30
+Left = 1
+Movable = .F.
+Top = 0
+Width = 338
+obuttons = Null
+lisok = .T.
+oglobalsettings = .NULL.
+_memberdata =      385<VFPData><memberdata name="obuttons" type="property" display="oButtons"/><memberdata name="obuttons_access" type="method" display="oButtons_Access"/><memberdata name="isok" type="property" display="IsOk"/><memberdata name="oglobalsettings" type="property" display="oGlobalSettings"/><memberdata name="oglobalsettings_access" type="method" display="oGlobalSettings_Access"/></VFPData>
+
+Name = "prxtoolbar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Destroy
+This.oButtons = Null
+ENDPROC
+PROCEDURE Init
+
+Bindevent( _Screen.oApp, "SynchronizeButtons", This, "SetButtons" )
+ENDPROCPROCEDURE execute
+Lparameters tcMethod, tcParameters
+
+* DAE 2009-04-07
+
+Local loControl
+Local lcParameters As String
+* If there is an active form and it has the method defined
+If Type( "_Screen.ActiveForm" ) = "O" And Pemstatus( _Screen.ActiveForm, tcMethod, 5 )
+	* If there is an active control,
+	* and it's a text or edit or checkbox,
+	* it gets focus to force the value update
+	If Type( "_Screen.ActiveForm.ActiveControl" ) = "O"
+		loControl = _Screen.ActiveForm.ActiveControl
+		If Inlist( loControl.BaseClass, "Textbox", "Editbox", "Checkbox" )
+			loControl.SetFocus()
+		Endif
+	Endif
+	* Forces the parameters string
+	lcParameters = Iif( Empty( tcParameters ), "", "( "+ tcParameters +" )" )
+	* Execute the method
+	_Screen.ActiveForm.&tcMethod &lcParameters
+Endif
+
+ENDPROC
+PROCEDURE obuttons_access
+
+With This As prxtoolbar Of fw\comunes\vcx\prxtoolbar.vcx
+    If Vartype( .oButtons ) # "O"
+        .oButtons = .oGlobalSettings.oApp.oButtons
+    Endif
+Endwith
+Return This.oButtons
+
+ENDPROC
+PROCEDURE oglobalsettings_access
+
+With This As prxtoolbar Of fw\comunes\vcx\prxtoolbar.vcx
+    If Vartype( .oGlobalSettings ) # "O"
+        * DAE 2009-07-30(18:08:14)
+        * .oGlobalSettings = Newobject( 'GlobalSettings', 'GlobalSettings.prg' )
+        .oGlobalSettings = NewGlobalSettings()
+
+    EndIf && Vartype( .oGlobalSettings ) # "O"
+
+Endwith
+
+Return This.oGlobalSettings
+
+ENDPROC
+PROCEDURE setbuttons
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	With This As prxtoolbar Of fw\comunes\vcx\prxtoolbar.vcx
+		If .lIsOk
+			.CmdClose.Enabled 	= .oButtons.Close
+			.CmdDelete.Enabled 	= .oButtons.Delete
+			.cmdEdit.Enabled 	= .oButtons.Edit
+			.CmdNew.Enabled 	= .oButtons.New
+			.CmdOpen.Enabled 	= .oButtons.Open
+			.cmdReport.Enabled 	= .oButtons.Report
+			.CmdSave.Enabled 	= .oButtons.Save
+		Endif
+	EndWith
+	
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	This.lIsOk = .F.
+Finally
+	loError = Null
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+17[END RESERVED2]
+[START RESERVED3]
+obuttons Estado de los botones
+lisok
+oglobalsettings
+*obuttons_access 
+*setbuttons Setea los botones
+*oglobalsettings_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S5147Y1E
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdClose
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 5
+Height = 24
+Width = 25
+Picture = ..\image\bmp\close.bmp
+DisabledPicture = ..\image\bmp\#close.bmp
+TabIndex = 5
+ToolTipText = "Cerrar (Esc)"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 0
+Name = "cmdClose"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Execute( "Close" )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2NN109IGF
+[CLASS] prxseparator
+[CLASSLOC] prxbase.vcx
+[BASECLASS] separator
+[OBJNAME] Prxseparator1
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 37
+Height = 0
+Width = 0
+Name = "Prxseparator1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S5147Y04
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdNew
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 37
+Height = 24
+Width = 25
+Picture = ..\image\bmp\new.bmp
+DisabledPicture = ..\image\bmp\#new.bmp
+TabIndex = 1
+ToolTipText = "Nuevo (F4)"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 2
+Name = "cmdNew"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Execute( "New" )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S513JO1N
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdOpen
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 62
+Height = 24
+Width = 25
+Picture = ..\image\bmp\open.bmp
+DisabledPicture = ..\image\bmp\#open.bmp
+TabIndex = 2
+ToolTipText = "Abrir (F3)"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 3
+Name = "cmdOpen"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Execute( "Open" )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2MG0V9HZN
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdEdit
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 87
+Height = 24
+Width = 25
+Picture = ..\image\bmp\edit.bmp
+DisabledPicture = ..\image\bmp\#edit.bmp
+TabIndex = 2
+ToolTipText = "Buscar"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 4
+Name = "cmdEdit"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Execute( "Edit" )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2NN109IHA
+[CLASS] prxseparator
+[CLASSLOC] prxbase.vcx
+[BASECLASS] separator
+[OBJNAME] Prxseparator2
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 119
+Height = 0
+Width = 0
+Name = "Prxseparator2"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S5147Y0R
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdSave
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 119
+Height = 24
+Width = 25
+Picture = ..\image\bmp\save.bmp
+DisabledPicture = ..\image\bmp\#save.bmp
+TabIndex = 3
+ToolTipText = "Guardar (F5)"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 6
+Name = "cmdSave"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Execute( "Save" )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S5147Y13
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdDelete
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 144
+Height = 24
+Width = 25
+Picture = ..\image\bmp\delete.bmp
+DisabledPicture = ..\image\bmp\#delete.bmp
+TabIndex = 4
+ToolTipText = "Eliminar"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 7
+Name = "cmdDelete"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Execute( "Delete" )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S5147Y1Z
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdReport
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 169
+Height = 24
+Width = 25
+Picture = ..\image\bmp\print.bmp
+DisabledPicture = ..\image\bmp\#print.bmp
+TabIndex = 7
+ToolTipText = "Mostrar Informe (F11)"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 8
+Name = "cmdReport"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Execute( "DoReport" )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2NN109IHQ
+[CLASS] prxseparator
+[CLASSLOC] prxbase.vcx
+[BASECLASS] separator
+[OBJNAME] Prxseparator3
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 201
+Height = 0
+Width = 0
+Name = "Prxseparator3"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S5147Y3O
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdPaste
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 201
+Height = 24
+Width = 25
+Picture = ..\image\bmp\paste.bmp
+TabIndex = 11
+ToolTipText = "Pegar"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 10
+Name = "cmdPaste"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+*Sys(1500,'_MED_PASTE', '_MEDIT')
+Keyboard '{CTRL+V}' Plain
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S5147Y3Y
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdCopy
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 226
+Height = 24
+Width = 25
+Picture = ..\image\bmp\copy.bmp
+TabIndex = 12
+ToolTipText = "Copiar"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 11
+Name = "cmdCopy"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+*Sys(1500,'_MED_COPY', '_MEDIT')
+Keyboard '{CTRL+C}' Plain
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S5147Y3C
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdCut
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 251
+Height = 24
+Width = 25
+Picture = ..\image\bmp\cut.bmp
+TabIndex = 10
+ToolTipText = "Cortar"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 12
+Name = "cmdCut"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+*Sys(1500,'_MED_CUT', '_MEDIT')
+Keyboard '{CTRL+X}' Plain
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2NN109II6
+[CLASS] prxseparator
+[CLASSLOC] prxbase.vcx
+[BASECLASS] separator
+[OBJNAME] Prxseparator4
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 283
+Height = 0
+Width = 0
+Name = "Prxseparator4"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1Z00NQ0K2
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] Enlarge
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 283
+Height = 24
+Width = 25
+Picture = ..\image\bmp\zoomup.bmp
+TabIndex = 13
+ToolTipText = "Agrandar Imágen"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 14
+Name = "Enlarge"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+This.Parent.Execute( "Enlarge" )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1Z00NQ0KR
+[CLASS] toolbarbutton
+[CLASSLOC] prxtoolbar.vcx
+[BASECLASS] commandbutton
+[OBJNAME] Shrink
+[PARENT] prxtoolbar
+[START PROPERTIES]
+Top = 3
+Left = 308
+Height = 24
+Width = 25
+Picture = ..\image\bmp\zoomdn.bmp
+TabIndex = 14
+ToolTipText = "Achicar Imágen"
+PicturePosition = 14
+PictureMargin = 2
+PictureSpacing = 2
+ZOrderSet = 15
+Name = "Shrink"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.Execute( "Shrink" )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] prxtoolbar
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hXs~\V ..\include\foxpro.h&YÊrûF ..\include\strings.h.ZZŠOJ* ..\..\..\tools\namespaces\include\system.h6[±ÙF[END RESERVED1]
+[EOF]

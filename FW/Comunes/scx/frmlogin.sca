@@ -1,0 +1,575 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 220
+Left = 1
+Width = 520
+Height = 200
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Z
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] FRMLOGIN
+[START PROPERTIES]
+BorderStyle = 2
+Height = 90
+Width = 272
+ShowWindow = 1
+DoCreate = .T.
+ShowTips = .T.
+AutoCenter = .T.
+Caption = "Ingreso de usuario"
+MaxButton = .F.
+MinButton = .F.
+WindowType = 1
+_memberdata =      656<VFPData><memberdata name="aceptar" type="method" display="Aceptar"/><memberdata name="cancelar" type="method" display="Cancelar"/><memberdata name="validar" type="method" display="Validar"/><memberdata name="lreturn" type="property" display="lReturn"/><memberdata name="nintentosfallidos" type="property" display="nIntentosFallidos"/><memberdata name="nmaxintentos" type="property" display="nMaxIntentos"/><memberdata name="nreturn" type="property" display="nReturn" favorites="True"/><memberdata name="oreturn" display="oReturn"/><memberdata name="crootworkfolder" display="cRootWorkFolder"/><memberdata name="csetcursor" display="cSetCursor"/></VFPData>
+lreturn = .F.
+nintentosfallidos = 0
+nmaxintentos = 3
+nreturn = -1
+oreturn = .NULL.
+crootworkfolder = 
+csetcursor = 
+Name = "FRMLOGIN"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Destroy
+Local lcCommand As String,;
+	lcSetCursor As String
+
+Try
+
+	lcCommand = ""
+	Set Sysmenu Automatic
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+
+Finally
+
+
+Endtry
+
+
+ENDPROC
+PROCEDURE Init
+Local lcCommand as String
+Local loUser As User Of "Fw\TierAdapter\Comun\prxUser.prg"
+
+Try
+
+	lcCommand = ""
+	loUser = Newobject( "User", "Fw\TierAdapter\Comun\prxUser.prg" )
+
+	AddProperty( loUser, "Cancela", .F. )
+
+	This.oReturn = loUser
+	Set Sysmenu Off
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE Unload
+Return This.oReturn
+
+ENDPROC
+PROCEDURE aceptar
+*#INCLUDE "Tools\JSON\Include\http.h"
+#define		_HTTP_400_BAD REQUEST			400
+
+Local lcCommand as String
+Local loRespuesta as Object
+
+Try
+
+	lcCommand = ""
+
+	loRespuesta = This.Validar( This.txtUsuario.Value, This.txtPass.Value )
+
+	If loRespuesta.lOk
+		This.Release()
+
+	Else
+		This.nIntentosFallidos = This.nIntentosFallidos + 1
+
+		If loRespuesta.nStatus = 400 && _HTTP_400_BAD REQUEST
+			TEXT To lcMsg NoShow TextMerge Pretext 03
+			<<loRespuesta.Data.Error>>
+			EndText
+
+		Else
+			TEXT To lcMsg NoShow TextMerge Pretext 03
+			Status: <<loRespuesta.nStatus>>
+
+			<<loRespuesta.cErrorMessage>>
+			ENDTEXT
+
+		Endif
+
+		*Stop( lcMsg, "Login" )
+		Do Form ErrorMessage With lcMsg
+
+		If This.nIntentosFallidos < This.nMaxIntentos
+			This.txtUsuario.SetFocus()
+
+		Else
+			This.Release()
+
+		Endif
+
+	Endif
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = NewObject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE cancelar
+Thisform.oReturn.Cancela = .T.
+This.Release()
+
+ENDPROC
+PROCEDURE validar
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Lparameters cUsuario As String, cPass As String
+Local lcCommand As String
+Local loConsumirAPI As ConsumirAPI Of "FW\Comunes\prg\BackEndSettings.prg",;
+    loData As Object,;
+    loRespuesta As Object
+
+Try
+
+    lcCommand = ""
+
+    If FileExist( "lDebug.tag" )
+    	
+    	* RA 23/06/2022(18:28:16)
+    	* Hot Key para desarrollo
+    	If ( Upper( Alltrim( cUsuario )) == "B" ) And ( Upper( Alltrim( cPass )) == "B" )
+    		* Super Usuario
+    		cUsuario 	= "fenix"
+    		cPass 		= "RiJoDa1959"
+    	EndIf
+    	
+    	If ( Upper( Alltrim( cUsuario )) == "N" ) And ( Upper( Alltrim( cPass )) == "S" )
+    		* Gerente / Administrador
+    		cUsuario 	= "Nando"
+    		cPass 		= "Sanitarios"
+    	EndIf
+
+    	If ( Upper( Alltrim( cUsuario )) == "U" ) And ( Upper( Alltrim( cPass )) == "S" )
+    		* Usuario común
+    		cUsuario 	= "Usuario"
+    		cPass 		= "Sanitarios"
+    	EndIf
+
+    	If ( Upper( Alltrim( cUsuario )) == "R" ) And ( Upper( Alltrim( cPass )) == "A" )
+    		* Usuario común
+    		cUsuario 	= "Mandelai"
+    		cPass 		= "rjma!1956"
+    	EndIf
+
+    EndIf
+
+    If .T.
+        loConsumirAPI 	= NewConsumirAPI()
+        loRespuesta 	= loConsumirAPI.Login(  Alltrim( cUsuario ), Alltrim( cPass ) )
+
+    Else
+        loRespuesta = Createobject( "Empty" )
+        AddProperty( loRespuesta, "lOk", .T.)
+
+        loData = Createobject( "Empty" )
+        AddProperty( loData, "Token", "" )
+
+        loUser = Createobject( "Empty" )
+
+        AddProperty( loUser, "Id", 1 )
+        AddProperty( loUser, "username", "fenix" )
+        AddProperty( loUser, "first_name", "Praxis" )
+        AddProperty( loUser, "last_name", "Computación" )
+        AddProperty( loUser, "allowed_sessions", 1 )
+        AddProperty( loUser, "is_superuser", .T. )
+        AddProperty( loUser, "is_staff", .T. )
+        AddProperty( loUser, "is_active", .T. )
+        AddProperty( loUser, "cliente_praxis", 2 )
+
+        AddProperty( loData, "User", loUser )
+        AddProperty( loRespuesta, "Data", loData )
+
+
+    Endif
+
+
+
+    If loRespuesta.lOk
+
+        loData = loRespuesta.Data
+
+        With This.oReturn
+        	
+            .Id					= loData.User.Id
+            .Usuario 			= loData.User.username
+            .Nombre 			= loData.User.first_name
+            .Apellido 			= loData.User.last_name
+            .lOk 				= .T.
+            .nAllowedSessions 	= loData.User.allowed_sessions
+            .lIsSuperuser 		= loData.User.is_superuser
+            .lIsStaff 			= loData.User.is_staff
+            .lIsActive 			= loData.User.is_active
+            .nClientePraxis 	= Nvl( loData.User.cliente_praxis, 0 )
+            .nEmpresaActivaId 	= Nvl( loData.User.empresa, 0 )
+            .nSucursalActivaId	= Nvl( loData.User.sucursal, 0 )
+    		.cDescripcionEmpresaActiva 	= Nvl( loData.User.str_empresa, "" )
+    		.cDescripcionSucursalActiva = Nvl( loData.User.str_sucursal, "" )
+
+            .cToken 			= loData.Token
+            .IsImplementador 	= loData.User.is_staff
+            .Descripcion 		= .Nombre + " " + .Apellido
+
+            .IsAdmin			= loData.User.is_staff
+
+        Endwith
+    Endif
+
+Catch To loErr
+    Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+    loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+    loError.cRemark = lcCommand
+    loError.Process ( m.loErr )
+    Throw loError
+
+Finally
+    loData 			= Null
+    loConsumirAPI 	= Null
+
+Endtry
+
+Return loRespuesta
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+lreturn
+nintentosfallidos
+nmaxintentos
+nreturn
+oreturn
+crootworkfolder Carpeta donde se encuentra la tabla Usuarios
+csetcursor Valor del seteo del cursor al ser llamado
+*aceptar 
+*cancelar 
+*validar 
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdAceptar
+[PARENT] FRMLOGIN
+[START PROPERTIES]
+Top = 56
+Left = 64
+Height = 25
+Width = 100
+Picture = ..\image\bmp\manook.bmp
+Caption = "\<Aceptar"
+TabIndex = 5
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdAceptar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:39:07)
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	Thisform.Aceptar()
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QOB72
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancelar
+[PARENT] FRMLOGIN
+[START PROPERTIES]
+Top = 56
+Left = 168
+Height = 25
+Width = 100
+Picture = ..\image\bmp\manocancel.bmp
+Cancel = .T.
+Caption = "\<Cancelar"
+TabIndex = 6
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdCancelar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:39:13)
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	Thisform.Cancelar()
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtUsuario
+[PARENT] FRMLOGIN
+[START PROPERTIES]
+Height = 21
+Left = 64
+MaxLength = 32
+StatusBarText = "Ingrese el usuario"
+TabIndex = 2
+ToolTipText = "Ingrese el usuario"
+Top = 8
+Width = 203
+Name = "txtUsuario"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+* DAE 2009-11-27(13:39:20)
+This.BackColor = Rgb( 220,255,255 )
+This.Parent.lblUsuario.FontUnderline = .T.
+
+ENDPROC
+PROCEDURE LostFocus
+* DAE 2009-11-27(13:39:23)
+This.BackColor = Rgb( 255, 255, 255)
+This.Parent.lblUsuario.FontUnderline = .F.
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QOB73
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtPass
+[PARENT] FRMLOGIN
+[START PROPERTIES]
+Height = 21
+Left = 64
+MaxLength = 32
+StatusBarText = "Ingrese la clave"
+TabIndex = 4
+ToolTipText = "Ingrese la clave"
+Top = 32
+Width = 176
+PasswordChar = "*"
+Name = "txtPass"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+* DAE 2009-11-27(13:39:31)
+This.BackColor = RGB(220,255,255)
+This.Parent.lblClave.FontUnderline = .T.
+ENDPROC
+PROCEDURE LostFocus
+* DAE 2009-11-27(13:39:26)
+This.BackColor = Rgb( 255, 255, 255 )
+This.Parent.lblClave.FontUnderline = .F.
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblUsuario
+[PARENT] FRMLOGIN
+[START PROPERTIES]
+AutoSize = .F.
+Caption = "Usuario:"
+Height = 17
+Left = 8
+Top = 8
+Width = 52
+TabIndex = 1
+ToolTipText = "Ingrese el usuario"
+StatusBarText = "Ingrese el usuario"
+Name = "lblUsuario"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:40:18)
+This.Parent.txtUsuario.SetFocus()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:45)
+This.MousePointer= 15
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:50)
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QOB74
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblClave
+[PARENT] FRMLOGIN
+[START PROPERTIES]
+AutoSize = .F.
+Caption = "Clave:"
+Height = 17
+Left = 8
+Top = 32
+Width = 52
+TabIndex = 3
+ToolTipText = "Ingrese la clave"
+StatusBarText = "Ingrese la clave"
+Name = "lblClave"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:40:03)
+This.Parent.txtPass.SetFocus()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:40:08)
+This.MousePointer= 15
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:57)
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6B10SBE9Q
+[CLASS] image
+[BASECLASS] image
+[OBJNAME] imgMostrar
+[PARENT] FRMLOGIN
+[START PROPERTIES]
+Picture = ..\image\ico\eye.ico
+Stretch = 1
+Height = 21
+Left = 243
+MousePointer = 17
+Top = 32
+Width = 24
+Name = "imgMostrar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE MouseEnter
+LPARAMETERS nButton, nShift, nXCoord, nYCoord
+
+ThisForm.txtPass.PasswordChar = ""
+ENDPROC
+PROCEDURE MouseLeave
+LPARAMETERS nButton, nShift, nXCoord, nYCoord
+
+ThisForm.txtPass.PasswordChar = "*"
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h~ös~\V ..\include\foxpro.h†÷ÊrûF ..\include\strings.hŽøZŠOJ* ..\..\..\tools\namespaces\include\system.h–ù±ÙF[END RESERVED1]
+[EOF]

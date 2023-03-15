@@ -1,0 +1,57 @@
+Actualizaciones por Rango
+
+Precios de Costo
+	Filtrar por (Opcional)
+		Rango de Articulos / Grupo / SubGrupo
+		Proveedor
+		Moneda
+		Activo
+		Bonificaciones / Bonificacion
+	
+	Campos a actualizar:
+		Costo Base 						(porcentaje o valor)
+		Bonificaciones / Bonificacion	(Pedir Formula de Bonificaciones y Calcular coeficiente de bonificacion)
+		Moneda							(Valor)
+		Activo							(Valor)
+		Coeficiente						(Valor)
+		Recargo							(Valor)
+		
+Precios de Venta
+	Pedir 
+		Lista de Precios
+	
+	Filtrar por (Opcional)
+		Rango de Articulos / Grupo / SubGrupo
+		Activo
+		Margen
+		Descuento
+		Precio
+		Moneda
+		Proveedor Activo
+		
+	Campos a actualizar:
+		Activo
+		Margen
+		Coeficiente
+		Descuento
+		Moneda
+		Precio
+		
+Preguntar si se actualiza directamente o se descarga una grilla para previsualizar 
+	los resultados.
+
+En el BackEnd, si se pide previsualizar, se hace una petición GET con los filtros
+pasados por parámetro, y los campos a modificar, con sus valores, en un diccionario
+en el Body.
+
+Cuando se confirme o si se manda a actualizar directamente, solamente se modifica
+la peticion, que ahora sería PATCH
+
+		
+
+Actualizacion Individual	
+	Pedir siempre Rango de Articulos
+	El resto de los filtros es igual a Actualizacoiones por Rango
+	Se seleccionan los campos a actualizar (Varios)
+	Se traen a una grilla Código, Descripcion y los campos seleccionados
+	

@@ -1,0 +1,1734 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30SGTO8
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30SGTO9
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] FRMHASARUTILS
+[START PROPERTIES]
+Height = 338
+Width = 345
+DoCreate = .T.
+AutoCenter = .T.
+BorderStyle = 2
+Caption = "Hasar"
+ControlBox = .F.
+MaxButton = .F.
+MinButton = .F.
+_memberdata =     1217<VFPData><memberdata name="cancelar" display="Cancelar"/><memberdata name="process" display="Process"/><memberdata name="dailyclose" display="DailyClose"/><memberdata name="closebydate" display="CloseByDate"/><memberdata name="closebynumber" display="CloseByNumber"/><memberdata name="getdailyreport" display="GetDailyReport"/><memberdata name="getworkingmemory" display="GetWorkingMemory"/><memberdata name="ccomando" display="cComando"/><memberdata name="cparametros" display="cParametros"/><memberdata name="setup" display="Setup"/><memberdata name="dodailyclose" display="DoDailyClose"/><memberdata name="doclosebydate" display="DoCloseByDate"/><memberdata name="doclosebynumber" display="DoCloseByNumber"/><memberdata name="dogetdailyreport" display="DoGetDailyReport"/><memberdata name="dogetworkingmemory" display="DoGetWorkingMemory"/><memberdata name="expand" display="Expand"/><memberdata name="contract" display="Contract"/><memberdata name="synchronizebuttons" display="SynchronizeButtons"/><memberdata name="setheader" display="SetHeader"/><memberdata name="settrailer" display="SetTrailer"/><memberdata name="getheader" display="GetHeader"/><memberdata name="gettrailer" display="GetTrailer"/></VFPData>
+ccomando = 
+cparametros = 
+Name = "FRMHASARUTILS"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Thisform.Contract()
+
+ThisForm.PageFrame.SetHeader.chkDobleAncho1.InteractiveChange()
+ThisForm.PageFrame.SetHeader.chkDobleAncho2.InteractiveChange()
+
+If ( GetValue( "InformeX", "ar0var", "N" ) = "S" )
+
+   thisform.pageFrame.page1.optiongroup1.Value = 2
+
+
+EndIf
+ENDPROC
+PROCEDURE cancelar
+Thisform.Release()
+ENDPROC
+PROCEDURE closebydate
+Lparameters tcParam as Character
+
+Try
+
+	ThisForm.PageFrame.ActivePage = 3
+	
+	Do Case
+	Case tcParam = "D"
+		Thisform.Caption = "Reporte Diario por Rango de Fechas"
+
+	Case tcParam = "T"
+		Thisform.Caption = "Reporte Global por Rango de Fechas"
+
+	Otherwise
+
+	EndCase
+	
+	Thisform.cComando = "CloseByDate"
+	Thisform.cParametros = tcParam
+
+Catch To oErr
+	Local loError as PrxErrorHandler OF "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = NewObject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+EndTry
+
+ENDPROC
+PROCEDURE closebynumber
+Lparameters tcParam as Character
+
+Try
+
+	ThisForm.PageFrame.ActivePage = 4
+	
+	Do Case
+	Case tcParam = "D"
+		Thisform.Caption = "Reporte Diario por Rango de 'Z'"
+
+	Case tcParam = "T"
+		Thisform.Caption = "Reporte Global por Rango de 'Z'"
+
+	Otherwise
+
+	EndCase
+	
+	Thisform.cComando = "CloseByNumber"
+	Thisform.cParametros = tcParam
+
+Catch To oErr
+	Local loError as PrxErrorHandler OF "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = NewObject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+EndTry
+
+ENDPROC
+PROCEDURE contract
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	Thisform.Height = 26 * 12
+	Thisform.Width  = 29 * 12
+	
+	Thisform.SynchronizeButtons()
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE dailyclose
+Lparameters tcParam As Character
+#INCLUDE "FW\Hasar\Include\Hasar.h"
+
+Local loHasar As "Hasar.Fiscal.1"
+Local ldDateTime As Datetime
+Local lnHoras as Integer
+Local lnMinutos as Integer
+Local lnSegundos as Integer
+
+
+Try
+
+	Thisform.PageFrame.ActivePage = 2
+
+	Do Case
+		Case tcParam = "Z"
+
+			loHasar = NewHasar()
+			
+			If lHasar
+				ldDateTime = loHasar.FechaHoraFiscal	
+				
+			Else
+				ldDateTime = Datetime()
+				
+			Endif
+			
+			lnHoras = Val( Substr( Ttoc( ldDateTime, 2 ), 1, 2 ))
+			lnMinutos  = Val( Substr( Ttoc( ldDateTime, 2 ), 4, 2 ))
+			lnSegundos = Val( Substr( Ttoc( ldDateTime, 2 ), 7, 2 ))
+
+			ThisForm.PageFrame.Page2.dtNewDate.txtDate.Value = Ttod( ldDateTime )
+			Thisform.PageFrame.Page2.spnHoras.Value = lnHoras
+			Thisform.PageFrame.Page2.spnMinutos.Value = lnMinutos
+			Thisform.PageFrame.Page2.spnSegundos.Value = lnSegundos
+			
+			Thisform.Caption = "Cierre Diario 'Z'"
+			Thisform.PageFrame.Page2.dtNewDate.Visible = .T.
+			Thisform.PageFrame.Page2.chkDateSetup.Visible = .T.
+			Thisform.PageFrame.Page2.chkTimeSetup.Visible = .T.
+			Thisform.PageFrame.Page2.spnHoras.Visible = .T.
+			Thisform.PageFrame.Page2.spnMinutos.Visible = .T.
+			Thisform.PageFrame.Page2.spnSegundos.Visible = .T.
+
+		Case tcParam = "X"
+			Thisform.Caption = "Cierre Diario 'X'"
+			Thisform.PageFrame.Page2.dtNewDate.Visible = .F.
+			Thisform.PageFrame.Page2.chkDateSetup.Visible = .F.
+			Thisform.PageFrame.Page2.chkTimeSetup.Visible = .F.
+			Thisform.PageFrame.Page2.spnHoras.Visible = .F.
+			Thisform.PageFrame.Page2.spnMinutos.Visible = .F.
+			Thisform.PageFrame.Page2.spnSegundos.Visible = .F.
+
+		Otherwise
+
+	Endcase
+
+	Thisform.PageFrame.Page2.Label1.Caption = Thisform.Caption
+
+	Thisform.cComando = "DailyClose"
+	Thisform.cParametros = tcParam
+
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loHasar = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE doclosebydate
+Lparameters tcParam As Character
+
+Local loHasar As "Hasar.Fiscal.1"
+Local ldDesde As Date
+Local ldHasta As Date
+Local llGlobal As Boolean
+Local llOk As Boolean
+
+Try
+
+	llOk = .T.
+	loHasar = NewHasar()
+
+	Wait Window "Imprimiendo " + Thisform.Caption Nowait
+
+	ldDesde = Thisform.PageFrame.CloseByDate.FechaInicial.txtDate.Value
+	ldHasta = Thisform.PageFrame.CloseByDate.FechaFinal.txtDate.Value
+	llGlobal = ( tcParam = "T" )
+
+	If ldDesde > ldHasta
+		llOk = .F.
+
+		TEXT To lcCommand NoShow TextMerge Pretext 03
+		La Fecha Final Debe Ser Mayor A La Fecha Inicial
+		Fecha Inicial: <<ldDesde>>
+		Fecha Final: <<ldHasta>>
+		ENDTEXT
+
+		Warning( lcCommand )
+
+		Thisform.PageFrame.CloseByDate.FechaFinal.txtDate.Value = ldDesde
+		Thisform.PageFrame.CloseByDate.FechaFinal.txtDate.SetFocus()
+
+	Else
+		If ldHasta > ldDesde
+			loHasar.ReporteZPorFechas( ldDesde, ldHasta, llGlobal )
+
+		Else
+			loHasar.ReporteZIndividualPorFecha( ldDesde )
+
+		Endif
+
+	Endif
+
+
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loHasar = Null
+	If llOk
+		Wait Clear
+		Thisform.PageFrame.ActivePage = 1
+	Endif
+
+Endtry
+
+ENDPROC
+PROCEDURE doclosebynumber
+Lparameters tcParam As Character
+
+Local loHasar As "Hasar.Fiscal.1"
+Local lnDesde as Integer
+Local lnHasta as Integer
+Local llGlobal as Boolean
+Local llOk As Boolean
+
+Try
+
+	llOk = .T.
+
+	loHasar = NewHasar()
+
+	Wait Window "Imprimiendo " + Thisform.Caption Nowait
+
+	lnDesde = ThisForm.PageFrame.CloseByNumber.spnInicial.Value
+	lnHasta = ThisForm.PageFrame.CloseByNumber.spnFinal.Value
+	llGlobal = ( tcParam = "T" )
+	
+	loHasar.ReporteZPorNumeros( lnDesde, lnHasta, llGlobal )
+	
+	If lnDesde > lnHasta
+		llOk = .F.
+
+		TEXT To lcCommand NoShow TextMerge Pretext 03
+		El Número Final Debe Ser Mayor Al Número Inicial
+		Número Inicial: <<lnDesde>>
+		Número Final: <<lnHasta>>
+		ENDTEXT
+
+		Warning( lcCommand )
+
+		ThisForm.PageFrame.CloseByNumber.spnFinal.Value = lnDesde
+		ThisForm.PageFrame.CloseByNumber.spnFinal.SetFocus()
+
+	Else
+		If lnHasta > lnDesde
+			loHasar.ReporteZPorNumeros( lnDesde, lnHasta, llGlobal )
+
+		Else
+			loHasar.ReporteZIndividualPorNumero( lnDesde )
+
+		Endif
+
+	Endif
+	
+
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loHasar = Null
+	If llOk
+		Wait Clear
+		Thisform.PageFrame.ActivePage = 1
+	Endif
+
+Endtry
+
+ENDPROC
+PROCEDURE dodailyclose
+Lparameters tcParam As Character
+
+Local loHasar As "Hasar.Fiscal.1"
+Local lcDateTime As String
+Local lcFecha As String
+Local lcHora As String
+
+Try
+
+	loHasar = NewHasar()
+
+	Wait Window "Imprimiendo " + Thisform.Caption Nowait
+
+	Do Case
+		Case tcParam = "Z"
+
+			loHasar.ReporteZ()
+
+			If Thisform.PageFrame.Page2.chkSetSystem.Value ;
+					Or Thisform.PageFrame.Page2.chkDateSetup.Value ;
+					Or Thisform.PageFrame.Page2.chkTimeSetup.Value
+
+				If Thisform.PageFrame.Page2.chkSetSystem.Value
+					lcDateTime = Ttoc( Datetime(), 1 )
+					lcFecha = Substr( lcDateTime, 3, 6 )
+					lcHora = Substr( lcDateTime, 9, 6 )
+
+				Else
+					lcDateTime = Ttoc( loHasar.FechaHoraFiscal, 1 )
+					lcFecha = Substr( lcDateTime, 3, 6 )
+					lcHora = Substr( lcDateTime, 9, 6 )
+
+					If Thisform.PageFrame.Page2.chkDateSetup.Value
+						lcFecha = Substr( Dtos( Thisform.PageFrame.Page2.dtNewDate.txtDate.Value ), 3, 6 )
+					Endif
+
+					If Thisform.PageFrame.Page2.chkTimeSetup.Value
+						lcHora = StrZero( Thisform.PageFrame.Page2.spnHoras.Value, 2 )
+						lcHora = lcHora +  StrZero( Thisform.PageFrame.Page2.SpnMinutos.Value, 2 )
+						lcHora = lcHora +  StrZero( Thisform.PageFrame.Page2.SpnSegundos.Value, 2 )
+					Endif
+
+				EndIf
+				
+				SetDateTime( lcFecha, lcHora )
+				
+			Endif
+
+		Case tcParam = "X"
+			loHasar.ReporteX()
+
+		Otherwise
+
+	Endcase
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loHasar = Null
+	Wait Clear
+	Thisform.PageFrame.ActivePage = 1
+
+Endtry
+
+ENDPROC
+PROCEDURE expand
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	Thisform.Height = 26 * 12
+	Thisform.Width 	= 29 * 12
+	
+	Thisform.SynchronizeButtons()
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE getdailyreport
+Lparameters tcParam as Character
+
+Try
+
+	ThisForm.PageFrame.ActivePage = 5
+	
+	Do Case
+	Case tcParam = "Z"
+		Thisform.Caption = "Reporte Cierre 'Z' Individual"
+
+	Case tcParam = "T"
+		Thisform.Caption = "Reporte Estado Cierres Diarios 'Z'"
+
+	Otherwise
+
+	EndCase
+	
+	Thisform.cComando = "GetDailyReport"
+	Thisform.cParametros = tcParam
+
+Catch To oErr
+	Local loError as PrxErrorHandler OF "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = NewObject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+EndTry
+
+ENDPROC
+PROCEDURE getheader
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	Thisform.PageFrame.ActivePage = 7
+	Thisform.Caption = "Leyendas del Encabezado"
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE gettrailer
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	Thisform.PageFrame.ActivePage = 8
+	Thisform.Caption = "Leyendas al Pie"
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE getworkingmemory
+Try
+
+	ThisForm.PageFrame.ActivePage = 6
+	Thisform.Caption = "Consulta de memoria de trabajo"
+	
+	Thisform.cComando = "GetWorkingMemory"
+	Thisform.cParametros = ""
+
+Catch To oErr
+	Local loError as PrxErrorHandler OF "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = NewObject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+EndTry
+
+ENDPROC
+PROCEDURE process
+Try
+
+	Do Case
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 1
+			Thisform.DoDailyClose( "Z" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 2
+			Thisform.DoDailyClose( "X" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 3
+			Thisform.DoCloseByDate( "D" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 4
+			Thisform.DoCloseByNumber( "D" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 5
+			Thisform.DoCloseByDate( "T" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 6
+			Thisform.DoCloseByNumber( "T" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 7
+			Thisform.DoGetDailyReport( "Z" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 8
+			Thisform.DoGetDailyReport( "T" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 9
+			Thisform.DoGetWorkingMemory()
+
+		Otherwise
+			ThisForm.PageFrame.ActivePage = 1
+			Error "Opción No Soportada"
+
+	Endcase
+
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+ENDPROC
+PROCEDURE setheader
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	Thisform.PageFrame.ActivePage = 7
+	Thisform.Caption = "Leyendas del Encabezado"
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE settrailer
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	Thisform.PageFrame.ActivePage = 8
+	Thisform.Caption = "Leyendas al Pie"
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE setup
+Try
+
+
+	Thisform.cmdVolver.Visible = .T.
+	Thisform.cmdProcess.Visible = .T.
+	Thisform.cmdCancelar.Visible = .F.
+	Thisform.cmdAceptar.Visible = .F.
+
+	Do Case
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 1
+			Thisform.DailyClose( "Z" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 2
+			Thisform.DailyClose( "X" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 3
+			Thisform.CloseByDate( "D" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 4
+			Thisform.CloseByNumber( "D" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 5
+			Thisform.CloseByDate( "T" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 6
+			Thisform.CloseByNumber( "T" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 7
+			Thisform.GetDailyReport( "Z" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 8
+			Thisform.GetDailyReport( "T" )
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 9
+			Thisform.GetWorkingMemory()
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 10
+			Thisform.GetHeader()
+
+		Case Thisform.PageFrame.Page1.Optiongroup1.Value = 11
+			Thisform.GetTrailer()
+
+		Otherwise
+			ThisForm.PageFrame.ActivePage = 1
+			Error "Opción No Soportada"
+
+	Endcase
+
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+ENDPROC
+PROCEDURE synchronizebuttons
+Local lcCommand as String
+Local llOk as Boolean
+Local lnGap as Integer
+
+Try
+
+	lcCommand = ""
+
+	llOk = .T.
+	lnGap = 12
+	
+	ThisForm.PageFrame.Tabs = .F.
+	ThisForm.PageFrame.Top = 0
+	ThisForm.PageFrame.Left = 0
+	
+	
+
+	ThisForm.Shape1.Top = Thisform.Height - ThisForm.Shape1.Height - lnGap
+	ThisForm.Shape1.Left = lnGap
+	ThisForm.Shape1.Width = Thisform.Width - ( lnGap * 2 )
+	ThisForm.Shape1.Height = ThisForm.cmdCancelar.Height + ( lnGap * 2 )
+	
+	ThisForm.cmdCancelar.Visible = .T.
+	ThisForm.cmdCancelar.Top = ThisForm.Shape1.Top + lnGap
+	ThisForm.cmdCancelar.Left = ThisForm.Shape1.Left + lnGap
+	
+	ThisForm.cmdAceptar.Visible = .T.
+	ThisForm.cmdAceptar.Top = ThisForm.cmdCancelar.Top
+	ThisForm.cmdAceptar.Left = Thisform.Width - ( lnGap * 2 ) - ThisForm.cmdAceptar.Width
+
+	ThisForm.PageFrame.Height = ThisForm.Shape1.Top - lnGap
+	ThisForm.PageFrame.Width = Thisform.Width
+	
+	ThisForm.cmdVolver.Visible = .F.
+	ThisForm.cmdProcess.Visible = .F.
+	
+	ThisForm.cmdVolver.Top = ThisForm.cmdCancelar.Top
+	ThisForm.cmdVolver.Left = ThisForm.cmdCancelar.Left
+	
+	ThisForm.cmdProcess.Top = ThisForm.cmdAceptar.Top
+	ThisForm.cmdProcess.Left = ThisForm.cmdAceptar.Left
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+EndTry
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+ccomando
+cparametros
+*cancelar 
+*process 
+*dailyclose 
+*closebydate 
+*closebynumber 
+*getdailyreport 
+*getworkingmemory 
+*setup 
+*dodailyclose 
+*doclosebydate 
+*doclosebynumber 
+*dogetdailyreport 
+*dogetworkingmemory 
+*expand 
+*contract 
+*synchronizebuttons 
+*setheader 
+*settrailer 
+*getheader 
+*gettrailer 
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30UUT9Z
+[CLASS] pageframe
+[BASECLASS] pageframe
+[OBJNAME] PageFrame
+[PARENT] FRMHASARUTILS
+[START PROPERTIES]
+ErasePage = .T.
+PageCount = 8
+Top = 0
+Left = 0
+Width = 348
+Height = 276
+Name = "PageFrame"
+Page1.Caption = "Principal"
+Page1.Name = "Page1"
+Page2.Caption = "DaylyClose"
+Page2.Name = "Page2"
+Page3.Caption = "CloseByDate"
+Page3.Name = "CloseByDate"
+Page4.Caption = "CloseByNumber"
+Page4.Name = "CloseByNumber"
+Page5.Caption = "GetDailyReport"
+Page5.Name = "GetDailyReport"
+Page6.Caption = "GetWorkingMemory"
+Page6.Name = "GetWorkingMemory"
+Page7.Caption = "SetHeader"
+Page7.Name = "SetHeader"
+Page8.Caption = "SetTrailer"
+Page8.Name = "SetTrailer"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Page1.Activate
+Thisform.cmdVolver.Visible = .F.
+Thisform.cmdProcess.Visible = .F.
+
+Thisform.cmdCancelar.Visible = .T.
+Thisform.cmdAceptar.Visible = .T.
+
+Thisform.Caption = "Hasar"
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30UUTA0
+[CLASS] optiongroup
+[BASECLASS] optiongroup
+[OBJNAME] Optiongroup1
+[PARENT] FRMHASARUTILS.PageFrame.Page1
+[START PROPERTIES]
+ButtonCount = 11
+Value = 1
+Height = 212
+Left = 36
+Top = 12
+Width = 264
+Name = "Optiongroup1"
+Option1.Caption = "Cierre Diario 'Z'"
+Option1.Value = 1
+Option1.Height = 17
+Option1.Left = 5
+Option1.Top = 5
+Option1.Width = 271
+Option1.Name = "Option1"
+Option2.Caption = "Cierre Diario 'X'"
+Option2.Height = 17
+Option2.Left = 5
+Option2.Top = 24
+Option2.Width = 295
+Option2.Name = "Option2"
+Option3.Caption = "Reporte Diario por Rango de Fechas"
+Option3.Height = 17
+Option3.Left = 5
+Option3.Top = 43
+Option3.Width = 235
+Option3.Name = "Option3"
+Option4.Caption = "Reporte Diario por Rango de 'Z'"
+Option4.Height = 17
+Option4.Left = 5
+Option4.Top = 62
+Option4.Width = 247
+Option4.Name = "Option4"
+Option5.Caption = "Reporte Global por Rango de Fechas"
+Option5.Height = 17
+Option5.Left = 5
+Option5.Top = 81
+Option5.Width = 259
+Option5.Name = "Option5"
+Option6.Caption = "Reporte Global por Rango de 'Z'"
+Option6.Height = 17
+Option6.Left = 5
+Option6.Top = 100
+Option6.Width = 235
+Option6.Name = "Option6"
+Option7.Caption = "Consulta Cierre 'Z' Individual"
+Option7.Height = 17
+Option7.Left = 5
+Option7.Top = 119
+Option7.Width = 235
+Option7.Name = "Option7"
+Option8.Caption = "Consulta Estado Cierres Diarios 'Z'"
+Option8.Height = 17
+Option8.Left = 5
+Option8.Top = 138
+Option8.Width = 259
+Option8.Name = "Option8"
+Option9.Caption = "Consulta de memoria de trabajo"
+Option9.Height = 17
+Option9.Left = 5
+Option9.Top = 157
+Option9.Width = 283
+Option9.Name = "Option9"
+Option10.Caption = "Leyendas del Encabezado"
+Option10.Height = 17
+Option10.Left = 5
+Option10.Top = 176
+Option10.Width = 163
+Option10.AutoSize = .T.
+Option10.Name = "Option10"
+Option11.Caption = "Leyendas al Pie"
+Option11.Height = 17
+Option11.Left = 5
+Option11.Top = 195
+Option11.Width = 106
+Option11.AutoSize = .T.
+Option11.Name = "Option11"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2XA0MNGP5
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] Label1
+[PARENT] FRMHASARUTILS.PageFrame.Page2
+[START PROPERTIES]
+AutoSize = .T.
+FontBold = .T.
+FontSize = 20
+Caption = "Cierre Diario 'X'"
+Height = 35
+Left = 59
+Top = 77
+Width = 207
+TabIndex = 8
+ForeColor = 0,0,255
+Name = "Label1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30SGTO8
+[CLASS] checkbox
+[BASECLASS] checkbox
+[OBJNAME] chkTimeSetup
+[PARENT] FRMHASARUTILS.PageFrame.Page2
+[START PROPERTIES]
+Top = 165
+Left = 21
+Height = 17
+Width = 150
+Alignment = 0
+BackStyle = 0
+Caption = "Actualiza Hora"
+Value = .F.
+TabIndex = 3
+Name = "chkTimeSetup"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+This.Parent.spnHoras.Enabled = This.Value
+This.Parent.SpnMinutos.Enabled = This.Value
+This.Parent.SpnSegundos.Enabled = This.Value
+ENDPROC
+PROCEDURE ProgrammaticChange
+This.InteractiveChange()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2XN0PK5V6
+[CLASS] checkbox
+[BASECLASS] checkbox
+[OBJNAME] chkDateSetup
+[PARENT] FRMHASARUTILS.PageFrame.Page2
+[START PROPERTIES]
+Top = 138
+Left = 21
+Height = 17
+Width = 150
+Alignment = 0
+BackStyle = 0
+Caption = "Actualiza Fecha"
+Value = .F.
+TabIndex = 1
+Name = "chkDateSetup"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+This.Parent.dtNewDate.Enabled = This.Value
+This.Parent.dtNewDate.lblDate.Enabled = This.Value
+This.Parent.dtNewDate.txtDate.Enabled = This.Value
+This.Parent.dtNewDate.Command1.Enabled = This.Value
+
+ENDPROC
+PROCEDURE ProgrammaticChange
+This.InteractiveChange()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2XN0PK5V7
+[CLASS] _dateinput
+[CLASSLOC] ..\..\ffc\_datetime.vcx
+[BASECLASS] container
+[OBJNAME] dtNewDate
+[PARENT] FRMHASARUTILS.PageFrame.Page2
+[START PROPERTIES]
+Top = 138
+Left = 171
+Enabled = .F.
+TabIndex = 2
+Name = "dtNewDate"
+lblDate.Enabled = .F.
+lblDate.Name = "lblDate"
+Command1.Enabled = .F.
+Command1.Name = "Command1"
+txtDate.KEYDATE.Name = "KEYDATE"
+txtDate.CMDKEYDATE.Name = "CMDKEYDATE"
+txtDate.Enabled = .F.
+txtDate.Name = "txtDate"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30SGTO8
+[CLASS] spinner
+[BASECLASS] spinner
+[OBJNAME] spnHoras
+[PARENT] FRMHASARUTILS.PageFrame.Page2
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 10
+Enabled = .F.
+Height = 24
+Increment =   1.00
+InputMask = "99"
+KeyboardHighValue = 23
+KeyboardLowValue = 0
+Left = 204
+Margin = 0
+SpinnerHighValue =  23.00
+SpinnerLowValue =   0.00
+TabIndex = 4
+Top = 165
+Width = 40
+Value = 0
+Name = "spnHoras"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2XN0Q40NR
+[CLASS] spinner
+[BASECLASS] spinner
+[OBJNAME] spnMinutos
+[PARENT] FRMHASARUTILS.PageFrame.Page2
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 10
+Enabled = .F.
+Height = 24
+Increment =   1.00
+InputMask = "99"
+KeyboardHighValue = 59
+KeyboardLowValue = 0
+Left = 247
+Margin = 0
+SpinnerHighValue =  59.00
+SpinnerLowValue =   0.00
+TabIndex = 5
+Top = 165
+Width = 40
+Value = 0
+Name = "spnMinutos"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2XN0Q40NS
+[CLASS] spinner
+[BASECLASS] spinner
+[OBJNAME] spnSegundos
+[PARENT] FRMHASARUTILS.PageFrame.Page2
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 10
+Enabled = .F.
+Height = 24
+Increment =   1.00
+InputMask = "99"
+KeyboardHighValue = 59
+KeyboardLowValue = 0
+Left = 291
+Margin = 0
+SpinnerHighValue =  59.00
+SpinnerLowValue =   0.00
+TabIndex = 6
+Top = 165
+Width = 40
+Value = 0
+Name = "spnSegundos"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2XN0TMWVM
+[CLASS] checkbox
+[BASECLASS] checkbox
+[OBJNAME] chkSetSystem
+[PARENT] FRMHASARUTILS.PageFrame.Page2
+[START PROPERTIES]
+Top = 192
+Left = 22
+Height = 17
+Width = 200
+Alignment = 0
+BackStyle = 0
+Caption = "Utilizar Fecha/Hora del Sistema"
+Value = .F.
+TabIndex = 7
+Name = "chkSetSystem"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+Local lcTime as String
+
+This.Parent.chkTimeSetup.Value = !This.Value
+This.Parent.ChkDateSetup.Value = !This.Value
+
+This.Parent.chkTimeSetup.Enabled = !This.Value
+This.Parent.ChkDateSetup.Enabled = !This.Value
+
+If This.Value
+	This.parent.dtNewDate.txtDate.Value = Date()
+ 	lcTime = Time()
+ 	This.parent.spnHoras.Value = Val( Substr( lcTime, 1, 2 ))
+ 	This.parent.SpnMinutos.Value = Val( Substr( lcTime, 4, 2 ))
+ 	This.parent.SpnSegundos.Value = Val( Substr( lcTime, 7, 2 ))
+EndIf
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2WG0SIYSM
+[CLASS] _dateinput
+[CLASSLOC] ..\..\ffc\_datetime.vcx
+[BASECLASS] container
+[OBJNAME] FechaInicial
+[PARENT] FRMHASARUTILS.PageFrame.CloseByDate
+[START PROPERTIES]
+Top = 27
+Left = 20
+Width = 240
+Height = 24
+Name = "FechaInicial"
+lblDate.Caption = "Fecha Inicial"
+lblDate.Height = 17
+lblDate.Left = 0
+lblDate.Top = 6
+lblDate.Width = 72
+lblDate.Name = "lblDate"
+Command1.Top = 0
+Command1.Left = 170
+Command1.Name = "Command1"
+txtDate.KEYDATE.Name = "KEYDATE"
+txtDate.CMDKEYDATE.Name = "CMDKEYDATE"
+txtDate.Top = 0
+txtDate.Left = 70
+txtDate.Name = "txtDate"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE txtDate.Init
+This.Value = Date()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2WG0SIYSN
+[CLASS] _dateinput
+[CLASSLOC] ..\..\ffc\_datetime.vcx
+[BASECLASS] container
+[OBJNAME] FechaFinal
+[PARENT] FRMHASARUTILS.PageFrame.CloseByDate
+[START PROPERTIES]
+Top = 73
+Left = 20
+Width = 239
+Height = 24
+Name = "FechaFinal"
+lblDate.Caption = "Fecha Final"
+lblDate.Height = 17
+lblDate.Left = 0
+lblDate.Top = 6
+lblDate.Width = 70
+lblDate.Name = "lblDate"
+Command1.Top = 0
+Command1.Left = 170
+Command1.Name = "Command1"
+txtDate.KEYDATE.Name = "KEYDATE"
+txtDate.CMDKEYDATE.Name = "CMDKEYDATE"
+txtDate.Top = 0
+txtDate.Left = 70
+txtDate.Name = "txtDate"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE txtDate.GotFocus
+If This.Parent.Parent.FechaInicial.txtDate.Value > This.Value
+	This.Value = This.Parent.Parent.FechaInicial.txtDate.Value
+Endif
+
+ENDPROC
+PROCEDURE txtDate.Init
+This.Value = Date()
+ENDPROC
+PROCEDURE txtDate.LostFocus
+If This.Parent.Parent.FechaInicial.txtDate.Value = This.Value
+	This.Value = This.Parent.Parent.FechaInicial.txtDate.Value+1
+Endif
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30SGTO8
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] Label1
+[PARENT] FRMHASARUTILS.PageFrame.CloseByNumber
+[START PROPERTIES]
+AutoSize = .T.
+BackStyle = 0
+Caption = "Número 'Z' Inicial"
+Height = 17
+Left = 51
+Top = 51
+Width = 96
+Name = "Label1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2XA0QYCZF
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] Label2
+[PARENT] FRMHASARUTILS.PageFrame.CloseByNumber
+[START PROPERTIES]
+AutoSize = .T.
+BackStyle = 0
+Caption = "Número 'Z' Final"
+Height = 17
+Left = 51
+Top = 87
+Width = 91
+Name = "Label2"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2XA0QYCZG
+[CLASS] spinner
+[BASECLASS] spinner
+[OBJNAME] spnInicial
+[PARENT] FRMHASARUTILS.PageFrame.CloseByNumber
+[START PROPERTIES]
+Height = 24
+Left = 153
+Top = 44
+Width = 120
+Name = "spnInicial"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+#INCLUDE "FW\Hasar\Include\Hasar.h"
+
+Local loHasar As "Hasar.Fiscal.1"
+
+Try
+	loHasar = NewHasar()
+	
+
+	Try
+
+		If lHasar
+			loHasar.LeerMemoriaDeTrabajo() 	
+		EndIf
+	
+		This.Value = Int( Val( loHasar.Respuesta( W_ULTIMO_Z ) ) )		
+	
+		This.SpinnerHighValue 	= This.Value
+		This.KeyboardHighValue 	= 999999999
+
+
+	Catch To oErr
+		This.Value = 1
+		
+	Finally
+
+	EndTry
+
+	This.SpinnerLowValue = 1
+	This.KeyboardLowValue = 1
+	
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loHasar = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2XA0QYCZH
+[CLASS] spinner
+[BASECLASS] spinner
+[OBJNAME] spnFinal
+[PARENT] FRMHASARUTILS.PageFrame.CloseByNumber
+[START PROPERTIES]
+Height = 24
+Left = 153
+Top = 80
+Width = 120
+Name = "spnFinal"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+#INCLUDE "FW\Hasar\Include\Hasar.h"
+
+Local loHasar As "Hasar.Fiscal.1"
+
+
+Try
+	loHasar = NewHasar()
+
+
+	Try
+	
+		If lHasar
+			loHasar.LeerMemoriaDeTrabajo() 	
+		EndIf
+	
+		This.Value = Int( Val( loHasar.Respuesta( W_ULTIMO_Z ) ) )		
+		This.SpinnerHighValue 	= This.Value
+		This.KeyboardHighValue 	= 9999999
+		
+	
+	Catch To oErr
+		This.Value = 1
+		
+	Finally
+
+	EndTry
+	
+	This.SpinnerLowValue = 1
+	This.KeyboardLowValue = 1
+	
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loHasar = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30SGTO8
+[CLASS] checkbox
+[BASECLASS] checkbox
+[OBJNAME] chkFantasia1
+[PARENT] FRMHASARUTILS.PageFrame.SetHeader
+[START PROPERTIES]
+Top = 12
+Left = 12
+Height = 17
+Width = 76
+AutoSize = .T.
+Alignment = 0
+BackStyle = 0
+Caption = "Fantasía 1"
+Value = .F.
+Name = "chkFantasia1"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+This.FontBold = This.Value
+
+This.Parent.txtFantasia1.ReadOnly = !This.Value
+This.parent.chkDobleAncho1.Enabled = This.Value
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30SGTO9
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtFantasia1
+[PARENT] FRMHASARUTILS.PageFrame.SetHeader
+[START PROPERTIES]
+Value = 
+Format = ""
+Height = 23
+InputMask = ""
+Left = 12
+ReadOnly = .T.
+Top = 36
+Width = 312
+Name = "txtFantasia1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30SGTO8
+[CLASS] checkbox
+[BASECLASS] checkbox
+[OBJNAME] chkFantasia2
+[PARENT] FRMHASARUTILS.PageFrame.SetHeader
+[START PROPERTIES]
+Top = 65
+Left = 12
+Height = 17
+Width = 76
+AutoSize = .T.
+Alignment = 0
+BackStyle = 0
+Caption = "Fantasía 2"
+Value = .F.
+Name = "chkFantasia2"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+This.FontBold = This.Value
+
+This.Parent.txtFantasia2.ReadOnly = !This.Value
+This.parent.chkDobleAncho2.Enabled = This.Value
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _48Y0LQU2M
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtFantasia2
+[PARENT] FRMHASARUTILS.PageFrame.SetHeader
+[START PROPERTIES]
+Value = 
+Format = ""
+Height = 23
+InputMask = ""
+Left = 12
+ReadOnly = .T.
+Top = 89
+Width = 311
+Name = "txtFantasia2"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30SGTO8
+[CLASS] checkbox
+[BASECLASS] checkbox
+[OBJNAME] chkDobleAncho1
+[PARENT] FRMHASARUTILS.PageFrame.SetHeader
+[START PROPERTIES]
+Top = 12
+Left = 120
+Height = 17
+Width = 88
+AutoSize = .T.
+Alignment = 0
+BackStyle = 0
+Caption = "Doble Ancho"
+Value = .F.
+Name = "chkDobleAncho1"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+Local lcCommand As String
+Local lnLen As Integer,;
+	lnFontSize As Integer
+
+Try
+
+	lcCommand = ""
+	This.FontBold = This.Value
+
+	If This.Value
+		lnLen = 20
+		lnFontSize = 12
+
+	Else
+		lnLen = 40
+		lnFontSize = 9
+
+	Endif
+
+	This.Parent.txtFantasia1.MaxLength = lnLen
+	This.Parent.txtFantasia1.FontSize = lnFontSize
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+
+
+ENDPROC
+PROCEDURE ProgrammaticChange
+This.InteractiveChange()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _48Y0MT1I8
+[CLASS] checkbox
+[BASECLASS] checkbox
+[OBJNAME] chkDobleAncho2
+[PARENT] FRMHASARUTILS.PageFrame.SetHeader
+[START PROPERTIES]
+Top = 65
+Left = 120
+Height = 17
+Width = 88
+AutoSize = .T.
+Alignment = 0
+BackStyle = 0
+Caption = "Doble Ancho"
+Value = .F.
+Name = "chkDobleAncho2"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+Local lcCommand As String
+Local lnLen As Integer,;
+	lnFontSize As Integer
+
+Try
+
+	lcCommand = ""
+	This.FontBold = This.Value
+
+	If This.Value
+		lnLen = 20
+		lnFontSize = 12
+
+	Else
+		lnLen = 40
+		lnFontSize = 9
+
+	Endif
+
+	This.Parent.txtFantasia2.MaxLength = lnLen
+	This.Parent.txtFantasia1.FontSize = lnFontSize
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+
+
+ENDPROC
+PROCEDURE ProgrammaticChange
+This.InteractiveChange()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30YDVEP
+[CLASS] shape
+[BASECLASS] shape
+[OBJNAME] Shape1
+[PARENT] FRMHASARUTILS
+[START PROPERTIES]
+Comment = " "
+Top = 288
+Left = 12
+Height = 48
+Width = 348
+BackStyle = 0
+SpecialEffect = 0
+Name = "Shape1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30YDVEQ
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancelar
+[PARENT] FRMHASARUTILS
+[START PROPERTIES]
+Top = 299
+Left = 24
+Height = 27
+Width = 84
+Picture = ..\..\comunes\image\bmp\close.bmp
+Cancel = .T.
+Caption = "Cancelar"
+PicturePosition = 1
+Name = "cmdCancelar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Cancelar()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30SGTO8
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdAceptar
+[PARENT] FRMHASARUTILS
+[START PROPERTIES]
+Top = 299
+Left = 178
+Height = 27
+Width = 84
+Picture = ..\..\comunes\image\bmp\ok.bmp
+Caption = "Aceptar"
+PicturePosition = 1
+Name = "cmdAceptar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Setup()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30YQZY9
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdVolver
+[PARENT] FRMHASARUTILS
+[START PROPERTIES]
+Top = 299
+Left = 108
+Height = 27
+Width = 84
+Picture = ..\..\comunes\image\bmp\removeall.bmp
+Caption = "Volver"
+PicturePosition = 1
+Name = "cmdVolver"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+ThisForm.PageFrame.ActivePage = 1
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2W30YQZYA
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdProcess
+[PARENT] FRMHASARUTILS
+[START PROPERTIES]
+Top = 299
+Left = 276
+Height = 27
+Width = 84
+Picture = ..\..\comunes\image\bmp\print.bmp
+Caption = "Procesar"
+PicturePosition = 1
+Name = "cmdProcess"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Process()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\hasar.h¶Àlž<[END RESERVED1]
+[EOF]

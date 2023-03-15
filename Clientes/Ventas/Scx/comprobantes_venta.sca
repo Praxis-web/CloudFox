@@ -1,0 +1,99 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6550PXLT8
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _6550PXLT9
+[CLASS] browseform
+[CLASSLOC] ..\..\..\fw\comunes\vcx\prxbrowse.vcx
+[BASECLASS] form
+[OBJNAME] Browseform1
+[START PROPERTIES]
+DoCreate = .T.
+Name = "Browseform1"
+cntPagination.lblRegistros.Name = "lblRegistros"
+cntPagination.lblPagina.Name = "lblPagina"
+cntPagination.spnPagina.Name = "spnPagina"
+cntPagination.btnPrimero.Name = "btnPrimero"
+cntPagination.btnSiguiente.Name = "btnSiguiente"
+cntPagination.btnAnterior.Name = "btnAnterior"
+cntPagination.btnUltimo.Name = "btnUltimo"
+cntPagination.lblDe_99.Name = "lblDe_99"
+cntPagination.cmdPagina.Name = "cmdPagina"
+cntPagination.spnPageSize.Name = "spnPageSize"
+cntPagination.lblPageSize.Name = "lblPageSize"
+cntPagination.Name = "cntPagination"
+cmdAceptar.Name = "cmdAceptar"
+cmdIngTip.Name = "cmdIngTip"
+CMDCERRAR.Name = "CMDCERRAR"
+spnColumnsLock.Name = "spnColumnsLock"
+lblColumsLock.Name = "lblColumsLock"
+cmdConfigurar.Name = "cmdConfigurar"
+cntTitulo_Old.lblFecha.Name = "lblFecha"
+cntTitulo_Old.LBLTITULO.Name = "LBLTITULO"
+cntTitulo_Old.Label1.Name = "Label1"
+cntTitulo_Old.Name = "cntTitulo_Old"
+Botones.cmdAgregar.Name = "cmdAgregar"
+Botones.cmdBorrar.Name = "cmdBorrar"
+Botones.cmdRecuperar.Name = "cmdRecuperar"
+Botones.cmdEdit.Name = "cmdEdit"
+Botones.cmdFiltrar.Name = "cmdFiltrar"
+Botones.cmdAplicar.Name = "cmdAplicar"
+Botones.Name = "Botones"
+chkEditarEnGrilla.Alignment = 1
+chkEditarEnGrilla.Name = "chkEditarEnGrilla"
+chkActivos.Alignment = 0
+chkActivos.Name = "chkActivos"
+cntSearch.txtSearch.Name = "txtSearch"
+cntSearch.btnSearch.Name = "btnSearch"
+cntSearch.Name = "cntSearch"
+chkMuestraCamposEspeciales.Alignment = 0
+chkMuestraCamposEspeciales.Name = "chkMuestraCamposEspeciales"
+CNTTITULO.LBLFECHA.Name = "LBLFECHA"
+CNTTITULO.LBLTITULO.Name = "LBLTITULO"
+CNTTITULO.lblObservaciones.Name = "lblObservaciones"
+CNTTITULO.lblAsteriscos.Name = "lblAsteriscos"
+CNTTITULO.Name = "CNTTITULO"
+Grid.Name = "Grid"
+CNTFILTROS.cmdFiltrar.Name = "cmdFiltrar"
+CNTFILTROS.Name = "CNTFILTROS"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE CNTFILTROS.cmdFiltrar.Click
+ThisForm.CargarGrilla()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

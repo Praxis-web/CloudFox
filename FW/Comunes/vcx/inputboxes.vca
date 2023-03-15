@@ -1,0 +1,5257 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S5151H0G
+[CLASS] prxcontainer
+[CLASSLOC] prxbase.vcx
+[BASECLASS] container
+[OBJNAME] ibcontainer
+[START PROPERTIES]
+Width = 150
+Height = 23
+BackStyle = 0
+BorderWidth = 1
+caption = 
+inputmask = 
+format = 
+nupdatefontsize = 0
+lhascontrolsource = .T.
+cbelongtopage = 
+readonly = .F.
+lhandlenextfocus = .F.
+lislastfocus = .F.
+value = 
+cfield = 
+controlsource = 
+chotkeyletter = 
+lhotkeypress = .F.
+lsamerowasprevious = .F.
+ccursorname = 
+cfieldname = 
+cerrormessage = 
+lgetfirstfocus = .F.
+lhasvalidationruleerror = .F.
+llabelontop = .F.
+nlength = 0
+lsetasfirstfocus = .F.
+lalignlabel = .T.
+ckeyname = 
+ofield = .NULL.
+lrequired = .F.
+lsubscribetocolib = .T.
+lvalidateindatadictionary = .T.
+nfitmode = 3
+lfittoparent = .F.
+lkeepplace = .F.
+_memberdata =     5790<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="enabled_assign" type="method" display="Enabled_Assign"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="errormessage" type="property" display="ErrorMessage" favorites="True"/><memberdata name="wherecondition" type="property" display="WhereCondition"/><memberdata name="visible" type="Property" favorites="True"/><memberdata name="keepplace" type="property" display="KeepPlace" favorites="True"/><memberdata name="alignlabel" type="property" display="AlignLabel"/><memberdata name="format" type="property" display="Format"/><memberdata name="inputmask" type="property" display="InputMask"/><memberdata name="hasvalidationruleerror" type="property" display="HasValidationRuleError"/><memberdata name="ncolnumber" type="property" display="nColNumber" favorites="True"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="labelontop" type="property" display="LabelOnTop" favorites="True"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="cursorname" type="property" display="CursorName" favorites="True"/><memberdata name="cursorname_access" type="property" display="CursorName_Access" favorites="True"/><memberdata name="setasfirstfocus" type="method" display="SetAsFirstFocus"/><memberdata name="setasfirstfocus" type="method" display="SetAsFirstFocus"/><memberdata name="lhascontrolsource" type="property" display="lHasControlSource"/><memberdata name="cbelongtopage" type="property" display="cBelongToPage"/><memberdata name="getpagename" type="method" display="GetPageName"/><memberdata name="redonly" type="property" display="RedOnly"/><memberdata name="redonly_assign" type="property" display="RedOnly_Assign"/><memberdata name="readonly" type="property" display="ReadOnly" favorites="True"/><memberdata name="readonly_assign" type="property" display="ReadOnly_Assign"/><memberdata name="lhandlenextfocus" type="property" display="lHandleNextFocus" favorites="True"/><memberdata name="handlenextfocus" type="method" display="HandleNextFocus"/><memberdata name="lislastfocus" type="property" display="lIsLastFocus" favorites="True"/><memberdata name="value" type="property" display="Value"/><memberdata name="value_access" type="property" display="Value_Access"/><memberdata name="value_assign" type="property" display="Value_Assign"/><memberdata name="cfield" type="property" display="cField"/><memberdata name="controlsource" type="property" display="ControlSource"/><memberdata name="controlsource_assign" type="property" display="ControlSource_Assign"/><memberdata name="chotkeyletter" type="property" display="cHotKeyLetter" favorites="True"/><memberdata name="lhotkeypress" type="property" display="lHotKeyPress" favorites="True"/><memberdata name="classbeforeautosetup" type="method" display="ClassBeforeAutoSetup"/><memberdata name="classafterautosetup" type="method" display="ClassAfterAutoSetup"/><memberdata name="lkeepplace" type="property" display="lKeepPlace" favorites="True"/><memberdata name="lsamerowasprevious" type="property" display="lSameRowAsPrevious"/><memberdata name="classafterinit" type="method" display="ClassAfterInit"/><memberdata name="classbeforeinit" type="method" display="ClassBeforeInit"/><memberdata name="ccursorname" type="property" display="cCursorName" favorites="True"/><memberdata name="cfieldname" type="property" display="cFieldName" favorites="True"/><memberdata name="cerrormessage" type="property" display="cErrorMessage"/><memberdata name="lgetfirstfocus" type="property" display="lGetFirstFocus" favorites="True"/><memberdata name="lhasvalidationruleerror" type="property" display="lHasValidationRuleError"/><memberdata name="llabelontop" type="property" display="lLabelOnTop" favorites="True"/><memberdata name="lsetasfirstfocus" type="property" display="lSetAsFirstFocus" favorites="True"/><memberdata name="ccursorname_access" type="method" display="cCursorName_Access"/><memberdata name="lalignlabel" type="property" display="lAlignLabel"/><memberdata name="nlength" type="property" display="nLength" favorites="True"/><memberdata name="ckeyname" type="property" display="cKeyName"/><memberdata name="ckeyname_access" type="method" display="cKeyName_Access"/><memberdata name="ofield" type="property" display="oField"/><memberdata name="fillfromdatadictionary" type="method" display="FillFromDataDictionary"/><memberdata name="lrequired" type="property" display="lRequired" favorites="True"/><memberdata name="lsubscribetocolib" type="property" display="lSubscribeToColIB" favorites="True"/><memberdata name="hooksubscribe" type="method" display="HookSubscribe"/><memberdata name="fittoparent" type="method" display="FitToParent"/><memberdata name="nfitmode" type="property" display="nFitMode" favorites="True"/><memberdata name="lfittoparent" type="property" display="lFitToParent" favorites="True"/><memberdata name="hookonreseterror" type="method" display="HookOnResetError"/><memberdata name="hookonmarkerror" type="method" display="HookOnMarkError"/><memberdata name="onmarkvalidationerrors" type="method" display="OnMarkValidationErrors"/><memberdata name="hookonmarkvalidationerrors" type="method" display="HookOnMarkValidationErrors"/><memberdata name="caption" type="property" display="Caption"/><memberdata name="caption_assign" type="property" display="Caption_Assign"/><memberdata name="lvalidateindatadictionary" type="property" display="lValidateInDataDictionary" favorites="True"/><memberdata name="nlength_assign" display="nLength_Assign" favorites="True"/></VFPData>
+nleftpadding = 0
+ntoppadding = 0
+nrightpadding = 0
+nbottompadding = 0
+lautosetup = .T.
+nrow = 0
+ncol = 0
+ncolspan = 1
+nrowspan = 1
+Name = "ibcontainer"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Destroy
+
+If Pemstatus( Thisform, "OnSubscribe", 5 )
+	Unbindevent( Thisform, "OnSubscribe", This, "HookSubscribe" )
+
+Endif && PemStatus( Thisform, "OnSubscribe", 5 )
+
+If Pemstatus( Thisform, "HandleEvents", 5 )
+	Unbindevent( Thisform, "HandleEvents", This, "HandleEvents" )
+
+Endif && PemStatus( Thisform, "HandleEvents", 5 )
+
+Unbindevent( This )
+
+DoDefault()
+
+
+ENDPROC
+PROCEDURE LostFocus
+
+With This As ibcontainer Of FW\Comunes\VCX\inputboxes.VCX
+
+    If .lHandleNextFocus
+        .HandleNextFocus()
+
+    EndIf && .lHandleNextFocus
+
+Endwith
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lnTop As Integer
+Local lnLeft As Integer
+Try
+    With This As ibcontainer Of FW\Comunes\VCX\inputboxes.VCX
+        Do Case
+            Case nButton = 2 And nShift = 2
+                If ! Empty( .cErrorMessage )
+                    lnTop = Thisform.Top + Objtoclient( This, 1 ) + ( .Height * 3 )
+                    lnLeft = Thisform.Left + Objtoclient( This, 2 )
+                    Do Form ErrorMessage With .cErrorMessage, lnTop, lnLeft
+                Endif
+            Otherwise
+                DoDefault( nButton, nShift, nXCoord, nYCoord )
+        Endcase
+
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+Finally
+    loError = Null
+Endtry
+ENDPROC
+PROCEDURE SetFocus
+
+This.Dato.SetFocus()
+
+ENDPROC
+PROCEDURE autosetup
+Lparameters tlOnlyPosition As Boolean
+
+Local lnChkButtonWidth As Integer
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local llFontBold As Boolean
+Try
+	With This As ibcontainer Of fw\comunes\vcx\inputboxes.vcx
+		If .ClassBeforeAutoSetup( tlOnlyPosition )
+			If .HookBeforeAutoSetup( tlOnlyPosition )
+
+				lnChkButtonWidth = 0
+
+				If Pemstatus( This, 'Label', 5 )
+					If Empty( .Label.ToolTipText )
+						.Label.ToolTipText = .ToolTipText
+
+					Endif && Empty( .Label.ToolTipText )
+
+					If Empty( .Label.StatusBarText )
+						.Label.StatusBarText = .StatusBarText
+
+					Endif && Empty( .Label.StatusBarText )
+
+				Endif && Pemstatus( This, 'Label', 5 )
+
+				If Pemstatus( This, 'Dato', 5 )
+					If Empty( .Dato.ToolTipText )
+						.Dato.ToolTipText = .ToolTipText
+
+					Endif && Empty( .Dato.ToolTipText )
+
+					If Empty( .Dato.StatusBarText )
+						.Dato.StatusBarText = .StatusBarText
+
+					Endif && Empty( .Dato.StatusBarText )
+
+				Endif && Pemstatus( This, 'Dato', 5 )
+
+
+
+				If ! tlOnlyPosition
+
+					With .Label As ibLabel Of fw\comunes\vcx\inputboxes.vcx
+						.Top = This.nTopPadding
+						.Left = This.nLeftPadding
+
+						If ! .Visible
+							.Width = 0
+							.Height = 0
+
+						Else
+							* DAE 2009-07-15
+							*.AutoFit( 1.5 )
+							llFontBold = .FontBold
+							.FontBold = .T.
+							.AutoFit()
+							.FontBold = llFontBold
+
+						Endif && ! .Visible
+
+					Endwith
+
+					If .lHotKeyPress
+						lcCaption = .Label.Caption
+
+						If Empty( .cHotKeyLetter )
+							lcCaption = "\<" + lcCaption
+
+						Else
+							lcCaption = Stuff( lcCaption, At( Lower( .cHotKeyLetter ), Lower( lcCaption ) ), 0, "\<" )
+
+						Endif && Empty( .cHotKeyLetter )
+
+						.Label.Caption = lcCaption
+					Endif && .lHotKeyPress
+
+
+					If Pemstatus( This, 'Dato', 5 )
+						.Dato.AutoFit()
+
+					Endif && Pemstatus( This, 'Dato', 5 )
+
+				Endif && ! tlOnlyPosition
+
+				If .lLabelOnTop And .Label.Visible
+					If Pemstatus( This, 'Dato', 5 )
+						With .Dato
+							.Top = This.Label.Top + This.Label.Height
+							.Left = This.nLeftPadding
+
+						Endwith
+
+					Endif && Pemstatus( This, 'Dato', 5 )
+
+					If .checkButton.Visible
+						With .checkButton As CommandButton
+							.Top = Iif( Pemstatus( This, 'Dato', 5 ), This.Dato.Top, This.Label.Top )
+							.Left = Iif( Pemstatus( This, 'Dato', 5 ), This.Dato.Left + This.Dato.Width + This.nGap, This.Label.Left + This.Label.Width + This.nGap )
+							If ! tlOnlyPosition
+								.Height = Min( .Height, Iif( Pemstatus( This, 'Dato', 5 ), This.Dato.Height, This.Label.Height ) )
+
+							Endif && ! tlOnlyPosition
+							lnChkButtonWidth = This.checkButton.Width + This.nGap
+
+						Endwith
+
+					Endif && .checkButton.Visible
+
+					.BorderWidth = 0
+					If ! tlOnlyPosition
+						.Width = .nLeftPadding + Max( .Label.Width, .Dato.Width + lnChkButtonWidth ) + .nRightPadding
+						.Height = .nTopPadding + .Label.Height + .Dato.Height + .nBottomPadding
+
+					Endif && ! tlOnlyPosition
+					.lAlignLabel = .F.
+
+				Else
+					If Pemstatus( This, 'Dato', 5 )
+						With .Dato
+							.Top = This.nTopPadding
+							If This.Label.Visible
+								.Left = This.nLeftPadding + This.Label.Width + This.nGap
+
+							Else
+								.Left = This.nLeftPadding
+
+							Endif
+						Endwith
+
+						If .Dato.Height >= .Label.Height
+							.Label.Top = .nTopPadding + ( ( .Dato.Height - .Label.Height ) / 2 )
+
+						Else
+							.Dato.Top = .nTopPadding + ( ( .Label.Height - .Dato.Height ) / 2 )
+
+						Endif && .Dato.Height >= .Label.Height
+
+					Endif && Pemstatus( This, 'Dato', 5 )
+
+					If .checkButton.Visible
+						With .checkButton As CommandButton
+							.Top =Iif( Pemstatus( This, 'Dato', 5 ), This.Dato.Top, This.Label.Top )
+							.Left = Iif( Pemstatus( This, 'Dato', 5 ), This.Dato.Left + This.Dato.Width + This.nGap, This.Label.Left + This.Label.Width + This.nGap )
+							If ! tlOnlyPosition
+								.Height = Iif( Pemstatus( This, 'Dato', 5 ), This.Dato.Height, This.Label.Height )
+
+							Endif && ! tlOnlyPosition
+							lnChkButtonWidth = .Width + This.nGap
+
+						Endwith
+
+					Endif && .checkButton.Visible
+
+					.BorderWidth = 0
+
+					If ! tlOnlyPosition
+						.Width = .nLeftPadding + .Label.Width + .nGap + Iif( Pemstatus( This, 'Dato', 5 ), .Dato.Width, 0 ) + lnChkButtonWidth + .nRightPadding
+						.Height = .nTopPadding + Max( .Label.Height, Iif( Pemstatus( This, 'Dato', 5 ), .Dato.Height, 0 ), Iif( .checkButton.Visible, .checkButton.Height, 0 ) ) + .nBottomPadding
+
+					Endif && ! tlOnlyPosition
+
+				Endif
+
+				.HookAfterAutoSetup( tlOnlyPosition )
+				.ClassAfterAutoSetup( tlOnlyPosition )
+
+			Endif
+		Endif
+	Endwith
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+Finally
+	loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE caption_assign
+Lparameters tcCaption As String
+
+With This As ibcontainer Of fw\comunes\vcx\inputboxes.vcx
+	.Caption = tcCaption
+	If Pemstatus( This, 'Label', 5 )
+		.Label.Caption  = tcCaption
+
+	Endif && PemStatus( This, 'Label', 5 )
+	
+Endwith
+
+ENDPROC
+PROCEDURE ccursorname_access
+
+
+Return This.cCursorName
+
+
+ENDPROC
+PROCEDURE ckeyname_access
+
+If Empty( This.cKeyName )
+	*!*		Assert ! Empty( This.cKeyName ) Message 'Falta configurar la propiedad "cKeyName"'
+	If Empty( This.cFieldName )
+		This.cFieldName = Substr( This.Name, 4 )
+	Endif
+
+	*This.cKeyName = Lower( Thisform.oEntity.cMainTableName + "." + This.cFieldName )
+	This.cKeyName = "Agregado"
+Endif
+
+Return This.cKeyName
+
+ENDPROC
+PROCEDURE classbeforeautosetup
+Lparameters tlOnlyPosition as Boolean
+
+If !tlOnlyPosition
+	This.FillFromDataDictionary()
+Endif
+
+Return DoDefault( tlOnlyPosition )
+
+
+ENDPROC
+PROCEDURE classbeforeinit
+
+Local lcCaption As String
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local llOk As Boolean
+
+Try
+	llOk = DoDefault()
+	If llOk
+		* DAE 2009-07-10 (11:19:01)
+		* If this.lSubscribeToColIB And Pemstatus( Thisform, "oColIB", 5 )
+		If This.lSubscribeToColIB And Pemstatus( Thisform, "OnSubscribe", 5 )
+			* Thisform.SubscribeToColIB( This )
+			Bindevent( Thisform, "OnSubscribe", This, "HookSubscribe" )
+		Endif
+
+		With This As ibcontainer Of FW\Comunes\VCX\inputboxes.VCX
+			If .lSubscribeToHandleEvents
+				Bindevent( Thisform, "HandleEvents", This, "HandleEvents" )
+			Endif
+
+			.cBelongToPage = .GetPageName( This, '' )
+
+			* Inicio las propiedades
+			.lForceReadOnly = .lForceReadOnly
+			.ReadOnly = .ReadOnly
+			.Caption = .Caption
+
+		Endwith
+
+	Endif
+
+Catch To oErr
+	llOk = .F.
+	oErr.Message = oErr.Message + "(Instanciando control "+This.Name+")"
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+Return llOk
+
+ENDPROC
+PROCEDURE controlsource_assign
+
+Lparameters tuNewValue As String
+
+With This As ibcontainer Of FW\Comunes\VCX\inputboxes.VCX
+    .ControlSource = tuNewValue
+    If Pemstatus( This, 'Dato', 5 ) And Pemstatus( .Dato, 'ControlSource', 5 )
+        .Dato.ControlSource = tuNewValue
+    Endif
+Endwith
+
+
+ENDPROC
+PROCEDURE enabled_assign
+Lparameters vNewVal As Boolean
+
+With This As IBContainer Of FW\Comunes\VCX\inputboxes.VCX
+    .Enabled = m.vNewVal
+    .SetAll( "Enabled", m.vNewVal )
+Endwith
+
+
+ENDPROC
+PROCEDURE fillfromdatadictionary
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loField As oField Of "Tools\Sincronizador\ColDataBases.prg"
+Local lnLength As Integer
+
+Try
+	If Vartype( This.oField ) == 'O'
+		loField = This.oField
+
+		This.Label.Caption = loField.Caption
+
+		lnLength = 0
+
+		If Empty( loField.nLength )
+
+
+			Do Case
+				Case Lower( loField.FieldType ) == "blob"
+
+
+				Case Lower( loField.FieldType ) == "character"
+					lnLength = loField.FieldWidth
+
+				Case Lower( loField.FieldType ) == "currency"
+					lnLength = Max( loField.FieldWidth, Len( loField.InputMask ) )
+
+				Case Lower( loField.FieldType ) == "datetime"
+
+				Case Lower( loField.FieldType ) == "date"
+
+				Case Lower( loField.FieldType ) == "double"
+					lnLength = Max( loField.FieldWidth, Len( loField.InputMask ) )
+
+				Case Lower( loField.FieldType ) == "general"
+
+				Case Lower( loField.FieldType ) == "integer"
+
+				Case Lower( loField.FieldType ) == "boolean"
+
+				Case Lower( loField.FieldType ) == "memo"
+
+				Case Lower( loField.FieldType ) == "numeric"
+					lnLength = Max( loField.FieldWidth, Len( loField.InputMask ) )
+
+				Case Lower( loField.FieldType ) == "float"
+					lnLength = Max( loField.FieldWidth, Len( loField.InputMask ) )
+
+				Case Lower( loField.FieldType ) == "varbinary"
+
+				Case Lower( loField.FieldType ) == "varchar"
+					lnLength = loField.FieldWidth
+
+				Otherwise
+
+			Endcase
+
+		Else
+			lnLength = loField.nLength
+
+			If Lower( loField.FieldType ) == "integer"
+				loField.InputMask = Replicate( "9", loField.nLength )
+			Endif
+
+		Endif
+
+		This.nLength = lnLength
+
+		If Pemstatus( This, "Dato", 5 )
+			If Pemstatus( This.Dato, "InputMask", 5 )
+				This.Dato.InputMask = loField.InputMask
+			Endif
+
+			If Pemstatus( This.Dato, "Format", 5 )
+				This.Dato.Format = loField.Format
+			Endif
+		Endif
+
+		This.cErrorMessage = loField.ErrorMessage
+
+		This.lRequired = loField.lRequired
+
+		This.ToolTipText = loField.cToolTipText
+
+		This.StatusBarText = loField.cStatusBarText
+
+		This.lGetFirstFocus = loField.lGetFirstFocus
+
+		If This.lGetFirstFocus
+			This.SetAsFirstFocus()
+		Endif
+
+	Endif
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	loField = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE fittoparent
+#INCLUDE "Fw\Comunes\Include\Praxis.h"
+
+Local lnTop As Integer
+Local lnHeight As Integer
+Local lnWidth As Integer
+Local lnLeft As Integer
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loPageFrame As PageFrame
+Local loCtl As Control
+
+Try
+	With This As ccmarcobase Of fw\comunes\vcx\controles_varios.vcx
+
+		If .lFitToParent
+
+			.Anchor = 0
+
+			If Empty( .nFitMode ) Or Vartype( .nFitMode ) # 'N'
+				.nFitMode = FULL_FIT
+
+			Endif
+
+			Do Case
+				Case Lower( .Parent.BaseClass ) = "page"
+					If .Parent.Parent.Tabs
+						loPageFrame = .Parent.Parent
+						lnTop = loPageFrame.nTopPadding
+						lnHeight = loPageFrame.Height - loPageFrame.nTopPadding ;
+							- loPageFrame.nBottomPadding - ( TABS_HEIGHT * loPageFrame.nTabsRows )
+
+					Else
+						lnTop = .Parent.Parent.nTopPadding
+						lnHeight = .Parent.Parent.Height - .Parent.Parent.nTopPadding ;
+							- .Parent.Parent.nBottomPadding
+
+					Endif
+
+					lnLeft = .Parent.Parent.nLeftPadding
+					lnWidth = .Parent.Parent.Width - .Parent.Parent.nLeftPadding ;
+						- .Parent.Parent.nRightPadding
+
+				Otherwise
+					lnTop = .Parent.nTopPadding
+					lnHeight = .Parent.Height - .Parent.nTopPadding - .Parent.nBottomPadding
+					lnLeft = .Parent.nLeftPadding
+					lnWidth = .Parent.Width - .Parent.nLeftPadding - .Parent.nRightPadding
+
+			Endcase
+
+			* DAE 2009-06-29 (16:50:54)
+			If BitOn( .nFitMode, FIT_WIDTH )
+				.Left = lnLeft
+				.Width = lnWidth
+			Endif
+
+			* El Bit 1 chequea el alto
+			If BitOn( .nFitMode, FIT_HEIGHT )
+				.Top = lnTop
+				.Height = lnHeight
+			Endif
+
+			.Anchor = ANCHOR_Top_Absolute + ANCHOR_Left_Absolute ;
+				+ ANCHOR_Bottom_Absolute + ANCHOR_Right_Absolute
+
+		Endif
+
+	Endwith
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+Finally
+	loPageFrame = Null
+	loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE getmeasures
+Local loCtrlMeasures As ControlMeasures Of 'fw\comunes\prg\autosetup.prg'
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lnChkBtnWidth As Number
+
+Try
+	loCtrlMeasures = Newobject( 'ControlMeasures', 'fw\comunes\prg\autosetup.prg' )
+	
+	lnChkBtnWidth = 0
+	If This.checkButton.Visible
+		lnChkBtnWidth = This.checkButton.Width + This.nGap
+
+	Endif
+
+*!*		loCtrlMeasures.Width 		= This.Width
+	loCtrlMeasures.Width 		= This.Width  + This.nRightPadding
+	loCtrlMeasures.Height 		= This.Height
+	loCtrlMeasures.lLabelOnTop 	= This.lLabelOnTop
+
+*!*		loCtrlMeasures.nDatoWidth 	= This.Dato.Width + lnChkBtnWidth + This.nRightPadding
+	loCtrlMeasures.nDatoWidth 	= This.Dato.Width + lnChkBtnWidth + This.nRightPadding  + This.nRightPadding
+	loCtrlMeasures.nDatoHeight 	= This.Dato.Height
+	loCtrlMeasures.nLabelWidth 	= This.nLeftPadding + This.Label.Width + This.nGap
+	loCtrlMeasures.nLabelHeight = This.Label.Height
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+Return loCtrlMeasures
+
+ENDPROC
+PROCEDURE getpagename
+Lparameters loCtrl As Object, tcPageName As String
+
+Local lcName As String
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    lcName = ""
+    If Lower( loCtrl.BaseClass ) == "page"
+        lcName = loCtrl.Name
+    Endif
+    If ! Empty( tcPageName ) And Lower( loCtrl.BaseClass ) # "form"
+        lcName = loCtrl.Name + "." + tcPageName
+    Endif
+
+    If Lower( loCtrl.BaseClass ) # "form"
+        lcName = This.GetPageName( loCtrl.Parent, lcName )
+    Else
+        If ! Empty( tcPageName )
+            lcName = "Thisform." + tcPageName
+        Endif
+    Endif
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+Return lcName
+
+
+ENDPROC
+PROCEDURE handlenextfocus
+
+*!*	If PemStatus( Thisform, "HandleNextFocus", 5 )
+*!*		Thisform.HandleNextFocus( This )
+*!*		
+*!*	EndIf
+ENDPROC
+PROCEDURE hookafterinit
+This.BorderWidth = 0
+ENDPROC
+PROCEDURE hookonmarkvalidationerrors
+
+Local loObj As Control
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	loObj = This.Dato
+	If This.lHasValidationRuleError
+		This.TabStop = .T.
+		loObj.TabStop = .T.
+		
+	Else
+		This.TabStop = .F.
+		loObj.TabStop = .F.
+
+	EndIf && This.lHasValidationRuleError
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.cRemark = ''
+	loError.cTraceLogin = ''
+	loError = Null
+
+	loObj = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE hookonreseterror
+
+Local loObj As Control
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	loObj = This.Dato
+	This.lHasValidationRuleError = .F.
+	This.cErrorMessage = ''
+	This.TabStop = .T.
+
+	If Pemstatus( loObj, 'TabStop', 5 )
+		loObj.BackColor= Rgb( 255, 255, 255 )
+		loObj.ForeColor = Rgb( 0, 0, 0 )
+		loObj.TabStop = .T.
+
+	Endif && PemStatus( loObj, 'TabStop', 5 )
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.cRemark = ''
+	loError.cTraceLogin = ''
+	loError = Null
+
+	loObj = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE hooksubscribe
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	With This As ibcontainer Of FW\Comunes\vcx\inputboxes.vcx
+		* DAE 2009-09-25(15:31:12)
+		* Valido si existe el metodo SubscribeToColIB no  donde lo va a guardar
+		* If .lSubscribeToColIB And Pemstatus( Thisform, "oColIB", 5 )
+		If .lSubscribeToColIB And Pemstatus( Thisform, "SubscribeToColIB", 5 )
+			Thisform.SubscribeToColIB( This )
+
+		Endif
+
+	Endwith
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE lforcereadonly_assign
+Lparameters tuNewValue As Boolean
+
+Assert ( Vartype( tuNewValue ) = 'L' )  Message 'No es correcto el tipo de dato de lvalor asignado'
+
+This.SetAll( 'lForceReadOnly', tuNewValue )
+
+DoDefault( tuNewValue )
+
+ENDPROC
+PROCEDURE nlength_assign
+lparameters tnLength
+This.nLength = tnLength
+This.Dato.nLength = tnLength
+
+ENDPROC
+PROCEDURE nupdatefontsize_assign
+Lparameters tuNewValue As Integer
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    With This As ibcontainer Of fw\comunes\vcx\inputboxes.vcx
+        .nUpdateFontSize = tuNewValue
+        .Dato.FontSize = .Dato.FontSize + tuNewValue
+        .Dato.AutoFit()
+        .Label.FontSize = .Label.FontSize + tuNewValue
+        .Label.AutoFit( 1.5 )
+    Endwith
+Catch To oErr
+    oErr.Message = oErr.Message + " - Control: " + This.Name
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+
+
+ENDPROC
+PROCEDURE readonly_assign
+Lparameters tuNewValue As Boolean
+
+
+Assert ( Vartype( tuNewValue ) = 'L' )  Message 'No es correcto el tipo de dato de lvalor asignado'
+With This As ibcontainer Of fw\comunes\vcx\inputboxes.vcx
+	.ReadOnly = tuNewValue
+	.SetAll( "ReadOnly", tuNewValue )
+
+Endwith
+
+ENDPROC
+PROCEDURE resalttitle
+Lparameters lResalt As Boolean
+
+*!*	With This As IBContainer Of FW\Comunes\vcx\inputboxes.vcx
+*!*	    If Pemstatus( .Parent, "ResaltTitle", 5 )
+*!*	        .Parent.ResaltTitle( lResalt )
+*!*	
+*!*	    EndIf && Pemstatus( .Parent, "ResaltTitle", 5 )
+
+*!*	Endwith
+
+ENDPROC
+PROCEDURE setasfirstfocus
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+    If Pemstatus( Thisform, "oFirstFocus", 5 )
+        Thisform.oFirstFocus = This
+    Endif
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE value_access
+
+With This As ibcontainer Of fw\comunes\vcx\inputboxes.vcx
+    If Pemstatus( This, 'Dato', 5 ) And Pemstatus( .Dato, 'Value', 5 )
+        .Value = .Dato.Value
+    Endif
+Endwith
+Return This.Value
+
+ENDPROC
+PROCEDURE value_assign
+Lparameters tuNewValue as Variant
+
+With This As ibcontainer Of fw\comunes\vcx\inputboxes.vcx
+    .Value = tuNewValue
+    If Pemstatus( This, 'Dato', 5 ) And Pemstatus( .Dato, 'Value', 5 )
+        .Dato.Value = .Value
+    Endif
+Endwith
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED3]
+errormessage Contiene el mensaje que se mostrar·  cuando se produzca alg˙n error de validaciÛn
+caption Titulo que muestra el InputBox
+inputmask Specifies how data is entered and displayed in a control.
+format Specifies the input and output formatting of a control's Value property.
+nupdatefontsize Contiene el valor con el que se actualizar· la propiedad FontSize de los controles contenidos
+lhascontrolsource
+cbelongtopage Indica el nompbre del objeto Page al que pertenece. Es utilizado para para postergar el Binding hasta que se active el objeto Page
+readonly Specifies if the user can edit a control, or specifies if a table or view associated with a Cursor object allows updates.
+lhandlenextfocus Indica si el evento LostFocus llama al mÈtodo HandleNextFocus
+lislastfocus Indica si el control es el ˙ltimo en tomar el foco. Es decir, despuÈs de Èste control, el foco deberÌa ir a los botones
+value Acceso a la propiedad value del control dato
+cfield Nombre de la tabla y el campo
+controlsource ControlSource del Control Dato
+chotkeyletter Indica la letra que se transformar· en HotKey. Si est· en blanco, es la primera
+lhotkeypress Indica si el control autom·ticamente genera el caption del label para que funcione como un HotKeyPress
+lsamerowasprevious Indica si el control va en la misma fila que el control anterior.
+ccursorname Nombre del cursor asociado al control.
+cfieldname Nombre del campo del cursor asociado a la propiedad ControlSource del control.
+cerrormessage Contiene el mensaje que se mostrar·  cuando se produzca alg˙n error de validaciÛn.
+lgetfirstfocus Indica si el control ser· el primero en recibir el foco al iniciarse el formulario. Genera una referencia a sÌ mismo en la propiedad Thisform.oGetFocus.
+lhasvalidationruleerror Indica si el control tiene un error de validaciÛn..
+llabelontop Indica si el Label va a la izquierda del control, en la misma lÌnea (Default) o en la lÌnea superior.
+nlength Puede utilizarse para cargar la propiedad Length del objeto Dato.
+lsetasfirstfocus
+lalignlabel Indica si la clase alÌnear· su objeto Label con el de las otras clases
+ckeyname
+ofield Referencia al objeto oField del Diccionario de Datos
+lrequired Indica si el dato es obligatorio
+lsubscribetocolib indica si el control se suscribe a la coleccion de IB del formulario
+lvalidateindatadictionary Indica si se valida la existencia del oField en el DataDictionary
+*enabled_assign 
+*nupdatefontsize_assign 
+*setasfirstfocus 
+*getpagename Si el control se encuentra en un objeto Page, devuelve el nombre del objeto. Si no, devuelve un string vacÌo
+*readonly_assign 
+*handlenextfocus 
+*value_access 
+*value_assign 
+*controlsource_assign 
+*ccursorname_access 
+*ckeyname_access 
+*fillfromdatadictionary Carga las propiedades definidas en el Diccionario de datos
+*hooksubscribe 
+*hookonreseterror 
+*hookonmarkerror 
+*onmarkvalidationerrors 
+*hookonmarkvalidationerrors 
+*caption_assign 
+*nlength_assign 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S51597J3
+[CLASS] iblabel
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] label
+[OBJNAME] Label
+[PARENT] ibcontainer
+[START PROPERTIES]
+Caption = "Label"
+Left = 0
+Top = 0
+Width = 50
+_memberdata =      255<VFPData><memberdata name="autofit" type="method" display="AutoFit"/><memberdata name="left" type="Property" favorites="True"/><memberdata name="top" type="Property" favorites="True"/><memberdata name="width" type="Property" favorites="True"/></VFPData>
+
+Name = "Label"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	With This As ibcontainer Of FW\Comunes\VCX\inputboxes.VCX
+		If Pemstatus( .Parent, 'Dato', 5 ) ;
+				And Vartype( .Parent.Dato ) = 'O' ;
+				And Pemstatus( .Parent.Dato, 'SetFocus', 5 )
+			.Parent.Dato.SetFocus()
+
+		Endif
+
+	Endwith
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+	
+Finally
+	loError = Null
+	
+Endtry
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.MousePointer = 15
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2GR0V8FM0
+[CLASS] ibcheckbutton
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] commandbutton
+[OBJNAME] CheckButton
+[PARENT] ibcontainer
+[START PROPERTIES]
+Top = -500
+Left = 120
+TabStop = .F.
+Visible = .F.
+Name = "CheckButton"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibcontainer
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hXs~\V ..\include\foxpro.h&Y r˚F ..\include\strings.h.ZZäOJ* ..\..\..\tools\namespaces\include\system.h6[±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S5153C8P
+[CLASS] prxlabel
+[CLASSLOC] prxbase.vcx
+[BASECLASS] label
+[OBJNAME] iblabel
+[START PROPERTIES]
+Alignment = 1
+Width = 131
+DisabledForeColor = 0,0,255
+Name = "iblabel"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] iblabel
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S515EXDC
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibstring
+[START PROPERTIES]
+_memberdata =       81<VFPData><memberdata name="autofit" type="method" display="Autofit"/></VFPData>
+
+Name = "ibstring"
+Label.Top = 3
+Label.TabIndex = 1
+Label.Name = "Label"
+CheckButton.TabIndex = 3
+CheckButton.Name = "CheckButton"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1T50ZLO5K
+[CLASS] prxtextbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] textbox
+[OBJNAME] Dato
+[PARENT] ibstring
+[START PROPERTIES]
+Left = 50
+Margin = 0
+TabIndex = 2
+Top = 0
+DisabledForeColor = 0,0,255
+lautosetup = .T.
+Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    DoDefault()
+    With This as TextBox
+        .Parent.Label.FontUnderline = .T.
+        If ! .Parent.lHasValidationRuleError
+            .BackColor = Rgb( 220, 255, 255 )
+
+        EndIf && ! .Parent.lHasValidationRuleError
+
+    EndWith
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE LostFocus
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    DoDefault()
+    With This as TextBox
+        .Parent.Label.FontUnderline = .F.
+        If ! .Parent.lHasValidationRuleError
+            .BackColor= Rgb( 255, 255, 255 )
+            .ForeColor = Rgb( 0, 0, 0 )
+
+        EndIf && ! .Parent.lHasValidationRuleError
+
+    EndWith
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+Do Case
+	Case nButton = 2 And nShift = 0  && RightClick
+		DoDefault( nButton, nShift, nXCoord, nYCoord )
+		
+	Otherwise
+		This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+		
+Endcase
+
+ENDPROCPROCEDURE autofit
+Lparameters tnExtraLen As Integer, tnExtraHeight As Integer
+
+If Empty( This.nLength )
+	This.nLength = This.Parent.nLength
+	
+Endif
+
+DoDefault( tnExtraLen, tnExtraHeight )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibstring
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hXs~\V ..\include\foxpro.h&Y r˚F ..\include\strings.h.ZZäOJ* ..\..\..\tools\namespaces\include\system.h6[±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S518KB1F
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibspinner
+[START PROPERTIES]
+Width = 170
+Style = 3
+lshowspinner = .F.
+_memberdata =     2755<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="enabled_assign" type="method" display="Enabled_Assign"/><memberdata name="fieldname" type="property" display="FieldName" favorites="True"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="errormessage" type="property" display="ErrorMessage" favorites="True"/><memberdata name="lautosetup" type="property" display="lAutoSetup" favorites="True"/><memberdata name="wherecondition" type="property" display="WhereCondition"/><memberdata name="getfirstfocus" type="property" display="GetFirstFocus"/><memberdata name="length" type="property" display="Length" favorites="True"/><memberdata name="caption" type="property" display="Caption"/><memberdata name="visible" type="Property" favorites="True"/><memberdata name="keepplace" type="property" display="KeepPlace" favorites="True"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="alignlabel" type="property" display="AlignLabel"/><memberdata name="format" type="property" display="Format"/><memberdata name="inputmask" type="property" display="InputMask"/><memberdata name="hasvalidationruleerror" type="property" display="HasValidationRuleError"/><memberdata name="ncolnumber" type="property" display="nColNumber" favorites="True"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="labelontop" type="property" display="LabelOnTop" favorites="True"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="handleevents" type="method" display="HandleEvents"/><memberdata name="cursorname" type="property" display="CursorName" favorites="True"/><memberdata name="cursorname_access" type="property" display="CursorName_Access" favorites="True"/><memberdata name="setasfirstfocus" type="method" display="SetAsFirstFocus"/><memberdata name="setasfirstfocus" type="method" display="SetAsFirstFocus"/><memberdata name="lhascontrolsource" type="property" display="lHasControlSource"/><memberdata name="cbelongtopage" type="property" display="cBelongToPage"/><memberdata name="getpagename" type="method" display="GetPageName"/><memberdata name="redonly" type="property" display="RedOnly"/><memberdata name="redonly_assign" type="property" display="RedOnly_Assign"/><memberdata name="readonly" type="property" display="ReadOnly"/><memberdata name="readonly_assign" type="property" display="ReadOnly_Assign"/><memberdata name="lshowspinner" type="property" display="lShowSpinner" favorites="True"/></VFPData>
+Name = "ibspinner"
+Label.Top = 3
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE classafterautosetup
+Lparameters tlOnlyPosition As Boolean
+
+#Define SPINNER_WIDTH	20
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	With this as ibspinner OF FW\Comunes\vcx\inputboxes.vcx
+		If ! .lShowSpinner
+        	.Width = .Dato.Left + .Dato.Width - SPINNER_WIDTH
+			.Line.Top = .Dato.Top
+			.Line.Left = .Dato.Left + .Dato.Width - SPINNER_WIDTH
+			.Line.Height = .Dato.Height
+			.Line.BorderColor = .Dato.BorderColor
+		Endif
+	EndWith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED3]
+lshowspinner Indica si se muestra el spinner a la derecha del control
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1T50YDAA4
+[CLASS] prxspinner
+[CLASSLOC] prxbase.vcx
+[BASECLASS] spinner
+[OBJNAME] Dato
+[PARENT] ibspinner
+[START PROPERTIES]
+KeyboardLowValue = 0
+Left = 50
+Margin = 0
+SpinnerLowValue =   0.00
+Top = 0
+DisabledForeColor = 0,0,255
+Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+DoDefault()
+This.Parent.Label.FontUnderline = .T.
+If !This.Parent.lHasValidationRuleError
+	This.BackColor = Rgb(220,255,255)
+Endif
+
+ENDPROC
+PROCEDURE LostFocus
+DoDefault()
+This.Parent.Label.FontUnderline = .F.
+If !This.Parent.lHasValidationRuleError
+	This.BackColor= Rgb(255,255,255)
+	This.ForeColor = Rgb(0,0,0)
+Endif
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+Do Case
+	Case nButton = 2 And nShift = 0  && RightClick
+		DoDefault( nButton, nShift, nXCoord, nYCoord )
+		
+	Otherwise
+		This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+		
+Endcase
+
+ENDPROC
+PROCEDURE autofit
+Lparameters tnExtraLen As Integer, tnExtraHeight As Integer
+
+If Vartype( tnExtraLen ) # "N"
+	tnExtraLen = 1
+Endif
+
+If Vartype( tnExtraHeight ) # "N"
+	tnExtraHeight = 1.2
+EndIf
+
+If Empty( This.InputMask )
+	If !Empty( This.Parent.nLength )
+		This.InputMask = Replicate( "9", This.Parent.nLength )
+	EndIf
+EndIf
+
+DoDefault(tnExtraLen, tnExtraHeight)
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2EC1852DH
+[CLASS] prxline
+[CLASSLOC] prxbase.vcx
+[BASECLASS] line
+[OBJNAME] Line
+[PARENT] ibspinner
+[START PROPERTIES]
+Left = 264
+Top = 0
+Width = 0
+Name = "Line"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibspinner
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hXs~\V ..\include\foxpro.h&Y r˚F ..\include\strings.h.ZZäOJ* ..\..\..\tools\namespaces\include\system.h6[±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S519BAS2
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibcombolistbox
+[START PROPERTIES]
+Width = 150
+oentity = 
+lkeepentity = .T.
+cconfignexttierfilename = 
+cformname = 
+centitycursor = 
+cdataconfigurationkey = 
+cselectedfields = 
+corderbyfields = 
+cscxfolder = 
+cfiltercriteria = 
+cparentdataconfigurationkey = 
+oparent = .NULL.
+lischild = .F.
+ccursorname = 
+_memberdata =     3619<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="autosetup" type="method" display="AutoSetup"/><memberdata name="nBottomPadding" type="property" display="nBottomPadding"/><memberdata name="usertierclasslibraryfolder" type="property" display="UserTierClassLibraryFolder" favorites="True"/><memberdata name="cursoralias" type="property" display="CursorAlias" favorites="True"/><memberdata name="refreshcombo" type="method" display="RefreshCombo"/><memberdata name="selectedfields" type="Property" favorites="True"/><memberdata name="formname" type="property" display="FormName"/><memberdata name="lkeepentity" type="property" display="lKeepEntity" favorites="True"/><memberdata name="entitycursor" type="property" display="EntityCursor"/><memberdata name="entitycursor_access" type="property" display="EntityCursor_Access"/><memberdata name="filtercriteria" type="property" display="FilterCriteria" favorites="True"/><memberdata name="orderbyfields" type="Property" favorites="True"/><memberdata name="launch" type="method" display="Launch"/><memberdata name="scxfolder" type="property" display="SCXFolder"/><memberdata name="llaunchform" type="property" display="lLaunchForm" favorites="True"/><memberdata name="cDataConfigurationKey" type="property" display="cDataConfigurationKey"/><memberdata name="cconfignexttierfilename" type="property" display="cConfigNextTierFileName"/><memberdata name="dataconfigurationkey" type="property" display="DataConfigurationKey" favorites="True"/><memberdata name="cfield" type="property" display="cField"/><memberdata name="controlsource_assign" type="method" display="ControlSource_Assign"/><memberdata name="formname_access" type="method" display="FormName_Access"/><memberdata name="oentity_access" type="method" display="oEntity_Access"/><memberdata name="scxfolder_access" type="method" display="SCXFolder_Access"/><memberdata name="cformname" type="property" display="cFormName" favorites="True"/><memberdata name="cformname_access" type="method" display="cFormName_Access" favorites="True"/><memberdata name="centitycursor" type="property" display="cEntityCursor" favorites="True"/><memberdata name="centitycursor_access" type="method" display="cEntityCursor_Access" favorites="True"/><memberdata name="cdataconfigurationkey" type="property" display="cDataConfigurationKey" favorites="True"/><memberdata name="cselectedfields" type="property" display="cSelectedFields" favorites="True"/><memberdata name="corderbyfields" type="property" display="cOrderByFields"/><memberdata name="cscxfolder" type="property" display="cSCXFolder" favorites="True"/><memberdata name="cfiltercriteria" type="property" display="cFilterCriteria"/><memberdata name="populatelistbox" type="method" display="PopulateListBox"/><memberdata name="cparentdataconfigurationkey" type="property" display="cParentDataConfigurationKey"/><memberdata name="lischild" type="property" display="lIsChild"/><memberdata name="oparent" type="property" display="oParent"/><memberdata name="oparent_access" type="method" display="oParent_Access"/><memberdata name="interactivechange" type="method" display="InteractiveChange"/><memberdata name="hooksubscribetoparent" type="method" display="HookSubscribeToParent"/><memberdata name="setupentity" display="SetupEntity"/><memberdata name="onparentchange" type="method" display="OnParentChange"/><memberdata name="hookonparentchange" type="method" display="HookOnParentChange"/><memberdata name="hookonparentclear" type="method" display="HookOnParentClear"/></VFPData>
+
+nlength = 30
+Name = "ibcombolistbox"
+Label.Top = 3
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE DblClick
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    With This As ibcombolistbox Of FW\Comunes\vcx\inputboxes.vcx
+    If ! Empty( .cFormName ) And ( .lLaunchForm )
+            Launchform( .cFormName )
+        Endif
+    EndWith
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE Destroy
+This.oParent = null
+This.oEntity = null
+
+DoDefault()
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+
+Local loEntity As utArchivo Of "FW\TierAdapter\UserTier\utArchivo.prg"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	Do Case
+		Case nButton = 2 And nShift = 0  && RightClick
+			#Define BAR_REFRESH 	1
+			#Define BAR_LAUNCH  	2
+			#Define BAR_CLEAR   	3
+			#Define BAR_UPDATE  	4
+			#Define BAR_NEW  		5
+			#Define BAR_SETDEFAULT	6
+
+			Local lnSelected As Integer
+
+			lnSelected = 0
+			loEntity = This.oEntity
+
+
+			Define Popup emergente SHORTCUT Relative From Mrow(),Mcol()
+
+			If !Empty( This.cFormName ) And ( This.lLaunchForm )
+				Define Bar BAR_LAUNCH Of emergente Prompt "Abrir Formulario" ;
+					PICTRES _Mfi_open ;
+					MESSAGE "Abre el Formulario asociado al Control";
+					STYLE "B"
+
+				On Selection Bar BAR_LAUNCH Of emergente lnSelected = BAR_LAUNCH
+
+				Define Bar BAR_NEW Of emergente Prompt "Agregar Nuevo" ;
+					PICTRES _Mfi_new ;
+					MESSAGE "Agrega un nuevo registro a la tabla de origen"
+
+				On Selection Bar BAR_NEW Of emergente lnSelected = BAR_NEW
+
+				Define Bar BAR_UPDATE Of emergente Prompt "Modificar datos..." ;
+					PICTURE "FW\Comunes\image\bmp\Edit.gif" ;
+					MESSAGE "Modifica los datos de la tabla de origen"
+
+				On Selection Bar BAR_UPDATE Of emergente lnSelected = BAR_UPDATE
+
+				Define Bar(Val(Sys(3))) Of emergente Prompt '\-'
+
+			Endif
+
+			Define Bar BAR_REFRESH Of emergente Prompt "Refrescar Datos" ;
+				PICTURE "FW\Comunes\image\ico\Refresh.ico" ;
+				MESSAGE "Refresca los datos del combo"
+
+			On Selection Bar BAR_REFRESH Of emergente lnSelected = BAR_REFRESH
+
+			Define Bar BAR_CLEAR Of emergente Prompt "Limpiar" ;
+				PICTURE "FW\Comunes\image\ico\Erase.ico" ;
+				MESSAGE "Limpia la selecciÛn"
+
+			On Selection Bar BAR_CLEAR Of emergente lnSelected = BAR_CLEAR
+
+
+			If loEntity.lHasDefault
+				Define Bar BAR_SETDEFAULT Of emergente Prompt "Predeterminada" ;
+					PICTURE "FW\Comunes\image\ico\CheckBx.ico" ;
+					MESSAGE "Selecciona la opciÛn predeterminada"
+
+				On Selection Bar BAR_SETDEFAULT Of emergente lnSelected = BAR_SETDEFAULT
+			Endif
+
+			Activate Popup emergente
+			Release Popups emergente
+
+			If Not Empty( lnSelected )
+
+				Do Case
+					Case lnSelected = BAR_SETDEFAULT
+						This.RefreshCombo()
+						This.SetDefault()
+						This.Dato.Refresh()
+
+					Case lnSelected = BAR_REFRESH
+						This.RefreshCombo()
+
+					Case lnSelected = BAR_LAUNCH
+						This.DblClick()
+
+					Case lnSelected = BAR_CLEAR
+						Replace ( This.Dato.ControlSource ) With 0
+						This.Dato.Value = 0
+						This.Dato.Refresh()
+
+					Case lnSelected = BAR_UPDATE
+						This.Launch( TR_UPDATE )
+
+					Case lnSelected = BAR_NEW
+						This.Launch( TR_NEW )
+
+					Otherwise
+
+				Endcase
+
+			Endif
+
+
+		Otherwise
+			DoDefault( nButton, nShift, nXCoord, nYCoord )
+
+	Endcase
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loEntity = Null
+
+
+Endtry
+
+ENDPROC
+PROCEDURE cconfignexttierfilename_access
+Local loProject As PjHook Of "Tools\ProjectHook\Vcx\ProjectHookVss.vcx"
+Local lcProjectPath As String
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    With This As ibcombo Of v:\sistemaspraxisv2\fw\comunes\vcx\inputboxes.vcx
+
+        If Empty( .cConfigNextTierFileName )
+
+            If ! IsRuntime()
+                lcProjectPath = ""
+                loProject = _vfp.ActiveProject
+
+                lcProjectPath = Justpath( loProject.Name )
+
+                .cConfigNextTierFileName = Addbs( lcProjectPath ) + "ObjectFactoryCfg.xml"
+                loProject = Null
+            Else
+                .cConfigNextTierFileName = "ObjectFactoryCfg.xml"
+            Endif
+
+        Endif
+
+    Endwith
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+Return This.cConfigNextTierFileName
+
+
+ENDPROC
+PROCEDURE centitycursor_access
+Local loEntity As utArchivo Of "FW\TierAdapter\UserTier\utArchivo.prg"
+
+With This As ibcombolistbox Of fw\comunes\vcx\inputboxes.vcx
+	If ( Vartype( .cEntityCursor ) # 'C' Or Empty( .cEntityCursor )) && And !Thisform.lExit
+		.cEntityCursor = This.Name + Sys(2015)
+		* DA 2009-09-02(10:28:34)
+		* Se refleja el nombre del cursor en la entidad
+		loEntity = .oEntity
+		loEntity.cEntityCursor = .cEntityCursor
+		loEntity.SetProperty( "cEntityCursor", .cEntityCursor )
+		loEntity = Null
+		
+	Endif
+
+Endwith
+
+Return This.cEntityCursor
+
+ENDPROC
+PROCEDURE cformname_access
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+* Local loParamFrmName As Object
+Try
+
+	With This As ibcombo Of "fw\comun\vcx\inputboxes.vcx"
+		If Vartype( .cFormName ) # 'C' Or Empty( .cFormName )
+			*.cFormName = Juststem( .oEntity.GetFormName( createobjparam( 'lIsChild', This.lIsChild ) ) )
+
+		Endif
+
+	Endwith
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+Return This.cFormName
+
+ENDPROC
+PROCEDURE classbeforeinit
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local llOk As Boolean
+Try
+
+	llOk = DoDefault()
+
+	If llOk
+		*!*	    	If This.lSubscribeToColIB And Pemstatus( Thisform, "OnSubscribeToParent", 5 ) And This.lIsChild
+		If Pemstatus( Thisform, "OnSubscribeToParent", 5 ) And This.lIsChild
+			Bindevent( Thisform, "OnSubscribeToParent", This, "HookSubscribeToParent" )
+		Endif
+
+		With This As ibcombo Of FW\Comunes\VCX\inputboxes.VCX
+			If Pemstatus( Thisform, "oColCombos", 5 )
+				Thisform.oColCombos.Add( This )
+			Endif
+		Endwith
+	Endif
+
+Catch To oErr
+	llOk = .F.
+	oErr.Message = oErr.Message + "(Instanciando control "+This.Name+")"
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+Return llOk
+
+ENDPROC
+PROCEDURE documentacion
+*!*	Deben llenarse las propiedades:
+
+*!*	This.DataConfigurationKey: Clave de acceso en ObjectFactoryCfg.xml para poder instanciar la entidad asociada al combo
+*!*	This.lLaunchForm: Indica si permite llamar al formulario de ABM asociado a la entidad
+*!*	This.FormName: Nombre completo al formulario de ABM asociado a la entidad. Obligatorio solo si This.lLaunchForm = .T.
+*!*	This.Label.Caption
+
+*!*	Opcionales:
+*!*	This.EntityCursor: Nombre del cursor para vincular la propiedad RowSource. Si est· vacÌa la genera aleatoriamente.
+*!*	This.SelectedFields: Los campos que se ver·n en el combo. Si est· vacÌa, los toma del objeto de negocios.
+*!*	This.OrderByFields: Nombre de los campos por los que se ordenar· el combo Si est· vacÌa, toma el primero de los campos seleccionados
+ENDPROC
+PROCEDURE hookonparentchange
+Lparameters lcFilterCriteria
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+   	This.Dato.Enabled = .T.
+   	This.Dato.ToolTipText = ""	
+    This.PopulateCombo( lcFilterCriteria )
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE hookonparentclear
+* @TODO Danny Amerikaner 2009-07-24 (12:33:18) Implementar el vaciado y/o deshabilitado del combo o listbox
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	This.Dato.Value = 0
+	This.Dato.Enabled = .F.
+	This.Dato.ToolTipText = ""
+	
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE hooksubscribetoparent
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loParent As Object
+Local loEntity As Object
+
+Try
+	loParent = This.oParent
+	loEntity = This.oEntity
+
+	Bindevent( loParent, "OnChange", loEntity, "HookOnParentChange" )
+	Bindevent( loParent, "OnClear", loEntity, "HookOnClear" )
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+
+Finally
+
+	loParent = Null
+	loEntity = Null
+	
+
+Endtry
+
+ENDPROC
+PROCEDURE interactivechange
+Lparameters nEntidadId As Integer
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+*!*	    This.oEntity.InteractiveChange( Transform( nEntidadId ) )
+    This.oEntity.InteractiveChange( nEntidadId )
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE launch
+Lparameters nAction As Integer
+
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lcFormName As String
+Local lnIdEntity As Integer
+Local lnReturn As Integer
+Local llModalWindowType As Boolean
+Local loParam As Object
+Try
+
+
+	lnIdEntity = 0
+	lnReturn = 0
+	llModalWindowType = .T.
+	loParam = Createobject( "Empty" )
+
+	If Empty( nAction )
+		nAction = 0
+	Endif
+
+	If ! Inlist( nAction, 0, TR_NEW, TR_UPDATE )
+		nAction = 0
+	Endif
+
+	AddProperty( loParam, "nProcessType", nAction )
+	AddProperty( loParam, "lModalWindowType", llModalWindowType )
+	AddProperty( loParam, "lKeepOnInserting", .F. )
+
+	With This As ibcombo Of fw\comunes\vcx\inputboxes.vcx
+		If nAction = TR_UPDATE
+			lnIdEntity = Int( .Dato.Value )
+		Endif
+		AddProperty( loParam, "nEntidadId", lnIdEntity )
+
+		lcFormName = .cFormName
+		loError.Ctracelogin = 'Antes de disparar el formulario ' + lcFormName
+
+		lnReturn = Launchform( lcFormName, loParam, .T. )
+
+		.RefreshCombo()
+		If Vartype( lnReturn ) = "N"  And lnReturn > 0
+			Replace ( .cFieldName ) With lnReturn  In ( .cCursorName )
+			.Refresh()
+		Endif
+	Endwith
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE oentity_access
+Try
+    With This As ibComboListBox Of "FW\Comunes\Vcx\Inputboxes.vcx"
+
+       If Vartype( .oEntity ) # "O" && And !Thisform.lExit
+			* DA 2009-08-07(11:40:15)
+			* La entidad la debe instanciar el formulario
+			.oEntity = Thisform.oEntity.GetEntity( .cDataConfigurationKey )
+            .oEntity.lNeedBuffering = .F.
+            .SetupEntity( .oEntity )
+
+        EndIf && Vartype( .oEntity ) # "O"
+
+    Endwith
+
+Catch To oErr
+    Throw oErr
+
+Finally
+
+Endtry
+
+Return This.oEntity
+
+
+ENDPROC
+PROCEDURE oparent_access
+Local i As Integer
+Local loControl As Container
+
+Try
+
+	If Vartype( This.oParent ) # "O" And This.lIsChild && And !Thisform.lExit
+
+		If Pemstatus( Thisform, "oColIB", 5 )
+
+			i = Thisform.oColIB.GetKey( Lower( This.cParentDataConfigurationKey ) )
+
+			If ! Empty( i )
+				loControl = Thisform.oColIB.Item( i )
+				This.oParent = loControl.oEntity
+
+			Endif
+
+		Else
+			This.oParent = Thisform.oEntity.GetEntity( This.cParentDataConfigurationKey )
+
+		EndIf
+		
+	Endif
+
+Catch To oErr
+	Throw oErr
+
+Finally
+	loControl = Null
+
+Endtry
+
+Return This.oParent
+
+ENDPROC
+PROCEDURE populatecombo
+Lparameters lcFilterCriteria As String
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+#INCLUDE "FW\TierAdapter\Include\TA.h"
+
+* @TODO Ricardo Aidelman 2009-07-29 ( 12:51:17 )
+* No filtra los hijos cuando se inicializa en un NEW o en un UPDATE,
+* solo lo hace cuando el padre se modifica por el InteractiveChange( )
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lcEntityCursor As String
+Local lcRowSource As String
+Local loEntity As utArchivo Of "FW\TierAdapter\UserTier\utArchivo.prg"
+lcRowSource = ""
+
+
+Try
+	lcEntityCursor = This.cEntityCursor
+	If ! Used( lcEntityCursor ) ;
+			Or ( ( This.lIsChild ) And ! Empty( lcFilterCriteria ) And ( lcFilterCriteria # This.cFilterCriteria ) )
+
+		This.Dato.RowSource = ""
+
+		Use In Select( lcEntityCursor )
+
+		loEntity = This.oEntity
+
+		If Empty( lcFilterCriteria )
+			lcFilterCriteria = This.cFilterCriteria
+
+		Else
+			This.cFilterCriteria = lcFilterCriteria
+
+		Endif && Empty( lcFilterCriteria )
+
+		* loEntity.GetAllCombo( lcFilterCriteria, lcEntityCursor, This.cOrderByFields )
+		loEntity.GetAll( lcFilterCriteria, lcEntityCursor, This.cOrderByFields, SQL_STAT_COMBO )
+		If Empty( This.cSelectedfields )
+			This.cSelectedfields = loEntity.GetSelectedFields()
+
+			If ! ( Lower( loEntity.cMainCursorPK ) $ Lower( This.cSelectedfields ) )
+				This.cSelectedfields = This.cSelectedfields + "," + loEntity.cMainCursorPK
+
+			Endif && ! ! Lower( loEntity.cMainCursorPK ) $ Lower( This.cSelectedfields )
+
+			If loEntity.lHasDefault
+				If ! "default" $ Lower( This.cSelectedfields )
+					This.cSelectedfields = This.cSelectedfields + ",Default"
+
+				Endif && "default" $ Lower( This.cSelectedfields )
+
+			Endif && loEntity.lHasDefault
+
+		Endif && Empty( This.cSelectedfields )
+
+		Assert Used( lcEntityCursor ) Message 'El cursor no esta abierto ' + lcEntityCursor
+
+		If Empty( This.Dato.RowSource )
+			Select Alias( lcEntityCursor )
+			lcRowSource = lcEntityCursor + "." + This.cSelectedfields
+			This.Dato.RowSource = lcRowSource
+
+		Endif && Empty( This.Dato.RowSource )
+
+		If Empty( This.Dato.ControlSource ) Or Empty( Evaluate( This.Dato.ControlSource ) )
+			This.SetDefault()
+
+		Endif && Empty( This.Dato.ControlSource ) Or Empty( Evaluate( This.Dato.ControlSource ) )
+
+		If This.lIsChild
+			This.Dato.Refresh()
+
+		Endif && This.lIsChild
+
+	Endif
+
+Catch To oErr
+	oErr.Message = oErr.Message + " ( Combo " + This.Name + " )"
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loEntity = Null
+	If ! This.lKeepEntity
+		This.oEntity = Null
+
+	Endif && ! This.lKeepEntity
+
+Endtry
+
+ENDPROC
+PROCEDURE refreshcombo
+Try
+
+	This.Dato.RowSource = ""
+
+	*!*	If Used( This.cEntityCursor )
+	*!*		Use In Alias( This.cEntityCursor )
+	*!*
+	*!*	Endif
+
+	Use In Select( This.cEntityCursor )
+
+	This.PopulateCombo()
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE releaseobjects
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+	This.Dato.RowSource = ""
+	This.Dato.RowSourceType = 0
+	Use In Select( This.cEntityCursor )
+
+	DoDefault()
+
+	This.Dato.RowSource = ""
+
+	* DAE 2009-09-02(16:15:53)
+	* Da error el acces a cEntityCursor
+	*!*	If Used( This.cEntityCursor )
+	*!*		Use In Alias( This.cEntityCursor )
+
+	*!*	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROCPROCEDURE setdefault
+* DAE 2009-04-08 (12:11:40)
+* #INCLUDE "FW\Comunes\Include\Praxis.h"
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+Local lcAlias As String
+Local lnRecno As Integer
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lcCursorName As String
+Local loEntity As Object
+Try
+
+
+    lcAlias = Alias()
+    lnRecno = Recno()
+    loEntity = This.oEntity
+
+    If loEntity.lHasDefault
+        lcEntityCursor = This.cEntityCursor
+        If Used( lcEntityCursor)
+            Select Alias( lcEntityCursor )
+            Locate For Default = TRUE
+            If Eof( lcEntityCursor )
+                This.Dato.Value = 0
+
+            Else
+                This.Dato.Value = Evaluate( lcEntityCursor + "." + loEntity.cMainCursorPK )
+                This.Dato.InteractiveChange()
+
+            Endif && Eof( lcEntityCursor )
+
+        Else
+            *!* This.Dato.ListItemId( 1 )
+            * DA 2009-09-08(10:56:22)
+            This.Dato.ListItemId = 1
+            This.Dato.InteractiveChange()
+
+        Endif
+
+    Endif
+    lcCursorName = This.cCursorName
+    * DAE 2009-10-08(19:06:33)
+*!*	    If Thisform.nStatus = TR_NEW And Used( lcCursorName ) And CursorGetProp("Buffering", lcCursorName ) # 1
+
+*!*	        Setfldstate( This.cFieldName, 3, lcCursorName )
+
+*!*	    Endif && Thisform.nStatus = TR_NEW
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+
+Finally
+    If Used( lcAlias ) And ! Eof( lcAlias ) And Lower( lcAlias ) <> Lower( This.cEntityCursor )
+        * DAE 2009-04-08 (12:13:12)
+        Select Alias( lcAlias )
+        * Goto ( lnRecno )
+        TEXT To lcCommand NoShow TextMerge Pretext 15
+				Goto RECORD <<lnRecno>> in <<lcAlias>>
+        ENDTEXT
+        &lcCommand
+    Endif
+    loEntity = Null
+Endtry
+
+
+
+ENDPROC
+PROCEDURE setupentity
+Lparameters toEntity as Object
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	BindEvent( toEntity, "OnParentChange", This, "HookOnParentChange" )
+	BindEvent( toEntity, "OnParentClear", This, "HookOnParentClear" )
+	Thisform.SetupEntity( toEntity )
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+oentity Referencia a la entidad asociada al combo
+lkeepentity Indica si la entidad se destruye despues de haberse usado en alguna tarea especÌfica
+llaunchform Indica si desde el combo se permite llamar al formulario asociado
+uniquename
+cconfignexttierfilename
+cformname
+centitycursor Nombre del cursor correspondiente a la entidad. Si est· vacÌo, lo toma de oEntity.MainCursorName
+cdataconfigurationkey Clave por la que se accede al archivo de configuraciÛn de la capa de usuario (ObjectFactoryCfg.xml)
+cselectedfields Lista separada por comas de los campos que se seleccionar·n
+corderbyfields Campo por el que se muestra ordenado el cursor
+cscxfolder Carpeta donde se encuentra el archivo .scx
+cfiltercriteria
+cparentdataconfigurationkey
+oparent
+lischild
+*populatecombo Llena el combo con datos
+*refreshcombo Refresca la informacion del combo
+*oentity_access 
+*launch 
+*setdefault Selecciona la opciÛn predeterminada
+*cformname_access 
+*centitycursor_access 
+*cconfignexttierfilename_access 
+*populatelistbox 
+*oparent_access 
+*interactivechange Occurs when the user changes the value of a control using the keyboard or the mouse.
+*hooksubscribetoparent 
+*hookonparentchange 
+*hookonparentclear 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibcombolistbox
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h&Ís~\V ..\include\foxpro.h.Î r˚F ..\include\strings.h6ÏZäOJ* ..\..\..\tools\namespaces\include\system.h>Ì±ŸF ..\..\tieradapter\include\ta.hFÓÓçñU[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S51A06KB
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibcheckbox
+[START PROPERTIES]
+resaltselection = .T.
+_memberdata =     1781<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="enabled_assign" type="method" display="Enabled_Assign"/><memberdata name="fieldname" type="property" display="FieldName" favorites="True"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="errormessage" type="property" display="ErrorMessage" favorites="True"/><memberdata name="lautosetup" type="property" display="lAutoSetup" favorites="True"/><memberdata name="wherecondition" type="property" display="WhereCondition"/><memberdata name="getfirstfocus" type="property" display="GetFirstFocus"/><memberdata name="length" type="property" display="Length" favorites="True"/><memberdata name="caption" type="property" display="Caption"/><memberdata name="visible" type="Property" favorites="True"/><memberdata name="keepplace" type="property" display="KeepPlace" favorites="True"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="alignlabel" type="property" display="AlignLabel"/><memberdata name="format" type="property" display="Format"/><memberdata name="inputmask" type="property" display="InputMask"/><memberdata name="hasvalidationruleerror" type="property" display="HasValidationRuleError"/><memberdata name="ncolnumber" type="property" display="nColNumber" favorites="True"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="labelontop" type="property" display="LabelOnTop" favorites="True"/><memberdata name="resaltselection" type="property" display="ResaltSelection" favorites="True"/></VFPData>
+Name = "ibcheckbox"
+Label.Width = 110
+Label.Name = "Label"
+CHECKBUTTON.Name = "CHECKBUTTON"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Label.Click
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	DoDefault()
+	With This.Parent As ibcheckbox Of fw\comunes\vcx\inputboxes.vcx
+		If .Dato.Value # FALSE
+			.Dato.Value = FALSE
+
+		Else
+			.Dato.Value = TRUE
+
+		Endif && Vartype( .Dato.Value ) # Vartype( FALSE )
+
+		.Dato.InteractiveChange()
+
+	Endwith
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+
+Finally
+	loError = Null
+	Thisform.oError.Cremark = ''
+	Thisform.oError.Ctracelogin = ''
+
+Endtry
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED3]
+resaltselection Cuando el Check est· en TRUE, el Label est· resaltado
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S51A6DK3
+[CLASS] prxcheckbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] checkbox
+[OBJNAME] Dato
+[PARENT] ibcheckbox
+[START PROPERTIES]
+Top = 0
+Left = 120
+Width = 20
+FontName = "MS Sans Serif"
+Alignment = 4
+Caption = ""
+Value = 0
+Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+
+DoDefault()
+This.BackColor = Rgb( 220, 255, 255 )
+This.Parent.Label.FontUnderline = .T.
+
+ENDPROC
+PROCEDURE InteractiveChange
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+
+With This As ibcheckbox Of fw\comunes\vcx\inputboxes.vcx
+	If .Parent.ResaltSelection = .T.
+		If Vartype( .Value ) # Vartype( FALSE )
+			.Value = FALSE
+
+		Endif && Vartype( .Value ) # Vartype( FALSE )
+
+		If .Value = TRUE
+			.Parent.Label.FontBold = .T.
+
+		Else && .Value = TRUE
+			.Parent.Label.FontBold = .F.
+
+		Endif && .Value = TRUE
+
+	Endif && .Parent.ResaltSelection = .T.
+
+Endwith
+
+ENDPROC
+PROCEDURE LostFocus
+DoDefault()
+This.BackColor= RGB( 255, 255, 255 )
+This.Parent.Label.FontUnderline = .F.
+
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+Do Case
+	Case nButton = 2 And nShift = 0  && RightClick
+		DoDefault( nButton, nShift, nXCoord, nYCoord )	
+			
+	Otherwise
+		This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )	
+			
+Endcase
+
+ENDPROC
+PROCEDURE ProgrammaticChange
+
+This.InteractiveChange()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibcheckbox
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+MS Sans Serif, 0, 9, 5, 13, 11, 11, 2, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hnAs~\V ..\include\foxpro.hvB r˚F ..\include\strings.h~CZäOJ* ..\..\..\tools\namespaces\include\system.hÜD±ŸF ..\..\tieradapter\include\ta.héEÓçñU[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S51A7B97
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibeditbox
+[START PROPERTIES]
+Width = 200
+Height = 123
+lfittoparent = .F.
+nfitmode = 5
+nlength = 0
+llabelontop = .T.
+_memberdata =      884<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="wherecondition" type="property" display="WhereCondition"/><memberdata name="ncolnumber" type="property" display="nColNumber" favorites="True"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="setasfirstfocus" type="method" display="SetAsFirstFocus"/><memberdata name="redonly" type="property" display="RedOnly"/><memberdata name="redonly_assign" type="property" display="RedOnly_Assign"/><memberdata name="fittoparent" type="method" display="FitToParent"/><memberdata name="lfittoparent" type="property" display="lFitToParent" favorites="True"/><memberdata name="nfitmode" type="property" display="nFitMode" favorites="True"/></VFPData>
+
+Name = "ibeditbox"
+Label.Width = 100
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE classafterautosetup
+Lparameters tlOnlyPosition As Boolean
+
+#INCLUDE "Fw\Comunes\Include\Praxis.h"
+
+Local lnChkButtonWidth As Integer
+
+DoDefault( tlOnlyPosition )
+
+This.Dato.Anchor = 0
+
+lnChkButtonWidth = 0
+
+With This.Label
+	If ! .Visible
+		.Width = 0
+		.Height = 0
+	Endif
+	.Top = This.nTopPadding
+	.Left = This.nLeftPadding
+Endwith
+
+With This.Dato As EditBox
+	If This.lLabelOnTop
+		.Top = This.Label.Height + This.nGap
+		.Left = This.nLeftPadding
+	Else
+		.Top = This.nTopPadding
+		.Left = This.nLeftPadding + This.Label.Width + This.nGap
+	Endif
+Endwith
+
+If This.checkButton.Visible
+	With This.checkButton As CommandButton
+		.Top = This.Dato.Top
+		.Left = This.Dato.Left + This.Dato.Width + This.nGap
+		* DAE 2009-09-03(11:57:43)
+		.Height = Min( .Height, This.Dato.Height )
+		lnChkButtonWidth = This.checkButton.Width + This.nGap
+	Endwith
+Endif
+
+With This As Container
+	.BorderWidth = 0
+	If This.lLabelOnTop
+		.Width = This.nLeftPadding + Max( .Label.Width, .Dato.Width + lnChkButtonWidth ) + This.nRightPadding
+		.Height = .nTopPadding + .Label.Height + .Dato.Height + .nGap + .nBottomPadding
+	Else
+		.Width = This.nLeftPadding + .Label.Width + .Dato.Width + This.nRightPadding + .nGap + lnChkButtonWidth
+		.Height = .nTopPadding + .Dato.Height + .nBottomPadding
+	Endif
+Endwith
+
+*!*	This.Dato.Anchor = ANCHOR_Top_Absolute ;
+*!*		+ ANCHOR_Left_Absolute ;
+*!*		+ ANCHOR_Bottom_Absolute ;
+*!*		+ ANCHOR_Right_Absolute
+
+*!*	If This.checkButton.Visible
+*!*		With This.checkButton As CommandButton
+*!*			.Anchor = ANCHOR_Top_Absolute ;
+*!*				+ ANCHOR_Right_Absolute ;
+*!*				+ ANCHOR_Bottom_Absolute
+*!*		Endwith
+*!*	Endif
+
+ENDPROCPROCEDURE classbeforeinit
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local llOk As Boolean
+Try
+    llOk = DoDefault()
+    If llOk
+        With This As ibeditbox Of FW\Comunes\VCX\inputboxes.VCX
+            If ! Empty( .nLength ) And Empty( .Dato.nLength )
+                .Dato.nLength = .nLength
+            Endif
+        Endwith
+    Endif
+Catch To oErr
+    llOk  = .F.
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+Return llOk
+
+ENDPROC
+PROCEDURE fittoparent
+
+#INCLUDE "Fw\Comunes\Include\Praxis.h"
+
+Local lnTop As Integer
+Local lnHeight As Integer
+Local lnWidth As Integer
+Local lnLeft As Integer
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loPageFrame As PageFrame
+Local loCtl As Control
+
+Try
+	With This As ccmarcobase Of fw\comunes\vcx\controles_varios.vcx
+
+		If .lFitToParent
+
+			.Anchor = 0
+
+			This.Dato.Anchor = ANCHOR_Top_Absolute ;
+				+ ANCHOR_Left_Absolute ;
+				+ ANCHOR_Bottom_Absolute ;
+				+ ANCHOR_Right_Absolute
+
+			If This.checkButton.Visible
+				With This.checkButton As CommandButton
+					.Anchor = ANCHOR_Top_Absolute ;
+						+ ANCHOR_Right_Absolute ;
+						+ ANCHOR_Bottom_Absolute
+				Endwith
+			Endif
+
+			If Empty( .nFitMode ) Or Vartype( .nFitMode ) # 'N'
+				.nFitMode = FULL_FIT
+
+			Endif
+
+			Do Case
+				Case Lower( .Parent.BaseClass ) = "page"
+					If .Parent.Parent.Tabs
+						loPageFrame = .Parent.Parent
+						lnTop = loPageFrame.nTopPadding
+						lnHeight = loPageFrame.Height - loPageFrame.nTopPadding ;
+							- loPageFrame.nBottomPadding - ( TABS_HEIGHT * loPageFrame.nTabsRows )
+
+					Else
+						lnTop = .Parent.Parent.nTopPadding
+						lnHeight = .Parent.Parent.Height - .Parent.Parent.nTopPadding ;
+							- .Parent.Parent.nBottomPadding
+
+					Endif
+
+					lnLeft = .Parent.Parent.nLeftPadding
+					lnWidth = .Parent.Parent.Width - .Parent.Parent.nLeftPadding ;
+						- .Parent.Parent.nRightPadding
+
+				Otherwise
+					lnTop = .Parent.nTopPadding
+					lnHeight = .Parent.Height - .Parent.nTopPadding - .Parent.nBottomPadding
+					lnLeft = .Parent.nLeftPadding
+					lnWidth = .Parent.Width - .Parent.nLeftPadding - .Parent.nRightPadding
+
+			Endcase
+
+			* DAE 2009-06-29 (16:50:54)
+			* El Bit 0 chequea el ancho
+			* If Bittest( .nFitMode, 0 )
+			If BitOn( .nFitMode, FIT_WIDTH )
+				.Left = lnLeft
+				.Width = lnWidth
+			Endif
+
+			* El Bit 1 chequea el alto
+			* If Bittest( .nFitMode, 1 )
+			If BitOn( .nFitMode, FIT_HEIGHT )
+				.Top = lnTop
+				.Height = lnHeight
+			Endif
+
+			.Anchor = ANCHOR_Top_Absolute + ANCHOR_Left_Absolute ;
+				+ ANCHOR_Bottom_Absolute + ANCHOR_Right_Absolute
+
+		Endif
+
+	Endwith
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+Finally
+	loPageFrame = Null
+	loError = Null
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S51ACBW9
+[CLASS] prxeditbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] editbox
+[OBJNAME] Dato
+[PARENT] ibeditbox
+[START PROPERTIES]
+Height = 100
+Left = 0
+Top = 23
+Width = 200
+DisabledForeColor = 0,0,255
+Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+DoDefault()
+With This
+    .Parent.Label.FontUnderline = .T.
+    If ! .Parent.lHasValidationRuleError
+        .BackColor = Rgb( 220, 255, 255 )
+    Endif
+Endwith
+
+ENDPROC
+PROCEDURE LostFocus
+DoDefault()
+With This
+    .Parent.Label.FontUnderline = .F.
+    If ! .Parent.lHasValidationRuleError
+        .BackColor= Rgb( 255, 255, 255 )
+        .ForeColor = Rgb( 0, 0, 0 )
+    Endif
+Endwith
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+Do Case
+	Case nButton = 2 And nShift = 0  && RightClick
+		DoDefault( nButton, nShift, nXCoord, nYCoord )		
+	Otherwise
+		This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )		
+Endcase
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibeditbox
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hXs~\V ..\include\foxpro.h&Y r˚F ..\include\strings.h.ZZäOJ* ..\..\..\tools\namespaces\include\system.h6[±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1T80ZZ96L
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibdate
+[START PROPERTIES]
+Name = "ibdate"
+Label.Name = "Label"
+CHECKBUTTON.Name = "CHECKBUTTON"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE nlength_assign
+lparameters tnLength
+This.nLength = tnLength
+ENDPROCPROCEDURE nupdatefontsize_assign
+Lparameters tuNewValue As Integer
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    With This As ibdate Of fw\comunes\vcx\inputboxes.vcx
+        .nUpdateFontSize = tuNewValue
+        .Dato.Keydate.FontSize = .Dato.Keydate.FontSize + tuNewValue
+        .Label.FontSize = .Label.FontSize + tuNewValue
+    Endwith
+Catch To oErr
+    oErr.Message = oErr.Message + " - Control: " + This.Name
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1T81002FJ
+[CLASS] keycalmonthform
+[CLASSLOC] tadatepicker.vcx
+[BASECLASS] container
+[OBJNAME] Dato
+[PARENT] ibdate
+[START PROPERTIES]
+Left = 50
+Name = "Dato"
+keydate.DisabledForeColor = 0,0,255
+keydate.Name = "keydate"
+cmdKeyDate.Name = "cmdKeyDate"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+
+ENDPROC
+PROCEDURE keydate.GotFocus
+DoDefault()
+This.Parent.Parent.Label.FontUnderline = .T.
+ENDPROC
+PROCEDURE keydate.Init
+
+This.FontSize = This.FontSize + Thisform.oGlobalSettings.oApp.nUpdateFontSize
+
+DoDefault()
+
+ENDPROC
+PROCEDURE keydate.LostFocus
+DoDefault()
+This.Parent.Parent.Label.FontUnderline = .F.
+ENDPROC
+PROCEDURE keydate.MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+Do Case
+	Case nButton = 2 And nShift = 0  && RightClick
+		DoDefault( nButton, nShift, nXCoord, nYCoord )
+		
+	Otherwise
+		This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )		
+Endcase
+
+ENDPROC
+PROCEDURE keydate.value_assign
+Lparameters vNewVal As Variant
+
+* Esta rutinas verifica que no se halla modificado el campo asociado al control
+* Por alg˙n motivo, despuÈs del Dodefault() Getfldstate() devolvÌa que el campo
+* se habÌa modificado, y al cerrarse el formulario, aunque no se hubiera
+* tocado nada, preguntaba si desechaba los cambios
+
+Local ldBefore As Date
+Local ldAfter As Date
+Local lnGetFS As Integer
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	With This
+		If Used( .Parent.Parent.cCursorName )
+			* Leo el valor del campo antes de actalizar This.Value
+			If ! Empty( .ControlSource )
+				ldBefore = Evaluate( .ControlSource )
+			Endif && ! Empty( .ControlSource )
+			
+			* Leo el estado del campo antes de actalizar This.Value
+			Try
+				lnGetFS = Getfldstate( .Parent.Parent.cFieldName, .Parent.Parent.cCursorName )
+				
+			Catch To oErr
+
+			Finally
+
+			EndTry
+			
+		Endif && Used( .Parent.Parent.cCursorName )
+		DoDefault( vNewVal )
+		If Used( .Parent.Parent.cCursorName )
+			* Leo el valor del campo despues de actalizar This.Value
+			If ! Empty( .ControlSource )
+				ldAfter = Evaluate( .ControlSource )
+
+			Endif && ! Empty( .ControlSource )
+			If ldBefore == ldAfter And Vartype( lnGetFS ) = 'N'
+				* Si son idÈnticos, repongo el valor de FldState
+				Try
+					Setfldstate( .Parent.Parent.cFieldName, lnGetFS, .Parent.Parent.cCursorName )
+					
+				Catch To oErr
+
+				Finally
+
+				Endtry
+
+			Endif && ldBefore == ldAfter And Vartype( lnGetFS ) = 'N'
+		Endif && Used( .Parent.Parent.cCursorName )
+	Endwith
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+Finally
+	loError = Null
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibdate
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hXs~\V ..\include\foxpro.h&Y r˚F ..\include\strings.h.ZZäOJ* ..\..\..\tools\namespaces\include\system.h6[±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1TD1332F1
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibgrid
+[START PROPERTIES]
+Width = 328
+Height = 155
+cCursorName = 
+orderbyfields = 
+selectedfields = 
+usertierclass = 
+usertierclasslibrary = 
+usertierclasslibraryfolder = 
+oentity = 
+ccaptions = 
+ccolumns = 
+otable = 
+gridautofit = .F.
+_memberdata =      567<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="ccaptions" type="property" display="cCaptions"/><memberdata name="ccolumns" type="property" display="cColumns"/><memberdata name="fillgrid" type="method" display="FillGrid"/><memberdata name="usertierclasslibraryfolder" type="property" display="UserTierClassLibraryFolder"/><memberdata name="otable" type="property" display="oTable"/><memberdata name="gridautofit" type="property" display="GridAutofit"/></VFPData>
+
+Name = "ibgrid"
+Label.Alignment = 0
+Label.Name = "Label"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE fillgrid
+Local lcCursor As String
+Local lcFields As String
+Local lnColumns, q, lcFieldSelector, lnPosicPunto
+
+Try
+
+	lcFields = This.cColumns
+
+	With This.oTable
+		If !.PKName$lcFields
+			lcFields = lcFields + "," + .PKName
+		Endif
+		lcCursor = .CursorName
+	Endwith
+
+	* Builds the grid
+	lnColumns = Getwordcount( This.cCaptions, "," )
+
+	With This.Dato
+		If .ColumnCount > 0
+			This.GridAutoFit = .F.
+
+		Else
+			.ColumnCount = lnColumns
+			This.GridAutoFit = .T.
+
+		Endif
+
+		.RecordSource = lcCursor
+
+		For q = 1 To lnColumns
+
+			With .Columns[q]
+
+				.ReadOnly = .T.
+
+				.ControlSource = lcCursor + "." + Getwordnum( This.cColumns, q, "," )
+
+				.Controls[1].Caption = Getwordnum( This.cCaptions, q, "," )
+
+			Endwith
+		Next
+
+		If lnColumns = 1
+			.GridLines= 0
+
+		Else
+			.GridLines= 2
+
+		Endif
+
+		If This.GridAutoFit
+			.AutoFit()
+		Endif
+
+	Endwith
+
+Catch To oErr
+	This.lIsOk = .F.
+	This.XMLoError=This.oError.Process( oErr )
+
+Finally
+
+Endtry
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED3]
+cursorname Nombre del cursor que poblar· la grilla
+orderbyfields Campo por el que se muestra ordenado el cursor
+selectedfields Lista separada por comas de los campos que se seleccionar·n
+usertierclass Nombre de la clase asociada a la entidad
+usertierclasslibrary Nombre de la librerÌa donde se encuentra la clase asociada a ala entidad
+usertierclasslibraryfolder Carpeta donde se encuentra la librerÌa de clases
+oentity Referencia a la entidad asociada al combo
+ccaptions Lista separada por comas de los captions de cada header
+ccolumns Lista separada por comas de los campos asocoados a cada columna
+otable Objeto Table asociado a la grilla
+gridautofit Indica si se llama al metodo Autofit de la Grilla
+*documentacion 
+*fillgrid Llena la grilla con datos
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1TD14CT8M
+[CLASS] grid
+[BASECLASS] grid
+[OBJNAME] Dato
+[PARENT] ibgrid
+[START PROPERTIES]
+Height = 118
+Left = 5
+Top = 24
+Width = 320
+Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+Do Case
+	Case nButton = 2 And nShift = 0  && RightClick
+		DoDefault( nButton, nShift, nXCoord, nYCoord )
+		
+	Otherwise
+		This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+		
+Endcase
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibgrid
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hXs~\V ..\include\foxpro.h&Y r˚F ..\include\strings.h.ZZäOJ* ..\..\..\tools\namespaces\include\system.h6[±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1WL0TZA5Z
+[CLASS] prxform
+[CLASSLOC] prxbase.vcx
+[BASECLASS] form
+[OBJNAME] iberrormessage
+[START PROPERTIES]
+BorderStyle = 1
+Height = 250
+Width = 375
+DoCreate = .T.
+FontBold = .T.
+FontSize = 12
+TitleBar = 0
+WindowType = 1
+ForeColor = 255,0,0
+BackColor = 192,192,192
+ccursor = ON
+_memberdata = <VFPData><memberdata name="ccursor" display="cCursor"/></VFPData>
+Name = "iberrormessage"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+Thisform.Release()
+
+ENDPROC
+PROCEDURE Init
+Lparameters lcStr As String, tnTop As Integer, tnLeft As Integer
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local llOk As Boolean
+
+Try
+    With This As iberrormessage Of FW\Comunes\vcx\inputboxes.vcx
+        llOk  = .T.
+        .Hide()
+        .FontSize = .FontSize + .oGlobalSettings.oApp.nUpdateFontSize
+        .AutoSetup( lcStr )
+        If !Empty( tnTop ) and !Empty( tnLeft )
+	        .AutoCenter = .F.
+	        .Move( tnLeft, tnTop )
+	
+		Else
+			.AutoCenter = .T.
+			
+        EndIf
+
+    Endwith
+Catch To oErr
+    llOk  = .F.
+    loError = This.oError
+    loError.Process( oErr, .T. )
+
+Finally
+    loError = Null
+
+Endtry
+
+Return llOk
+
+
+
+
+ENDPROC
+PROCEDURE Load
+This.cCursor = Set( "Cursor" )
+DoDefault()
+ENDPROC
+PROCEDURE Unload
+lcCursor = Thisform.cCursor
+Set Cursor &lcCursor
+ENDPROC
+PROCEDURE autosetup
+
+Lparameters tcStr As String
+
+Local lnLen As Integer
+Local lnTop As Integer
+Local lnWidth As Integer
+Local lcLabelName As String
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    With This As iberrormessage Of FW\Comunes\vcx\inputboxes.vcx
+        If Empty( tcStr )
+            tcStr = ""
+        Endif
+
+        lnLen = Alines( laLines, tcStr, 1 )
+        lnTop = .nGap
+        lnWidth = .nGap
+        For i = 1 To lnLen
+            If Len(laLines[ i ]) < 255
+                lcLabelName = "lbl" + Transform( i )
+                .AddObject( lcLabelName, "prxLabel" )
+                With (.&lcLabelName) As Label
+                    .Top = lnTop
+                    .Left = Thisform.nGap
+                    .Caption = laLines[ i ]
+                    .FontBold = Thisform.FontBold
+                    .ForeColor = Thisform.ForeColor
+                    .FontSize = Thisform.FontSize
+                    If ! Empty( .Caption )
+                        .AutoFit(.5)
+                    Endif
+                    .Alignment = 2
+                    .Visible = .T.
+                    lnTop = lnTop 	+ .Height
+                    lnWidth = Max( .Width, lnWidth )
+                Endwith
+
+            Else
+                lcLabelName = "edt" + Transform( i )
+                .AddObject( lcLabelName, "prxEditBox" )
+                With (.&lcLabelName) As EditBox
+                    .Top = lnTop
+                    .Left = Thisform.nGap
+                    .Value = laLines[ i ]
+                    .FontBold = Thisform.FontBold
+                    .ForeColor = Thisform.ForeColor
+                    .FontSize = Thisform.FontSize
+*!*	                    If ! Empty( .Value )
+*!*	                        .AutoFit(.5)
+*!*	                    Endif
+                    .Alignment = 2
+                    .Visible = .T.
+                    .Height = 120
+
+                    lnTop = lnTop 	+ .Height
+*!*	                    lnWidth = Max( .Width, lnWidth )
+                Endwith
+
+            Endif
+
+
+        Endfor
+        For i = 1 To lnLen
+        	Try
+
+	            lcLabelName = "lbl" + Transform( i )
+	            With (.&lcLabelName) As Label
+	                .Width = lnWidth
+	            Endwith
+        		
+
+        	Catch To oErr
+	            lcLabelName = "edt" + Transform( i )
+	            With (.&lcLabelName) As EditBox
+	                .Width = lnWidth
+	            Endwith
+
+        	Finally
+
+        	EndTry
+        Endfor
+        .Width = lnWidth + ( 2 * .nGap )
+        .cmdAceptar.Move( Abs( .Width - .cmdAceptar.Width )/2, lnTop + .nGap )
+        .Height = .cmdAceptar.Top + .cmdAceptar.Height + .nGap
+    Endwith
+Catch To oErr
+    loError = This.oError
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED3]
+ccursor
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1WM0U53X1
+[CLASS] prxcommandbutton
+[CLASSLOC] prxbase.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdAceptar
+[PARENT] iberrormessage
+[START PROPERTIES]
+Top = 208
+Left = 92
+Caption = "Aceptar"
+Name = "cmdAceptar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+Thisform.Release()
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] iberrormessage
+[START PROPERTIES]
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1Y1123GCS
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] iboption
+[START PROPERTIES]
+Width = 150
+Height = 46
+Name = "iboption"
+Label.Left = -100
+Label.Visible = .F.
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+NoDefault
+ENDPROC
+PROCEDURE classbeforeinit
+
+Local loButton As OptionButton
+Local llOk As Boolean
+
+llOk = DoDefault()
+If llOk
+    With This As iboption Of FW\Comunes\vcx\inputboxes.vcx
+        For Each loButton In .Dato.Buttons
+            loButton.FontSize = .Label.FontSize
+            loButton.FontName  = .Label.FontName
+            ***oButton.AutoSize = .T.
+        Endfor
+        If .lPerformAutoSetUp
+            .Dato.AutoFit()
+        Endif
+    Endwith
+Endif
+Return llOk
+
+ENDPROC
+PROCEDURE hookonmarkvalidationerrors
+
+Local loObj As Control
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	NoDefault
+	
+*!*		loObj = This.Dato
+*!*		If This.lHasValidationRuleError
+*!*			This.TabStop = .T.
+*!*			
+*!*		Else
+*!*			This.TabStop = .F.
+
+*!*		EndIf && This.lHasValidationRuleError
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+	loObj = Null
+
+Endtry
+
+ENDPROCPROCEDURE hookonreseterror
+
+Local loObj As Control
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	loObj = This.Dato
+	This.lHasValidationRuleError = .F.
+	This.cErrorMessage = ''
+*!*		This.TabStop = .T.
+*!*		loObj.BackColor= Rgb( 255, 255, 255 )
+*!*		loObj.ForeColor = Rgb( 0, 0, 0 )
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+	loObj = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE nupdatefontsize_assign
+Lparameters tuNewValue As Integer
+
+Local loButton As OptionButton
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+    With This As iboption Of FW\Comunes\vcx\inputboxes.vcx
+        .nUpdateFontSize = tuNewValue
+        For Each loButton In This.Dato.Buttons
+            loButton.FontSize = loButton.FontSize + tuNewValue
+        Endfor
+        .Label.FontSize =.Label.FontSize + tuNewValue
+        .Dato.AutoFit()
+    Endwith
+Catch To oErr
+    oErr.Message = oErr.Message + " - Control: " + This.Name
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1Y1128GRX
+[CLASS] prxoptiongroup
+[CLASSLOC] prxbase.vcx
+[BASECLASS] optiongroup
+[OBJNAME] Dato
+[PARENT] iboption
+[START PROPERTIES]
+BorderStyle = 0
+Left = 0
+Top = 0
+Width = 150
+Name = "Dato"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] iboption
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22X0OXDL5
+[CLASS] ibstring
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibfind
+[START PROPERTIES]
+Width = 177
+_memberdata =      139<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="dofind" type="method" display="DoFind"/></VFPData>
+
+Name = "ibfind"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE classafterautosetup
+Lparameters tlOnlyPosition As Boolean
+
+Local lnWidth As Integer
+
+With This.cmdFind As CommandButton
+    If This.Height > .Height
+        .Top = This.Dato.Top + This.Dato.Height - .Height
+    Else
+        .Top = 0
+        This.Height = .Height
+    Endif
+    .Left = This.Dato.Left + This.Dato.Width + This.nGap
+Endwith
+
+With This As Container
+    lnWidth = ( This.cmdFind.Left + This.cmdFind.Width + This.nGap ) - .Width
+    If lnWidth > 0
+        .Width = .Width + lnWidth
+    Endif
+Endwith
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED3]
+*dofind 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22X0P2LPF
+[CLASS] prxcommandbutton
+[CLASSLOC] prxbase.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdFind
+[PARENT] ibfind
+[START PROPERTIES]
+Top = 0
+Left = 150
+Width = 27
+Picture = ..\image\bmp\find.bmp
+Caption = ""
+SpecialEffect = 2
+Name = "cmdFind"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+This.Parent.DoFind()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibfind
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2810NQ9U2
+[CLASS] iblabel
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] label
+[OBJNAME] ibdatolabel
+[START PROPERTIES]
+Alignment = 0
+controlsource = 
+nlength = 0
+_memberdata =      609<VFPData><memberdata name="autofit" type="method" display="AutoFit"/><memberdata name="backstyle" type="Property" favorites="True"/><memberdata name="fontsize" type="Property" favorites="True"/><memberdata name="height" type="Property" favorites="True"/><memberdata name="width" type="Property" favorites="True"/><memberdata name="controlsource" type="property" display="ControlSource"/><memberdata name="nlength" type="property" display="nLength"/><memberdata name="nlength_access" type="method" display="nLength_Access"/><memberdata name="caption_access" type="method" display="Caption_Access"/></VFPData>
+
+Name = "ibdatolabel"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE caption_access
+Local lcCaption As String
+
+Try
+    lcCaption = ""
+    With This As ibdatolabel Of FW\Comunes\vcx\inputboxes.vcx
+        If ! Empty( .ControlSource ) And Empty( .Caption )
+            lcCaption = Evaluate( .ControlSource )
+        Endif
+    Endwith
+Catch To oErr
+    lcCaption = This.Caption
+Finally
+    This.Caption = lcCaption
+Endtr
+Return This.Caption
+
+ENDPROC
+PROCEDURE nlength_access
+return This.nLength
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+controlsource Specifies the source of data to which an object is bound.
+nlength Permite predimensionar la etiqueta en forma autom·tica
+*caption_access 
+*nlength_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibdatolabel
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2810NTMNM
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibshowlabel
+[START PROPERTIES]
+Name = "ibshowlabel"
+Label.FontBold = .T.
+Label.FontSize = 10
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE getmeasures
+Local loCtrlMeasures As ControlMeasures Of 'fw\comunes\prg\autosetup.prg'
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lnChkBtnWidth As Number
+
+Try
+	loCtrlMeasures = Newobject( 'ControlMeasures', 'fw\comunes\prg\autosetup.prg' )
+
+	lnChkBtnWidth = 0
+	If This.checkButton.Visible
+		lnChkBtnWidth = This.checkButton.Width + This.nGap
+
+	Endif
+
+	loCtrlMeasures.Width 		= This.Dato.Width
+	loCtrlMeasures.Height 		= This.Dato.Height + lnChkBtnWidth
+	loCtrlMeasures.lLabelOnTop 	= This.lLabelOnTop
+	loCtrlMeasures.nDatoWidth 	= This.Dato.Width + lnChkBtnWidth
+	loCtrlMeasures.nDatoHeight 	= This.Dato.Height
+	loCtrlMeasures.nLabelWidth 	= 0 && This.Label.Width
+	loCtrlMeasures.nLabelHeight = 0 && This.Label.Height
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+Return loCtrlMeasures
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2810NUNNW
+[CLASS] ibdatolabel
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] label
+[OBJNAME] Dato
+[PARENT] ibshowlabel
+[START PROPERTIES]
+Caption = "Dato"
+Left = 67
+Top = 1
+Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autofit
+Lparameters tnExtraLen As Integer, tnExtraHeight As Integer
+
+Local loTP As Object
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	With This As ibshowlabel Of FW\Comunes\vcx\inputboxes.vcx
+		If Empty( .nLength )
+			.nLength = .Parent.nLength
+		EndIf
+		
+		If ! Empty( .Caption ) Or ! Empty( .nLength )
+			loTP = Newobject( "TextProperties", "txtProperties.prg" )
+			If ! loTP.Process( This, tnExtraLen, tnExtraHeight )
+				loError = Thisform.oError
+				Thisform.cXMLoError = loError.Process( loTP.oError )
+				Throw loError
+			Endif
+		Endif
+	Endwith
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+Finally
+	loTP = Null
+	loError = Null
+	loError = Null
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibshowlabel
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2CC0U968J
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] ibcombopadrehijo
+[START PROPERTIES]
+Width = 226
+Height = 83
+childpk = 
+mainpk = 
+ntoppadding = 5
+_memberdata =     1457<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="lautosetup" type="property" display="lAutoSetup"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="fittoparent" type="method" display="FitToParent"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="nBottomPadding" type="Property" favorites="True"/><memberdata name="resalttittle" type="property" display="ResaltTittle" favorites="True"/><memberdata name="oldshapecolor" type="property" display="OldShapeColor"/><memberdata name="lresalttittle" type="property" display="lResaltTittle" favorites="True"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="readonly" type="property" display="ReadOnly"/><memberdata name="readonly_assign" type="property" display="ReadOnly_Assign"/><memberdata name="populatechild" type="method" display="PopulateChild"/><memberdata name="foreignkeyfield" type="property" display="ForeignKeyField" favorites="True"/><memberdata name="childpk" type="property" display="ChildPK" favorites="True"/><memberdata name="mainpk" type="property" display="MainPK" favorites="True"/></VFPDat
+Name = "ibcombopadrehijo"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+*!*	#INCLUDE "ERP\Comunes\Include\Erp.h"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+    DoDefault()
+
+    This.cboPadre.cSCXFolder = ERP_SCX
+    This.cboPadre.cFormName = "ABM Nombre del Formulario Padre"
+
+    If Empty( This.ChildPK )
+        Error "Falta indicar " + This.Name + ".ChildPk"
+    Endif
+
+    If Empty( This.Mainpk )
+        Error "Falta indicar " + This.Name + ".Mainpk"
+    Endif
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+    Thisform.oError.Cremark = ''
+    Thisform.oError.Ctracelogin = ''
+
+Endtry
+
+
+
+
+ENDPROC
+PROCEDURE autosetup
+
+Lparameters tlOnlyPosition As Boolean
+
+DoDefault( tlOnlyPosition )
+
+With This.Shape As Shape
+	.Top 		= 0
+	.Left 		= 0
+	.Height 	= This.Height
+	.Width 		= This.Width
+Endwith
+
+ENDPROCPROCEDURE populatechild
+Lparameters nPadreId As Integer
+
+Local lcAlias As String,;
+	lcCommand As String
+
+Local lnPadreId As Integer
+Local llSigue As Boolean
+Local lcFilterCriteria As String
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+lcAlias = ""
+
+Try
+
+	llSigue = .T.
+	nPadreId = Int( nPadreId )
+
+	If Used( This.cboHijo.cEntityCursor )
+		llSigue = Evaluate( This.cboHijo.cEntityCursor + "." + This.Mainpk ) <> nPadreId
+	Endif
+
+
+	If llSigue
+
+		This.cboHijo.Dato.RowSource = ""
+
+		If Used( This.cboHijo.cEntityCursor )
+			Use In Alias( This.cboHijo.cEntityCursor )
+		Endif
+
+		*!*			This.cboPadre.oEntity.GetOne( nPadreId, 2, Sys( 2015 )+ "_ComboPadre" )
+		TEXT To lcFilterCriteria NoShow TextMerge Pretext 15
+		<<This.MainPK>> = <<nPadreId>>
+		EndText
+		
+		This.cboHijo.PopulateCombo( lcFilterCriteria )
+
+*!*			This.cboHijo.oEntity.GetAll( lcFilterCriteria )
+
+*!*			lcAlias = This.cboHijo.oEntity.MainCursorName
+
+*!*			If Used( lcAlias )
+
+*!*				If Empty( This.cboHijo.Selectedfields )
+*!*					This.cboHijo.Selectedfields = This.cboHijo.oEntity.cSelectorFields
+*!*				Endif
+
+*!*				If !Lower( This.ChildPK )$Lower( This.cboHijo.Selectedfields )
+*!*					This.cboHijo.Selectedfields = This.cboHijo.Selectedfields + "," + This.ChildPK
+*!*				Endif
+
+*!*				If Empty( This.cboHijo.OrderByFields )
+*!*					This.cboHijo.OrderByFields = Getwordnum( This.cboHijo.Selectedfields, 1, "," )
+*!*				Endif
+
+*!*				TEXT To lcCommand NoShow TextMerge Pretext 15
+*!*				Select <<This.cboHijo.Selectedfields>>
+*!*					from <<lcAlias>>
+*!*					into Cursor <<This.cboHijo.cEntityCursor>>
+*!*					order By <<This.cboHijo.OrderByFields>>
+*!*					nofilter Readwrite
+*!*				ENDTEXT
+
+*!*				&lcCommand
+
+*!*				Select Alias( This.cboHijo.cEntityCursor )
+
+*!*				TEXT To lcCommand NoShow TextMerge Pretext 15
+*!*				Locate for <<This.ChildPK>> = Evaluate( This.cboHijo.Dato.ControlSource )
+*!*				ENDTEXT
+
+
+*!*				&lcCommand
+
+*!*				If Eof()
+*!*					Select Alias( This.cboHijo.CursorName )
+*!*					Replace (This.ChildPK) With 0
+*!*				Endif
+
+*!*				If Empty( This.cboHijo.Dato.RowSource )
+*!*					This.cboHijo.Dato.RowSource = This.cboHijo.cEntityCursor + "." + This.cboHijo.Selectedfields
+*!*				Endif
+
+*!*			Endif
+
+	EndIf
+	
+	This.cboHijo.Enabled = !Empty( nPadreId )
+
+	This.cboHijo.Dato.Refresh()
+
+Catch To oErr
+	oErr.Message = oErr.Message + " (Combo " + This.cboHijo.Name + ")"
+	loError = ThisForm.oError
+	ThisForm.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	ThisForm.oError.Cremark = ''
+	ThisForm.oError.Ctracelogin = ''
+	
+	If Used( lcAlias )
+		Use In Alias( lcAlias )
+	Endif
+
+Endtry
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED3]
+childpk Nombre del campo en el cursor hijo que contiene la PK
+mainpk Nombre del Campo que contiene la PK de la entidad principal
+*populatechild Llena el combo hijo en funciÛn del padre
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2CC0UEV6S
+[CLASS] ibcombo
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] cboPadre
+[PARENT] ibcombopadrehijo
+[START PROPERTIES]
+Top = 7
+Left = 10
+Name = "cboPadre"
+Label.Caption = "Padre"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Dato.InteractiveChange
+DoDefault()
+This.Parent.Parent.PopulateChild( This.Value )
+
+ENDPROC
+PROCEDURE Dato.value_assign
+Lparameters vNewVal
+This.Value = m.vNewVal
+This.Parent.Parent.PopulateChild( vNewVal )
+
+ENDPROC
+PROCEDURE Init
+Try
+
+
+	If Pemstatus( Thisform, "oColIB", 5 )
+		Thisform.oColIB.Add( This )
+	Endif
+
+	If Pemstatus( Thisform, "oColCombos", 5 )
+		Thisform.oColCombos.Add( This )
+	Endif
+
+	If This.lGetFirstFocus = .T.
+		This.SetAsFirstFocus()
+	Endif
+
+	If Empty( This.Label.ToolTipText )
+		This.Label.ToolTipText = This.ToolTipText
+	Endif
+
+	If Empty( This.Dato.ToolTipText )
+		This.Dato.ToolTipText = This.ToolTipText
+	Endif
+
+	If Empty( This.Label.StatusBarText  )
+		This.Label.StatusBarText = This.StatusBarText
+	Endif
+
+	If Empty( This.Dato.StatusBarText )
+		This.Dato.StatusBarText = This.StatusBarText
+	Endif
+
+	If This.lSubscribeToHandleEvents
+		Bindevent( Thisform, "HandleEvents", This, "HandleEvents" )
+	Endif
+
+	This.cBelongToPage = This.GetPageName( This, "" )
+
+Catch To oErr
+	Throw oErr
+
+Finally
+
+Endtry
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2CC0UEV7N
+[CLASS] ibcombo
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] cboHijo
+[PARENT] ibcombopadrehijo
+[START PROPERTIES]
+Top = 40
+Left = 8
+llaunchform = .F.
+Name = "cboHijo"
+Label.Caption = "Hijo"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.BoundColumn = 3
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Try
+
+
+	If Pemstatus( Thisform, "oColIB", 5 )
+		Thisform.oColIB.Add( This )
+	Endif
+
+	If Pemstatus( Thisform, "oColCombos", 5 )
+		Thisform.oColCombos.Add( This )
+	Endif
+
+	If This.lGetFirstFocus = .T.
+		This.SetAsFirstFocus()
+	Endif
+
+	If Empty( This.Label.ToolTipText )
+		This.Label.ToolTipText = This.ToolTipText
+	Endif
+
+	If Empty( This.Dato.ToolTipText )
+		This.Dato.ToolTipText = This.ToolTipText
+	Endif
+
+	If Empty( This.Label.StatusBarText  )
+		This.Label.StatusBarText = This.StatusBarText
+	Endif
+
+	If Empty( This.Dato.StatusBarText )
+		This.Dato.StatusBarText = This.StatusBarText
+	Endif
+
+	If This.lSubscribeToHandleEvents
+		Bindevent( Thisform, "HandleEvents", This, "HandleEvents" )
+	Endif
+
+	This.cBelongToPage = This.GetPageName( This, "" )
+
+Catch To oErr
+	Throw oErr
+
+Finally
+
+Endtry
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibcombopadrehijo
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DS0RUFRT
+[CLASS] prxcommandbutton
+[CLASSLOC] prxbase.vcx
+[BASECLASS] commandbutton
+[OBJNAME] ibcheckbutton
+[START PROPERTIES]
+Width = 20
+Picture = ..\image\bmp\checkbox.bmp
+Caption = ""
+ToolTipText = "Verificar si ya existe"
+SpecialEffect = 2
+cselectorformname = 
+cconfignexttierfilename = ObjectFactoryCfg.xml
+nlevel = 1
+centitycursor = 
+cdataconfigurationkey = 
+lcasesensitive = .F.
+cdefaultcondition = 
+cfieldname = 
+cfieldtype = 
+nfieldwidth = 0
+oentity = .NULL.
+_memberdata =     2412<VFPData><memberdata name="fontbold" type="Property" favorites="True"/><memberdata name="fontsize" type="Property" favorites="True"/><memberdata name="width" type="Property" favorites="True"/><memberdata name="lautosetup" type="property" display="lAutoSetup" favorites="True"/><memberdata name="handleevents" type="method" display="HandleEvents"/><memberdata name="getwherestatement" type="method" display="GetWhereStatement"/><memberdata name="cselectorformname" type="property" display="cSelectorFormName" favorites="True"/><memberdata name="casesensitive" type="property" display="CaseSensitive" favorites="True"/><memberdata name="fieldname" type="property" display="FieldName" favorites="True"/><memberdata name="fieldtype" type="property" display="FieldType" favorites="True"/><memberdata name="oEntity" type="property" display="oEntity"/><memberdata name="getwherecondition" type="method" display="GetWhereCondition"/><memberdata name="fieldwidth" type="property" display="FieldWidth" favorites="True"/><memberdata name="findout" type="method" display="FindOut"/><memberdata name="cconfignexttierfilename" type="property" display="cConfigNextTierFileName" favorites="True"/><memberdata name="nlevel" type="property" display="nLevel" favorites="True"/><memberdata name="cdataconfigurationkey" type="property" display="cDataConfigurationKey" favorites="True"/><memberdata name="lcasesensitive" type="property" display="lCaseSensitive"/><memberdata name="cdefaultcondition" type="property" display="cDefaultCondition"/><memberdata name="cfieldname" type="property" display="cFieldName"/><memberdata name="cfieldtype" type="property" display="cFieldType"/><memberdata name="nfieldwidth" type="property" display="nFieldWidth"/><memberdata name="oentity" type="property" display="oEntity"/><memberdata name="oentity_access" type="method" display="oEntity_Access"/><memberdata name="classbeforeopen" type="method" display="ClassBeforeOpen"/><memberdata name="hookbeforeopen" type="method" display="HookBeforeOpen"/><memberdata name="classafteropen" type="method" display="ClassAfterOpen"/><memberdata name="hookafteropen" type="method" display="HookAfterOpen"/><memberdata name="centitycursor" type="property" display="cEntityCursor" favorites="True"/><memberdata name="fontname" type="property" favorites="True"/><memberdata name="centitycursor_access" type="method" display="cEntityCursor_Access"/></VFPData>
+
+Name = "ibcheckbutton"
+[END PROPERTIES]
+[START PROTECTED]
+classbeforeopen
+classafteropen
+[END PROTECTED]
+[START METHODS]
+PROCEDURE Click
+
+This.FindOut()
+
+ENDPROC
+PROCEDURE cconfignexttierfilename_access
+*To do: Modify this routine for the Access method
+If Empty( This.cConfigNextTierFileName )
+	If !IsRuntime()
+		Local loProject As PjHook Of "Tools\ProjectHook\Vcx\ProjectHookVss.vcx"
+		Local lcProjectPath As String
+
+		lcProjectPath = ""
+		loProject = _vfp.ActiveProject
+
+		lcProjectPath = JustPath( loProject.Name )
+
+		This.cConfigNextTierFileName = Addbs( lcProjectPath ) ;
+			+ "ObjectFactoryCfg.xml"
+
+		loProject = Null
+
+	Else
+		This.cConfigNextTierFileName = "ObjectFactoryCfg.xml"
+
+	Endif
+Endif
+
+Return This.cConfigNextTierFileName
+
+
+ENDPROC
+PROCEDURE centitycursor_access
+
+With This
+    If Empty( .cEntityCursor )
+        .cEntityCursor = "Check" + .Parent.Name + Sys( 2015 )
+    Endif
+Endwith
+Return This.cEntityCursor
+
+ENDPROC
+PROCEDURE classafteropen
+Lparameters toParam As Object, tuRet As Variant @
+
+ENDPROC
+PROCEDURE classbeforeopen
+Lparameters toParam As Object @
+
+Return .T.
+
+ENDPROC
+PROCEDURE findout
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+#INCLUDE "Tools\ErrorHandler\include\eh.h"
+* @TODO Chequear acoplamiento #INCLUDE "Erp\\Archivos\\Include\\Archivos.h"
+
+Local lcWhere As String
+Local lcXML As String
+Local lcIdentifier As String
+Local lcUserTierClassLibrary As String
+Local loParam As Object
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+    With This As IBCheckButton Of FW\Comunes\VCX\inputboxes.VCX
+        If Empty( .Parent.Dato.Value )
+            Wait Window "Falta Ingresar el Dato a verificar ...." Nowait
+        Else
+            lcWhere = .GetWhereCondition()
+            lcXML = .oEntity.GetByWhere( lcWhere, .nLevel, .cEntityCursor )
+            lcIdentifier = ParseXML( lcXML, 1 )
+            If lcIdentifier = USER_TAG
+                loParam = XmlToObject( ParseXML( lcXML ) )
+                lnReturnValue = loParam.nRowsQuantity
+                If loParam.nRowsQuantity > 1
+
+                    If Empty( .cSelectorFormName )
+                        .cSelectorFormName = .oEntity.cSelectorFormName
+                    Endif
+                    loParam = Createobject( "Empty" )
+
+                    AddProperty( loParam, "cDataConfigurationKey", .cDataConfigurationKey )
+                    AddProperty( loParam, "cConfigNextTierFileName", .cConfigNextTierFileName )
+                    AddProperty( loParam, "cFilter", lcWhere )
+
+                    If .ClassBeforeOpen( @loParam )
+                        If .HookBeforeOpen( @loParam )
+                            Do Form ( This.cSelectorFormName );
+                                with loParam  ;
+                                to loRetVal
+
+                            .HookAfterOpen( loParam, @loRetVal )
+                            .ClassfterOpen( loParam, @loRetVal )
+                        Endif
+                    EndIf
+
+                Else
+                    Inform( This.Parent.oField.Caption + "[ " + Upper( Alltrim( Transform( This.Parent.Dato.Value )))  + " ]" + CR + "NO EXISTE" )
+                    Clear Typeahead
+
+                EndIf
+
+            Else
+                Warning( This.Parent.oField.Caption + "[ " + Upper( Alltrim( Transform( This.Parent.Dato.Value )))  + " ]" + CR + "YA EXISTE" )
+
+            Endif
+        Endif
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+Finally
+    loParam = Null
+    loError = Null
+    loRetVal = Null
+    This.Parent.SetFocus()
+Endtry
+
+
+
+ENDPROC
+PROCEDURE getwherecondition
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcWhere As String
+Local lcValue As String
+Local lcFieldName As String
+Local llOk As Boolean
+Local loCtrl As TextBox
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loField As oField Of "Tools\Sincronizador\colDataBases.prg"
+
+Try
+
+	* Arma la clausula WHERE de la instruccion SQL a ejecutar.
+
+	lcWhere = ""
+	loCtrl = This.Parent.Dato
+	loField = This.Parent.oField
+
+	With This As ibcheckButton Of FW\Comunes\VCX\inputboxes.VCX
+		llOk = ! Empty( loCtrl.Value )
+		If Empty( .cFieldName )
+			.cFieldName = loField.Name
+			*!*	            Assert .F. Message "Falta Definir cFieldName en " + loCtrl.Name + "." + .Name
+			*!*	            llOk = .F.
+		Endif
+
+		If llOk
+			If ! Inlist( .cFieldType, T_CHARACTER, T_NUMERIC, T_DATE, T_DATETIME )
+				Do Case
+					Case Inlist( loField.FieldType,;
+							"Character",;
+							"VarChar" )
+
+						.cFieldType = T_CHARACTER
+
+					Case Inlist( loField.FieldType,;
+							"Integer",;
+							"Numeric",;
+							"Float",;
+							"Double" )
+
+						.cFieldType = T_NUMERIC
+
+					Case Inlist( loField.FieldType,;
+							"Date" )
+
+						.cFieldType = T_DATE
+
+					Case Inlist( loField.FieldType,;
+							"DateTime" )
+
+						.cFieldType = T_DATETIME
+
+					Otherwise
+						Assert .F. Message "No se reconoce el tipo " + .cFieldType + " en " + loCtrl.Name + "." + .Name
+						llOk = .F.
+
+				Endcase
+			Endif
+		Endif
+
+		If llOk
+			If Empty( .cDefaultCondition )
+				.cDefaultCondition = loField.cDefaultCondition
+			Endif
+		Endif
+
+		If llOk
+			loCtrl.Value = ForceType( loCtrl.Value, .cFieldType )
+			If ! .lCaseSensitive And ( .cFieldType == T_CHARACTER )
+				lcFieldName = " lower(" + .cFieldName + ")"
+			Else
+				lcFieldName = .cFieldName
+			Endif
+
+			Do Case
+				Case Vartype( loCtrl.Value ) = T_CHARACTER
+					lcValue = "'" + Alltrim( loCtrl.Value ) + "'"
+					If ! .lCaseSensitive
+						lcValue = Lower( lcValue )
+					Endif
+
+				Case Vartype( loCtrl.Value ) = T_DATE
+					If ! Empty( loCtrl.Value )
+						lcValue = "<#" + Dtoc( loCtrl.Value ) + "#>"
+					Else
+						lcValue = "<##>"
+					Endif
+				Case Vartype( loCtrl.Value ) = T_DATETIME
+					If ! Empty( loCtrl.Value )
+						lcValue = "<$" + Ttoc( loCtrl.Value ) + "$>"
+					Else
+						lcValue = "<$$>"
+					Endif
+				Case Vartype( loCtrl.Value )= T_NUMERIC
+					lcValue = Transform( loCtrl.Value )
+					
+			Endcase
+
+			lcWhere = " (" + lcFieldName
+
+			Do Case
+				Case .cDefaultCondition = "like"
+					lcWhere = lcWhere + " like '" + Strtran( lcValue, "'", "" ) + "%'"
+					
+				Case .cDefaultCondition = "%"
+					lcWhere = lcWhere + " like '%" + Strtran( lcValue, "'", "" ) + "%'"
+					
+				Case .cDefaultCondition = "!#"
+					lcWhere = lcWhere + " = " + lcValue
+					
+				Case .cDefaultCondition = "#"
+					lcWhere = lcWhere + " <> " + lcValue
+					
+				Otherwise
+					lcWhere = lcWhere + " " + Alltrim( .cDefaultCondition )
+					lcWhere = lcWhere + " " + lcValue
+					
+			Endcase
+			lcWhere = lcWhere + ")"
+		Endif
+	Endwith
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+	
+Finally
+	loError = Null
+	
+Endtry
+
+Return ( lcWhere )
+
+ENDPROC
+PROCEDURE hookafteropen
+Lparameters toParam As Object, tuRet As Variant @
+
+ENDPROC
+PROCEDURE hookbeforeopen
+Lparameters toParam As Object @
+
+Return .T.
+
+ENDPROC
+PROCEDURE oentity_access
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    With This As ibcheckbutton Of FW\Comunes\VCX\inputboxes.VCX
+        If Vartype( .oEntity ) # 'O' && And !Thisform.lExit
+        	If Empty( This.cDataConfigurationKey )
+				This.cDataConfigurationKey = ThisForm.cDataConfigurationKey
+        	EndIf
+            .oEntity = Thisform.oEntity.GetEntity( .cDataConfigurationKey )
+        Endif
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+Return This.oEntity
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+cselectorformname Nombre del formulario selector
+cconfignexttierfilename
+nlevel
+centitycursor Nombre del cursor que traer· la informaciÛn a verificar
+cdataconfigurationkey Nombre ˙nico de la entidad asociada al control
+lcasesensitive Indica si la verificaciÛn es case sensitive
+cdefaultcondition Indica cual es la condicion de B˙squeda: % Contiene el texto ; !# Es igual
+cfieldname Nombre del campo que debe verificar
+cfieldtype Tipo de dato del campo a verificar
+nfieldwidth Ancho del campo numÈrico cuando el campo se guarda como characater
+oentity Referencia a la entidad
+*getwherecondition 
+*findout 
+*oentity_access 
+*classbeforeopen 
+*hookbeforeopen 
+*classafteropen 
+*hookafteropen 
+*centitycursor_access 
+*cconfignexttierfilename_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibcheckbutton
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h&Ês~\V ..\include\foxpro.h.Á r˚F ..\include\strings.h6ËZäOJ* ..\..\..\tools\namespaces\include\system.h>È±ŸF( ..\..\..\tools\errorhandler\include\eh.hFÍ
+∞ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DS0RVNXE
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibcommandbutton
+[START PROPERTIES]
+Width = 100
+Height = 27
+dato = 
+otarget = Null
+ctarget = ThisForm
+ccommand = 
+lhascontrolsource = .F.
+_memberdata =     6347<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="enabled_assign" type="method" display="Enabled_Assign"/><memberdata name="fieldname" type="property" display="FieldName" favorites="True"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="errormessage" type="property" display="ErrorMessage" favorites="True"/><memberdata name="lautosetup" type="property" display="lAutoSetup" favorites="True"/><memberdata name="wherecondition" type="property" display="WhereCondition"/><memberdata name="getfirstfocus" type="property" display="GetFirstFocus"/><memberdata name="length" type="property" display="Length" favorites="True"/><memberdata name="visible" type="Property" favorites="True"/><memberdata name="keepplace" type="property" display="KeepPlace" favorites="True"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="alignlabel" type="property" display="AlignLabel"/><memberdata name="format" type="property" display="Format"/><memberdata name="inputmask" type="property" display="InputMask"/><memberdata name="hasvalidationruleerror" type="property" display="HasValidationRuleError"/><memberdata name="ncolnumber" type="property" display="nColNumber" favorites="True"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="labelontop" type="property" display="LabelOnTop" favorites="True"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="handleevents" type="method" display="HandleEvents"/><memberdata name="cursorname" type="property" display="CursorName" favorites="True"/><memberdata name="cursorname_access" type="property" display="CursorName_Access" favorites="True"/><memberdata name="setasfirstfocus" type="method" display="SetAsFirstFocus"/><memberdata name="setasfirstfocus" type="method" display="SetAsFirstFocus"/><memberdata name="lhascontrolsource" type="property" display="lHasControlSource"/><memberdata name="cbelongtopage" type="property" display="cBelongToPage"/><memberdata name="getpagename" type="method" display="GetPageName"/><memberdata name="redonly" type="property" display="RedOnly"/><memberdata name="redonly_assign" type="property" display="RedOnly_Assign"/><memberdata name="readonly" type="property" display="ReadOnly"/><memberdata name="readonly_assign" type="property" display="ReadOnly_Assign"/><memberdata name="lhandlenextfocus" type="property" display="lHandleNextFocus" favorites="True"/><memberdata name="handlenextfocus" type="method" display="HandleNextFocus"/><memberdata name="lislastfocus" type="property" display="lIsLastFocus" favorites="True"/><memberdata name="value" type="property" display="Value"/><memberdata name="value_access" type="property" display="Value_Access"/><memberdata name="value_assign" type="property" display="Value_Assign"/><memberdata name="cfield" type="property" display="cField"/><memberdata name="controlsource" type="property" display="ControlSource"/><memberdata name="controlsource_assign" type="property" display="ControlSource_Assign"/><memberdata name="chotkeyletter" type="property" display="cHotKeyLetter" favorites="True"/><memberdata name="lhotkeypress" type="property" display="lHotKeyPress" favorites="True"/><memberdata name="nrow" type="property" display="nRow"/><memberdata name="ncol" type="property" display="nCol"/><memberdata name="ncolspan" type="property" display="nColSpan"/><memberdata name="nrowspan" type="property" display="nRowSpan"/><memberdata name="ntoppadding" type="property" display="nTopPadding"/><memberdata name="nbottompadding" type="property" display="nBottomPadding"/><memberdata name="nleftpadding" type="property" display="nLeftPadding"/><memberdata name="nrightpadding" type="property" display="nRightPadding"/><memberdata name="classbeforeautosetup" type="method" display="ClassBeforeAutoSetup"/><memberdata name="hookbeforeautosetup" type="method" display="HookBeforeAutoSetup"/><memberdata name="classafterautosetup" type="method" display="ClassAfterAutoSetup"/><memberdata name="hookafterautosetup" type="method" display="HookAfterAutoSetup"/><memberdata name="lkeepplace" type="property" display="lKeepPlace"/><memberdata name="lsamerowasprevious" type="property" display="lSameRowAsPrevious"/><memberdata name="classafterinit" type="method" display="ClassAfterInit"/><memberdata name="classbeforeinit" type="method" display="ClassBeforeInit"/><memberdata name="lsubscribetohandleevents" type="property" display="lSubscribeToHandleEvents"/><memberdata name="ccursorname" type="property" display="cCursorName" favorites="True"/><memberdata name="cfieldname" type="property" display="cFieldName" favorites="True"/><memberdata name="cerrormessage" type="property" display="cErrorMessage"/><memberdata name="lgetfirstfocus" type="property" display="lGetFirstFocus" favorites="True"/><memberdata name="lhasvalidationruleerror" type="property" display="lHasValidationRuleError"/><memberdata name="llabelontop" type="property" display="lLabelOnTop"/><memberdata name="nlength" type="property" display="nLength" favorites="True"/><memberdata name="lsetasfirstfocus" type="property" display="lSetAsFirstFocus" favorites="True"/><memberdata name="ccursorname_access" type="method" display="cCursorName_Access"/><memberdata name="dato" type="property" display="Dato"/><memberdata name="dato_access" type="method" display="Dato_Access"/><memberdata name="autosetup" type="method" display="AutoSetup"/><memberdata name="classafterexecute" type="method" display="ClassAfterExecute"/><memberdata name="classbeforeexecute" type="method" display="ClassBeforeExecute"/><memberdata name="ctarget" type="property" display="cTarget"/><memberdata name="execute" type="method" display="Execute"/><memberdata name="hookafterexecute" type="method" display="HookAfterExecute"/><memberdata name="hookbeforeexecute" type="method" display="HookBeforeExecute"/><memberdata name="ocolobjects_access" type="method" display="oColObjects_Access"/><memberdata name="otarget" type="property" display="oTarget"/><memberdata name="otarget_access" type="method" display="oTarget_Access"/></VFPData>
+
+Name = "ibcommandbutton"
+Label.Top = -100
+Label.Visible = .F.
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+[END PROPERTIES]
+[START PROTECTED]
+classafterexecute
+classbeforeexecute
+[END PROTECTED]
+[START METHODS]
+PROCEDURE ccommand_access
+*To do: Modify this routine for the Access method
+
+This.cCommand = This.Button.cCommand
+Return This.cCommand
+
+ENDPROC
+PROCEDURE ccommand_assign
+Lparameters tcCommand  As String
+
+This.cCommand = m.tcCommand
+This.Button.cCommand = m.tcCommand
+
+ENDPROCPROCEDURE classbeforeexecute
+Lparameters tcMethod As String @, tcParameters As String @
+
+Return .T.
+
+ENDPROC
+PROCEDURE dato_access
+
+With This As ibcommandbutton Of FW\Comunes\vcx\inputboxes.vcx
+	If Vartype( .Dato ) # 'O'
+		.Dato = .Button
+		
+	Endif && Vartype( .Dato ) # 'O'
+
+Endwith
+
+Return This.Dato
+
+ENDPROC
+PROCEDURE execute
+Lparameters tcMethod As String, tcParameters As String
+
+Local loTarget As Object
+Local loControl As Object
+Local lcParameters As String
+Local lcMethod As String
+Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+Try
+	lcMethod = Alltrim( tcMethod )
+	If Pcount() = 2
+		lcParameters = Alltrim( tcParameters )
+	Else
+		lcParameters = ''
+
+	Endif && Pcount() = 2
+
+	With This As ibcommandbutton Of FW\Comunes\Vcx\Inputboxes.Vcx
+		If .ClassBeforeExecute( @lcMethod, @lcParameters )
+			If .HookBeforeExecute( @lcMethod, @lcParameters )
+				loTarget = .oTarget
+				* Verifica que el loTarget tenga el mÈtodo tcMethod
+				If Pemstatus( loTarget, lcMethod, 5 )
+					* Si el objeto es un contenedor, y tiene un control activo,
+					* obtiene el foco para forzar la actualizacion del valor
+					Try
+						If Type( 'loTarget.ActiveControl' ) == 'O'
+							loControl = loTarget.ActiveControl
+							If Pemstatus( loControl, 'SetFocus', 5 )
+								loControl.SetFocus()
+
+							Endif && Pemstatus( loControl, 'SetFocus', 5 )
+
+						Endif && Type( 'loTarget.ActiveControl' ) == 'O'
+
+					Catch To oErr
+					Endtry
+					* Arma la lista de par·metros
+					lcParameters = Iif( Empty( lcParameters ), '', '( ' + lcParameters + ' )' )
+					* Ejecuta el MÈtodo
+					loTarget.&lcMethod &lcParameters
+					.HookAfterExecute()
+					.ClassAfterExecute()
+				Endif
+			Endif
+		Endif
+	Endwith
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	loTarget = Null
+	loControl = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE hookbeforeexecute
+Lparameters tcMethod As String @, tcParameters As String @
+
+Return .T.
+
+ENDPROC
+PROCEDURE otarget_access
+Local lcTarget As String
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	With This As optionpanelbase Of FW\Comunes\vcx\prxmainform.vcx
+		If Vartype( .oTarget ) # 'O'
+			lcTarget = .cTarget
+			.oTarget = &lcTarget
+
+		Endif &&  Vartype( .oTarget ) # 'O'
+
+	Endwith
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+Return This.oTarget
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED3]
+dato
+otarget
+ctarget
+ccommand
+*dato_access 
+*execute 
+*classafterexecute 
+*hookafterexecute 
+*hookbeforeexecute 
+*classbeforeexecute 
+*otarget_access 
+*ccommand_access 
+*ccommand_assign 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DS0S7QGD
+[CLASS] abstractbutton
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] Button
+[PARENT] ibcommandbutton
+[START PROPERTIES]
+Top = 0
+Left = 0
+SpecialEffect = 2
+_memberdata =     1421<VFPData><memberdata name="classbeforeclick" type="method" display="ClassBeforeClick"/><memberdata name="fontsize_assign" type="method" display="FontSize_Assign"/><memberdata name="hookafterinit" type="method" display="HookAfterInit"/><memberdata name="hookbeforeclick" type="method" display="HookBeforeClick"/><memberdata name="hookbeforeinit" type="method" display="HookBeforeInit"/><memberdata name="ltabstop" type="property" display="lTabStop"/><memberdata name="lvisible" type="property" display="lVisible"/><memberdata name="anchorstatus" type="method" display="AnchorStatus"/><memberdata name="autosetup" type="method" display="AutoSetup"/><memberdata name="ccommand" type="property" display="cCommand" favorites="True"/><memberdata name="ccommand_access" type="method" display="cCommand_Access"/><memberdata name="classafterclick" type="method" display="ClassAfterClick"/><memberdata name="hookafterclick" type="method" display="HookAfterClick"/><memberdata name="lenabled" type="property" display="lEnabled"/><memberdata name="lisactive" type="property" display="lIsActive" favorites="True"/><memberdata name="lisactive_assign" type="method" display="lIsActive_Assign"/><memberdata name="lperformautosetup" type="property" display="lPerformAutoSetup"/><memberdata name="noldanchor" type="property" display="nOldAnchor"/><memberdata name="noldanchor_assign" type="method" display="nOldAnchor_Assign"/></VFPData>
+
+Name = "Button"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibcommandbutton
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2F40QUB8M
+[CLASS] ibcombopadrehijo
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibcombopadrehijonieto
+[START PROPERTIES]
+Width = 217
+Height = 115
+grandchildpk = 
+_memberdata =     1628<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="lautosetup" type="property" display="lAutoSetup"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="fittoparent" type="method" display="FitToParent"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="nBottomPadding" type="Property" favorites="True"/><memberdata name="resalttittle" type="property" display="ResaltTittle" favorites="True"/><memberdata name="oldshapecolor" type="property" display="OldShapeColor"/><memberdata name="lresalttittle" type="property" display="lResaltTittle" favorites="True"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="readonly" type="property" display="ReadOnly"/><memberdata name="readonly_assign" type="property" display="ReadOnly_Assign"/><memberdata name="populatechild" type="method" display="PopulateChild"/><memberdata name="foreignkeyfield" type="property" display="ForeignKeyField" favorites="True"/><memberdata name="childpk" type="property" display="ChildPK" favorites="True"/><memberdata name="mainpk" type="property" display="MainPK" favorites="True"/><memberdata name="populategrandchild" type="method" display="PopulateGrandChild"/><memberdata name="grandchildpk" type="property" display="GrandChildPK" favorites="True"/></VFPDat
+Name = "ibcombopadrehijonieto"
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Name = "lblTitulo"
+cboPadre.Label.Name = "Label"
+cboPadre.CheckButton.Name = "CheckButton"
+cboPadre.Dato.Name = "Dato"
+cboPadre.Top = 7
+cboPadre.Left = 8
+cboPadre.Width = 200
+cboPadre.Name = "cboPadre"
+cboHijo.Label.Name = "Label"
+cboHijo.CheckButton.Name = "CheckButton"
+cboHijo.Dato.Name = "Dato"
+cboHijo.Top = 40
+cboHijo.Left = 8
+cboHijo.Width = 200
+cboHijo.Name = "cboHijo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE cboHijo.Dato.InteractiveChange
+DoDefault()
+This.Parent.Parent.PopulateGrandChild( This.Value )
+
+ENDPROC
+PROCEDURE cboHijo.Dato.value_assign
+Lparameters vNewVal
+This.Value = m.vNewVal
+This.Parent.Parent.PopulateGrandChild( vNewVal )
+
+ENDPROCPROCEDURE populategrandchild
+Lparameters nPadreId As Integer
+
+Local lcAlias As String,;
+	lcCommand As String
+
+Local lnPadreId As Integer
+Local llSigue As Boolean
+Local lcFilterCriteria As String
+
+lcAlias = ""
+
+Try
+
+	llSigue = .T.
+	nPadreId = Int( nPadreId )
+
+	If Used( This.cboNieto.cEntityCursor )
+		llSigue = Evaluate( This.cboNieto.cEntityCursor + "." + This.ChildPK ) <> nPadreId
+	Endif
+
+
+	If llSigue
+
+		This.cboNieto.Dato.RowSource = ""
+
+		If Used( This.cboNieto.cEntityCursor )
+			Use In Alias( This.cboNieto.cEntityCursor )
+		Endif
+
+		TEXT To lcFilterCriteria NoShow TextMerge Pretext 15
+		<<This.ChildPK>> = <<nPadreId>>
+		EndText
+		
+		This.cboNieto.PopulateCombo( lcFilterCriteria )
+
+*!*			This.cboNieto.oEntity.GetAll( lcFilterCriteria )
+
+*!*			lcAlias = This.cboNieto.oEntity.MainCursorName
+
+*!*			If Used( lcAlias )
+
+*!*				If Empty( This.cboNieto.Selectedfields )
+*!*					This.cboNieto.Selectedfields = This.cboNieto.oEntity.cSelectorFields
+*!*				Endif
+
+*!*				If !Lower( This.GrandChildPK )$Lower( This.cboNieto.Selectedfields )
+*!*					This.cboNieto.Selectedfields = This.cboNieto.Selectedfields + "," + This.GrandChildPK
+*!*				Endif
+
+*!*				If Empty( This.cboNieto.OrderByFields )
+*!*					This.cboNieto.OrderByFields = Getwordnum( This.cboNieto.Selectedfields, 1, "," )
+*!*				Endif
+
+*!*				TEXT To lcCommand NoShow TextMerge Pretext 15
+*!*				Select <<This.cboNieto.Selectedfields>>
+*!*					from <<lcAlias>>
+*!*					Where <<lcAlias>>.<<This.ChildPK>> = <<nPadreId>>
+*!*					into Cursor <<This.cboNieto.cEntityCursor>>
+*!*					order By <<This.cboNieto.OrderByFields>>
+*!*					nofilter Readwrite
+*!*				ENDTEXT
+
+*!*				&lcCommand
+
+*!*				Select Alias( This.cboNieto.cEntityCursor )
+
+*!*				TEXT To lcCommand NoShow TextMerge Pretext 15
+*!*				Locate for <<This.GrandChildPK>> = Evaluate( This.cboNieto.Dato.ControlSource )
+*!*				ENDTEXT
+
+
+*!*				&lcCommand
+
+*!*				If Eof()
+*!*					Select Alias( This.cboNieto.CursorName )
+*!*					Replace (This.GrandChildPK) With 0
+*!*				Endif
+
+*!*				If Empty( This.cboNieto.Dato.RowSource )
+*!*					This.cboNieto.Dato.RowSource = This.cboNieto.cEntityCursor + "." + This.cboNieto.Selectedfields
+*!*				Endif
+
+*!*			Endif
+
+	Endif
+
+
+	This.cboNieto.Enabled = !Empty( nPadreId )
+
+	This.cboNieto.Dato.Refresh()
+
+Catch To oErr
+	oErr.Message = oErr.Message + " (Combo " + This.cboNieto.Name + ")"
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+	If Used( lcAlias )
+		Use In Alias( lcAlias )
+	Endif
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED3]
+grandchildpk Nombre del campo que contiene la PK en el cursor nieto
+*populategrandchild 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2F40QYAHY
+[CLASS] ibcombo
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] cboNieto
+[PARENT] ibcombopadrehijonieto
+[START PROPERTIES]
+Top = 73
+Left = 8
+Width = 200
+Name = "cboNieto"
+Label.Caption = "Nieto"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.BoundColumn = 3
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Try
+
+
+	If Pemstatus( Thisform, "oColIB", 5 )
+		Thisform.oColIB.Add( This )
+	Endif
+
+	If Pemstatus( Thisform, "oColCombos", 5 )
+		Thisform.oColCombos.Add( This )
+	Endif
+
+	If This.lGetFirstFocus = .T.
+		This.SetAsFirstFocus()
+	Endif
+
+	If Empty( This.Label.ToolTipText )
+		This.Label.ToolTipText = This.ToolTipText
+	Endif
+
+	If Empty( This.Dato.ToolTipText )
+		This.Dato.ToolTipText = This.ToolTipText
+	Endif
+
+	If Empty( This.Label.StatusBarText  )
+		This.Label.StatusBarText = This.StatusBarText
+	Endif
+
+	If Empty( This.Dato.StatusBarText )
+		This.Dato.StatusBarText = This.StatusBarText
+	Endif
+
+	If This.lSubscribeToHandleEvents
+		Bindevent( Thisform, "HandleEvents", This, "HandleEvents" )
+	Endif
+
+	This.cBelongToPage = This.GetPageName( This, "" )
+
+Catch To oErr
+	Throw oErr
+
+Finally
+
+Endtry
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibcombopadrehijonieto
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2GR0Z0P1G
+[CLASS] ibstring
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibnumeric
+[START PROPERTIES]
+Name = "ibnumeric"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.Alignment = 1
+Dato.Format = "K"
+Dato.InputMask = "999999.99"
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Dato.MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+#define CALC_ACTIVATE 1
+
+Local lnValue as Number
+Local lnAction as Integer
+
+
+Do Case
+	Case nButton = 2 And nShift = 0 && Right Click
+
+		lnValue = This.Value
+		lnAction = 0
+		
+		Define Popup emergente SHORTCUT Relative From Mrow(),Mcol()
+
+		*!*	Opciones de Calculadora
+		Define Bar 1 Of emergente Prompt "Ca\<lculadora"
+		On Bar 1 Of emergente Activate Popup calculadora
+		Define Bar 2  Of emergente Prompt "\-"
+
+
+		*!*	Definir el menu.
+		Define Bar _Med_undo Of emergente Prompt "\<Deshacer" Key CTRL+Z, "" ;
+			message "Deshace el ˙ltimo comando o acciÛn."
+		Define Bar _Med_redo Of emergente Prompt "Re\<hacer" Key CTRL+R, "" ;
+			message "Repite el ˙ltimo comando o acciÛn."
+		Define Bar 5 Of emergente Prompt "\-"
+		Define Bar _Med_cut Of emergente Prompt "Cor\<tar" Key CTRL+X, "" ;
+			message "Quita la selecciÛn y la coloca en el Portapapeles."
+		Define Bar _Med_copy Of emergente Prompt "\<Copiar" Key CTRL+C, "" ;
+			message "Copia la selecciÛn al Portapapeles."
+		Define Bar _Med_paste Of emergente Prompt "Peg\<ar"	Key CTRL+V, "" ;
+			message "Pega el contenido del Portapapeles."
+		Define Bar 9 Of emergente Prompt "\-"
+		Define Bar _Med_slcta Of emergente Prompt "\<Seleccionar todo" Key CTRL+A, "" ;
+			message "Selecciona todos los elementos o texto de la ventana actual."
+
+
+		*!*	Definir el menu de la Calculadora
+		Define Popup calculadora SHORTCUT Relative
+		Define Bar 1 Of calculadora Prompt "\<Activar Calculadora"
+		Define Bar 2 Of calculadora Prompt "\<Importar Resultado"
+		
+		On Selection Bar 1 Of calculadora lnAction = CALC_ACTIVATE
+		On Selection Bar 2 Of calculadora lnValue = _CALCVALUE
+
+		Activate Popup emergente
+
+		This.Value = lnValue
+		
+		If lnAction = CALC_ACTIVATE
+			_CALCVALUE = This.Value
+			Activate Window Calculator
+		EndIf
+
+	Otherwise
+		This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+
+Endcase
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibnumeric
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2MA10HI80
+[CLASS] ibstring
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibgetfile
+[START PROPERTIES]
+Width = 360
+Height = 38
+ctext = 
+cfileextensions = 
+copenbuttoncaption = 
+ctitlebarcaption = 
+nbuttontype = 0
+lhascontrolsource = .F.
+nlength = 30
+_memberdata =      596<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="getfile" type="method" display="GetFile"/><memberdata name="ctext" type="property" display="cText" favorites="True"/><memberdata name="cfileextensions" type="property" display="cFileExtensions" favorites="True"/><memberdata name="copenbuttoncaption" type="property" display="cOpenButtonCaption" favorites="True"/><memberdata name="ctitlebarcaption" type="property" display="cTitleBarCaption" favorites="True"/><memberdata name="nbuttontype" type="property" display="nButtonType" favorites="True"/></VFPData>
+
+Name = "ibgetfile"
+Label.Caption = "Archivo"
+Label.Height = 20
+Label.Left = 6
+Label.Top = 3
+Label.Width = 118
+Label.Name = "Label"
+CheckButton.Top = 4
+CheckButton.Left = 316
+CheckButton.Height = 27
+CheckButton.Width = 32
+CheckButton.Picture = ..\image\bmp\find.bmp
+CheckButton.DisabledPicture = ..\image\bmp\#find.bmp
+CheckButton.Caption = ""
+CheckButton.ToolTipText = "Examinar"
+CheckButton.Visible = .T.
+CheckButton.Name = "CheckButton"
+Dato.Height = 27
+Dato.Left = 122
+Dato.Top = 4
+Dato.Width = 186
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE CheckButton.findout
+This.Parent.GetFile()
+ENDPROCPROCEDURE getfile
+Local lcFile As String
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    With This As ibgetfile Of FW\Comunes\vcx\inputboxes.vcx
+        lcFile = Getfile( .cFileExtensions,;
+            .cText,;
+            .cOpenButtonCaption,;
+            .nButtonType,;
+            .cTitleBarCaption )
+
+        If ! Empty( lcFile )
+            .Dato.Value = Proper( lcFile )
+        Endif
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+ctext Specifies text to display for the File Name label in the Open dialog box.
+cfileextensions Specifies the file name extensions for the files to display in the Open dialog box when the All Files type is not chosen.
+copenbuttoncaption Specifies a caption for the OK button in the Open dialog box.
+ctitlebarcaption Specifies the caption for the title bar of the Open dialog box.
+nbuttontype Specifies the number and type of buttons that appear in the Open dialog box.
+*getfile 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibgetfile
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PD0KOTOH
+[CLASS] ibcombolistbox
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibcombo
+[START PROPERTIES]
+Width = 208
+Name = "ibcombo"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE releaseobjects
+Local loObj As Object
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	With This As prxcontainer Of FW\Comunes\vcx\prxbase.vcx
+		.oColObjects = Null
+		.oImageList = Null
+		For Each loObj In .Objects
+			If Pemstatus( loObj, 'ReleaseObjects', 5 )
+				loObj.ReleaseObjects()
+			Endif
+		Endfor
+
+	Endwith
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loObj = Null
+
+Endtry
+
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PD0KQ3W1
+[CLASS] prxcombobox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] combobox
+[OBJNAME] Dato
+[PARENT] ibcombo
+[START PROPERTIES]
+BoundColumn = 2
+ColumnCount = 1
+RowSourceType = 6
+Left = 60
+Margin = 0
+Top = 0
+DisabledForeColor = 0,0,255
+BoundTo = .T.
+_memberdata =      738<VFPData><memberdata name="fontbold" type="Property" favorites="True"/><memberdata name="fontsize" type="Property" favorites="True"/><memberdata name="height" type="Property" favorites="True"/><memberdata name="margin" type="Property" favorites="True"/><memberdata name="autofit" type="method" display="AutoFit"/><memberdata name="length" type="property" display="Length"/><memberdata name="lvisible" type="property" display="lVisible"/><memberdata name="ltabstop" type="property" display="lTabStop"/><memberdata name="fontname" type="property" favorites="True"/><memberdata name="fontsize_assign" type="method" display="FontSize_Assign" favorites="True"/><memberdata name="value_assign" type="method" display="Value_Assign"/></VFPData>
+
+Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE DblClick
+
+*This.Parent.DblClick()
+ENDPROC
+PROCEDURE DropDown
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+*!*		This.Parent.PopulateCombo()
+
+Catch To oErr
+	loError = ThisForm.oError
+	ThisForm.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	ThisForm.oError.Cremark = ''
+	ThisForm.oError.Ctracelogin = ''
+
+EndTry
+
+ENDPROCPROCEDURE GotFocus
+DoDefault()
+With This
+    .Parent.Label.FontUnderline = .T.
+    If ! .Parent.lHasValidationRuleError
+        *.BackColor = Rgb(220,255,255)
+    Endif
+Endwith
+
+
+
+
+ENDPROC
+PROCEDURE InteractiveChange
+DoDefault()
+
+*This.Parent.InteractiveChange( Int( This.Value ) )
+ENDPROC
+PROCEDURE LostFocus
+DoDefault()
+With This
+    .Parent.Label.FontUnderline = .F.
+    If ! .Parent.lHasValidationRuleError
+        *.BackColor= Rgb(255,255,255)
+        *.ForeColor = Rgb(0,0,0)
+    Endif
+Endwith
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+
+ENDPROC
+PROCEDURE autofit
+Lparameters tnExtraLen As Integer,	tnExtraHeight As Integer
+
+DoDefault( 0, 1.25 )
+ENDPROC
+PROCEDURE value_assign
+Lparameters vNewVal As Variant
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	DoDefault( vNewVal )
+	*This.Parent.oEntity.nEntidadId = vNewVal
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	Thisform.oError.Cremark = ''
+	Thisform.oError.Ctracelogin = ''
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibcombo
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PD0KQUKB
+[CLASS] ibcombolistbox
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] iblistbox
+[START PROPERTIES]
+Width = 200
+Height = 78
+Name = "iblistbox"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2PD0KR4SN
+[CLASS] prxlistbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] listbox
+[OBJNAME] Dato
+[PARENT] iblistbox
+[START PROPERTIES]
+Height = 50
+Left = 24
+Top = 24
+Width = 150
+DisabledBackColor = 212,208,200
+DisabledForeColor = 0,0,255
+IntegralHeight = .T.
+ItemTips = .T.
+Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+DoDefault()
+This.Parent.Label.FontUnderline = .T.
+ENDPROC
+PROCEDURE InteractiveChange
+This.Parent.InteractiveChange( This.Value )
+ENDPROC
+PROCEDURE LostFocus
+DoDefault()
+This.Parent.Label.FontUnderline = .F.
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+Do Case
+	Case nButton = 2 And nShift = 0  && RightClick
+		DoDefault( nButton, nShift, nXCoord, nYCoord )
+		
+	Otherwise
+		This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+		
+Endcase
+
+ENDPROC
+PROCEDURE autofit
+Lparameters tnExtraLen As Integer, tnExtraHeight As Integer
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lnHeight as Integer
+
+Try
+
+    	lnHeight = .Height
+    	
+    	DoDefault( tnExtraLen, tnExtraHeight )
+    	
+    	This.Height = lnHeight
+    	
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] iblistbox
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2Q70XLBCY
+[CLASS] ibcontainer
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibseparador
+[START PROPERTIES]
+Width = 192
+Height = 32
+Visible = .F.
+lkeepplace = .T.
+lsubscribetocolib = .F.
+Name = "ibseparador"
+Label.AutoSize = .T.
+Label.FontBold = .T.
+Label.FontSize = 9
+Label.Alignment = 2
+Label.Caption = "Separador"
+Label.Left = 0
+Label.Visible = .F.
+Label.ForeColor = 255,0,0
+Label.Name = "Label"
+CheckButton.Left = -500
+CheckButton.Enabled = .F.
+CheckButton.Visible = .F.
+CheckButton.Name = "CheckButton"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE CheckButton.Click
+
+NoDefault
+ENDPROCPROCEDURE getmeasures
+Local loCtrlMeasures As ControlMeasures Of 'fw\comunes\prg\autosetup.prg'
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lnChkBtnWidth As Number
+
+Try
+	With This
+		loCtrlMeasures = Newobject( 'ControlMeasures', 'fw\comunes\prg\autosetup.prg' )
+
+		lnChkBtnWidth = 0
+		If .checkButton.Visible
+			lnChkBtnWidth = .checkButton.Width + This.nGap
+
+		Endif
+
+		loCtrlMeasures.Width 		= .Width
+		loCtrlMeasures.Height 		= .Height
+		loCtrlMeasures.lLabelOnTop 	= .lLabelOnTop
+		loCtrlMeasures.nDatoWidth 	= .Width + lnChkBtnWidth
+		loCtrlMeasures.nDatoHeight 	= .Height
+		loCtrlMeasures.nLabelWidth 	= .Label.Width
+		loCtrlMeasures.nLabelHeight = .Label.Height
+
+	Endwith
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+Return loCtrlMeasures
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2RQ0XM4G0
+[CLASS] prxtextbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] textbox
+[OBJNAME] Dato
+[PARENT] ibseparador
+[START PROPERTIES]
+Left = 81
+TabStop = .F.
+Top = 1
+Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autofit
+Lparameters tnExtraLen As Integer, tnExtraHeight As Integer
+
+NoDefault
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] ibseparador
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

@@ -1,0 +1,879 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8X
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8Y
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] frmLayout
+[START PROPERTIES]
+BorderStyle = 0
+Height = 420
+Width = 420
+DoCreate = .T.
+AutoCenter = .T.
+Caption = "Configuración"
+Closable = .F.
+MaxButton = .F.
+MinButton = .F.
+_memberdata =      259<VFPData><memberdata name="fontsetup" display="FontSetup"/><memberdata name="cancelar" display="Cancelar"/><memberdata name="aceptar" display="Aceptar"/><memberdata name="osetup" display="oSetup"/><memberdata name="colorsetup" display="ColorSetup"/></VFPData>
+osetup = Null
+Name = "frmLayout"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local llOk As Boolean
+Local loSetup As Object
+Local loColFonts As Collection,;
+	loFont As Object,;
+	loScreenColors as Object
+
+Try
+
+	llOk = .T.
+	If  FileExist( "SetUp.cfg" )
+		loSetup = XmlToObject( Filetostr( "SetUp.cfg" ))
+
+	Else
+		loSetup = Createobject( "Empty" )
+
+	Endif
+
+	If Vartype( loSetup ) == "O"
+
+		If !Pemstatus( loSetup, "oColFonts", 5 )
+
+			loColFonts = Createobject( "Collection" )
+			loFont = Createobject( "Empty" )
+			AddProperty( loFont, "FontName", _Screen.oApp.FontName )
+			AddProperty( loFont, "FontSize", _Screen.oApp.FontSize )
+			AddProperty( loFont, "FontStyle", _Screen.oApp.FontStyle )
+			AddProperty( loFont, "FontCharSet", _Screen.oApp.FontCharSet )
+			loColFonts.Add( loFont, "screen" )
+
+			loFont = Createobject( "Empty" )
+			AddProperty( loFont, "FontName", _Screen.oApp.FontName )
+			AddProperty( loFont, "FontSize", _Screen.oApp.FontSize )
+			AddProperty( loFont, "FontStyle", _Screen.oApp.FontStyle )
+			AddProperty( loFont, "FontCharSet", _Screen.oApp.FontCharSet )
+			loColFonts.Add( loFont, "selector" )
+
+			AddProperty( loSetup, "oColFonts", loColFonts )
+
+		Endif
+
+		If !Pemstatus( loSetup, "lDoLogin", 5 )
+			AddProperty( loSetup, "lDoLogin", _Screen.oApp.lDoLogin  )
+		Endif
+
+		If !Pemstatus( loSetup, "nWindowState", 5 )
+			AddProperty( loSetup, "nWindowState", _Screen.oApp.nWindowState  )
+		Endif
+
+		If !Pemstatus( loSetup, "lFitToForm", 5 )
+			AddProperty( loSetup, "lFitToForm", .F. )
+		Endif
+
+		If !Pemstatus( loSetup, "nSelectorMaxWidth", 5 )
+			AddProperty( loSetup, "nSelectorMaxWidth", 80 )
+		Endif
+
+		* Screen Colors
+		If !Pemstatus( loSetup, "oScreenColors", 5 )
+			loScreenColors = Createobject( "Empty" )
+			AddProperty( loSetup, "oScreenColors", loScreenColors )
+		EndIf
+		If Vartype( loSetup.oScreenColors ) # "O"
+			loSetup.oScreenColors = Createobject( "Empty" )
+		EndIf
+		loScreenColors = loSetup.oScreenColors
+		If !Pemstatus( loScreenColors, "cMainScreenForeColor", 5 )
+			AddProperty( loScreenColors, "cMainScreenForeColor", gcForeColor )
+		EndIf
+		If !Pemstatus( loScreenColors, "cMainScreenBackColor", 5 )
+			AddProperty( loScreenColors, "cMainScreenBackColor", gcBackColor )
+		EndIf
+		If !Pemstatus( loScreenColors, "cGetBackColor", 5 )
+			AddProperty( loScreenColors, "cGetBackColor", gcGetBackColor )
+		EndIf
+		If !Pemstatus( loScreenColors, "cGetForeColor", 5 )
+			AddProperty( loScreenColors, "cGetForeColor", gcGetForeColor )
+		EndIf
+		* Fin Screen Colors
+		
+		Thisform.oSetup = loSetup
+
+		loColFonts = loSetup.oColFonts
+
+		loFont = loColFonts.Item( "screen" )
+
+		Thisform.lblScreenFont.AutoSize 	= .F.
+		Thisform.lblScreenFont.FontName 	= loFont.FontName
+		Thisform.lblScreenFont.FontSize 	= loFont.FontSize
+		Thisform.lblScreenFont.FontBold 	= "B"$loFont.FontStyle
+		Thisform.lblScreenFont.FontItalic 	= "I"$loFont.FontStyle
+		Thisform.lblScreenFont.Caption 		= Thisform.lblScreenFont.FontName + " - " + Transform( Thisform.lblScreenFont.FontSize )
+		Thisform.lblScreenFont.AutoSize 	= .T.
+
+
+		loFont = loColFonts.Item( "selector" )
+
+		Thisform.lblSelectorFont.AutoSize 	= .F.
+		Thisform.lblSelectorFont.FontName 	= loFont.FontName
+		Thisform.lblSelectorFont.FontSize 	= loFont.FontSize
+		Thisform.lblSelectorFont.FontBold 	= "B"$loFont.FontStyle
+		Thisform.lblSelectorFont.FontItalic = "I"$loFont.FontStyle
+		Thisform.lblSelectorFont.Caption 	= Thisform.lblSelectorFont.FontName + " - " + Transform( Thisform.lblSelectorFont.FontSize )
+		Thisform.lblSelectorFont.AutoSize 	= .T.
+
+		If loSetup.lFitToForm
+			Thisform.optScreen.Value = 3
+
+		Else
+			If loSetup.nWindowState = 2
+				Thisform.optScreen.Value = 2
+
+			Else
+				Thisform.optScreen.Value = 1
+
+			Endif
+
+		Endif
+
+
+		This.AutoCenter = .T.
+
+		* Verificar que se encuentra dentro de _Screen
+		If Thisform.Left + Thisform.Width > _Screen.Width
+			Thisform.Left = _Screen.Width - Thisform.Width
+		Endif
+
+		If Thisform.Left < 0
+			Thisform.Left = 0
+			_Screen.Width = Thisform.Width
+		Endif
+
+		If Thisform.Top + Thisform.Height + WINDOWTITLEHEIGHT > _Screen.Height
+			Thisform.Top = _Screen.Height - Thisform.Height - WINDOWTITLEHEIGHT
+		Endif
+
+		If Thisform.Top < 0
+			Thisform.Top = 0
+			_Screen.Height = Thisform.Height + WINDOWTITLEHEIGHT
+		EndIf
+		
+		* -----------------------------------------
+
+		Thisform.chkLogin.Value = loSetup.lDoLogin
+
+		Thisform.spnAnchoSelector.Value = loSetup.nSelectorMaxWidth
+
+	Endif
+
+	Thisform.cmdAceptar.SetFocus()
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	llOk = .F.
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+
+Return llOk
+
+ENDPROC
+PROCEDURE aceptar
+Local laMembers[ 1 ] As String
+Local lcProperty As String,;
+	lcCommand As String
+
+Local loSetup As Object,;
+	loScreenColors As Object
+
+Try
+
+	lcCommand = ""
+
+	loSetup = Thisform.oSetup
+	loSetup.nSelectorMaxWidth = Thisform.spnAnchoSelector.Value
+	
+	If Vartype( loSetup ) == "O"
+		Amembers( laMembers, loSetup )
+		For Each lcProperty In laMembers
+			Try
+				_Screen.oApp.&lcProperty = loSetup.&lcProperty
+
+			Catch To oErr
+				* No hago nada
+			Finally
+			Endtry
+		Endfor
+	Endif
+
+	Strtofile( ObjectToXml( loSetup, .T. ), "SetUp.cfg" )
+	
+
+	If FechaHoy # Thisform.SystemDate.txtDate.Value
+		FechaHoy = Thisform.SystemDate.txtDate.Value
+		_Screen.oScreenLog.lblFecha.Caption = DateMask( FechaHoy )
+		
+		loGlobalSettings = NewGlobalSettings()
+		loGlobalSettings.tFechaHoyChange = Datetime()
+		
+	EndIf
+	
+	loScreenColors = loSetup.oScreenColors
+	
+	gcForeColor 	= loScreenColors.cMainScreenForeColor
+	gcBackColor 	= loScreenColors.cMainScreenBackColor
+	gcGetBackColor 	= loScreenColors.cGetBackColor
+	gcGetForeColor 	= loScreenColors.cGetForeColor
+	
+	Thisform.Release()
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Cremark = "No se pudo guardar la configuración"
+	loError.Process( oErr )
+
+Finally
+	loScreenColors = Null
+	loSetup = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE cancelar
+Thisform.oSetup = Null
+Thisform.Release()
+ENDPROC
+PROCEDURE colorsetup
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+	Do Form "Rutinas\Scx\frmScreenColors.Scx" With Thisform.oSetup
+	
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = _NewObject ( 'ErrorHandler', 'ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+
+
+Finally
+
+
+EndTry
+
+ENDPROC
+PROCEDURE fontsetup
+Lparameters tcObjName as String
+
+Local loSetup As Object,;
+loFont as Object
+
+Local lcFontLayout As String,;
+lcCtrlName as String
+
+
+Try
+
+	Do Case
+	Case tcObjName = "screen"
+		lcCtrlName = "lblScreenFont"
+	
+	Case tcObjName = "selector"
+		lcCtrlName = "lblSelectorFont"
+		
+	EndCase
+	
+	loSetup = Thisform.oSetup
+	loFont = loSetup.oColFonts.Item( tcObjName )
+	
+	lcFontLayout = Getfont( loFont.FontName, loFont.FontSize, loFont.FontStyle, loFont.FontCharSet )
+
+	If !Empty( lcFontLayout )
+		loFont.FontName 	= Getwordnum( lcFontLayout, 1, "," )
+		loFont.FontSize 	= Int( Val( Getwordnum( lcFontLayout, 2, "," )))
+		loFont.FontStyle 	= Getwordnum( lcFontLayout, 3, "," )
+		loFont.FontCharSet 	= Int( Val( Getwordnum( lcFontLayout, 1, "," )))
+		
+		ThisForm.&lcCtrlName..AutoSize = .F.
+		ThisForm.&lcCtrlName..FontName = loFont.FontName
+		ThisForm.&lcCtrlName..FontSize = loFont.FontSize
+		ThisForm.&lcCtrlName..FontBold = "B"$loFont.FontStyle
+		ThisForm.&lcCtrlName..FontItalic = "I"$loFont.FontStyle
+		ThisForm.&lcCtrlName..Caption = ThisForm.&lcCtrlName..FontName + " - " + Transform( ThisForm.&lcCtrlName..FontSize )
+		ThisForm.&lcCtrlName..AutoSize = .T.
+		
+	EndIf
+	
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loSetup = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+osetup
+*fontsetup 
+*cancelar 
+*aceptar 
+*colorsetup 
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3DP0RMB1A
+[CLASS] container
+[BASECLASS] container
+[OBJNAME] Container1
+[PARENT] frmLayout
+[START PROPERTIES]
+Top = 204
+Left = 12
+Width = 396
+Height = 120
+BackStyle = 0
+TabIndex = 9
+BorderColor = 128,128,128
+Name = "Container1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8X
+[CLASS] container
+[BASECLASS] container
+[OBJNAME] cntPantalla
+[PARENT] frmLayout
+[START PROPERTIES]
+Top = 96
+Left = 12
+Width = 396
+Height = 96
+BackStyle = 0
+TabIndex = 10
+BorderColor = 128,128,128
+Name = "cntPantalla"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8X
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblScreenFont
+[PARENT] frmLayout
+[START PROPERTIES]
+Caption = ""
+Height = 24
+Left = 96
+Top = 144
+Width = 300
+TabIndex = 11
+BackColor = 255,255,255
+Name = "lblScreenFont"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8X
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdScreenFont
+[PARENT] frmLayout
+[START PROPERTIES]
+Top = 108
+Left = 24
+Height = 60
+Width = 60
+Picture = ..\..\fw\comunes\image\ico\font2.ico
+Caption = "Fuente"
+TabIndex = 3
+PicturePosition = 7
+Name = "cmdScreenFont"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.FontSetup( "screen" )
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80TNWWR
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdAceptar
+[PARENT] frmLayout
+[START PROPERTIES]
+Top = 384
+Left = 312
+Height = 25
+Width = 96
+Picture = ..\..\fw\comunes\image\bmp\manook.bmp
+Caption = "\<Aceptar"
+StatusBarText = "Aceptar"
+TabIndex = 7
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdAceptar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:39:07)
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	Thisform.Aceptar()
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80TNWWS
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancelar
+[PARENT] frmLayout
+[START PROPERTIES]
+Top = 384
+Left = 12
+Height = 25
+Width = 96
+Picture = ..\..\fw\comunes\image\bmp\manocancel.bmp
+Cancel = .T.
+Caption = "\<Cancelar"
+StatusBarText = "Cancelar"
+TabIndex = 8
+TabStop = .F.
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdCancelar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:39:13)
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	Thisform.Cancelar()
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8X
+[CLASS] line
+[BASECLASS] line
+[OBJNAME] Line1
+[PARENT] frmLayout
+[START PROPERTIES]
+Height = 0
+Left = 12
+Top = 372
+Width = 396
+BorderColor = 128,128,128
+Name = "Line1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _31H0ZO3O0
+[CLASS] _dateinput
+[CLASSLOC] ..\..\fw\ffc\_datetime.vcx
+[BASECLASS] container
+[OBJNAME] SystemDate
+[PARENT] frmLayout
+[START PROPERTIES]
+Top = 336
+Left = 12
+Width = 228
+Height = 24
+TabIndex = 6
+Name = "SystemDate"
+lblDate.Caption = "Fecha del Sistema"
+lblDate.Height = 14
+lblDate.Left = 0
+lblDate.Top = 9
+lblDate.Width = 120
+lblDate.Name = "lblDate"
+Command1.Top = 0
+Command1.Left = 210
+Command1.Name = "Command1"
+txtDate.KEYDATE.Name = "KEYDATE"
+txtDate.cmdKeyDate.Name = "cmdKeyDate"
+txtDate.Top = 0
+txtDate.Left = 110
+txtDate.Name = "txtDate"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE txtDate.Init
+If Vartype( FechaHoy ) # "D"
+	Release FechaHoy
+	Public FechaHoy
+	FechaHoy = Date()
+EndIf
+
+This.Value = FechaHoy
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _33M0UP0W8
+[CLASS] optiongroup
+[BASECLASS] optiongroup
+[OBJNAME] optScreen
+[PARENT] frmLayout
+[START PROPERTIES]
+ButtonCount = 3
+Value = 1
+Height = 72
+Left = 96
+Top = 12
+Width = 228
+TabIndex = 2
+Name = "optScreen"
+Option1.Caption = "Abrir Normal"
+Option1.Value = 1
+Option1.Height = 17
+Option1.Left = 5
+Option1.Top = 5
+Option1.Width = 211
+Option1.Name = "optNormal"
+Option2.Caption = "Abrir Maximizado"
+Option2.Height = 17
+Option2.Left = 5
+Option2.Top = 24
+Option2.Width = 211
+Option2.Name = "optMaximizado"
+Option3.Caption = "Ajustar a la Pantalla"
+Option3.Height = 17
+Option3.Left = 5
+Option3.Top = 43
+Option3.Width = 199
+Option3.Name = "optFitToScreen"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+Local loSetup As Object
+
+#define _NORMAL 	1
+#define _MAXIMIZADO 2
+#define _AJUSTAR 	3
+
+Try
+
+	loSetup = Thisform.oSetup  	
+	
+	Do Case
+	Case This.Value = _NORMAL
+		loSetup.lFitToForm = .F.
+		loSetup.nWindowState = 0
+		
+	Case This.Value = _MAXIMIZADO
+		loSetup.lFitToForm = .F.
+		loSetup.nWindowState = 2
+
+	Case This.Value = _AJUSTAR
+		loSetup.lFitToForm = .T.
+		loSetup.nWindowState = 0
+
+	EndCase
+	
+Catch To oErr
+	Local loError as ErrorHandler OF "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = NewObject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loSetup = Null
+	
+EndTry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _34X0PJL1W
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblSelectorFont
+[PARENT] frmLayout
+[START PROPERTIES]
+Caption = ""
+Height = 24
+Left = 96
+Top = 252
+Width = 300
+TabIndex = 12
+BackColor = 255,255,255
+Name = "lblSelectorFont"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _34X0PJL1X
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdSelectorFont
+[PARENT] frmLayout
+[START PROPERTIES]
+Top = 216
+Left = 24
+Height = 60
+Width = 60
+Picture = ..\..\fw\comunes\image\ico\font2.ico
+Caption = "Fuente"
+TabIndex = 4
+PicturePosition = 7
+Name = "cmdSelectorFont"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.FontSetup( "selector" )
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _34X0PM2SR
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblPantalla
+[PARENT] frmLayout
+[START PROPERTIES]
+AutoSize = .T.
+BackStyle = 0
+Caption = "Pantalla"
+Height = 17
+Left = 96
+Top = 108
+Width = 47
+TabIndex = 13
+Name = "lblPantalla"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3DP0RMB1D
+[CLASS] spinner
+[BASECLASS] spinner
+[OBJNAME] spnAnchoSelector
+[PARENT] frmLayout
+[START PROPERTIES]
+Height = 24
+InputMask = "999"
+KeyboardHighValue = 999
+KeyboardLowValue = 50
+Left = 336
+SpinnerHighValue = 999.00
+SpinnerLowValue =  50.00
+TabIndex = 5
+Top = 288
+Width = 61
+Value = 80
+Name = "spnAnchoSelector"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80R1D8X
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblSelector
+[PARENT] frmLayout
+[START PROPERTIES]
+AutoSize = .T.
+BackStyle = 0
+Caption = "Selector"
+Height = 17
+Left = 96
+Top = 216
+Width = 47
+TabIndex = 14
+Name = "lblSelector"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3DP0RMB1E
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblAnchoSelector
+[PARENT] frmLayout
+[START PROPERTIES]
+AutoSize = .T.
+BackStyle = 0
+Caption = "Ancho máximo en caracteres"
+Height = 17
+Left = 167
+Top = 292
+Width = 161
+TabIndex = 15
+Name = "lblAnchoSelector"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _48E0PLI13
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdScreenColors
+[PARENT] frmLayout
+[START PROPERTIES]
+Top = 12
+Left = 336
+Height = 72
+Width = 72
+Picture = ..\..\fw\comunes\image\ico\getcolor.ico
+Caption = "Colores"
+TabIndex = 3
+PicturePosition = 7
+Name = "cmdScreenColors"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.ColorSetup()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _48E0PLI14
+[CLASS] image
+[BASECLASS] image
+[OBJNAME] Image1
+[PARENT] frmLayout
+[START PROPERTIES]
+Picture = ..\..\fw\comunes\image\ico\praxiscomputacion.ico
+Stretch = 1
+BackStyle = 0
+Height = 72
+Left = 12
+Top = 11
+Width = 72
+Name = "Image1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X80VUR3V
+[CLASS] checkbox
+[BASECLASS] checkbox
+[OBJNAME] chkLogin
+[PARENT] frmLayout
+[START PROPERTIES]
+Top = 14
+Left = 200
+Height = 24
+Width = 112
+Alignment = 1
+BackStyle = 0
+Caption = "Pedir Login"
+TabIndex = 1
+Name = "chkLogin"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+Local loSetup As Object
+
+Try
+
+	loSetup = Thisform.oSetup  	
+	loSetup.lDoLogin = This.Value
+	
+
+Catch To oErr
+	Local loError as ErrorHandler OF "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = NewObject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loSetup = Null
+	
+EndTry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+ ! ..\..\fw\comunes\include\praxis.h6s~\V! ..\..\fw\comunes\include\foxpro.h>ÊrûF" ..\..\fw\comunes\include\strings.hFZŠOJ' ..\..\tools\namespaces\include\system.hN±ÙF[END RESERVED1]
+[EOF]

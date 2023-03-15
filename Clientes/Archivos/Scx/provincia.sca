@@ -1,0 +1,207 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65Y0LK5AT
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65Y0LK5AU
+[CLASS] crud_form
+[CLASSLOC] ..\..\..\frontend\vcx\crud.vcx
+[BASECLASS] form
+[OBJNAME] Crud_Provincia
+[START PROPERTIES]
+Height = 362
+Width = 500
+DoCreate = .T.
+WindowState = 0
+cmodelo = Provincia
+Name = "Crud_Provincia"
+Crud_Shape.Top = 48
+Crud_Shape.Left = 12
+Crud_Shape.Height = 204
+Crud_Shape.SpecialEffect = 1
+Crud_Shape.Name = "Crud_Shape"
+CRUD_BUTTONS.cmdGrabar.Name = "cmdGrabar"
+CRUD_BUTTONS.cmdEliminar.Name = "cmdEliminar"
+CRUD_BUTTONS.cmdCancelar.Name = "cmdCancelar"
+CRUD_BUTTONS.TabIndex = 11
+CRUD_BUTTONS.Name = "CRUD_BUTTONS"
+CRUD_TITULO.lblFecha.Name = "lblFecha"
+CRUD_TITULO.LBLTITULO.Name = "LBLTITULO"
+CRUD_TITULO.lblObservaciones.Name = "lblObservaciones"
+CRUD_TITULO.lblAsteriscos.Name = "lblAsteriscos"
+CRUD_TITULO.TabIndex = 12
+CRUD_TITULO.Name = "CRUD_TITULO"
+CRUD_AJUSTES.Crud_Shape.Name = "Crud_Shape"
+CRUD_AJUSTES.SPNORDEN.Name = "SPNORDEN"
+CRUD_AJUSTES.CHKACTIVO.Alignment = 0
+CRUD_AJUSTES.CHKACTIVO.Name = "CHKACTIVO"
+CRUD_AJUSTES.CHKES_SISTEMA.Alignment = 0
+CRUD_AJUSTES.CHKES_SISTEMA.Name = "CHKES_SISTEMA"
+CRUD_AJUSTES.LBLMOSTRAR.Name = "LBLMOSTRAR"
+CRUD_AJUSTES.Name = "CRUD_AJUSTES"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65Y0LK5AT
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtNombre
+[PARENT] Crud_Provincia
+[START PROPERTIES]
+Left = 36
+TabIndex = 1
+Top = 84
+Width = 228
+ZOrderSet = 3
+ncolumnsspan = 12
+nlabelspan = 4
+ntoprow = 2
+Name = "txtNombre"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65Y0LK5AT
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtpercepcion_iibb
+[PARENT] Crud_Provincia
+[START PROPERTIES]
+Left = 24
+TabIndex = 5
+Top = 156
+Width = 228
+ZOrderSet = 3
+ntoprow = 6
+ncolumnsspan = 8
+Name = "txtpercepcion_iibb"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65Y0MTGKQ
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtretencion_iibb
+[PARENT] Crud_Provincia
+[START PROPERTIES]
+Left = 24
+TabIndex = 6
+Top = 192
+Width = 228
+ZOrderSet = 3
+ntoprow = 7
+ncolumnsspan = 8
+Name = "txtretencion_iibb"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65Y0MTGKS
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtdenominacion
+[PARENT] Crud_Provincia
+[START PROPERTIES]
+Left = 204
+TabIndex = 2
+Top = 120
+Width = 228
+ZOrderSet = 3
+ntoprow = 5
+ncolumnsspan = 8
+Name = "txtdenominacion"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65Y0M5J2E
+[CLASS] _spinner
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] spinner
+[OBJNAME] spnJurisdiccion
+[PARENT] Crud_Provincia
+[START PROPERTIES]
+Left = 120
+TabIndex = 4
+Top = 120
+Width = 84
+ZOrderSet = 9
+ntoprow = 4
+Name = "spnJurisdiccion"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65Y0LK5AT
+[CLASS] _spinner
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] spinner
+[OBJNAME] spnCodigo_Afip
+[PARENT] Crud_Provincia
+[START PROPERTIES]
+Left = 36
+TabIndex = 3
+Top = 120
+Width = 84
+ZOrderSet = 9
+ntoprow = 3
+Name = "spnCodigo_Afip"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _65Y0PEGGQ
+[CLASS] _combobox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] combobox
+[OBJNAME] cboPais
+[PARENT] Crud_Provincia
+[START PROPERTIES]
+Enabled = .F.
+Left = 24
+TabIndex = 21
+Top = 48
+cmodelo = Pais
+Name = "cboPais"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[EOF]

@@ -1,0 +1,361 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _68711QDCG
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _68711QDCH
+[CLASS] informes
+[CLASSLOC] ..\..\..\frontend\vcx\informes.vcx
+[BASECLASS] form
+[OBJNAME] Informes_Cuentas_Corrientes
+[START PROPERTIES]
+Top = -4
+Left = -1
+Height = 357
+Width = 720
+DoCreate = .T.
+Name = "Informes_Cuentas_Corrientes"
+Shape.Name = "Shape"
+Titulo.LBLFECHA.Name = "LBLFECHA"
+Titulo.LBLTITULO.Name = "LBLTITULO"
+Titulo.LBLOBSERVACIONES.Name = "LBLOBSERVACIONES"
+Titulo.LBLASTERISCOS.Name = "LBLASTERISCOS"
+Titulo.Name = "Titulo"
+acciones.cmdEjecutar.Name = "cmdEjecutar"
+acciones.cmdCancelar.Name = "cmdCancelar"
+acciones.lblExportar.Name = "lblExportar"
+acciones.cboExportar.Name = "cboExportar"
+acciones.Top = 299
+acciones.Left = 0
+acciones.Name = "acciones"
+imgAgregar.Left = 672
+imgAgregar.Top = 144
+imgAgregar.Name = "imgAgregar"
+TIPO.LBLINFORMES.Name = "LBLINFORMES"
+TIPO.cboInforme.Name = "cboInforme"
+TIPO.Name = "TIPO"
+Label1.Name = "Label1"
+filtros_adicionales.Shape.Top = 12
+filtros_adicionales.Shape.Left = 12
+filtros_adicionales.Shape.Height = 108
+filtros_adicionales.Shape.Width = 696
+filtros_adicionales.Shape.Name = "Shape"
+filtros_adicionales.lblFiltro.Name = "lblFiltro"
+filtros_adicionales.Top = 168
+filtros_adicionales.Left = 0
+filtros_adicionales.Width = 720
+filtros_adicionales.Height = 132
+filtros_adicionales.Name = "filtros_adicionales"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE tipoinformeinteractivechange
+#Define inf__ResumenDeCuenta				1
+#Define inf__ComposiciónDeSaldo				2
+#Define inf__inf__ResumenDeSaldo			3
+#Define inf__ComposiciónDeSaldoAUnaFecha	4
+
+Lparameters oCboInforme As ComboBox
+Local lcCommand As String
+Local lnInformeId as Integer
+
+Try
+
+	lcCommand = ""
+	
+	* RA 22/02/2022(10:40:44)
+	* Opciones de filtros adicioneles
+	
+	* Con Saldo / Sin Saldo / Todos
+	* Fecha de la consulta
+	* Ranking: Ascendente, Descendente, Alfabetico
+	
+	Thisform.LockScreen = .T.
+	lnInformeId = oCboInforme.List( oCboInforme.ListIndex, 3 )
+	ThisForm.FiltroFecha.Visible = .T.
+
+	Do Case
+		Case Val( lnInformeId ) == inf__ResumenDeCuenta
+			Thisform.Filtros_Adicionales.Visible = .F.			
+
+		Case Val( lnInformeId ) == inf__ComposiciónDeSaldo
+			Thisform.Filtros_Adicionales.Visible = .F.
+
+		Case Val( lnInformeId ) == inf__inf__ResumenDeSaldo
+			Thisform.Filtros_Adicionales.Visible = .T.
+			ThisForm.filtros_adicionales.FechaDeSaldo.Visible = .T.
+			ThisForm.filtros_adicionales.Saldo.Visible = .T.
+			ThisForm.filtros_adicionales.Ranking.Visible = .T.
+			
+			ThisForm.FiltroFecha.Visible = .F.
+
+		Case Val( lnInformeId ) == inf__ComposiciónDeSaldoAUnaFecha
+			Thisform.Filtros_Adicionales.Visible = .T.
+			ThisForm.filtros_adicionales.FechaDeSaldo.Visible = .T.
+			ThisForm.filtros_adicionales.Saldo.Visible = .F.
+			ThisForm.filtros_adicionales.Ranking.Visible = .F.
+
+		Otherwise
+
+	EndCase
+	
+	Thisform.Autosize()
+	Thisform.LockScreen = .F.
+
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _68C0QMWL0
+[CLASS] filtro
+[CLASSLOC] ..\..\..\frontend\vcx\informes.vcx
+[BASECLASS] container
+[OBJNAME] FiltroOrganizacion
+[PARENT] Informes_Cuentas_Corrientes
+[START PROPERTIES]
+Top = 96
+Left = 24
+Name = "FiltroOrganizacion"
+chkActivo.Alignment = 0
+chkActivo.Name = "chkActivo"
+imgEliminar.Name = "imgEliminar"
+chkCaseSensitive.Alignment = 0
+chkCaseSensitive.Name = "chkCaseSensitive"
+cboFields.Name = "cboFields"
+cboFieldLookups.Name = "cboFieldLookups"
+Fecha_Desde.KEYDATE.Name = "KEYDATE"
+Fecha_Desde.cmdKeyDate.Name = "cmdKeyDate"
+Fecha_Desde.Name = "Fecha_Desde"
+Fecha_Hasta.KEYDATE.Name = "KEYDATE"
+Fecha_Hasta.cmdKeyDate.Name = "cmdKeyDate"
+Fecha_Hasta.Name = "Fecha_Hasta"
+txt_Desde.Name = "txt_Desde"
+txt_Hasta.Name = "txt_Hasta"
+spn_Desde.Name = "spn_Desde"
+spn_Hasta.Name = "spn_Hasta"
+chk_Filtro.Alignment = 0
+chk_Filtro.Name = "chk_Filtro"
+cbo_Desde.Name = "cbo_Desde"
+cbo_Hasta.Name = "cbo_Hasta"
+lst_Filtro.Name = "lst_Filtro"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _68C0QMWL1
+[CLASS] filtro
+[CLASSLOC] ..\..\..\frontend\vcx\informes.vcx
+[BASECLASS] container
+[OBJNAME] FiltroFecha
+[PARENT] Informes_Cuentas_Corrientes
+[START PROPERTIES]
+Top = 120
+Left = 24
+Name = "FiltroFecha"
+chkActivo.Alignment = 0
+chkActivo.Name = "chkActivo"
+imgEliminar.Name = "imgEliminar"
+chkCaseSensitive.Alignment = 0
+chkCaseSensitive.Name = "chkCaseSensitive"
+cboFields.ndefault = 2
+cboFields.Name = "cboFields"
+cboFieldLookups.ndefault = 6
+cboFieldLookups.Name = "cboFieldLookups"
+Fecha_Desde.KEYDATE.Name = "KEYDATE"
+Fecha_Desde.cmdKeyDate.Name = "cmdKeyDate"
+Fecha_Desde.Name = "Fecha_Desde"
+Fecha_Hasta.KEYDATE.Name = "KEYDATE"
+Fecha_Hasta.cmdKeyDate.Name = "cmdKeyDate"
+Fecha_Hasta.Name = "Fecha_Hasta"
+txt_Desde.Name = "txt_Desde"
+txt_Hasta.Name = "txt_Hasta"
+spn_Desde.Name = "spn_Desde"
+spn_Hasta.Name = "spn_Hasta"
+chk_Filtro.Alignment = 0
+chk_Filtro.Name = "chk_Filtro"
+cbo_Desde.Name = "cbo_Desde"
+cbo_Hasta.Name = "cbo_Hasta"
+lst_Filtro.Name = "lst_Filtro"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _69R0QHRBN
+[CLASS] date_filtro_ad
+[CLASSLOC] ..\..\..\frontend\vcx\informes.vcx
+[BASECLASS] container
+[OBJNAME] FechaDeSaldo
+[PARENT] Informes_Cuentas_Corrientes.filtros_adicionales
+[START PROPERTIES]
+Top = 36
+Left = 24
+Width = 300
+Height = 24
+Name = "FechaDeSaldo"
+chkActivo.Alignment = 0
+chkActivo.Name = "chkActivo"
+lblReferencia.Caption = "Fecha del Saldo"
+lblReferencia.Name = "lblReferencia"
+FECHA.keydate.Name = "keydate"
+FECHA.cmdKeyDate.Name = "cmdKeyDate"
+FECHA.Top = 0
+FECHA.Left = 186
+FECHA.Name = "FECHA"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _69R0S0D0I
+[CLASS] optiongroup_filtro_ad
+[CLASSLOC] ..\..\..\frontend\vcx\informes.vcx
+[BASECLASS] container
+[OBJNAME] Saldo
+[PARENT] Informes_Cuentas_Corrientes.filtros_adicionales
+[START PROPERTIES]
+Top = 60
+Left = 24
+Width = 648
+Height = 24
+Name = "Saldo"
+chkActivo.Top = -100
+chkActivo.Alignment = 0
+chkActivo.Visible = .F.
+chkActivo.Name = "chkActivo"
+lblReferencia.Caption = "Mostrar"
+lblReferencia.Name = "lblReferencia"
+OptionGroup.ButtonCount = 3
+OptionGroup.Option1.BackStyle = 0
+OptionGroup.Option1.Caption = "Todos"
+OptionGroup.Option1.Value = 0
+OptionGroup.Option1.Height = 17
+OptionGroup.Option1.Left = 5
+OptionGroup.Option1.Top = 5
+OptionGroup.Option1.Width = 53
+OptionGroup.Option1.AutoSize = .T.
+OptionGroup.Option1.Name = "Todos"
+OptionGroup.Option2.BackStyle = 0
+OptionGroup.Option2.Caption = "Con Saldo"
+OptionGroup.Option2.Value = 1
+OptionGroup.Option2.Height = 17
+OptionGroup.Option2.Left = 95
+OptionGroup.Option2.Top = 5
+OptionGroup.Option2.Width = 76
+OptionGroup.Option2.AutoSize = .T.
+OptionGroup.Option2.Name = "ConSaldo"
+OptionGroup.Option3.BackStyle = 0
+OptionGroup.Option3.Caption = "Sin Saldo"
+OptionGroup.Option3.Height = 17
+OptionGroup.Option3.Left = 240
+OptionGroup.Option3.Style = 0
+OptionGroup.Option3.Top = 5
+OptionGroup.Option3.Width = 71
+OptionGroup.Option3.AutoSize = .T.
+OptionGroup.Option3.Name = "SinSaldo"
+OptionGroup.Value = 2
+OptionGroup.Height = 27
+OptionGroup.Left = 183
+OptionGroup.Top = 0
+OptionGroup.Width = 405
+OptionGroup.Name = "OptionGroup"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _69R0S0D0J
+[CLASS] optiongroup_filtro_ad
+[CLASSLOC] ..\..\..\frontend\vcx\informes.vcx
+[BASECLASS] container
+[OBJNAME] Ranking
+[PARENT] Informes_Cuentas_Corrientes.filtros_adicionales
+[START PROPERTIES]
+Top = 84
+Left = 24
+Width = 660
+Height = 24
+Name = "Ranking"
+chkActivo.Alignment = 0
+chkActivo.Visible = .F.
+chkActivo.Name = "chkActivo"
+lblReferencia.Caption = "Ordenamiento"
+lblReferencia.Name = "lblReferencia"
+OptionGroup.AutoSize = .F.
+OptionGroup.ButtonCount = 3
+OptionGroup.Option1.Caption = "Alfabético"
+OptionGroup.Option1.Value = 1
+OptionGroup.Option1.Height = 17
+OptionGroup.Option1.Left = 5
+OptionGroup.Option1.Top = 5
+OptionGroup.Option1.Width = 71
+OptionGroup.Option1.AutoSize = .T.
+OptionGroup.Option1.Name = "Alfabetico"
+OptionGroup.Option2.Caption = "Saldo Descendente"
+OptionGroup.Option2.Height = 17
+OptionGroup.Option2.Left = 98
+OptionGroup.Option2.Top = 5
+OptionGroup.Option2.Width = 127
+OptionGroup.Option2.AutoSize = .T.
+OptionGroup.Option2.Name = "Descendente"
+OptionGroup.Option3.BackStyle = 0
+OptionGroup.Option3.Caption = "Saldo Ascendente"
+OptionGroup.Option3.Height = 17
+OptionGroup.Option3.Left = 243
+OptionGroup.Option3.Style = 0
+OptionGroup.Option3.Top = 5
+OptionGroup.Option3.Width = 118
+OptionGroup.Option3.AutoSize = .T.
+OptionGroup.Option3.Name = "Ascendente"
+OptionGroup.Value = 1
+OptionGroup.Height = 27
+OptionGroup.Left = 180
+OptionGroup.Top = 0
+OptionGroup.Width = 366
+OptionGroup.Name = "OptionGroup"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[EOF]

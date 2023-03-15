@@ -1,0 +1,2204 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1S50XUDKT
+[CLASS] pageframe
+[BASECLASS] pageframe
+[OBJNAME] cmppageframe
+[START PROPERTIES]
+ErasePage = .T.
+PageCount = 3
+ActivePage = 1
+Width = 600
+Height = 290
+Themes = .F.
+llllllPerformAutoSetUp = .T.
+nTopPadding = 10
+nLeftPadding = 10
+nRightPadding = 10
+nBottomPadding = 10
+nGap = 5
+_memberdata =     1210<VFPData><memberdata name="nGap" type="property" display="nGap"/><memberdata name="ocolobjects" type="property" display="oColObjects"/><memberdata name="maxheight" type="property" display="MaxHeight"/><memberdata name="maxwidth" type="property" display="MaxWidth"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="pageactivates" type="method" display="PageActivates"/><memberdata name="pagedeactivates" type="method" display="PageDeactivates"/><memberdata name="pagebackcolor" type="property" display="PageBackColor" favorites="True"/><memberdata name="pagefontname" type="property" display="PageFontName" favorites="True"/><memberdata name="pagefontsize" type="property" display="PageFontSize"/><memberdata name="lazyload" type="method" display="LazyLoad"/><memberdata name="getpagename" type="method" display="GetPageName"/><memberdata name="beforebindcontrols" type="method" display="BeforeBindControls"/><memberdata name="releaseobjects" type="method" display="ReleaseObjects"/><memberdata name="tabsrows" type="property" display="TabsRows" favorites="True"/></VFPData>
+
+ocolobjects = .F.
+maxwidth = 0
+maxheight = 0
+nupdatefontsize = 0
+pagebackcolor = 
+pagefontname = 
+pagefontsize = 0
+tabsrows = 1
+Name = "cmppageframe"
+Page1.Caption = "Cabeza"
+Page1.Name = "Cabeza"
+Page2.Caption = "Cuerpo"
+Page2.Name = "Cuerpo"
+Page3.Caption = "Pie"
+Page3.Name = "Pie"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+
+If Vartype( _Screen.oApp ) = "O"
+	This.PageFontSize = This.PageFontSize + _Screen.oApp.nUpdateFontSize
+EndIf
+
+BindEvent( Thisform, "BeforeBindControls", This, "BeforeBindControls", 1 )
+
+
+ENDPROCPROCEDURE MouseDown
+LPARAMETERS nButton, nShift, nXCoord, nYCoord
+
+Thisform.MouseDown( nButton, nShift, nXCoord, nYCoord )
+ENDPROC
+PROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loAutoSetup As AutoSetUp Of "FW\Comun\Prg\AutoSetUp.prg"
+
+Local oPage As Page
+Local oObj As Object
+Local lnMaxHeight As Integer,;
+	lnMaxWidth As Integer
+
+Try
+
+	lnMaxHeight = 0
+	lnMaxWidth = 0
+
+	For Each oPage In This.Pages
+		oPage.AddProperty( "oColObjects" )
+		oPage.AddProperty( "Height" )
+		oPage.AddProperty( "Width" )
+		oPage.AddProperty( "IsActive", .F. )
+		oPage.AddProperty( "PageName", This.GetPageName( oPage, "" ))
+
+		If !Empty( This.PageBackColor )
+			oPage.BackColor = This.PageBackColor
+		Endif
+
+		If !Empty( This.PageFontSize )
+			Try
+				Local lnFS As Integer
+				lnFS = oPage.FontSize
+				oPage.FontSize = This.PageFontSize
+
+			Catch To oErr
+				oPage.FontSize = lnFS
+
+			Finally
+
+			Endtry
+
+		Endif
+
+		If !Empty( This.PageFontName )
+			oPage.FontName = This.PageFontName
+		Endif
+
+*!*			Bindevent( oPage, "Activate", This, "PageActivates" )
+*!*			Bindevent( oPage, "Deactivate", This, "PageDeactivates" )
+
+		Bindevent( oPage, "Activate", This, "PageActivates" )
+		Bindevent( oPage, "Deactivate", This, "PageDeactivates" )
+
+		oPage.oColObjects = OrderControlsByKey( oPage )
+
+		loAutoSetup = Newobject("AutoSetUp", "AutoSetUp.prg")
+
+		If !loAutoSetup.Process( oPage,;
+				This.nTopPadding,;
+				This.nLeftPadding,;
+				This.nRightPadding,;
+				This.nBottomPadding,;
+				This.nGap )
+
+			Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+			loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+			loError.Process( loAutoSetup.oError )
+
+		Else
+			lnMaxHeight = Max( lnMaxHeight, oPage.Height )
+			lnMaxWidth = Max( lnMaxWidth, oPage.Width )
+
+			Do Case
+			Case oPage.Name = "Cabeza"
+				lnHeight1 = oPage.Height
+				lnWidth1 = oPage.Width
+				
+			Case oPage.Name = "Cuerpo"
+				lnHeight2 = oPage.Height
+				lnWidth2 = oPage.Width
+
+			Case oPage.Name = "Pie"
+				lnHeight3 = oPage.Height
+				lnWidth3 = oPage.Width
+
+			Otherwise
+
+			EndCase
+		Endif
+	Endfor
+
+	If This.Tabs
+		lnMaxHeight = lnMaxHeight + TABS_HEIGHT
+	Endif
+
+	This.Height = lnMaxHeight && + This.nTopPadding + This.nBottomPadding
+	This.Width = lnMaxWidth && + This.nLeftPadding + This.nRightPadding
+
+	For Each oPage In This.Pages
+		For Each oObj In oPage.Objects
+			If PemStatus( oObj, "lFitToParent", 5 ) And oObj.lFitToParent = .T.
+				oObj.FitToParent()
+			EndIf
+			
+*!*				If Lower( oObj.Name ) = "datos"
+*!*					oObj.FitToParent()
+*!*				Endif
+
+		Endfor
+	Endfor
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loAutoSetup = .F.
+
+Endtry
+
+
+ENDPROC
+PROCEDURE beforebindcontrols
+***Lparameters oPage As Page
+
+Local lcCursorName As String
+Local loTable As oTable Of "Fw\Comun\Prg\colTables.prg"
+Local llBindState As Boolean
+Local loPage As Page
+
+Try
+
+
+	lcCursorName = Thisform.oEntity.MainCursorName
+
+	If Used( lcCursorName )
+
+		loPage = This.Pages( This.ActivePage )
+
+		llBindState = Thisform.BindControls
+		If llBindState
+			Thisform.BindControls = .F.
+		Endif
+
+
+		For Each oControl In Thisform.oColIb
+			If oControl.lHasControlSource
+				If Empty( oControl.Dato.ControlSource ) ;
+						And oControl.Visible ;
+						And Lower( oControl.cBelongToPage ) == Lower( loPage.PageName )
+
+					If Empty( oControl.CursorName )
+						oControl.CursorName = lcCursorName
+					Endif
+
+					If Empty( oControl.FieldName )
+						oControl.FieldName = Substr( oControl.Name, 4 )
+					Endif
+
+					oControl.Dato.ControlSource = oControl.CursorName + "." + oControl.FieldName
+
+					Try
+
+						Evaluate(oControl.Dato.ControlSource)
+
+					Catch To oErr
+						Warning("No existe " + oControl.Dato.ControlSource )
+						oControl.Dato.ControlSource = ""
+
+					Finally
+
+					Endtry
+				Endif
+			Endif
+
+		Endfor
+
+		For Each oCombo In Thisform.oColCombos
+			If oCombo.Visible ;
+					And Lower( oCombo.cBelongToPage ) == Lower( loPage.PageName )
+				oCombo.PopulateCombo()
+			Endif
+		Endfor
+
+		If llBindState
+			If Thisform.BindControls = !llBindState
+				Thisform.BindControls = llBindState
+			Endif
+		Endif
+	Endif
+
+
+Catch To oErr
+	Throw oErr
+
+Finally
+
+Endtry
+
+ENDPROC
+PROCEDURE enabled_assign
+Lparameters vNewVal
+
+Try
+	This.Enabled = m.vNewVal
+	This.SetAll( "Enabled", m.vNewVal )
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+
+
+
+ENDPROC
+PROCEDURE getpagename
+Lparameters oCtrl As Object, cPageName As String
+
+Try
+
+	Local lcName As String
+
+	lcName = ""
+
+	If Lower( oCtrl.BaseClass ) == "page"
+		lcName = oCtrl.Name
+	Endif
+
+	If !Empty( cPageName ) And Lower( oCtrl.BaseClass ) <> "form"
+		lcName = oCtrl.Name + "." + cPageName
+	Endif
+
+	If Lower( oCtrl.BaseClass ) <> "form"
+		lcName = This.GetPageName( oCtrl.Parent, lcName )
+
+	Else
+		If !Empty( cPageName )
+			lcName = "Thisform." + cPageName
+		Endif
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+
+Finally
+
+Endtry
+
+Return lcName
+
+ENDPROC
+PROCEDURE lazyload
+Lparameters oPage as Page
+
+Try
+
+	If Thisform.BindControls
+		* Fuerza a que se ejecute This.BindControls()
+		Thisform.BindControls = .T.
+	EndIf	
+	
+	Do Case
+	Case Lower( oPage.Name ) = Lower( "Cuerpo" )
+		Thisform.LockScreen = .T.
+		This.Cuerpo.Datos.LlenarHijos()
+		
+		
+	Otherwise
+
+	EndCase
+
+	
+
+Catch To oErr
+	Thisform.LockScreen = .F.
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	Thisform.LockScreen = .F.
+
+EndTry
+
+ENDPROC
+PROCEDURE nupdatefontsize_assign
+Lparameters tuNewValue
+This.nUpdateFontSize = tuNewValue
+
+Try
+
+	Local loAutoSetup As AutoSetUp Of "FW\Comun\Prg\AutoSetUp.prg"
+
+	Local oPage As Page
+	Local oObj As Object
+	Local lnMaxHeight As Integer,;
+		lnMaxWidth As Integer
+
+	lnMaxHeight = 0
+	lnMaxWidth = 0
+
+	This.PageFontSize = This.PageFontSize + tuNewValue
+
+	For Each oPage In This.Pages
+
+		For Each oObj in oPage.oColObjects
+			oObj.nUpdateFontSize = tuNewValue
+		EndFor
+		
+		If !Empty( This.PageFontSize )
+			Try
+				Local lnFS As Integer
+				lnFS = oPage.FontSize
+				oPage.FontSize = This.PageFontSize
+
+			Catch To oErr
+				oPage.FontSize = lnFS
+
+			Finally
+
+			Endtry
+		Endif
+
+		loAutoSetup = Newobject("AutoSetUp", "AutoSetUp.prg")
+
+		If !loAutoSetup.Process( oPage,;
+				This.nTopPadding,;
+				This.nLeftPadding,;
+				This.nRightPadding,;
+				This.nBottomPadding,;
+				This.nGap )
+
+			Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+			loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+			loError.Process( loAutoSetup.oError )
+
+		Else
+			lnMaxHeight = Max( lnMaxHeight, oPage.Height )
+			lnMaxWidth = Max( lnMaxWidth, oPage.Width )
+
+		Endif
+	Endfor
+
+	This.Height = lnMaxHeight + This.nTopPadding + This.nBottomPadding
+	This.Width = lnMaxWidth + This.nLeftPadding + This.nRightPadding
+
+	For Each oPage In This.Pages
+		For Each oObj In oPage.Objects
+			If Lower( oObj.Class ) = "ccmarco" Or ;
+					Lower( oObj.Class ) = "abmchildgrid"
+				oObj.FitToParent()
+			Endif
+		Endfor
+	Endfor
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+
+ENDPROC
+PROCEDURE pageactivates
+Try
+
+	Local oPage As Page
+
+	oPage = This.Pages[ This.ActivePage ]
+	If Vartype( oPage ) == "O"
+
+		If !oPage.IsActive
+
+			oPage.FontBold = .T.
+			oPage.IsActive = .T.
+
+			*!*	LazyLoad permite postergar determinadas tareas hasta que la página se
+			*!*	active por primera vez, permitiendo que el formulario se cargue más rápido
+			*!*	Si oPage.LazyLoadDone es .T., no se ejecuta el metodo.
+			*!*	Si por algún motivo se necesita ejecutar éste método cada vez que se
+			*!*	activa la página, hay que poner oPage.LazyLoadDone en .F. dentro del
+			*!*	método LazyLoad()
+
+			If !Pemstatus( oPage, "LazyLoadDone", 5 )
+				oPage.AddProperty( "LazyLoadDone", .F. )
+			Endif
+
+			If !oPage.LazyLoadDone
+				oPage.LazyLoadDone = .T.
+				This.LazyLoad( oPage )
+			Endif
+
+			Do Case
+				Case Lower( oPage.Name ) = Lower( "Cuerpo" )
+
+*!*						If This.Cuerpo.Datos.lEditingDataEntry
+*!*							This.Cuerpo.Datos.DataEntry.SetFocus()
+
+*!*						Else
+*!*							This.Cuerpo.Datos.DataEntryButtons.SetFocus()
+
+*!*						Endif
+
+				Otherwise
+
+			Endcase
+		Endif
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	oPage = Null
+
+Endtry
+
+
+ENDPROC
+PROCEDURE pagedeactivates
+Try
+
+	Local oPage As Page
+
+	oPage = This.Pages[ This.ActivePage ]
+	If Vartype( oPage ) == "O"
+		oPage.FontBold = .F.
+		oPage.IsActive = .F.
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	oPage = Null
+
+Endtry
+
+
+ENDPROC
+PROCEDURE releaseobjects
+For Each oPage In This.Pages
+	For Each oObj In oPage.Objects
+		If Pemstatus( oObj, "ReleaseObjects", 5 )
+			oObj.ReleaseObjects()
+		Endif
+	Endfor
+	If Pemstatus( oPage, "oColObjects", 5 )
+		oPage.oColObjects = .F.
+	Endif
+Endfor
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+4[END RESERVED2]
+[START RESERVED3]
+performautosetup
+topmargin
+leftmargin
+rightmargin
+bottommargin
+gap
+_memberdata XML Metadata for customizable properties
+ocolobjects
+maxwidth Ancho Máximo calculado por el metodo AutoSetup() de cada Page
+maxheight Alto Máximo calculado por el metodo AutoSetup() de cada Page
+nupdatefontsize
+pagebackcolor
+pagefontname
+pagefontsize
+tabsrows Cantidad de filas de tabs
+*autosetup 
+*enabled_assign 
+*nupdatefontsize_assign 
+*pageactivates 
+*pagedeactivates 
+*lazyload Es llamado por el método PageActivates la primera vez que la Página se activa
+*getpagename 
+*beforebindcontrols 
+*releaseobjects 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22L13ENP0
+[CLASS] cmpcabeza
+[CLASSLOC] prxcomprobantes.vcx
+[BASECLASS] container
+[OBJNAME] Datos
+[PARENT] cmppageframe.Cabeza
+[START PROPERTIES]
+Top = 10
+Left = 8
+Width = 577
+Height = 242
+Name = "Datos"
+Shape.Name = "Shape"
+lblTitulo.Name = "lblTitulo"
+shpLabel.Name = "shpLabel"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22L13IUF0
+[CLASS] cmpcuerpo
+[CLASSLOC] prxcomprobantes.vcx
+[BASECLASS] container
+[OBJNAME] Datos
+[PARENT] cmppageframe.Cuerpo
+[START PROPERTIES]
+Top = 10
+Left = 10
+Name = "Datos"
+Shape.Name = "Shape"
+lblTitulo.Name = "lblTitulo"
+shpLabel.Name = "shpLabel"
+cmdAgregar.Name = "cmdAgregar"
+cmdBorrar.Name = "cmdBorrar"
+cmdEdit.Name = "cmdEdit"
+Hijos.Name = "Hijos"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22L13ENPL
+[CLASS] cmppie
+[CLASSLOC] prxcomprobantes.vcx
+[BASECLASS] container
+[OBJNAME] Datos
+[PARENT] cmppageframe.Pie
+[START PROPERTIES]
+Top = 8
+Left = 9
+Width = 577
+Height = 246
+Name = "Datos"
+Shape.Name = "Shape"
+lblTitulo.Name = "lblTitulo"
+shpLabel.Name = "shpLabel"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cmppageframe
+[START RESERVED1]
+  ..\include\praxis.hTùi²: ..\include\foxpro.hU|–: ..\include\strings.hV|–:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22L15ABAR
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] cmpnumero
+[START PROPERTIES]
+Width = 234
+Height = 52
+nRightPadding = 5
+nLeftPadding = 0
+nGap = 0
+Name = "cmpnumero"
+Shape.Name = "Shape"
+lblTitulo.Caption = "Número"
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE enabled_assign
+Lparameters vNewVal
+
+This.Enabled = .T.
+
+This.ibnPrefijo.Dato.Enabled = m.vNewVal
+This.ibnNumero.Dato.Enabled = m.vNewVal
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22L15JY2K
+[CLASS] ibnumeric
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibnPrefijo
+[PARENT] cmpnumero
+[START PROPERTIES]
+Top = 20
+Left = 8
+Width = 70
+inputmask = 9999
+Name = "ibnPrefijo"
+Label.Caption = ""
+Label.Visible = .F.
+Label.Name = "Label"
+Dato.FontBold = .T.
+Dato.FontSize = 12
+Dato.Height = 22
+Dato.InputMask = "9999"
+Dato.KeyboardHighValue = 9999
+Dato.Left = 0
+Dato.SpinnerHighValue = 9999.00
+Dato.Width = 65
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Dato.autofit
+Lparameters tnExtraLen As Integer,;
+	tnExtraHeight As Integer
+
+NoDefault
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22L15JY3G
+[CLASS] ibnumeric
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibnNumero
+[PARENT] cmpnumero
+[START PROPERTIES]
+Top = 20
+Left = 90
+Width = 100
+Height = 23
+lSameRowAsPrevious = .T.
+Name = "ibnNumero"
+Label.FontBold = .T.
+Label.FontSize = 12
+Label.Caption = "-"
+Label.Name = "Label"
+Dato.FontBold = .T.
+Dato.FontSize = 12
+Dato.Height = 22
+Dato.InputMask = "99999999"
+Dato.KeyboardHighValue = 99999999
+Dato.Left = 0
+Dato.SpinnerHighValue = 99999999.00
+Dato.Width = 100
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Dato.autofit
+Lparameters tnExtraLen As Integer,;
+	tnExtraHeight As Integer
+
+NoDefault
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cmpnumero
+[START PROPERTIES]
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22M0TORYN
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] cmpdataentry
+[START PROPERTIES]
+Width = 470
+Height = 110
+BorderWidth = 5
+SpecialEffect = 0
+minwidth = 470
+minheight = 110
+ofirstfocus = .NULL.
+editingcursorname = 
+nTopPadding = 10
+nBottomPadding = 10
+_memberdata =     1080<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="lautosetup" type="property" display="lAutoSetup"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="fittoparent" type="method" display="FitToParent"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="nBottomPadding" type="Property" favorites="True"/><memberdata name="minwidth" type="property" display="MinWidth" favorites="True"/><memberdata name="minheight" type="property" display="MinHeight" favorites="True"/><memberdata name="ofirstfocus" type="property" display="oFirstFocus"/><memberdata name="editingcursorname" type="property" display="EditingCursorName"/><memberdata name="editingcursorname_access" type="property" display="EditingCursorName_Access"/></VFPData>
+
+Name = "cmpdataentry"
+Shape.Name = "Shape"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+
+Local loCtrl As Object
+
+DoDefault()
+
+For Each loCtrl In  This.Objects
+	If Pemstatus( loCtrl, "CursorName", 5 )
+		If Empty( loCtrl.CursorName )
+			loCtrl.CursorName = This.EditingCursorName
+		Endif
+	Endif
+Endfor
+
+
+ENDPROC
+PROCEDURE autosetup
+DoDefault()
+With This
+	.ZOrder( 1 )
+	.BorderWidth 	= 5
+	.BackColor 		= .Parent.BackColor
+Endwith
+
+This.Shape.Visible = .F.
+
+ENDPROC
+PROCEDURE editingcursorname_access
+If Empty( This.EditingCursorName )
+	This.EditingCursorName = This.Parent.EditingCursorName
+Endif
+Return This.EditingCursorName
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+minwidth Indica el ancho mínimo que puede tener éste control
+minheight Indica el alto mínimo que puede tener éste control
+ofirstfocus Referencia al control que tomará el primer foco 
+editingcursorname Nombre del cursor transitorio asociado al DataRntry
+*editingcursorname_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cmpdataentry
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22M0Z1LW9
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] cmpdataentrybuttons
+[START PROPERTIES]
+Width = 103
+Height = 129
+nTopPadding = 5
+nGap = 5
+nLeftPadding = 5
+nRightPadding = 5
+_memberdata =     1074<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="lautosetup" type="property" display="lAutoSetup"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="fittoparent" type="method" display="FitToParent"/><memberdata name="nupdatefontsize" type="property" display="nUpdateFontSize"/><memberdata name="nupdatefontsize_assign" type="method" display="nUpdateFontSize_Assign"/><memberdata name="nBottomPadding" type="Property" favorites="True"/><memberdata name="resalttittle" type="property" display="ResaltTittle" favorites="True"/><memberdata name="oldshapecolor" type="property" display="OldShapeColor"/><memberdata name="lresalttittle" type="property" display="lResaltTittle" favorites="True"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="synchronizebuttons" type="method" display="SynchronizeButtons"/></VFPData>
+
+Name = "cmpdataentrybuttons"
+Shape.Name = "Shape"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.TabIndex = 4
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+This.cmdAgregar.SetFocus()
+ENDPROCPROCEDURE autosetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lnMaxWidth As Integer,;
+	lnLabelWidth As Integer
+Local oCtrl As Object
+Local llSameRow As Boolean
+
+Try
+
+	
+	This.CmdDelete.Top = This.nTopPadding 	
+	This.CmdEdit.Top = This.CmdDelete.Top + This.CmdDelete.Height + This.nGap
+	This.CmdAgregar.Top = This.CmdEdit.Top + This.CmdEdit.Height 		
+
+	This.CmdAceptar.Top = This.CmdAgregar.Top
+	This.cmdCancelar.Top = This.CmdAceptar.Top - This.CmdAceptar.Height - This.nGap
+	
+		
+	This.cmdDelete.Left = This.nLeftPadding
+	This.cmdCancelar.Left = This.nLeftPadding 	
+	This.CmdAceptar.Left = This.nLeftPadding
+	This.CmdEdit.Left = This.nLeftPadding
+	This.CmdAgregar.Left = This.nLeftPadding	
+
+	lnMaxWidth 		= This.CmdAgregar.Width
+
+	This.Shape.Anchor = 0
+
+	This.Width = This.nLeftPadding + lnMaxWidth + This.nRightPadding
+	This.Height = This.CmdAgregar.Top + This.CmdAgregar.Height + This.nBottomPadding
+
+	With This
+		.ZOrder( 1 )
+		.BorderWidth 	= 0
+		.BackColor 		= .Parent.BackColor
+	Endwith
+
+	With This.Shape As Shape
+		.Top 		= 0
+		.Left 		= 0
+		.Height 	= This.Height
+		.Width 		= This.Width
+		.BackColor 	= .Parent.BackColor
+		.ZOrder( 1 )
+		.Anchor = ANCHOR_Top_Absolute + ;
+			ANCHOR_Left_Absolute + ;
+			ANCHOR_Bottom_Absolute + ;
+			ANCHOR_Right_Absolute
+
+	Endwith
+
+Catch To oErr
+	oErr.Message = oErr.Message + " (Instanciando Control "+This.Name+")"
+	Throw oErr
+
+Finally
+	oCtrl = .F.
+
+Endtry
+
+
+ENDPROC
+PROCEDURE synchronizebuttons
+Lparameters uParam
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+6[END RESERVED2]
+[START RESERVED3]
+*synchronizebuttons 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22M0ZM3EA
+[CLASS] cancel
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancelar
+[PARENT] cmpdataentrybuttons
+[START PROPERTIES]
+AutoSize = .F.
+Top = 8
+Left = 8
+Height = 21
+Width = 75
+Caption = "\<Cancelar"
+TabIndex = 5
+SpecialEffect = 2
+Alignment = 0
+Name = "cmdCancelar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+This.Parent.Parent.CancelarDataEntry()
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22M0ZM3F2
+[CLASS] delete
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdDelete
+[PARENT] cmpdataentrybuttons
+[START PROPERTIES]
+AutoSize = .F.
+Top = 27
+Left = 8
+Height = 21
+Width = 75
+TabIndex = 6
+SpecialEffect = 2
+Alignment = 0
+Name = "cmdDelete"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+This.Parent.Parent.EliminarItem()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22M0ZM3FQ
+[CLASS] new
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdAgregar
+[PARENT] cmpdataentrybuttons
+[START PROPERTIES]
+AutoSize = .F.
+Top = 97
+Left = 8
+Height = 21
+Width = 75
+Caption = "\<Agregar"
+TabIndex = 1
+SpecialEffect = 2
+Alignment = 0
+Name = "cmdAgregar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+This.Parent.Parent.AgregarItem()
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22M0ZM3GE
+[CLASS] open
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdEdit
+[PARENT] cmpdataentrybuttons
+[START PROPERTIES]
+AutoSize = .F.
+Top = 79
+Left = 8
+Height = 21
+Width = 75
+Caption = "\<Editar"
+TabIndex = 3
+SpecialEffect = 2
+Alignment = 0
+Name = "cmdEdit"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+This.Parent.Parent.EditarItem()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _22M0ZM3H4
+[CLASS] apply
+[CLASSLOC] buttons.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdAceptar
+[PARENT] cmpdataentrybuttons
+[START PROPERTIES]
+AutoSize = .F.
+Top = 60
+Left = 8
+Height = 21
+Width = 75
+TabIndex = 2
+SpecialEffect = 2
+Alignment = 0
+Name = "cmdAceptar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+This.Parent.Parent.GrabarItem()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cmpdataentrybuttons
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hTùi²: ..\include\foxpro.hU|–: ..\include\strings.hV|–:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _24G0W38MM
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] cmpcabeza
+[START PROPERTIES]
+Width = 580
+Height = 240
+lfittoparent = .T.
+Name = "cmpcabeza"
+Shape.Name = "Shape"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+shpLabel.Name = "shpLabel"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+With This
+	.ZOrder( 1 )
+	.BorderWidth 	= 0
+	.BackColor 		= .Parent.BackColor
+Endwith
+
+With This.Shape
+	.Top	= 0
+	.Left 	= 0
+	.Height = This.Height
+	.Width 	= This.Width
+	.BackColor 	= .Parent.BackColor
+	.ZOrder( 1 )
+	.Anchor = ANCHOR_Top_Absolute + ;
+		ANCHOR_Left_Absolute + ;
+		ANCHOR_Bottom_Absolute + ;
+		ANCHOR_Right_Absolute
+
+Endwith
+
+With This.lblTitulo
+	.Visible = .F.
+Endwith
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cmpcabeza
+[START RESERVED1]
+  ..\include\praxis.hTùi²: ..\include\foxpro.hU|–: ..\include\strings.hV|–:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _24G0W9J7O
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] cmppie
+[START PROPERTIES]
+Width = 580
+Height = 240
+lfittoparent = .T.
+Name = "cmppie"
+Shape.Name = "Shape"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+shpLabel.Name = "shpLabel"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cmppie
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _24G0WAQ6Q
+[CLASS] mainform
+[CLASSLOC] prxmainform.vcx
+[BASECLASS] form
+[OBJNAME] prxcomprobante
+[START PROPERTIES]
+DoCreate = .T.
+_memberdata =     7928<VFPData><memberdata name="oreturn" type="property" display="oReturn" favorites="True" override="True"/><memberdata name="aftergetone" type="method" display="AfterGetone"/><memberdata name="beforebindcontrols" type="method" display="BeforeBindcontrols"/><memberdata name="beforegetone" type="method" display="BeforeGetone"/><memberdata name="bindcontrols_assign" type="method" display="Bindcontrols_Assign"/><memberdata name="close" type="method" display="Close"/><memberdata name="controlsourcechange" type="method" display="ControlSourceChange"/><memberdata name="creportall" type="property" display="cReportAll"/><memberdata name="creportone" type="property" display="cReportOne"/><memberdata name="cusertierclass" type="property" display="cUserTierClass" favorites="True"/><memberdata name="cusertierclasslibrary" type="property" display="cUserTierClassLibrary" favorites="True"/><memberdata name="delete" type="method" display="Delete"/><memberdata name="deletehook" type="method" display="DeleteHook"/><memberdata name="deletevalid" type="method" display="DeleteValid"/><memberdata name="enablecontrols" type="method" display="EnableControls"/><memberdata name="fastedition" type="method" display="FastEdition"/><memberdata name="getone" type="method" display="GetOne"/><memberdata name="internaldelete" type="method" display="InternalDelete"/><memberdata name="internalgetrecno" type="method" display="InternalGetRecno"/><memberdata name="lookforcmdfastedit" type="method" display="LookForCmdFastEdit"/><memberdata name="lookovercoltables" type="method" display="LookOverColTables"/><memberdata name="new" type="method" display="New"/><memberdata name="nlevel" type="property" display="nLevel"/><memberdata name="nstatus" type="property" display="nStatus"/><memberdata name="nstatus_assign" type="method" display="nStatus_Assign"/><memberdata name="ocmdfastedit" type="property" display="oCmdFastEdit"/><memberdata name="ocmdfastedit_assign" type="method" display="oCmdFastEdit_Assign"/><memberdata name="ocolcombos" type="property" display="oColCombos"/><memberdata name="ocolib" type="property" display="oColIB"/><memberdata name="oEntity" type="property" display="oEntity"/><memberdata name="oEntity_assign" type="method" display="oEntity_Assign"/><memberdata name="savehook" type="method" display="SaveHook"/><memberdata name="savevalid" type="method" display="SaveValid"/><memberdata name="synchronizetoolbar" type="method" display="SynchronizeToolBar"/><memberdata name="toprint" type="method" display="ToPrint"/><memberdata name="xreturnvalue" type="property" display="xReturnValue"/><memberdata name="xreturnvalue_assign" type="method" display="xReturnValue_Assign"/><memberdata name="open" type="method" display="Open"/><memberdata name="save" type="method" display="Save"/><memberdata name="cusertierclasslibraryfolder" type="property" display="cUserTierClassLibraryFolder" favorites="True"/><memberdata name="showerror" type="method" display="ShowError"/><memberdata name="afterbindcontrols" type="method" display="AfterBindcontrols"/><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="performautofit" type="property" display="PerformAutofit"/><memberdata name="nBottomPadding" type="property" display="nBottomPadding"/><memberdata name="nLeftPadding" type="property" display="nLeftPadding"/><memberdata name="nRightPadding" type="property" display="nRightPadding"/><memberdata name="nTopPadding" type="property" display="nTopPadding"/><memberdata name="processtype" type="property" display="ProcessType"/><memberdata name="formid" type="property" display="FormId"/><memberdata name="cDataConfigurationKey" type="property" display="cDataConfigurationKey" favorites="True"/><memberdata name="ogetfocus" type="property" display="oGetFocus"/><memberdata name="ofirstfocus" type="property" display="oFirstFocus"/><memberdata name="lexit" type="property" display="lExit"/><memberdata name="llllllPerformAutoSetUp" type="Property" favorites="True"/><memberdata name="marcvalidationerrors" type="method" display="MarcValidationErrors"/><memberdata name="markvalidationerrors" type="method" display="MarkValidationErrors"/><memberdata name="checkformid" type="property" display="CheckFormId"/><memberdata name="setformcaption" type="method" display="SetFormCaption"/><memberdata name="maincaption" type="property" display="MainCaption"/><memberdata name="internalclose" type="method" display="InternalClose"/><memberdata name="identidad" type="property" display="IdEntidad"/><memberdata name="datahaschanges" type="property" display="DataHasChanges"/><memberdata name="keyname" type="property" display="KeyName"/><memberdata name="nbar" type="property" display="nBar"/><memberdata name="oldcaption" type="property" display="OldCaption"/><memberdata name="exit" type="method" display="Exit"/><memberdata name="cerrar" type="method" display="Cerrar"/><memberdata name="launchselectorafterinit" type="property" display="LaunchSelectorAfterInit" favorites="True"/><memberdata name="nnewrecordlevel" type="property" display="nNewRecordLevel"/><memberdata name="deletechild" type="method" display="DeleteChild"/><memberdata name="newchild" type="method" display="NewChild"/><memberdata name="openchild" type="method" display="OpenChild"/><memberdata name="savechild" type="method" display="SaveChild"/><memberdata name="cancel" type="method" display="Cancel"/><memberdata name="closecursors" type="method" display="CloseCursors"/><memberdata name="contextualmenu" type="method" display="ContextualMenu"/><memberdata name="keeponinserting" type="property" display="KeepOnInserting"/><memberdata name="ndeletelevel" type="property" display="nDeleteLevel" favorites="True"/><memberdata name="enlarge" type="method" display="Enlarge"/><memberdata name="shrink" type="method" display="Shrink"/><memberdata name="changesize" type="method" display="ChangeSize"/><memberdata name="synchronizefilemenu" type="method" display="SynchronizeFileMenu"/><memberdata name="getfirst" type="method" display="GetFirst"/><memberdata name="getprior" type="method" display="GetPrior"/><memberdata name="getnext" type="method" display="GetNext"/><memberdata name="getlast" type="method" display="GetLast"/><memberdata name="laddtowindowsmenu" type="property" display="lAddToWindowsMenu" favorites="True"/><memberdata name="cclasslibraryfolder" type="property" display="cClassLibraryFolder" favorites="True"/><memberdata name="ocolkeyfinder" type="property" display="oColKeyFinder"/><memberdata name="fillkeyfinders" type="method" display="FillKeyFinders"/><memberdata name="oEntity_access" type="method" display="oEntity_Access"/><memberdata name="handleevents" type="method" display="HandleEvents"/><memberdata name="cdetalle" type="property" display="cDetalle" favorites="True"/><memberdata name="cdetallepk" type="property" display="cDetallePK" favorites="True"/><memberdata name="cdetalle" type="property" display="cDetalle" favorites="True"/><memberdata name="cdetalle_access" type="property" display="cDetalle_Access" favorites="True"/><memberdata name="cdetallepk" type="property" display="cDetallePK" favorites="True"/><memberdata name="cdetallepk_access" type="property" display="cDetallePK_Access" favorites="True"/><memberdata name="synchronizebuttons" type="method" display="SynchronizeButtons"/><memberdata name="applyparameters" type="method" display="ApplyParameters"/><memberdata name="obtenertipodecomprobante" type="method" display="ObtenerTipoDeComprobante"/><memberdata name="gridlayout" type="method" display="GridLayout"/><memberdata name="setearcolentities" type="method" display="SetearColEntities"/><memberdata name="setgridlayout" type="method" display="SetGridLayout"/><memberdata name="setcolentities" type="method" display="SetColEntities"/><memberdata name="fillcolentities" type="method" display="FillColEntities"/><memberdata name="obtenereditingcursorname" type="method" display="ObtenerEditingCursorName"/></VFPData>
+
+nlevel = 2
+laddtowindowsmenu = .T.
+Name = "prxcomprobante"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Lparameters txIdEntity, tlModalWindowType, tcXML
+
+If DoDefault( txIdEntity, tlModalWindowType, tcXML )
+
+	Try
+
+		If This.lIsOk
+
+			* Inicializar Detalle
+			Local loParam As Object
+
+*!*				loParam = Createobject("Empty")
+*!*				AddProperty( loParam, "ChildCursorName", This.cDetalle )
+*!*				AddProperty( loParam, "ChildCursorPK", This.cDetallePK )
+
+*!*				Thisform.PageFrame.Cuerpo.Datos.Setup( loParam )
+
+
+			Thisform.AutoCenter = .F.
+			Thisform.AutoCenter = .T.
+			
+			Thisform.Show()
+
+			Thisform.New()
+
+*!*				Thisform.OptionPanel.SetFocus()
+*!*				Thisform.OptionPanel.CmdNew.SetFocus()
+			
+
+		Endif
+
+	Catch To oErr
+		This.lIsOk = .F.
+		This.oError.Process( oErr )
+
+	Finally
+
+	Endtry
+Endif
+
+Return This.lIsOk
+
+ENDPROC
+PROCEDURE KeyPress
+Lparameters nKeyCode, nShiftAltCtrl
+
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+Local llIdle, llEditing
+llIdle = ( This.nStatus = 0 )
+llEditing = ( This.nStatus = 1 )
+
+Do Case
+	Case nShiftAltCtrl = 0
+		Do Case
+			Case nKeyCode = KEY_SUPR  ;
+					And llEditing ;
+					And Thisform.PageFrame.ActivePage = PG_DETALLE ;
+					And !Thisform.PageFrame.Cuerpo.Datos.lEditingDataEntry
+
+				Thisform.PageFrame.Cuerpo.Datos.EliminarItem()
+				
+			Case nKeyCode = KEY_ESCAPE ;
+					And llEditing ;
+					And Thisform.PageFrame.ActivePage = PG_DETALLE ;
+					And Thisform.PageFrame.Cuerpo.Datos.lEditingDataEntry
+
+				ThisForm.PageFrame.Cuerpo.Datos.CancelarDataEntry()
+
+			Otherwise
+				DoDefault(nKeyCode, nShiftAltCtrl)
+		Endcase
+
+	Case nShiftAltCtrl = KEY_CTRL_DOWN
+		Do Case
+			Case nKeyCode = KEY_CTRL_FLECHA_ARRIBA  ;
+					And llEditing
+
+				Thisform.PageFrame.Pages[ ThisForm.PageFrame.ActivePage ].SetFocus()
+
+			Otherwise
+				DoDefault(nKeyCode, nShiftAltCtrl)
+
+		Endcase
+
+	Otherwise
+		DoDefault(nKeyCode, nShiftAltCtrl)
+
+Endcase
+
+ENDPROC
+PROCEDURE aftergetone
+Try
+
+	If Used( Thisform.PageFrame.Cuerpo.Datos.RecordSource )
+		AppendFromCursor( Thisform.cDetalle,;
+			Thisform.PageFrame.Cuerpo.Datos.RecordSource )
+
+		Select Alias( Thisform.PageFrame.Cuerpo.Datos.RecordSource )
+		Locate
+		Scan
+			Replace _RecordOrder With Recno()
+		Endscan
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+ENDPROCPROCEDURE applyparameters
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+
+Local loComprobante As utComprobantedestock Of "ERP\Stock\Client\utComprobanteDeStock.prg"
+Local llPermiteNumero As Boolean
+Try
+
+	If This.ProcessType = TR_NEW
+	
+		loComprobante = Thisform.oEntity
+		
+		loComprobante.ApplyParameters()
+
+		Thisform.lblTitulo.Caption = loComprobante.DescripcionTipoDeComprobante()
+
+		lnTalonarioId = loComprobante.ObtenerTalonario()
+		
+		Thisform.SetFormCaption( Alltrim(Thisform.lblTitulo.Caption ) +;
+				" " + StrZero( loComprobante.ObtenerSucursal(lnTalonarioId), 4 ) + "-" + ;
+				StrZero( loComprobante.ObtenerSiguienteNumero(lnTalonarioId), 8 ) )
+		
+		llPermiteNumero = !loComprobante.PermiteEditarNumero()	
+		ThisForm.Numero.ibnPrefijo.Dato.ReadOnly = llPermiteNumero
+		ThisForm.Numero.ibnNumero.Dato.ReadOnly = llPermiteNumero
+		ThisForm.PageFrame.Cabeza.Datos.Fecha.cntFecha.Dato.keydate.ReadOnly = !loComprobante.PermiteModificarFecha()
+		ThisForm.PageFrame.Cabeza.Datos.Fecha.cntCopias.Dato.ReadOnly = !loComprobante.PermiteModificarCantidadDeCopias()
+		
+		
+	Endif
+
+Catch To oErr
+	
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	loComprobante = Null
+
+Endtry
+
+******************************************************************************
+*!*	#INCLUDE "FW\Actual\Tier Adapter\Include\TA.h"
+
+
+*!*	Local lnTalonarioId  As Integer
+*!*	Local llOk As Boolean
+*!*	Local loTalonario As TierAdapter Of "FW\Actual\Tier Adapter\Comun\TierAdapter.prg",;
+*!*		loTipoComprobante As TierAdapter Of "FW\Actual\Tier Adapter\Comun\TierAdapter.prg"
+
+
+*!*	Try
+
+*!*		If This.ProcessType = TR_NEW
+*!*		
+*!*			Thisform.oEntity.ApplyParameters()
+
+*!*			loTalonario =  This.oColEntities.Instanciateentity( "Talonario" )
+*!*			loTipoComprobante = This.oColEntities.Instanciateentity( "TipoComprobante" )
+
+*!*			Select Alias( This.oEntity.MainCursorName )
+*!*			Replace Fecha With Date()
+
+*!*			Thisform.lblTitulo.Caption = Evaluate( loTipoComprobante.MainCursorName + ".Descripcion" )
+
+*!*			lnTalonarioId = Evaluate( loTipoComprobante.MainCursorName + ".TalonarioId" )
+
+*!*			loTalonario.GetOne( lnTalonarioId )
+*!*			llOk = loTalonario.IsOk ;
+*!*				and Used( loTalonario.MainCursorName )
+
+*!*			If llOk
+*!*				Local lnNumero As Integer,;
+*!*					lnSucursal As Integer,;
+*!*					lnComprobanteId as Integer
+
+*!*				lnNumero = Evaluate( loTalonario.MainCursorName + ".UltimoNumero" ) + 1
+*!*				lnSucursal =  Evaluate( loTalonario.MainCursorName + ".Sucursal" )
+*!*				lnComprobanteId = Evaluate( loTipoComprobante.MainCursorName + ".TipoDeComprobanteDeStockID" )
+*!*				
+
+*!*				Update (This.oEntity.MainCursorName) Set ;
+*!*					Numero = lnNumero,;
+*!*					Sucursal = lnSucursal,;
+*!*					ComprobanteId = lnComprobanteId,;
+*!*					TalonarioID = lnTalonarioId
+*!*					
+*!*				Select (This.oEntity.MainCursorName)
+*!*				Locate
+
+*!*				Thisform.SetFormCaption( Alltrim(Thisform.lblTitulo.Caption ) +;
+*!*					" " + StrZero( lnSucursal, 4 ) + "-" + StrZero( lnNumero, 8 ) )
+*!*			Endif
+*!*		Endif
+
+*!*	Catch To oErr
+*!*		Local loError As UserTierError Of "fw\Actual\ErrorHandler\UserTierError.prg"
+*!*		loError = Newobject( "UserTierError", "UserTierError.prg" )
+*!*		loError.Process( oErr )
+
+
+*!*	Finally
+*!*		loTalonario = Null
+*!*		loTipoComprobante = Null
+
+*!*	Endtry
+
+ENDPROC
+PROCEDURE autosetup
+Try
+
+	Local loFecha as Container
+	
+	DoDefault()
+
+	If This.PageFrame.lPerformAutoSetUp
+		This.PageFrame.AutoSetup()
+	Endif
+
+	Thisform.lblTitulo.Left = This.nLeftPadding
+
+	This.PageFrame.Top = This.Numero.Top + This.Numero.Height + This.nGap
+	This.Width = This.PageFrame.Width + This.nRightPadding + This.nLeftPadding
+	This.PageFrame.Left = This.nLeftPadding
+
+	This.Numero.Left = This.Width - This.Numero.Width - This.nLeftPadding
+
+	This.ibnTotal.Top = Thisform.OptionPanel.Top
+	This.ibnTotal.Left = This.Width - This.ibnTotal.Width - This.nLeftPadding
+
+	Thisform.OptionPanel.AutoSetup()
+	Thisform.OptionPanel.Top = This.PageFrame.Top + This.PageFrame.Height + This.nGap
+	Thisform.OptionPanel.Left = This.nLeftPadding
+
+	This.OptionPanel.Width = This.Width - This.nLeftPadding - This.nRightPadding ;
+		- This.ibnTotal.Width - This.nGap
+
+	Thisform.Height = Thisform.OptionPanel.Top ;
+		+ Thisform.OptionPanel.Height + This.nBottomPadding
+	
+	loFecha = ThisForm.PageFrame.Cabeza.Datos.Fecha
+	
+	loFecha.Left = Max( loFecha.Left, loFecha.Parent.Width - loFecha.Width - loFecha.Parent.nRightPadding )
+		
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	loFecha = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE enablecontrols
+Lparameters tlEnable As Boolean
+
+#INCLUDE "fw\tieradapter\include\ta.h"
+
+Try
+
+	DoDefault( tlEnable )
+	Thisform.OptionPanel.SynchronizeButtons( Thisform.nStatus )
+	Thisform.PageFrame.Enabled = tlEnable
+	
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+ENDPROC
+PROCEDURE new
+Lparameters tlDelayedBinding
+
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+
+Try
+
+	Thisform.ProcessType = TR_NEW
+	Thisform.PageFrame.Cuerpo.Datos.ZapCursors()
+
+
+	If Thisform.ObtenerTipoDeComprobante()
+		DoDefault( .T. )
+		Thisform.ApplyParameters()
+
+		Thisform.BindControls = .T.
+
+	Else
+		Thisform.nStatus = IS_IDLE
+		Thisform.BindControls = .F.
+
+	Endif
+
+Catch To oErr
+	This.lIsOk = .F.
+	This.XMLoError=This.oError.Process( oErr )
+
+Finally
+
+Endtry
+
+
+ENDPROC
+PROCEDURE obtenertipodecomprobante
+*!*	Este método es llamado desde New(), y permite seleccionar el tipo de comprobante
+*!*	desde el selector de comprobantes, y luego trae el registro correspondiente.
+*!*	Si no se desa que el operador seleccione el tipo de comprobante,
+*!*	se debera sobreescribir éste metodo de modo tal de obtener directamente
+*!*	el registro correspondiente al tipo de comprobante
+
+* @TODO Chequear acoplamiento #INCLUDE "Erp\\Archivos\\Include\\Archivos.h"
+
+Local llOk As Boolean
+Local loTipoComprobante As UserTierAdapter Of "FW\Tieradapter\UserTier\UserTierAdapter.prg"
+Local loParam As Object
+
+Try
+
+	loTipoComprobante = Thisform.oEntity.ObtenerEntidad( "TipoDeComprobante" )
+
+	llOk = .T.
+
+	If Empty( loTipoComprobante.cSelectorFormName )
+		loTipoComprobante.cSelectorFormName = Addbs(TABLAS_SCX) + "Generic Selector"
+	Endif
+
+	loParam = Createobject( "Empty" )
+	AddProperty( loParam, "cDataConfigurationKey", loTipoComprobante.cDataConfigurationKey )
+	AddProperty( loParam, "cConfigNextTierFileName", loTipoComprobante.cConfigNextTierFileName )
+
+	Do Form ( loTipoComprobante.cSelectorFormName );
+		with loParam  ;
+		to loRetVal
+
+	If Vartype( loRetVal ) = "O"
+
+		If loRetVal.Estado = "OK"
+		
+			loTipoComprobante.TipoDeComprobanteId = loRetVal.Valor
+
+		Else
+			llOk = .F.
+
+		Endif
+
+	Else
+		llOk = .F.
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	llOk = .F.
+
+Finally
+	loTipoComprobante = Null
+	loParam = Null
+	Thisform.Activate()
+
+
+Endtry
+
+Return llOk
+
+ENDPROC
+PROCEDURE open
+Lparameters tlDelayedBinding
+
+Thisform.PageFrame.Cuerpo.Datos.ZapCursors()
+
+DoDefault( tlDelayedBinding )
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+9[END RESERVED2]
+[START RESERVED3]
+*applyparameters 
+*obtenertipodecomprobante 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _24G16ECZ7
+[CLASS] cmppageframe
+[CLASSLOC] prxcomprobantes.vcx
+[BASECLASS] pageframe
+[OBJNAME] PageFrame
+[PARENT] prxcomprobante
+[START PROPERTIES]
+ErasePage = .T.
+Top = 50
+Left = 0
+Height = 290
+nTopPadding = 0
+Name = "PageFrame"
+CABEZA.Datos.Shape.Name = "Shape"
+CABEZA.Datos.lblTitulo.Name = "lblTitulo"
+CABEZA.Datos.shpLabel.Name = "shpLabel"
+CABEZA.Datos.Name = "Datos"
+CABEZA.Name = "CABEZA"
+Cuerpo.Datos.Shape.Name = "Shape"
+Cuerpo.Datos.lblTitulo.Name = "lblTitulo"
+Cuerpo.Datos.shpLabel.Name = "shpLabel"
+Cuerpo.Datos.cmdAgregar.Name = "cmdAgregar"
+Cuerpo.Datos.cmdBorrar.Name = "cmdBorrar"
+Cuerpo.Datos.cmdEdit.Name = "cmdEdit"
+Cuerpo.Datos.Hijos.Name = "Hijos"
+Cuerpo.Datos.Name = "Datos"
+Cuerpo.Name = "Cuerpo"
+Pie.Datos.Shape.Name = "Shape"
+Pie.Datos.lblTitulo.Name = "lblTitulo"
+Pie.Datos.shpLabel.Name = "shpLabel"
+Pie.Datos.Name = "Datos"
+Pie.Name = "Pie"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2BY0VMTQ5
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] Fecha
+[PARENT] prxcomprobante.PageFrame.CABEZA.Datos
+[START PROPERTIES]
+Top = 40
+Left = 421
+Width = 140
+Height = 92
+TabIndex = 2
+lSameRowAsPrevious = .T.
+nBottomPadding = 0
+nGap = 5
+nLeftPadding = 0
+nRightPadding = 0
+nTopPadding = 0
+Name = "Fecha"
+Shape.Visible = .F.
+Shape.Name = "Shape"
+lblTitulo.Top = -500
+lblTitulo.Visible = .F.
+lblTitulo.Name = "lblTitulo"
+shpLabel.Name = "shpLabel"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2BY0VMTSO
+[CLASS] ibdate
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] cntFecha
+[PARENT] prxcomprobante.PageFrame.CABEZA.Datos.Fecha
+[START PROPERTIES]
+Comment = ""
+Top = 25
+Left = 33
+Width = 80
+TabIndex = 1
+lsubscribetohandleevents = .T.
+Name = "cntFecha"
+Label.Caption = "Fecha"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.keydate.Name = "keydate"
+Dato.cmdKeyDate.Name = "cmdKeyDate"
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE handleevents
+Lparameters oCtrl As Object, uParam As Variant
+
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+Try
+
+	Do Case
+		Case Lower( oCtrl.Class ) = Lower( Thisform.Class )
+			Local loTipoComprobante As UserTierAdapter Of "FW\Tieradapter\UserTier\UserTierAdapter.prg"
+
+			loTipoComprobante = ThisForm.oColEntities.Instanciateentity( "TipoComprobante" )
+
+			If Evaluate( loTipoComprobante.MainCursorName + ".PideFecha" ) = FALSE
+				This.Dato.Enabled = .F.
+				
+			Else	
+				This.Dato.Enabled = .T.
+				
+			Endif
+
+		Otherwise
+
+	Endcase
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loTipoComprobante = Null
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2BY0VMU53
+[CLASS] ibnumeric
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] cntCopias
+[PARENT] prxcomprobante.PageFrame.CABEZA.Datos.Fecha
+[START PROPERTIES]
+Comment = ""
+Top = 60
+Left = 32
+Width = 80
+TabIndex = 2
+lsubscribetohandleevents = .T.
+Name = "cntCopias"
+Label.Caption = "Copias"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.InputMask = "999"
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE handleevents
+Lparameters oCtrl As Object, uParam As Variant
+
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+
+Try
+
+	Do Case
+		Case Lower( oCtrl.Class ) = Lower( Thisform.Class )
+			Local loTipoComprobante As UserTierAdapter Of "FW\Tieradapter\UserTier\UserTierAdapter.prg"
+
+			loTipoComprobante = ThisForm.oColEntities.Instanciateentity( "TipoComprobante" )
+
+			If Evaluate( loTipoComprobante.MainCursorName + ".PideCopias" ) = FALSE
+				This.Dato.Enabled = .F.
+				
+			Else	
+				This.Dato.Enabled = .T.
+				
+			Endif
+
+		Otherwise
+
+	Endcase
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	loTipoComprobante = Null
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _24G17OMKU
+[CLASS] cmpnumero
+[CLASSLOC] prxcomprobantes.vcx
+[BASECLASS] container
+[OBJNAME] Numero
+[PARENT] prxcomprobante
+[START PROPERTIES]
+Top = 4
+Left = 356
+lsubscribetohandleevents = .T.
+Name = "Numero"
+Shape.Name = "Shape"
+lblTitulo.Name = "lblTitulo"
+shpLabel.Name = "shpLabel"
+ibnPrefijo.Label.Name = "Label"
+ibnPrefijo.CheckButton.Name = "CheckButton"
+ibnPrefijo.Dato.Name = "Dato"
+ibnPrefijo.fieldname = Sucursal
+ibnPrefijo.Name = "ibnPrefijo"
+ibnNumero.Label.Name = "Label"
+ibnNumero.CheckButton.Name = "CheckButton"
+ibnNumero.Dato.Name = "Dato"
+ibnNumero.Name = "ibnNumero"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE handleevents
+Lparameters oCtrl As Object, uParam As Variant
+
+#INCLUDE "FW\Tieradapter\Include\TA.h"
+
+Local loTalonario As TierAdapter Of "FW\Tieradapter\Comun\TierAdapter.prg"
+
+Try
+
+	Do Case
+		Case Lower( oCtrl.Class ) = Lower( Thisform.Class )
+			loTalonario =  ThisForm.oColEntities.Instanciateentity( "Talonario" )
+
+			If Evaluate( loTalonario.MainCursorName + ".EditaNumero" ) = FALSE
+				This.Enabled = .F.
+			Else
+				This.Enabled = .T.
+			Endif
+
+		Otherwise
+
+	Endcase
+
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	loTalonario = Null
+
+Endtry
+
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _24G17OMM3
+[CLASS] prxlabel
+[CLASSLOC] prxbase.vcx
+[BASECLASS] label
+[OBJNAME] lblTitulo
+[PARENT] prxcomprobante
+[START PROPERTIES]
+AutoSize = .T.
+FontBold = .T.
+FontSize = 14
+Caption = "Comprobante"
+Left = 12
+Top = 20
+TabIndex = 6
+ForeColor = 0,0,255
+Name = "lblTitulo"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _24G17OMM7
+[CLASS] optionpanel
+[CLASSLOC] prxmainform.vcx
+[BASECLASS] container
+[OBJNAME] OptionPanel
+[PARENT] prxcomprobante
+[START PROPERTIES]
+Top = 352
+Left = 4
+Width = 360
+Height = 47
+Name = "OptionPanel"
+Shape.Name = "Shape"
+lblTitulo.Name = "lblTitulo"
+shpLabel.Name = "shpLabel"
+cmdCancel.Top = 19
+cmdCancel.Cancel = .F.
+cmdCancel.Name = "cmdCancel"
+cmdClose.Top = 19
+cmdClose.Left = 58
+cmdClose.Visible = .F.
+cmdClose.Name = "cmdClose"
+cmdDelete.Top = 19
+cmdDelete.Left = 111
+cmdDelete.Visible = .F.
+cmdDelete.Name = "cmdDelete"
+cmdNew.Top = 19
+cmdNew.Left = 144
+cmdNew.Name = "cmdNew"
+cmdSave.Top = 19
+cmdSave.Left = 220
+cmdSave.Name = "cmdSave"
+cmdApply.Top = 19
+cmdApply.Left = 264
+cmdApply.Visible = .F.
+cmdApply.Name = "cmdApply"
+cmdOpen.Top = 19
+cmdOpen.Left = 188
+cmdOpen.Visible = .F.
+cmdOpen.Name = "cmdOpen"
+cmdReport.Name = "cmdReport"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _24G17OMN9
+[CLASS] ibnumeric
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] ibnTotal
+[PARENT] prxcomprobante
+[START PROPERTIES]
+Top = 358
+Left = 437
+TabIndex = 3
+inputmask = 999999999.99
+Name = "ibnTotal"
+Label.FontBold = .T.
+Label.FontSize = 12
+Label.Caption = "Total"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.FontBold = .T.
+Dato.FontSize = 12
+Dato.InputMask = "999999999.99"
+Dato.ReadOnly = .T.
+Dato.Name = "Dato"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] prxcomprobante
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[START RESERVED1]
+  ..\..\tieradapter\include\ta.h¦¦É„­: ..\include\praxis.h®§ùi²: ..\include\foxpro.h¶¨|–: ..\include\strings.h¾©|–:[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _24K0K3NL9
+[CLASS] prxactiongrid
+[CLASSLOC] prxmainform.vcx
+[BASECLASS] grid
+[OBJNAME] cmpactiongrid
+[START PROPERTIES]
+AllowRowSizing = .T.
+Name = "cmpactiongrid"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE fillgrid
+Local lcCursor As String
+lcCursor = This.RecordSource
+
+Local lcFields As String
+lcFields = This.FieldList
+
+Local lnColumns, q, lcFieldSelector, lnPosicPunto
+Local lnWidth As Integer
+
+Try
+
+	If !Used( This.RecordSource )
+		Error "No existe el cursor " + This.RecordSource
+	Endif
+
+	* Builds the grid
+
+	lnColumns = This.oColLayout.Count
+
+	With This As Grid
+
+		.ColumnCount = lnColumns
+		This.GridAutoFit = .T.
+
+
+		For q = 1 To lnColumns
+
+			With .Columns[q] As Column
+
+				.ReadOnly = .T.
+
+				Try
+
+					This.PerformLayout( This.Columns[q], This.oColLayout.Item( q ) )
+					.ControlSource = This.RecordSource + "." + .ControlSource
+
+					If This.CastDateTime
+						If Vartype( Evaluate( .ControlSource )) == "T"
+							***.ControlSource = ["=Ttod( ] + .ControlSource + [ )"]
+						Endif
+
+					Else
+						Evaluate(.ControlSource)
+
+					Endif
+
+				Catch To oErr
+					Warning("No existe " + .ControlSource )
+					.ControlSource = ""
+
+				Finally
+
+				Endtry
+
+			Endwith
+		Next
+
+		If lnColumns = 1
+			.GridLines= 0
+
+		Else
+			.GridLines= 2
+
+		Endif
+
+		If .GridAutoFit
+			.AutoFit()
+
+			* El Autofit() lo ejecuto solo la primera vez. De otra manera se
+			* pierde la personalización que haga el usuario
+			If lnColumns > 1
+				.GridAutoFit = .F.
+			Endif
+		Endif
+
+		*!*				llOk = .T.
+		*!*				Try
+		*!*					Local lnDummy
+		*!*					lnDummy = laColumnWidth[ 1 ]
+
+
+		*!*				Catch To oErr
+		*!*					llOk = .F.
+
+		*!*				Finally
+
+		*!*				Endtry
+
+
+		*!*				If llOk
+		*!*					* Restauro la configuración de las columnas que pudiera
+		*!*					* haber hecho el usuario
+		*!*					Try
+		*!*						For q = 1 To .ColumnCount
+		*!*							This.Columns[ q ].Width = laColumnWidth[ q ]
+		*!*						Endfor
+
+		*!*					Catch To oErr
+		*!*						* Si algo falla ....
+		*!*						This.AutoFit()
+
+		*!*					Finally
+
+		*!*					Endtry
+		*!*				Endif
+
+		This.AdjustFitColumn()
+
+	Endwith
+
+Catch To oErr
+	Local loError As ErrorHandler Of "ErrorHandler\ErrorhandlerPrg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cmpactiongrid
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2EP0N3AQU
+[CLASS] abmchildgrid
+[CLASSLOC] prxmainform.vcx
+[BASECLASS] container
+[OBJNAME] cmpcuerpo
+[START PROPERTIES]
+Width = 565
+Height = 215
+_memberdata =     4635<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="lautofit" type="property" display="lAutofit"/><memberdata name="lautosetup" type="property" display="lAutoSetup"/><memberdata name="samerowasprevious" type="property" display="SameRowAsPrevious" favorites="True"/><memberdata name="deletechild" type="method" display="DeleteChild"/><memberdata name="editchild" type="method" display="EditChild"/><memberdata name="addchild" type="method" display="AddChild"/><memberdata name="newchild" type="method" display="NewChild"/><memberdata name="contextualmenu" type="method" display="ContextualMenu"/><memberdata name="fillgrid" type="method" display="FillGrid"/><memberdata name="deletevalid" type="method" display="DeleteValid"/><memberdata name="deletehook" type="method" display="DeleteHook"/><memberdata name="childformname" type="property" display="ChildFormName" favorites="True"/><memberdata name="serialize" type="method" display="Serialize"/><memberdata name="getdata" type="method" display="GetData"/><memberdata name="keeponinserting" type="property" display="KeepOnInserting" favorites="True"/><memberdata name="emptygrid" type="method" display="EmptyGrid"/><memberdata name="buttonsposition" type="property" display="ButtonsPosition" favorites="True"/><memberdata name="synchronizebuttons" type="method" display="SynchronizeButtons"/><memberdata name="applydiffgram" type="method" display="ApplyDiffgram"/><memberdata name="update" type="method" display="Update"/><memberdata name="new" type="method" display="New"/><memberdata name="getone" type="method" display="GetOne"/><memberdata name="launch" type="method" display="Launch"/><memberdata name="editingcursorname" type="property" display="EditingCursorName" favorites="True"/><memberdata name="editingcursorpk" type="property" display="EditingCursorPK" favorites="True"/><memberdata name="editingcursorname_access" type="method" display="EditingCursorName_Access"/><memberdata name="validateupdate" type="method" display="ValidateUpdate"/><memberdata name="getentityid" type="method" display="GetEntityId"/><memberdata name="filleditingrecord" type="method" display="FillEditingRecord"/><memberdata name="updateprivatecursor" type="method" display="UpdatePrivateCursor"/><memberdata name="updateasociatedcursor" type="method" display="UpdateAsociatedCursor"/><memberdata name="cconfignexttierfilename" type="property" display="cConfigNextTierFileName" favorites="True"/><memberdata name="oentity" type="property" display="oEntity"/><memberdata name="dataconfigurationkey" type="property" display="DataConfigurationKey" favorites="True"/><memberdata name="oentity_access" type="method" display="oEntity_Access"/><memberdata name="lkeeponinserting" type="property" display="lKeepOnInserting" favorites="True"/><memberdata name="nreccount" type="property" display="nRecCount"/><memberdata name="nreccount_assign" type="property" display="nRecCount_Assign"/><memberdata name="nmaxrec" type="property" display="nMaxRec" favorites="True"/><memberdata name="nminrec" type="property" display="nMinRec" favorites="True"/><memberdata name="grillallena" type="method" display="GrillaLlena"/><memberdata name="grillavacia" type="method" display="GrillaVacia"/><memberdata name="griilaconunregistro" type="method" display="GriilaConUnRegistro"/><memberdata name="grillaconunregistro" type="method" display="GrillaConUnRegistro"/><memberdata name="hookbeforelaunchform" type="method" display="HookBeforeLaunchForm"/><memberdata name="gridstatus" type="method" display="GridStatus"/><memberdata name="hookafterupdate" type="method" display="HookAfterUpdate"/><memberdata name="emptytree" type="method" display="EmptyTree"/><memberdata name="filltree" type="method" display="FillTree"/><memberdata name="fillcontrol" type="method" display="FillControl"/><memberdata name="emptycontrol" type="method" display="EmptyControl"/><memberdata name="llenarhijos" type="method" display="LlenarHijos"/><memberdata name="vaciarhijos" type="method" display="VaciarHijos"/><memberdata name="hijosconunregistro" type="method" display="HijosConUnRegistro"/><memberdata name="hijoslleno" type="method" display="HijosLleno"/><memberdata name="hijosvacio" type="method" display="HijosVacio"/><memberdata name="oparent" type="property" display="oParent"/><memberdata name="oparent_access" type="property" display="oParent_Access"/><memberdata name="parentconfigurationkey" type="property" display="ParentConfigurationKey" favorites="True"/><memberdata name="zapcursors" type="method" display="ZapCursors"/></VFPData>
+
+Name = "cmpcuerpo"
+Shape.Name = "Shape"
+lblTitulo.Name = "lblTitulo"
+shpLabel.Name = "shpLabel"
+cmdAgregar.Top = 20
+cmdAgregar.Left = 480
+cmdAgregar.Name = "cmdAgregar"
+cmdBorrar.Top = 184
+cmdBorrar.Left = 472
+cmdBorrar.Name = "cmdBorrar"
+cmdEdit.Top = 144
+cmdEdit.Left = 484
+cmdEdit.Name = "cmdEdit"
+Hijos.Height = 188
+Hijos.Left = 32
+Hijos.Top = 20
+Hijos.Width = 432
+Hijos.Name = "Hijos"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE oparent_access
+Local loParam As Object
+Local loNextTierFactory As ObjectFactory Of "Fw\Comun\Prg\ObjectFactory.prg"
+
+Try
+
+	If Vartype( This.oParent ) <> "O"
+
+		This.oParent = ThisForm.oEntity
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loParam = Null
+	loNextTierFactory = Null
+
+Endtry
+
+Return This.oParent
+
+ENDPROCPROCEDURE zapcursors
+Try
+
+	If Used( This.Hijos.PrivateCursor )
+		Zap In Alias( This.Hijos.PrivateCursor )
+	Endif
+
+	If Used( This.EditingCursorName )
+		Zap In Alias( This.EditingCursorName )
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+*zapcursors 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cmpcuerpo
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

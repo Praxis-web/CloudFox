@@ -1,0 +1,3685 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0P30BB
+[CLASS] ccmarcobase
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] cntfiltro
+[START PROPERTIES]
+Width = 315
+Height = 130
+BackStyle = 0
+getall = .T.
+ocolfiltros = .F.
+lonlyoneactive = .F.
+ckeyname = 
+_memberdata =     1079<VFPData><memberdata name="getwherestatement" type="method" display="GetWhereStatement"/><memberdata name="getall" type="property" display="GetAll"/><memberdata name="ocolfiltros" type="property" display="oColFiltros"/><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="synchronizefilters" type="method" display="SynchronizeFilters"/><memberdata name="handlekeypress" type="method" display="HandleKeypress"/><memberdata name="leavefocus" type="method" display="LeaveFocus"/><memberdata name="setingfocus" type="method" display="SetingFocus"/><memberdata name="cursorname" type="property" display="CursorName" favorites="True"/><memberdata name="cursorname_access" type="property" display="CursorName_Access" favorites="True"/><memberdata name="lonlyoneactive" type="property" display="lOnlyOneActive" favorites="True"/><memberdata name="switchfilters" type="method" display="SwitchFilters"/><memberdata name="ckeyname" type="property" display="cKeyName" favorites="True"/><memberdata name="setdefaults" type="method" display="SetDefaults"/></VFPData>
+
+Name = "cntfiltro"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+	With This As prxcontainer Of "fw\comunes\vcx\prxbase.vcx"
+		If Thisform.lIsOk And .ClassBeforeInit()
+			If .HookBeforeInit()
+			
+				.BorderWidth = 0
+				
+				.HookAfterInit()
+				.ClassAfterInit()
+			Endif
+		Endif
+	Endwith
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Thisform.lIsOk = .F.
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROCPROCEDURE SetFocus
+* Poner en Foco el primer filtro
+Local loFirstFocus As Object
+loFirstFocus = Null
+
+Try
+
+	If Vartype( This.oColObjects ) == "O"
+		For Each oFiltro In This.oColObjects
+			If Pemstatus( oFiltro, "SynchronizeFilters" , 5 )
+
+				If Isnull( loFirstFocus )
+					loFirstFocus = oFiltro
+
+				Else
+					oFiltro.SynchronizeFilters()
+
+				Endif
+			Endif
+		Endfor
+
+		If Vartype( loFirstFocus ) == "O"
+			loFirstFocus.SynchronizeFilters()
+		Endif
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loFirstFocus = .F.
+	oFiltro = .F.
+	
+Endtry
+
+
+ENDPROC
+PROCEDURE autofit
+Local loFiltro As FiltroFromToTxt Of fw\comunes\vcx\filtros.vcx
+Local lnTop As Integer
+Local lnHeight As Integer
+Local lnWidth As Integer
+
+lnTop = 0
+lnHeight = 0
+lnWidth = This.Width
+
+This.oColObjects = OrderControlsByKey( This )
+
+For Each loFiltro In This.oColObjects
+	If loFiltro.Visible
+		loFiltro.Autosetup()
+		loFiltro.Top = lnTop
+		loFiltro.Left = 0
+		lnTop = loFiltro.Top + loFiltro.Height
+		lnHeight = lnTop
+		lnWidth = Max( loFiltro.Width, This.Width )
+		
+	EndIf
+	
+Endfor
+
+This.Height = lnHeight
+This.Width = lnWidth
+
+ENDPROC
+PROCEDURE ckeyname_access
+If Empty( This.cKeyName )
+	This.cKeyName = Alltrim( Substr( This.Name, 4 ))
+Endif
+
+Return This.cKeyName
+
+ENDPROC
+PROCEDURE classafterinit
+BindEvent( Thisform, "HookAfterInit", This, "SetDefaults" )
+ENDPROC
+PROCEDURE cursorname_access
+
+Return This.CursorName
+
+ENDPROC
+PROCEDURE getwherestatement
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local niCount As Integer
+Local lcWhere As String
+Local loFiltro As FiltroFromToTxt Of fw\comunes\vcx\filtros.vcx
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	lcWhere = ""
+
+	If This.GetAll
+		lcWhere = "1 > 0"
+		For Each loFiltro In This.oColFiltros
+
+			If ( ( ! loFiltro.AlwaysActive ) ;
+					And loFiltro.chkInclude.Value ) Or loFiltro.AlwaysActive
+				lcWhere = ""
+
+			Endif
+
+		Next
+
+	Endif
+
+	If Empty( lcWhere )
+		For Each loFiltro In This.oColFiltros
+			lcWhere = lcWhere + loFiltro.GetWhereCondition()
+
+		Next
+
+		If Empty( lcWhere )
+			*** Warning( S_NOFILTERSELECTED )
+
+		Else
+			If Substr( lcWhere, 1, 6 ) = " And ("
+				lcWhere = Substr( lcWhere, 6 )
+
+			Endif && Substr( lcWhere, 1, 6 ) = " And ("
+
+		Endif && Empty( lcWhere )
+
+	Endif && Empty( lcWhere )
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+Endtry
+
+Return ( lcWhere )
+
+ENDPROC
+PROCEDURE handlekeypress
+Lparameters nKeyCode, nShiftAltCtrl
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Do Case
+	Case nShiftAltCtrl = 0
+		Do Case
+			Case nKeyCode = KEY_ESCAPE
+				Thisform.Release()
+
+			Otherwise
+
+		Endcase
+	Otherwise
+
+Endcase
+
+
+
+ENDPROC
+PROCEDURE ocolfiltros_access
+
+If Vartype( This.oColFiltros ) # "O"
+	This.oColFiltros = Thisform.oColFiltros
+Endif && Vartype( This.oColFiltros ) # "O"
+
+Return This.oColFiltros
+
+ENDPROC
+PROCEDURE releaseobjects
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+	This.oColFiltros = Null
+
+	DoDefault()
+	
+	
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+	This.oColFiltros = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE setdefaults
+Lparameters toParam as Object
+ENDPROC
+PROCEDURE setingfocus
+Local llSet As Boolean
+Local llActiveControlFound As Boolean
+Local loFiltro As Control
+Local lcCommand as String
+
+Try
+
+	lcCommand = ""
+
+	llSet = .F.
+	llActiveControlFound = .F.
+
+	If Vartype( This.oColObjects ) = "O"
+		For Each loFiltro In This.oColObjects
+
+			If llActiveControlFound = .T.
+				loFiltro.SetingFocus()
+				llSet = .T.
+				Exit
+
+			Endif &&  llActiveControlFound = .T.
+
+			If ! llActiveControlFound = .T. ;
+					And ( loFiltro.Name = This.ActiveControl.Name ;
+					or loFiltro.Name = This.ActiveControl.Parent.Name )
+
+				llActiveControlFound = .T.
+
+			Endif
+
+		Endfor
+
+	Endif
+
+	If !llSet Or llActiveControlFound
+		This.LeaveFocus()
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	
+	
+EndTry
+
+ENDPROC
+PROCEDURE switchfilters
+Lparameters toFiltro As Checkbox
+
+Local loFiltro As cntfiltrobase Of "V:\SistemasPraxisV2\fw\comunes\vcx\filtros.vcx"
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	For Each loFiltro In This.oColFiltros
+		loFiltro.chkInclude.Value = .F.
+
+	Next
+
+	toFiltro.Value = .T.
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+getall If is true and there's no filter selected, return the where "1>0"
+ocolfiltros Coleccion de objetos Filtro
+cursorname Nombre de la tabla asociada a la entidad, sobre la que se efectuar· el filtro. Por default es UserTier.MainCursorTable
+lonlyoneactive Indica si solo se permite un filtro activo, o pueden combinarse
+ckeyname Nombre ˙nico del filtro en la colecciÛn
+*getwherestatement Get the SQL where statment calling the method "GetWhereCondition" of every filter objet contained.
+*autofit Auto-resizes one or all visible grid columns.
+*synchronizefilters Sincroniza los filtros
+*handlekeypress 
+*setingfocus Setea el foco en alguno de los controles contenidos en la clase
+*leavefocus Permite al usuario poner codigo que envÌe el foco a un control externo de la clase
+*cursorname_access 
+*ocolfiltros_access 
+*switchfilters Permite que solo un filtro permanezca activo
+*ckeyname_access 
+*setdefaults 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cntfiltro
+[START RESERVED1]
+  ..\include\praxis.h(jc›P ..\include\foxpro.h) r˚F ..\include\strings.h&*ZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h.+ê±ŸF ..\include\foxpro.h6, r˚F* ..\..\..\tools\namespaces\include\system.h>-±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0PS3B4
+[CLASS] cntfiltro
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] cntfiltrobase
+[START PROPERTIES]
+Width = 315
+Height = 65
+BorderWidth = 0
+SpecialEffect = 2
+alwaysactive = .F.
+cfieldname = 
+fieldtype = D
+isfromto = .T.
+defaultcondition = like
+casesensitive = .T.
+_memberdata =      879<VFPData><memberdata name="alwaysactive" type="property" display="AlwaysActive" favorites="True"/><memberdata name="fieldname" type="property" display="FieldName" favorites="True"/><memberdata name="fieldtype" type="property" display="FieldType" favorites="True"/><memberdata name="getwherecondition" type="method" display="GetWhereCondition"/><memberdata name="ocolfiltros" type="property" display="oColFiltros"/><memberdata name="isfromto" type="property" display="IsFromTo"/><memberdata name="defaultcondition" type="property" display="DefaultCondition" favorites="True"/><memberdata name="documentacion" type="method" display="Documentacion"/><memberdata name="casesensitive" type="property" display="CaseSensitive"/><memberdata name="cfieldname" type="property" display="cFieldName"/><memberdata name="cfieldname_access" type="method" display="cFieldName_Access"/></VFPData>
+lautosetup = .T.
+Name = "cntfiltrobase"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Try
+	* DA 2009-08-07(11:56:34)
+    With This As cntFiltroBase Of "FW\Comunes\vcx\Filtros.vcx"
+        If .lIsOk And .ClassBeforeInit()
+
+            If .lIsOk And .HookBeforeInit()
+
+                .Parent.oColFiltros.AddItem( This, This.cKeyName )
+                .BorderWidth = 0
+                .cboCondition.Value = This.DefaultCondition
+
+                .HookAfterInit()
+
+                .ClassAfterInit()
+            Endif
+        Endif
+    Endwith
+
+Catch To oErr
+    Throw oErr
+
+Finally
+
+Endtry
+
+
+
+ENDPROC
+PROCEDURE autosetup
+Lparameters tlOnlyPosition As Boolean
+
+* NoDefault
+*DoDefault( tlOnlyPosition )
+
+ENDPROCPROCEDURE cfieldname_access
+With This
+    If Empty( .cFieldName )
+        .cFieldName = Substr( .Name, 4 )
+
+    EndIf && Empty( .cFieldName )
+
+Endwith
+
+Return This.cFieldName
+
+ENDPROC
+PROCEDURE ckeyname_access
+If Empty( This.cKeyName )
+	This.cKeyName = Alltrim( Substr( This.Name, 4 ))
+Endif
+
+Return This.cKeyName
+
+ENDPROC
+PROCEDURE classafterinit
+NoDefault
+
+ENDPROC
+PROCEDURE cursorname_access
+
+If Empty( This.CursorName )
+	This.CursorName = This.Parent.CursorName
+	
+EndIf && Empty( This.CursorName )
+
+Return This.CursorName
+
+ENDPROC
+PROCEDURE getwherecondition
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+*--------------------------------------------------------
+* Arma la clausula WHERE de la instruccion SQL a ejecutar.
+*--------------------------------------------------------
+Local lcWhere As String
+Local lcFrom As String
+Local lcTo As String
+Local lcFieldName As String
+Local llOk As Boolean
+Local lcCursorName As String
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	lcWhere = ""
+
+
+	With This
+		llOk = .T.
+
+		If .chkInclude.Value && .And. .Visible = .T.
+			If Empty( .cFieldName )
+				Assert .F. Message "Falta Definir cFieldName"
+				llOk = .F.
+
+			Endif & Empty( .cFieldName )
+
+			If llOk
+				If ! Inlist( .FieldType, T_CHARACTER, T_NUMERIC, T_DATE, T_DATETIME )
+					Assert .F. Message "No se reconoce el tipo " + .FieldType
+					llOk = .F.
+
+				Endif && ! Inlist( .FieldType, T_CHARACTER, T_NUMERIC, T_DATE, T_DATETIME )
+
+			Endif && llOk
+
+			If llOk
+				.FromValue.Value = ForceType( .FromValue.Value, .FieldType )
+				.ToValue.Value = ForceType( .ToValue.Value, .FieldType )
+
+				If .cboCondition.Value = "E" And ( .FromValue.Value > .ToValue.Value )
+					* DA 2009-10-09(12:38:41)
+					* Warning ( S_FROMGREATERTHANTO )
+					
+					*Error S_FROMGREATERTHANTO
+					
+					Error This.chkInclude.Caption + ": " +  S_FROMGREATERTHANTO
+					
+					lcWhere = " And 1 = 0 "
+
+				Else
+
+					If ! Empty( .CursorName )
+						***.cFieldName = .CursorName + "." + .cFieldName
+						lcCursorName = .CursorName + "."
+						
+					Else
+						lcCursorName = ""
+						
+					EndIf && ! Empty( .CursorName )
+
+					If ! .CaseSensitive And ( .FieldType == T_CHARACTER )
+						lcFieldName = " lower(" + lcCursorName + .cFieldName + ")"
+						
+					Else
+						lcFieldName = lcCursorName + This.cFieldName
+						
+					EndIf && ! .CaseSensitive And ( .FieldType == T_CHARACTER )
+
+
+					Do Case
+						Case Vartype( .FromValue.Value ) = T_CHARACTER
+							lcFrom = "'" + Alltrim( .FromValue.Value ) + "'"
+							lcTo = "'" + Alltrim( .ToValue.Value ) + "'"
+							If ! .CaseSensitive
+								lcFrom = Lower( lcFrom )
+								lcTo = Lower( lcTo )
+								
+							EndIf && ! .CaseSensitive
+							
+						Case Vartype( .FromValue.Value ) = T_DATE
+							If ! Empty( .FromValue.Value )
+								lcFrom = "<#" + Dtoc( .FromValue.Value ) + "#>"
+								
+							Else
+								lcFrom = "<##>"
+								
+							EndIf && ! Empty( .FromValue.Value )
+							
+							If ! Empty( .ToValue.Value )
+								lcTo = "<#" + Dtoc( .ToValue.Value ) + "#>"
+								
+							Else
+								lcTo = "<##>"
+								
+							EndIf && ! Empty( .ToValue.Value )
+
+						Case Vartype( .FromValue.Value ) = T_DATETIME
+							If ! Empty( .FromValue.Value )
+								lcFrom = "<$" + Ttoc( .FromValue.Value ) + "$>"
+								
+							Else
+								lcFrom = "<$$>"
+								
+							EndIf && ! Empty( .FromValue.Value )
+							
+							If ! Empty( .ToValue.Value )
+								lcTo = "<$" + Ttoc( .ToValue.Value ) + "$>"
+								
+							Else
+								lcTo = "<$$>"
+								
+							EndIf && ! Empty( .ToValue.Value )
+
+						Case Vartype( .FromValue.Value )= T_NUMERIC
+							lcFrom = Transform( .FromValue.Value )
+							lcTo = Transform( .ToValue.Value )
+							
+					Endcase
+
+
+					lcWhere = " And (" + lcFieldName
+					Do Case
+						Case .cboCondition.Value = "E"
+*!*								lcWhere = lcWhere + " >= " + lcFrom + " And " + lcFieldName + " <= " + lcTo
+							lcWhere = lcWhere + " Between " + lcFrom + " And " + lcTo
+
+						Case .cboCondition.Value = "like"
+							lcWhere = lcWhere + " like '" + Strtran( lcFrom, "'", "" ) + "%'"
+
+						Case .cboCondition.Value = "%"
+							lcWhere = lcWhere + " like '%" + Strtran( lcFrom, "'", "" ) + "%'"
+
+						Case .cboCondition.Value = "!#"
+							lcWhere = lcWhere + " = " + lcFrom
+
+						Case .cboCondition.Value = "#"
+							lcWhere = lcWhere + " <> " + lcFrom
+
+						Otherwise
+							lcWhere = lcWhere + " " + Alltrim( .cboCondition.Value )
+							lcWhere = lcWhere + " " + lcFrom
+
+					Endcase
+					lcWhere = lcWhere + ")"
+
+				Endif
+
+			EndIf
+			
+		Endif
+
+	Endwith
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+Endtry
+
+Return ( lcWhere )
+
+
+ENDPROC
+PROCEDURE handlekeypress
+Lparameters nKeyCode, nShiftAltCtrl
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+Try
+
+	Do Case
+		Case nShiftAltCtrl = 0
+			Do Case
+				Case nKeyCode = KEY_ENTER
+
+					Do Case
+						Case Type("This.ActiveControl") = "O" ;
+								And This.ActiveControl.Name = "FromValue"
+
+							If This.ToValue.Visible = .F.
+								This.Parent.SetingFocus()
+							Endif
+
+						Case Type("This.ActiveControl") = "O" ;
+								And This.ActiveControl.Name = "ToValue"
+
+							This.Parent.SetingFocus()
+
+						Otherwise
+
+					Endcase
+				Otherwise
+					DoDefault( nKeyCode, nShiftAltCtrl )
+
+			Endcase
+
+		Otherwise
+			DoDefault( nKeyCode, nShiftAltCtrl )
+
+	Endcase
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+
+ENDPROC
+PROCEDURE setingfocus
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	If This.chkInclude.Value
+		This.FromValue.SetFocus()
+
+	Else
+		This.chkInclude.SetFocus()
+
+	Endif && This.chkInclude.Value
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE synchronizefilters
+Lparameters tlEnabled As Boolean
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+Local llEnabled As Boolean
+
+Try
+
+	If This.Visible
+
+		If Empty(Pcount())
+			llEnabled = This.chkInclude.Value
+
+		Else
+			llEnabled = tlEnabled
+
+		Endif
+
+		This.cboCondition.Enabled = llEnabled
+		This.FromValue.Enabled = llEnabled
+		This.ToValue.Enabled = llEnabled
+
+
+		If This.FieldType $ T_DATE + T_DATETIME
+			Do Case
+				Case This.cboCondition.Value = "E"
+					This.ToValue.Visible = .T.
+				Otherwise
+					This.ToValue.Visible = .F.
+			Endcase
+
+		Else
+			Do Case
+				Case This.cboCondition.Value = "E"
+					This.ToValue.Visible = .T.
+					This.FromValue.Width = This.ToValue.Width
+				Otherwise
+					This.ToValue.Visible = .F.
+					This.FromValue.Width = ( This.ToValue.Width * 2 ) + 5
+			Endcase
+		Endif
+
+		If llEnabled
+			Do Case
+				Case (Empty( This.FromValue.Value ) And ;
+						Empty( This.ToValue.Value )) .Or. ;
+						This.ToValue.Visible = .F.
+
+					If Thisform.Visible
+						This.FromValue.SetFocus()
+					Endif
+
+				Case Not Empty( This.FromValue.Value ) And ;
+						empty( This.ToValue.Value )
+
+					This.ToValue.Value = This.FromValue.Value
+					If Thisform.Visible
+						This.ToValue.SetFocus()
+					Endif
+
+			Endcase
+		Endif
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+4[END RESERVED2]
+[START RESERVED3]
+alwaysactive If is true, the checkBox control is changed for a label control.
+cfieldname Name of the field.
+fieldtype Type of field  like Date, Numeric, Char, etc.
+isfromto Si es .F., el control ToValue no se muestra, como asÌ tampoco las opciones en el cboCondition que involucren DESDE / HASTA
+defaultcondition CondiciÛn por defecto del combo condition.Comienza: like;Contiene: %;Igual: !#;Distinto: #;Menor: <;Menor o Igual: <=;Mayor: >;Mayor o Igual: >=;Entre: E
+casesensitive
+*getwherecondition Get a part of a where SQL statment.
+*cfieldname_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0Q9G83
+[CLASS] prxcheckbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] checkbox
+[OBJNAME] chkInclude
+[PARENT] cntfiltrobase
+[START PROPERTIES]
+Top = 5
+Left = 5
+Height = 17
+Width = 86
+FontBold = .T.
+AutoSize = .T.
+Alignment = 0
+Caption = "DescripciÛn"
+Value = .F.
+Name = "chkInclude"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+
+If This.Value
+	This.Parent.FromValue.SetFocus()
+	
+EndIf && This.Value
+
+If This.Parent.Parent.lOnlyOneActive = .T.
+	This.Parent.Parent.SwitchFilters( This )
+	
+Else
+	This.Parent.SynchronizeFilters( This.Value )	
+	
+EndIf && This.Parent.Parent.lOnlyOneActive = .T.
+
+ENDPROCPROCEDURE KeyPress
+Lparameters nKeyCode, nShiftAltCtrl
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	Do Case
+		Case nShiftAltCtrl = 0
+			Do Case
+				Case nKeyCode = KEY_ENTER And This.Value
+					This.Parent.FromValue.SetFocus()
+
+
+				Otherwise
+					DoDefault( nKeyCode, nShiftAltCtrl )
+
+			Endcase
+
+		Otherwise
+			DoDefault( nKeyCode, nShiftAltCtrl )
+
+	Endcase
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE ProgrammaticChange
+
+This.Parent.SynchronizeFilters( This.Value )
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0STP2F
+[CLASS] cbocondicion
+[CLASSLOC] filtros.vcx
+[BASECLASS] combobox
+[OBJNAME] cboCondition
+[PARENT] cntfiltrobase
+[START PROPERTIES]
+Left = 160
+Top = 2
+Width = 150
+Name = "cboCondition"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SF10NTQS
+[CLASS] prxshape
+[CLASSLOC] prxbase.vcx
+[BASECLASS] shape
+[OBJNAME] Shape
+[PARENT] cntfiltrobase
+[START PROPERTIES]
+Top = 60
+Left = 0
+Height = 0
+Width = 360
+BackStyle = 0
+SpecialEffect = 0
+Name = "Shape"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cntfiltrobase
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h(jc›P ..\include\foxpro.h) r˚F ..\include\strings.h&*ZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h.+ê±ŸF ..\include\foxpro.h6, r˚F* ..\..\..\tools\namespaces\include\system.h>-±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0QJRG8
+[CLASS] cntfiltrobase
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] filtrofromtotxt
+[START PROPERTIES]
+casesensitive = .F.
+_memberdata =      112<VFPData><memberdata name="casesensitive" type="property" display="CaseSensitive" favorites="True"/></VFPData>
+
+defaultcondition = %
+fieldtype = C
+Name = "filtrofromtotxt"
+chkInclude.Alignment = 0
+chkInclude.TabIndex = 2
+chkInclude.Name = "chkInclude"
+cboCondition.TabIndex = 1
+cboCondition.Name = "cboCondition"
+Shape.Name = "Shape"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE autofit
+If !This.IsFromTo
+	This.ToValue.Visible = .F.
+	This.Width = This.FromValue.Left + This.FromValue.Width
+EndIf
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0T10SS
+[CLASS] txtstring
+[CLASSLOC] filtros.vcx
+[BASECLASS] textbox
+[OBJNAME] FromValue
+[PARENT] filtrofromtotxt
+[START PROPERTIES]
+Left = 5
+TabIndex = 3
+Top = 25
+Width = 305
+Name = "FromValue"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE LostFocus
+DoDefault()
+
+If This.Parent.ToValue.Value < This.Value
+	This.Parent.ToValue.Value = This.Value
+Endif
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0T10T8
+[CLASS] txtstring
+[CLASSLOC] filtros.vcx
+[BASECLASS] textbox
+[OBJNAME] ToValue
+[PARENT] filtrofromtotxt
+[START PROPERTIES]
+Left = 160
+TabIndex = 4
+Top = 25
+Visible = .F.
+Width = 150
+Name = "ToValue"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Valid
+Local lcMsg As String
+Local llValid As Boolean
+
+llValid = .T.
+
+If This.Value < This.Parent.FromValue.Value
+	TEXT To lcMsg NoShow TextMerge Pretext 03
+	El valor debe ser Mayor o Igual a <<This.Parent.FromValue.Value>>
+	ENDTEXT
+
+	Warning( lcMsg, This.Parent.chkInclude.Caption )
+	llValid = .F.
+
+	Clear Typeahead
+
+Endif
+
+Return llValid
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] filtrofromtotxt
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h(jc›P ..\include\foxpro.h) r˚F ..\include\strings.h&*ZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h.+ê±ŸF ..\include\foxpro.h6, r˚F* ..\..\..\tools\namespaces\include\system.h>-±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0QU9UM
+[CLASS] prxcombobox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] combobox
+[OBJNAME] cbocondicion
+[START PROPERTIES]
+BoundColumn = 2
+RowSourceType = 1
+BoundTo = .T.
+Name = "cbocondicion"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+#Define S_BEGINWITH			"Comienza Con"
+#Define S_CONTAINTHETEXT	"Contiene El Texto"
+#Define S_EQUAL				"Es Igual A"
+#Define S_DIFFERENT			"Es Diferente A"
+#Define S_LOWER				"Es Menor Que"
+#Define S_LOWEREQUAL		"Es Menor O Igual A"
+#Define S_UPPER				"Es Mayor Que"
+#Define S_UPPEREQUAL		"Es Mayor O Igual A"
+#Define S_ISBETWEEN			"Se Encuentra Entre"
+
+DoDefault()
+
+With This
+
+	Do Case
+		Case This.Parent.FieldType = T_CHARACTER
+			.RowSource	= S_BEGINWITH + ",like," ;
+				+ S_CONTAINTHETEXT + ",%,"	;
+				+ S_EQUAL		+ ",!#,"	;
+				+ S_DIFFERENT	+ ",#,"		;
+				+ S_LOWER		+ ",<,"		;
+				+ S_LOWEREQUAL	+ ",<=,"	;
+				+ S_UPPER		+ ",>,"		;
+				+ S_UPPEREQUAL	+ ",>=,"	;
+				+ S_ISBETWEEN	+ ",E"
+
+		Case Inlist( This.Parent.FieldType, T_DATE, T_DATETIME, T_NUMERIC )
+			.RowSource	= S_EQUAL + ",!#,"	;
+				+ S_DIFFERENT	+ ",#,"		;
+				+ S_LOWER		+ ",<,"		;
+				+ S_LOWEREQUAL	+ ",<=,"	;
+				+ S_UPPER		+ ",>,"		;
+				+ S_UPPEREQUAL	+ ",>=,"	;
+				+ S_ISBETWEEN	+ ",E"
+
+		Otherwise
+			Assert .F. Message "No se reconoce el tipo " + This.Parent.FieldType
+
+	Endcase
+
+	.ColumnWidths	= Alltrim( Str( This.Width ) ) + ",0"
+
+Endwith
+
+
+
+ENDPROC
+PROCEDURE InteractiveChange
+DoDefault()
+This.Parent.SynchronizeFilters()
+ENDPROC
+PROCEDURE ProgrammaticChange
+DoDefault()
+This.Parent.SynchronizeFilters()
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] cbocondicion
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h(jc›P ..\include\foxpro.h) r˚F ..\include\strings.h&*ZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h.+ê±ŸF ..\include\foxpro.h6, r˚F* ..\..\..\tools\namespaces\include\system.h>-±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0SA5IQ
+[CLASS] prxspinner
+[CLASSLOC] prxbase.vcx
+[BASECLASS] spinner
+[OBJNAME] fltspinner
+[START PROPERTIES]
+FontBold = .T.
+Width = 100
+Name = "fltspinner"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE KeyPress
+LPARAMETERS nKeyCode, nShiftAltCtrl
+
+DoDefault( nKeyCode, nShiftAltCtrl )
+This.Parent.HandleKeypress( nKeyCode, nShiftAltCtrl )
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] fltspinner
+[START PROPERTIES]
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h(jc›P ..\include\foxpro.h) r˚F ..\include\strings.h&*ZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h.+ê±ŸF ..\include\foxpro.h6, r˚F* ..\..\..\tools\namespaces\include\system.h>-±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0T1Q0C
+[CLASS] cntfiltrobase
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] filtrofromtonumeric
+[START PROPERTIES]
+lsourceisalpha = .F.
+defaultcondition = !#
+fieldtype = N
+_memberdata =      826<VFPData><memberdata name="alwaysactive" type="property" display="AlwaysActive" favorites="True"/><memberdata name="fieldname" type="property" display="FieldName" favorites="True"/><memberdata name="fieldtype" type="property" display="FieldType" favorites="True"/><memberdata name="getwherecondition" type="method" display="GetWhereCondition"/><memberdata name="ocolfiltros" type="property" display="oColFiltros"/><memberdata name="isfromto" type="property" display="IsFromTo"/><memberdata name="defaultcondition" type="property" display="DefaultCondition" favorites="True"/><memberdata name="documentacion" type="method" display="Documentacion"/><memberdata name="casesensitive" type="property" display="CaseSensitive"/><memberdata name="lsourceisalpha" type="property" display="lSourceIsAlpha" favorites="True"/></VFPData>
+
+Name = "filtrofromtonumeric"
+chkInclude.Alignment = 0
+chkInclude.Caption = "CÛdigo"
+chkInclude.TabIndex = 1
+chkInclude.Name = "chkInclude"
+cboCondition.TabIndex = 4
+cboCondition.Name = "cboCondition"
+Shape.Name = "Shape"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE getwherecondition
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+*--------------------------------------------------------
+* Arma la clausula WHERE de la instruccion SQL a ejecutar.
+*--------------------------------------------------------
+Local lcWhere As String	,;
+	lcFrom As String	,;
+	lcTo As String	,;
+	lcFieldName As String
+
+Local llOk As Boolean
+
+Local lnLen As Integer
+
+lcWhere = ""
+
+
+With This
+	llOk = .T.
+	If .chkInclude.Value .And. .Visible = .T.
+		If Empty( .cFieldName )
+			Assert .F. Message "Falta Definir FieldName"
+			llOk = .F.
+
+		Endif
+
+		If llOk
+
+			If .cboCondition.Value = "E" And ( .FromValue.Value > .ToValue.Value )
+				* DA 2009-10-09(12:39:51)
+				* Warning ( S_FROMGREATERTHANTO )
+				*Error S_FROMGREATERTHANTO
+				
+				.ToValue.SetFocus()
+				Error This.chkInclude.Caption + ": " +  S_FROMGREATERTHANTO
+				lcWhere = " And 1 = 0 "
+
+			Else
+
+				Local lcCursorName As String
+				If !Empty( .CursorName )
+					lcCursorName = .CursorName + "."
+
+				Else
+					lcCursorName = ""
+
+				Endif
+
+				lcFieldName = lcCursorName + This.cFieldName
+
+				If This.lSourceIsAlpha
+					lcFieldName = " Cast(" + lcCursorName + .cFieldName + " As Integer )"
+				Endif
+
+				lcFrom = Transform( .FromValue.Value )
+				lcTo   = Transform( .ToValue.Value )
+
+				lcWhere = " And (" + lcFieldName
+
+				Do Case
+					Case .cboCondition.Value = "E"
+*!*							lcWhere = lcWhere + " >= " + lcFrom + " And " + lcFieldName + " <= " + lcTo
+						lcWhere = lcWhere + " Between " + lcFrom + " And " + lcTo
+
+					Case .cboCondition.Value = "like"
+						lcWhere = lcWhere + " like '" + Strtran( lcFrom, "'", "" ) + "%'"
+
+					Case .cboCondition.Value = "%"
+						lcWhere = lcWhere + " like '%" + Strtran( lcFrom, "'", "" ) + "%'"
+
+					Case .cboCondition.Value = "!#"
+						lcWhere = lcWhere + " = " + lcFrom
+
+					Case .cboCondition.Value = "#"
+						lcWhere = lcWhere + " <> " + lcFrom
+
+					Otherwise
+						lcWhere = lcWhere + " " + Alltrim( .cboCondition.Value )
+						lcWhere = lcWhere + " " + lcFrom
+
+				Endcase
+				lcWhere = lcWhere + ")"
+
+			Endif
+
+		Endif
+	Endif
+
+Endwith
+Return ( lcWhere )
+
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED3]
+lsourceisalpha Indica si el origen de datos es un campo tipo character, pese a que se grabe solo numeros
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0T2VBB
+[CLASS] fltspinner
+[CLASSLOC] filtros.vcx
+[BASECLASS] spinner
+[OBJNAME] FromValue
+[PARENT] filtrofromtonumeric
+[START PROPERTIES]
+KeyboardLowValue = 0
+Left = 5
+SpinnerLowValue =   0.00
+TabIndex = 2
+Top = 25
+Width = 150
+Name = "FromValue"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE LostFocus
+DoDefault()
+This.Parent.ToValue.Value = Max( This.Value, This.Parent.ToValue.Value )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0T2VBR
+[CLASS] fltspinner
+[CLASSLOC] filtros.vcx
+[BASECLASS] spinner
+[OBJNAME] ToValue
+[PARENT] filtrofromtonumeric
+[START PROPERTIES]
+KeyboardLowValue = 0
+Left = 160
+SpinnerLowValue =   0.00
+TabIndex = 3
+Top = 25
+Width = 150
+Name = "ToValue"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Valid
+Local lcMsg As String
+Local llValid As Boolean
+
+llValid = .T.
+
+If This.Value < This.Parent.FromValue.Value
+	TEXT To lcMsg NoShow TextMerge Pretext 03
+	El valor debe ser Mayor o Igual a <<This.Parent.FromValue.Value>>
+	ENDTEXT
+
+	Warning( lcMsg, This.Parent.chkInclude.Caption )
+	llValid = .F.
+
+	Clear Typeahead
+
+Endif
+
+Return llValid
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] filtrofromtonumeric
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h(jc›P ..\include\foxpro.h) r˚F ..\include\strings.h&*ZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h.+ê±ŸF ..\include\foxpro.h6, r˚F* ..\..\..\tools\namespaces\include\system.h>-±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0T5UQ2
+[CLASS] cntfiltrobase
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] filtrofromtocombo
+[START PROPERTIES]
+Height = 40
+nselecteditem = 0
+defaultcondition = !#
+_memberdata =      955<VFPData><memberdata name="alwaysactive" type="property" display="AlwaysActive" favorites="True"/><memberdata name="fieldname" type="property" display="FieldName" favorites="True"/><memberdata name="fieldtype" type="property" display="FieldType" favorites="True"/><memberdata name="getwherecondition" type="method" display="GetWhereCondition"/><memberdata name="ocolfiltros" type="property" display="oColFiltros"/><memberdata name="isfromto" type="property" display="IsFromTo"/><memberdata name="defaultcondition" type="property" display="DefaultCondition" favorites="True"/><memberdata name="documentacion" type="method" display="Documentacion"/><memberdata name="casesensitive" type="property" display="CaseSensitive"/><memberdata name="cfieldname" type="property" display="cFieldName"/><memberdata name="cfieldname_access" type="method" display="cFieldName_Access"/><memberdata name="nselecteditem" type="property" display="nSelectedItem"/></VFPData>
+
+fieldtype = N
+isfromto = .F.
+ocolfiltros = Null
+ocolobjects = Null
+Name = "filtrofromtocombo"
+chkInclude.Alignment = 0
+chkInclude.TabIndex = 1
+chkInclude.Name = "chkInclude"
+cboCondition.TabIndex = 4
+cboCondition.Top = -500
+cboCondition.Visible = .F.
+cboCondition.Name = "cboCondition"
+Shape.Top = 35
+Shape.Name = "Shape"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE chkInclude.InteractiveChange
+DoDefault()
+
+If This.Value
+	This.Parent.FromValue.Dato.ListItemId = This.Parent.nSelectedItem
+	
+Else
+	This.Parent.nSelectedItem = This.Parent.FromValue.Dato.ListItemId
+	This.Parent.FromValue.Dato.ListItemId = 0
+
+Endif
+
+ENDPROCPROCEDURE chkInclude.ProgrammaticChange
+DoDefault()
+
+If This.Value
+	This.Parent.FromValue.Dato.ListItemId = This.Parent.nSelectedItem
+	
+Else
+	This.Parent.nSelectedItem = This.Parent.FromValue.Dato.ListItemId
+	This.Parent.FromValue.Dato.ListItemId = 0
+
+Endif
+
+ENDPROC
+PROCEDURE getwherecondition
+#If .F.
+	TEXT
+        *:Help Documentation
+        *:Description:
+        Arma la clausula WHERE de la instruccion SQL a ejecutar.
+        *:Project:
+        Sistemas Praxis
+        *:Autor:
+        Damian Eiff
+        *:Date:
+        Jueves 30 de Abril de 2009 (13:07:22)
+        *:ModiSummary:
+        *:Syntax:
+        *:Example:
+        *:Events:
+        *:NameSpace:
+        praxis.com
+        *:Keywords:
+        *:Implements:
+        *:Inherits:
+        *:Parameters:
+        *:Remarks:
+        *:Returns:
+        *:Exceptions:
+        *:SeeAlso:
+		*:EndHelp
+	ENDTEXT
+#Endif
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcWhere As String
+Local lcFrom As String
+Local lcTo As String
+Local lcFieldName As String
+Local llOk As Boolean
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	lcWhere = ""
+	With This
+		* llOk = .T.
+		If .chkInclude.Value && .And. .Visible = .T.
+			* If Empty( .cFieldName )
+			Assert ! Empty( .cFieldName ) Message "Falta Definir cFieldName"
+			llOk = ! Empty( .cFieldName )
+			* Endif
+			.FieldType = T_NUMERIC
+			If llOk
+				.FromValue.Dato.Value = ForceType( .FromValue.Dato.Value, .FieldType )
+				If ! Empty( .CursorName )
+					lcFieldName = .CursorName + "." + .cFieldName
+				Else
+					lcFieldName = .cFieldName
+				Endif
+				* lcFrom = Alltrim( Str( .FromValue.Dato.Value ) )
+				lcFrom = Transform( .FromValue.Dato.Value )
+				lcWhere = " And (" + lcFieldName + " = " + lcFrom + ")"
+
+			Endif
+
+		Endif
+
+	Endwith
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+Endtry
+
+Return ( lcWhere )
+
+
+
+ENDPROC
+PROCEDURE oentity_access
+If Vartype( This.oEntity ) # "O"
+	This.oEntity = This.FromValue.oEntity
+EndIf
+
+Return This.oEntity
+ENDPROC
+PROCEDURE releaseobjects
+This.FromValue.Dato.RowSourceType = 0
+This.FromValue.Dato.RowSource = ""
+DoDefault()
+
+ENDPROC
+PROCEDURE setdefaults
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	This.FromValue.SetDefault()
+	This.nSelectedItem = This.FromValue.Dato.ListItemId
+	
+
+Catch To oErr
+	loError = ThisForm.oError
+	ThisForm.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	ThisForm.oError.Cremark = ''
+	ThisForm.oError.Ctracelogin = ''
+
+EndTry
+
+ENDPROC
+PROCEDURE synchronizefilters
+Lparameters tlEnabled As Boolean
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lEnabled As Boolean
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+	With This
+
+		If .Visible
+			If Empty( Pcount() )
+				lEnabled = .chkInclude.Value
+
+			Else
+				lEnabled = tlEnabled
+
+			Endif && Empty( Pcount() )
+
+			.FromValue.Enabled = lEnabled
+			.FromValue.SetFocus()
+
+		Endif && .Visible
+
+	Endwith
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED3]
+nselecteditem Guarda el ˙ltimo Ìtem seleccionado
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0T8TN2
+[CLASS] fltcombo
+[CLASSLOC] filtros.vcx
+[BASECLASS] combobox
+[OBJNAME] ToValue
+[PARENT] filtrofromtocombo
+[START PROPERTIES]
+Left = 350
+TabIndex = 3
+Top = 2
+Visible = .F.
+Name = "ToValue"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2QL1419R5
+[CLASS] ibcombo
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] FromValue
+[PARENT] filtrofromtocombo
+[START PROPERTIES]
+Top = 2
+Left = 160
+Width = 150
+oentity = Null
+ocolobjects = Null
+lhascontrolsource = .F.
+lsubscribetocolib = .F.
+llaunchform = .F.
+lrequired = .F.
+lkeepentity = .T.
+Name = "FromValue"
+Label.Top = -500
+Label.Visible = .F.
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.Left = 0
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE centitycursor_access
+Local loEntity As utArchivo Of "FW\TierAdapter\UserTier\utArchivo.prg"
+
+With This As ibcombolistbox Of fw\comunes\vcx\inputboxes.vcx
+	If ( Vartype( .cEntityCursor ) # 'C' Or Empty( .cEntityCursor )) And !Thisform.lExit
+		.cEntityCursor = This.Parent.Name + Sys(2015)
+
+		* DA 2009-09-02(10:28:34)
+		* Se refleja el nombre del cursor en la entidad
+		loEntity = .oEntity
+		loEntity.cEntityCursor = .cEntityCursor
+		loEntity.SetProperty( "cEntityCursor", .cEntityCursor )
+		loEntity = Null
+
+	Endif
+
+Endwith
+
+Return This.cEntityCursor
+
+ENDPROC
+PROCEDURE oparent_access
+Local loControl As Container
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+
+	If Vartype( This.oParent ) # "O" And This.lIsChild And !Thisform.lExit
+		
+		loControl = Thisform.oColFiltros.GetItem( This.cParentDataConfigurationKey )
+		
+		If Vartype( loControl ) # "O"
+
+			Text To lcErrorMessage NoShow TextMerge Pretext 3
+			No se encuentra definido
+			el control PADRE '<<This.cParentDataConfigurationKey>>'
+			referenciado por '<<This.cDataConfigurationKey>>'
+			EndText
+
+			Error lcErrorMessage
+			
+		EndIf
+		
+		Do Case
+		Case PemStatus( loControl.FromValue.oEntity, "OnChange", 5 )
+			This.oParent = loControl.FromValue.oEntity
+
+*!*			Case PemStatus( loControl, "OnChange", 5 )
+*!*				This.oParent = loControl
+*!*			
+*!*			Case PemStatus( loControl.FromValue, "OnChange", 5 )
+*!*				This.oParent = loControl.FromValue
+
+
+		Otherwise
+			Error "El controls PADRE '" + This.cParentDataConfigurationKey + "' no implementa la interfaz PADRE/HIJO"
+			
+		EndCase
+		
+	Endif
+
+Catch To oErr
+	loError = ThisForm.oError
+	ThisForm.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	ThisForm.oError.Cremark = ''
+	ThisForm.oError.Ctracelogin = ''
+
+EndTry
+
+Return This.oParent
+
+ENDPROC
+PROCEDURE releaseobjects
+This.Dato.RowSourceType = 0
+This.Dato.RowSource = ""
+DoDefault()
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] filtrofromtocombo
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h(jc›P ..\include\foxpro.h) r˚F ..\include\strings.h&*ZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h.+ê±ŸF ..\include\foxpro.h6, r˚F* ..\..\..\tools\namespaces\include\system.h>-±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1SE0T6Y8E
+[CLASS] prxcombobox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] combobox
+[OBJNAME] fltcombo
+[START PROPERTIES]
+FontBold = .T.
+Name = "fltcombo"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] fltcombo
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1TM0RJU0O
+[CLASS] prxtextbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] textbox
+[OBJNAME] txtstring
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 12
+Margin = 0
+Name = "txtstring"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE KeyPress
+Lparameters nKeyCode, nShiftAltCtrl
+
+DoDefault( nKeyCode, nShiftAltCtrl )
+This.Parent.HandleKeypress( nKeyCode, nShiftAltCtrl )
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+[START RESERVED8]
+..\include\praxis.h[END RESERVED8]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] txtstring
+[START PROPERTIES]
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h{jc›P ..\include\foxpro.h| r˚F ..\include\strings.h}ZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h~ê±ŸF ..\include\foxpro.h& r˚F* ..\..\..\tools\namespaces\include\system.h.Ä±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1YG0Q6E8U
+[CLASS] filtrofromtonumeric
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] filtroforeingkey
+[START PROPERTIES]
+cselectorformname = 
+cdataconfigurationkey = 
+oentity = .NULL.
+_memberdata =     1040<VFPData><memberdata name="alwaysactive" type="property" display="AlwaysActive" favorites="True"/><memberdata name="fieldname" type="property" display="FieldName" favorites="True"/><memberdata name="fieldtype" type="property" display="FieldType" favorites="True"/><memberdata name="getwherecondition" type="method" display="GetWhereCondition"/><memberdata name="ocolfiltros" type="property" display="oColFiltros"/><memberdata name="isfromto" type="property" display="IsFromTo"/><memberdata name="defaultcondition" type="property" display="DefaultCondition" favorites="True"/><memberdata name="findforeingkey" type="method" display="FindForeingKey"/><memberdata name="oentity" type="property" display="oEntity"/><memberdata name="oentity_access" type="method" display="oEntity_Access"/><memberdata name="cselectorformname" display="cSelectorFormName" favorites="True"/><memberdata name="cdataconfigurationkey" display="cDataConfigurationKey"/><memberdata name="cdataconfigurationkey_access" display="cDataConfigurationKey_Access"/></VFPData>
+Name = "filtroforeingkey"
+chkInclude.Alignment = 0
+chkInclude.Name = "chkInclude"
+cboCondition.Top = -500
+cboCondition.Visible = .F.
+cboCondition.Name = "cboCondition"
+Shape.Name = "Shape"
+FromValue.Top = -500
+FromValue.Visible = .F.
+FromValue.Name = "FromValue"
+ToValue.Top = -500
+ToValue.Visible = .F.
+ToValue.Name = "ToValue"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE cdataconfigurationkey_access
+If Empty( This.cDataConfigurationKey )
+	This.cDataConfigurationKey =  Str( This.Name, 4 )
+Endif
+
+Return This.cDataConfigurationKey
+
+ENDPROC
+PROCEDURE documentacion
+*!*	El objetivo de Èste filtro es permitir al usuario seleccionar por descripciÛn
+*!*	la Foreing Key deseada.
+*!*	Lo que hace es llamar al Selector de la entidad correspondiente a la FK,
+*!*	y con la ID devuelta llena la propiedad FromValue.
+
+*!*	Las propiedades que hay que llenar son:
+*!*	This.cDataConfigurationKey  			Si est· vacÌa, toma Str(This.Name,4)
+
+ENDPROC
+PROCEDURE findforeingkey
+Try
+	Local lnIdEntity As Integer
+	Local loRetVal As Object
+	
+	Local loParam as Object
+
+	This.lblDescripcion.Caption = ""
+	
+	If Empty( This.SelectorFormName )
+		This.cSelectorFormName = This.oEntity.GetSelectorFormName()
+	Endif
+
+	If This.oEntity.lIsOk && Me aseguro que el Objeto oEntity estÈ creado
+	
+		loParam = CreateObject( "Empty" )
+		AddProperty( loParam, "cDataConfigurationKey", This.cDataConfigurationKey )
+		
+		Do Form ( This.cSelectorFormName );
+			with loParam ;
+			to loRetVal
+
+		If Vartype( loRetVal ) = "O"
+			If loRetVal.Estado = "OK"
+				lnIdEntity = loRetVal.Valor
+				If This.oEntity.GetOne( lnIdEntity )
+					This.lblDescripcion.Caption = Evaluate( This.oEntity.cMainCursorName + ;
+						".Descripcion" )
+				Endif
+			Endif
+		Endif
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	loRetVal = .F.
+
+Endtry
+
+ENDPROC
+PROCEDURE oentity_access
+Try
+
+	* Crea la entidad de negocios On Demmand
+	
+	If Vartype( This.oEntity ) <> "O" And !Thisform.lExit
+
+		This.oEntity =	Thisform.oEntity.GetEntity( This.cDataConfigurationKey )
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+Return This.oEntity
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED3]
+cselectorformname
+cdataconfigurationkey
+*findforeingkey 
+*cdataconfigurationkey_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1YG0QN4H1
+[CLASS] prxcommandbutton
+[CLASSLOC] prxbase.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdBuscar
+[PARENT] filtroforeingkey
+[START PROPERTIES]
+Top = 5
+Left = 270
+Width = 30
+Picture = ..\image\bmp\find.bmp
+Caption = ""
+SpecialEffect = 2
+Name = "cmdBuscar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+This.Parent.FindForeingKey()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1YG0QN4HC
+[CLASS] prxlabel
+[CLASSLOC] prxbase.vcx
+[BASECLASS] label
+[OBJNAME] lblDescripcion
+[PARENT] filtroforeingkey
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 14
+Caption = "Descripcion"
+Left = 5
+Top = 30
+Width = 300
+Name = "lblDescripcion"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] filtroforeingkey
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2450JHQNM
+[CLASS] cntfiltrobase
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] filtrokeyfinder
+[START PROPERTIES]
+defaultcondition = !#
+ngap = 10
+fieldtype = N
+Name = "filtrokeyfinder"
+chkInclude.AutoSize = .T.
+chkInclude.Alignment = 0
+chkInclude.Caption = "Key Finder"
+chkInclude.Name = "chkInclude"
+cboCondition.Visible = .F.
+cboCondition.Name = "cboCondition"
+Shape.Name = "Shape"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+DoDefault()
+If Empty( This.cFieldName )
+	This.cFieldName = This.FromValue.cFieldName
+
+EndIf
+ENDPROC
+PROCEDURE autosetup
+Try
+
+	This.FromValue.Autosetup()
+	This.FromValue.Top = This.chkInclude.Top + This.chkInclude.Height + This.nGap
+	This.FromValue.Left = This.chkInclude.Left
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+EndTry
+
+ENDPROC
+PROCEDURE cboCondition.Init
+This.Visible = .F.
+This.Parent.DefaultCondition = "!#"
+ENDPROCPROCEDURE chkInclude.InteractiveChange
+* DA 2009-09-09(11:28:12)
+If This.Value
+	This.Parent.FromValue.SetFocus()
+	
+EndIf && This.Value
+
+If This.Parent.Parent.lOnlyOneActive = .T.
+	This.Parent.Parent.SwitchFilters( This )
+	
+Else
+	This.Parent.SynchronizeFilters( This.Value )	
+	
+EndIf && This.Parent.Parent.lOnlyOneActive = .T.
+
+ENDPROC
+PROCEDURE getwherecondition
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+*--------------------------------------------------------
+* Arma la clausula WHERE de la instruccion SQL a ejecutar.
+*--------------------------------------------------------
+Local lcWhere As String	,;
+	lcFrom As String	,;
+	lcTo As String	,;
+	lcFieldName As String
+Local llOk As Boolean
+
+lcWhere = ""
+
+With This
+	llOk = .T.
+	If .chkInclude.Value .And. .Visible = .T.
+		If Empty( .cFieldName )
+			Assert .F. Message "Falta Definir FieldName"
+			llOk = .F.
+
+		Endif
+
+		lcFieldName =  This.CursorName + "." + Alltrim( .cFieldName )
+		
+		If llOk
+			lcWhere = " And (" + lcFieldName
+			If Empty( This.FromValue.EntityId.Value )
+				lcWhere = ""
+
+			Else
+				lcWhere = lcWhere + " = " + Any2Char( This.FromValue.EntityId.Value )
+				lcWhere = lcWhere + ")"
+
+			Endif
+		Endif
+	Endif
+
+Endwith
+Return ( lcWhere )
+
+
+ENDPROC
+PROCEDURE handlekeypress
+Lparameters nKeyCode, nShiftAltCtrl
+
+NoDefault
+
+
+
+ENDPROC
+PROCEDURE synchronizefilters
+Lparameters tlEnabled As Boolean
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+Local llEnabled As Boolean
+
+Try
+
+	If This.Visible
+
+		If Empty(Pcount())
+			llEnabled = This.chkInclude.Value
+
+		Else
+			llEnabled = tlEnabled
+
+		Endif
+
+		This.cboCondition.Enabled = llEnabled
+		This.FromValue.Enabled = llEnabled
+
+		If llEnabled
+			This.FromValue.SetFocus()
+		Endif
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2S60ZELS0
+[CLASS] kfcontainer
+[CLASSLOC] keyfinder.vcx
+[BASECLASS] container
+[OBJNAME] FromValue
+[PARENT] filtrokeyfinder
+[START PROPERTIES]
+Top = 30
+Width = 315
+Height = 25
+Name = "FromValue"
+Label.Top = -500
+Label.Visible = .F.
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+entityid.Name = "entityid"
+cmdFindOut.Name = "cmdFindOut"
+Dato.Shape.Name = "Shape"
+Dato.shpLabel.Name = "shpLabel"
+Dato.lblTitulo.Name = "lblTitulo"
+Dato.Left = 0
+Dato.Width = 315
+Dato.Name = "Dato"
+picContract.Height = 16
+picContract.Width = 16
+picContract.Name = "picContract"
+picExpand.Height = 16
+picExpand.Width = 16
+picExpand.Name = "picExpand"
+frmBusquedaRapida.Shape.Name = "Shape"
+frmBusquedaRapida.shpLabel.Name = "shpLabel"
+frmBusquedaRapida.lblTitulo.Name = "lblTitulo"
+frmBusquedaRapida.Buscador.Name = "Buscador"
+frmBusquedaRapida.lblBuscar.Name = "lblBuscar"
+frmBusquedaRapida.Name = "frmBusquedaRapida"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE ckeyname_access
+
+If Empty( This.cKeyName )
+	If Empty( This.cFieldName )
+		This.cFieldName = Substr( This.Parent.Name, 4 )
+	Endif
+
+	This.cKeyName = Lower( This.oEntity.cMainTableName + "." + This.cFieldName )
+
+Endif
+
+Return This.cKeyName
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] filtrokeyfinder
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.héXjc›P ..\include\foxpro.hñY r˚F ..\include\strings.hûZZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h¶[ê±ŸF ..\include\foxpro.hÆ\ r˚F* ..\..\..\tools\namespaces\include\system.h∂]±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DN0WGN8E
+[CLASS] cntfiltrobase
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] filtrooptiongroup
+[START PROPERTIES]
+defaultcondition = !#
+fieldtype = N
+Name = "filtrooptiongroup"
+chkInclude.Alignment = 0
+chkInclude.Name = "chkInclude"
+cboCondition.Top = -500
+cboCondition.Visible = .F.
+cboCondition.Name = "cboCondition"
+Shape.Name = "Shape"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE getwherecondition
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+*--------------------------------------------------------
+* Arma la clausula WHERE de la instruccion SQL a ejecutar.
+*--------------------------------------------------------
+Local lcWhere As String	,;
+	lcFrom As String	,;
+	lcTo As String	,;
+	lcFieldName As String
+Local llOk As Boolean
+
+lcWhere = ""
+
+
+With This
+	llOk = .T.
+	If .chkInclude.Value .And. .Visible = .T.
+		If Empty( .cFieldName )
+			Assert .F. Message "Falta Definir FieldName"
+			llOk = .F.
+
+		Endif
+
+		.FieldType = T_NUMERIC
+
+		If llOk
+			.FromValue.Dato.Value = ForceType( .FromValue.Dato.Value, .FieldType )
+
+
+			If !Empty( .CursorName )
+				.cFieldName = .CursorName + "." + .cFieldName
+			Endif
+
+			lcFieldName = This.cFieldName
+
+			lcFrom = Alltrim( Str( .FromValue.Dato.Value ) )
+
+
+			lcWhere = " And (" + lcFieldName
+			lcWhere = lcWhere + " = " + lcFrom
+			lcWhere = lcWhere + ")"
+
+		Endif
+
+	Endif
+
+
+Endwith
+Return ( lcWhere )
+
+
+ENDPROC
+PROCEDURE synchronizefilters
+Lparameters tlEnabled As Boolean
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+Local llEnabled As Boolean
+
+Try
+
+	If This.Visible
+
+		If Empty(Pcount())
+			llEnabled = This.chkInclude.Value
+
+		Else
+			llEnabled = tlEnabled
+
+		Endif
+
+		This.FromValue.Enabled = llEnabled
+
+		This.FromValue.SetFocus()
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+2[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DN0WTTDA
+[CLASS] iboption
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] FromValue
+[PARENT] filtrooptiongroup
+[START PROPERTIES]
+Top = 5
+Left = 159
+lvalidateindatadictionary = .F.
+Name = "FromValue"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.ButtonCount = 2
+Dato.Prxoptionbutton1.Caption = "Si"
+Dato.Prxoptionbutton1.Left = 5
+Dato.Prxoptionbutton1.Top = 5
+Dato.Prxoptionbutton1.Name = "Prxoptionbutton1"
+Dato.Prxoptionbutton2.Caption = "No"
+Dato.Prxoptionbutton2.Left = 5
+Dato.Prxoptionbutton2.Top = 24
+Dato.Prxoptionbutton2.Name = "Prxoptionbutton2"
+Dato.Name = "Dato"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] filtrooptiongroup
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.héXjc›P ..\include\foxpro.hñY r˚F ..\include\strings.hûZZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h¶[ê±ŸF ..\include\foxpro.hÆ\ r˚F* ..\..\..\tools\namespaces\include\system.h∂]±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DN0WUQQ3
+[CLASS] cntfiltrobase
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] filtrochkbox
+[START PROPERTIES]
+Width = 315
+Height = 40
+fieldtype = N
+defaultcondition = !#
+Name = "filtrochkbox"
+chkInclude.Top = 12
+chkInclude.Left = 12
+chkInclude.Alignment = 0
+chkInclude.TabIndex = 1
+chkInclude.Name = "chkInclude"
+cboCondition.Left = 132
+cboCondition.TabIndex = 2
+cboCondition.Top = -500
+cboCondition.Visible = .F.
+cboCondition.Name = "cboCondition"
+Shape.Top = 35
+Shape.Name = "Shape"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE chkInclude.InteractiveChange
+NoDefault
+
+ENDPROCPROCEDURE chkInclude.ProgrammaticChange
+NoDefault
+
+ENDPROC
+PROCEDURE getwherecondition
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+*--------------------------------------------------------
+* Arma la clausula WHERE de la instruccion SQL a ejecutar.
+*--------------------------------------------------------
+Local lcWhere As String
+Local lcFrom As String
+Local lcTo As String
+Local lcFieldName As String
+Local llOk As Boolean
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	lcWhere = ""
+
+	With This
+		llOk = .T.
+		If .chkInclude.Value .And. .Visible = .T.
+			If Empty( .cFieldName )
+				Assert .F. Message "Falta Definir FieldName"
+				llOk = .F.
+
+			EndIf && Empty( .cFieldName )
+
+			.FieldType = T_NUMERIC
+
+			If llOk
+*!*					.FromValue.Dato.Value = ForceType( .FromValue.Dato.Value, .FieldType )
+
+				If ! Empty( .CursorName )
+					.cFieldName = .CursorName + "." + .cFieldName
+
+				EndIf && ! Empty( .CursorName )
+
+				lcFieldName = This.cFieldName
+
+*!*					* lcFrom = Alltrim( Str( .FromValue.Dato.Value ) )
+*!*					lcFrom = Transform( .FromValue.Dato.Value )
+
+				lcWhere = " And (" + lcFieldName
+				lcWhere = lcWhere + " = " + Iif( This.chkInclude.Value, "1", "0" )
+				lcWhere = lcWhere + ")"
+
+			EndIf && llOk
+
+		EndIf && .chkInclude.Value .And. .Visible = .T.
+
+	Endwith
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+Endtry
+
+Return ( lcWhere )
+
+
+ENDPROC
+PROCEDURE synchronizefilters
+Lparameters tlEnabled As Boolean
+
+NoDefault
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] filtrochkbox
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.héXjc›P ..\include\foxpro.hñY r˚F ..\include\strings.hûZZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h¶[ê±ŸF ..\include\foxpro.hÆ\ r˚F* ..\..\..\tools\namespaces\include\system.h∂]±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DN0XMGZT
+[CLASS] cntfiltrobase
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] filtrofromtodate3
+[START PROPERTIES]
+defaultcondition = E
+Name = "filtrofromtodate3"
+chkInclude.Alignment = 0
+chkInclude.Caption = "Fecha"
+chkInclude.Name = "chkInclude"
+cboCondition.Name = "cboCondition"
+Shape.Name = "Shape"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DN0XSTNH
+[CLASS] fltdate
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] FromValue
+[PARENT] filtrofromtodate3
+[START PROPERTIES]
+Top = 35
+Left = 19
+lvalidateindatadictionary = .F.
+Name = "FromValue"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.keydate.Name = "keydate"
+Dato.cmdKeyDate.Name = "cmdKeyDate"
+Dato.Name = "Dato"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DN0XSTPS
+[CLASS] fltdate
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] ToValue
+[PARENT] filtrofromtodate3
+[START PROPERTIES]
+Top = 36
+Left = 158
+lvalidateindatadictionary = .F.
+Name = "ToValue"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.keydate.Name = "keydate"
+Dato.cmdKeyDate.Name = "cmdKeyDate"
+Dato.Name = "Dato"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] filtrofromtodate3
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DN0XPN5D
+[CLASS] tadatepicker
+[CLASSLOC] tadatepicker.vcx
+[BASECLASS] control
+[OBJNAME] fltdate3
+[START PROPERTIES]
+Width = 109
+Height = 27
+Name = "fltdate"
+keycalmonthform.keydate.Name = "keydate"
+keycalmonthform.cmdKeyDate.Name = "cmdKeyDate"
+keycalmonthform.Name = "keycalmonthform"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] fltdate3
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DO0N8XPY
+[CLASS] cntfiltrobase
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] filtrofromtodate
+[START PROPERTIES]
+lconverttodatetime = .F.
+defaultcondition = E
+_memberdata =      834<VFPData><memberdata name="alwaysactive" type="property" display="AlwaysActive" favorites="True"/><memberdata name="fieldname" type="property" display="FieldName" favorites="True"/><memberdata name="fieldtype" type="property" display="FieldType" favorites="True"/><memberdata name="getwherecondition" type="method" display="GetWhereCondition"/><memberdata name="ocolfiltros" type="property" display="oColFiltros"/><memberdata name="isfromto" type="property" display="IsFromTo"/><memberdata name="defaultcondition" type="property" display="DefaultCondition" favorites="True"/><memberdata name="documentacion" type="method" display="Documentacion"/><memberdata name="casesensitive" type="property" display="CaseSensitive"/><memberdata name="lconverttodatetime" type="property" display="lConvertToDateTime" favorites="True"/></VFPData>
+
+Name = "filtrofromtodate"
+chkInclude.Alignment = 0
+chkInclude.Caption = "Fecha"
+chkInclude.Name = "chkInclude"
+cboCondition.Name = "cboCondition"
+Shape.Name = "Shape"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE getwherecondition
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+*--------------------------------------------------------
+* Arma la clausula WHERE de la instruccion SQL a ejecutar.
+*--------------------------------------------------------
+Local lcWhere As String	,;
+	lcFrom As String	,;
+	lcTo As String	,;
+	lcFieldName As String
+Local llOk As Boolean
+
+lcWhere = ""
+
+
+With This
+	llOk = .T.
+	If .chkInclude.Value .And. .Visible = .T.
+		If Empty( .cFieldName )
+			Assert .F. Message "Falta Definir FieldName"
+			llOk = .F.
+
+		Endif
+
+		.FieldType = T_DATE
+
+		If llOk
+			.FromValue.Dato.Value = ForceType( .FromValue.Dato.Value, .FieldType )
+			.ToValue.Dato.Value = ForceType( .ToValue.Dato.Value, .FieldType )
+
+			If .cboCondition.Value = "E" And ( .FromValue.Dato.Value > .ToValue.Dato.Value )
+				* DA 2009-10-09(12:39:07)
+				* Warning ( S_FROMGREATERTHANTO )
+				*Error S_FROMGREATERTHANTO
+				Error This.chkInclude.Caption + ": " +  S_FROMGREATERTHANTO
+				lcWhere = " And 1 = 0 "
+
+			Else
+
+				Local lcCursorName as String
+				If !Empty( .CursorName )
+					***.cFieldName = .CursorName + "." + .cFieldName
+					lcCursorName = .CursorName + "."
+				Else
+					lcCursorName = ""
+				EndIf
+
+				If Not .CaseSensitive And ( .FieldType == T_CHARACTER )
+					lcFieldName = " lower(" + lcCursorName + .cFieldName + ")"
+				Else
+					lcFieldName = lcCursorName + This.cFieldName
+				EndIf				
+
+				lcOldDate = Set("Date")
+				Set Date TO YMD
+
+				If This.lConvertToDateTime
+					If Not Empty( .FromValue.Dato.Value )
+						lcFrom = "<$" + Ttoc( Dtot(.FromValue.Dato.Value )) + "$>"
+					Else
+						lcFrom = "<$$>"
+					Endif
+					If Not Empty( .ToValue.Dato.Value )
+						lcTo = "<$" + Ttoc( Dtot(.ToValue.Dato.Value )) + "$>"
+					Else
+						lcTo = "<$$>"
+					Endif
+
+				Else
+					If Not Empty( .FromValue.Dato.Value )
+						lcFrom = "<#" + Dtoc( .FromValue.Dato.Value ) + "#>"
+					Else
+						lcFrom = "<##>"
+					Endif
+					If Not Empty( .ToValue.Dato.Value )
+						lcTo = "<#" + Dtoc( .ToValue.Dato.Value ) + "#>"
+					Else
+						lcTo = "<##>"
+					Endif
+
+				EndIf
+				
+				Set Date to (lcOldDate)
+
+				lcWhere = " And (" + lcFieldName
+				Do Case
+					Case .cboCondition.Value = "E"
+*!*							lcWhere = lcWhere + " >= " + lcFrom + " And " + lcFieldName + " <= " + lcTo
+						lcWhere = lcWhere + " Between " + lcFrom + " And " + lcTo
+
+					Case .cboCondition.Value = "like"
+						lcWhere = lcWhere + " like '" + Strtran( lcFrom, "'", "" ) + "%'"
+
+					Case .cboCondition.Value = "%"
+						lcWhere = lcWhere + " like '%" + Strtran( lcFrom, "'", "" ) + "%'"
+
+					Case .cboCondition.Value = "!#"
+						lcWhere = lcWhere + " = " + lcFrom
+
+					Case .cboCondition.Value = "#"
+						lcWhere = lcWhere + " <> " + lcFrom
+
+					Otherwise
+						lcWhere = lcWhere + " " + Alltrim( .cboCondition.Value )
+						lcWhere = lcWhere + " " + lcFrom
+
+				Endcase
+				lcWhere = lcWhere + ")"
+			Endif
+
+		Endif
+
+	Endif
+
+
+Endwith
+Return ( lcWhere )
+
+
+ENDPROCPROCEDURE synchronizefilters
+Lparameters tlEnabled As Boolean
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+Local llEnabled As Boolean
+
+Try
+
+	If This.Visible
+
+		If Empty(Pcount())
+			llEnabled = This.chkInclude.Value
+
+		Else
+			llEnabled = tlEnabled
+
+		Endif
+
+		This.cboCondition.Enabled = llEnabled
+		This.FromValue.Enabled = llEnabled
+		This.ToValue.Enabled = llEnabled
+
+
+		If This.FieldType $ T_DATE + T_DATETIME
+			Do Case
+				Case This.cboCondition.Value = "E"
+					This.ToValue.Visible = .T.
+				Otherwise
+					This.ToValue.Visible = .F.
+			Endcase
+
+		Else
+			Do Case
+				Case This.cboCondition.Value = "E"
+					This.ToValue.Visible = .T.
+					This.FromValue.Width = This.ToValue.Width
+				Otherwise
+					This.ToValue.Visible = .F.
+					This.FromValue.Width = ( This.ToValue.Width * 2 ) + 5
+			Endcase
+		Endif
+
+		If llEnabled
+			Do Case
+				Case (Empty( This.FromValue.Dato.Value ) And ;
+						Empty( This.ToValue.Dato.Value )) .Or. ;
+						This.ToValue.Visible = .F.
+
+					If Thisform.Visible
+						This.FromValue.SetFocus()
+					Endif
+
+				Case Not Empty( This.FromValue.Dato.Value ) And ;
+						empty( This.ToValue.Dato.Value )
+
+					This.ToValue.Dato.Value = This.FromValue.Dato.Value
+					If Thisform.Visible
+						This.ToValue.SetFocus()
+					Endif
+
+			Endcase
+		Endif
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+3[END RESERVED2]
+[START RESERVED3]
+lconverttodatetime Convierte el resultado en DateTime
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DO0OYQKV
+[CLASS] fltdate
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] FromValue
+[PARENT] filtrofromtodate
+[START PROPERTIES]
+Top = 32
+Left = 13
+lvalidateindatadictionary = .F.
+Name = "FromValue"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.keydate.Name = "keydate"
+Dato.cmdKeyDate.Name = "cmdKeyDate"
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Dato.keydate.LostFocus
+DoDefault()
+
+If This.Value > This.Parent.Parent.Parent.ToValue.Dato.keydate.Value
+	This.Parent.Parent.Parent.ToValue.Dato.keydate.Value = This.Value
+Endif
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DO0OYQMZ
+[CLASS] fltdate
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] ToValue
+[PARENT] filtrofromtodate
+[START PROPERTIES]
+Top = 34
+Left = 156
+lvalidateindatadictionary = .F.
+Name = "ToValue"
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.keydate.Name = "keydate"
+Dato.cmdKeyDate.Name = "cmdKeyDate"
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Dato.keydate.Valid
+Local lcMsg As String
+Local llValid As Boolean
+
+llValid = .T.
+
+If This.Value < This.Parent.Parent.Parent.FromValue.Dato.keydate.Value
+	TEXT To lcMsg NoShow TextMerge Pretext 03
+	La fecha debe ser Mayor o Igual a <<This.Parent.Parent.Parent.FromValue.Dato.keydate.Value>>
+	ENDTEXT
+
+	Warning( lcMsg, This.Parent.Parent.Parent.chkInclude.Caption  )
+	llValid = .F.
+
+	Clear Typeahead
+
+Endif
+
+Return llValid
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] filtrofromtodate
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.héXjc›P ..\include\foxpro.hñY r˚F ..\include\strings.hûZZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h¶[ê±ŸF ..\include\foxpro.hÆ\ r˚F* ..\..\..\tools\namespaces\include\system.h∂]±ŸF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2DO0NBJHP
+[CLASS] ibdate
+[CLASSLOC] inputboxes.vcx
+[BASECLASS] container
+[OBJNAME] fltdate
+[START PROPERTIES]
+Width = 100
+BorderWidth = 0
+lsubscribetocolib = .F.
+Name = "fltdate"
+Label.Top = -500
+Label.Visible = .F.
+Label.Name = "Label"
+CheckButton.Name = "CheckButton"
+Dato.keydate.Name = "keydate"
+Dato.cmdKeyDate.Name = "cmdKeyDate"
+Dato.Left = 0
+Dato.Name = "Dato"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] fltdate
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2QO144ZPY
+[CLASS] ccmarco
+[CLASSLOC] controles_varios.vcx
+[BASECLASS] container
+[OBJNAME] frmfiltros
+[START PROPERTIES]
+Width = 400
+Height = 369
+Name = "frmfiltros"
+Shape.Top = 12
+Shape.Left = 12
+Shape.Height = 357
+Shape.Width = 372
+Shape.Name = "Shape"
+shpLabel.Name = "shpLabel"
+lblTitulo.Caption = "Filtrado Por"
+lblTitulo.Name = "lblTitulo"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] frmfiltros
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3HN0OY7SD
+[CLASS] cntfiltrobase
+[CLASSLOC] filtros.vcx
+[BASECLASS] container
+[OBJNAME] rangocodigodescripcion
+[START PROPERTIES]
+tabla = 
+_memberdata = <VFPData><memberdata name="tabla" display="TABLA"/></VFPData>
+defaultcondition = E
+Name = "rangocodigodescripcion"
+chkInclude.Top = 5
+chkInclude.Alignment = 0
+chkInclude.TabIndex = 1
+chkInclude.Name = "chkInclude"
+cboCondition.Left = 96
+cboCondition.TabIndex = 7
+cboCondition.Top = 204
+cboCondition.Visible = .F.
+cboCondition.Name = "cboCondition"
+Shape.Name = "Shape"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+
+
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+	
+	DoDefault()
+	
+	This.FromCodigo.Top = This.FromDescripcion.Top
+	This.FromCodigo.Left = This.FromDescripcion.Left
+	This.FromCodigo.Width = This.ToCodigo.Width
+	This.FromDescripcion.Width = This.ToDescripcion.Width
+
+	This.ToCodigo.Top = This.ToDescripcion.Top
+	This.ToCodigo.Left = This.ToDescripcion.Left
+
+	This.FromDescripcion.Visible = .F.
+	This.ToDescripcion.Visible = .F.
+	
+*!*		This.TABLA = '1'
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE chkInclude.InteractiveChange
+
+Local loFromValue As Object,;
+	loToValue As Object
+
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+
+
+	Do Case
+		Case This.Parent.Opcion.Value = 1
+			loFromValue = This.Parent.FromCodigo
+			loToValue = This.Parent.ToCodigo
+
+		Otherwise
+			loFromValue = This.Parent.FromDescripcion
+			loToValue = This.Parent.ToDescripcion
+
+	Endcase
+
+
+
+	If This.Value
+		loFromValue.SetFocus()
+
+	Endif && This.Value
+
+	If This.Parent.Parent.lOnlyOneActive = .T.
+		This.Parent.Parent.SwitchFilters( This )
+
+	Else
+		This.Parent.SynchronizeFilters( This.Value )
+
+	Endif && This.Parent.Parent.lOnlyOneActive = .T.
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+Finally
+
+
+Endtry
+
+ENDPROCPROCEDURE getwherecondition
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+*--------------------------------------------------------
+* Arma la clausula WHERE de la instruccion SQL a ejecutar.
+*--------------------------------------------------------
+Local lcWhere As String
+Local lcFrom As String
+Local lcTo As String
+Local lcFieldName As String
+Local llOk As Boolean
+Local lcCursorName As String
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Local loFromValue As Object,;
+	loToValue As Object
+
+Try
+
+	lcWhere = ""
+
+
+	With This
+		llOk = .T.
+
+		If .chkInclude.Value && .And. .Visible = .T.
+
+			If llOk
+
+				Do Case
+					Case This.Opcion.Value = 1
+						loFromValue = This.FromCodigo
+						loToValue = This.ToCodigo
+
+					Otherwise
+						loFromValue = This.FromDescripcion
+						loToValue = This.ToDescripcion
+
+				Endcase
+
+				If .cboCondition.Value = "E" And ( loFromValue.Value > loToValue.Value )
+					* DA 2009-10-09(12:38:41)
+					* Warning ( S_FROMGREATERTHANTO )
+
+					*Error S_FROMGREATERTHANTO
+
+					Error This.chkInclude.Caption + ": " +  S_FROMGREATERTHANTO
+
+					lcWhere = " And 1 = 0 "
+
+				Else
+
+					If ! Empty( .CursorName )
+						***.cFieldName = .CursorName + "." + .cFieldName
+						lcCursorName = .CursorName + "."
+
+					Else
+						lcCursorName = ""
+
+					Endif && ! Empty( .CursorName )
+
+					If ! .CaseSensitive And ( .FieldType == T_CHARACTER )
+						lcFieldName = " lower(" + lcCursorName + .cFieldName + ")"
+
+					Else
+						lcFieldName = lcCursorName + This.cFieldName
+
+					Endif && ! .CaseSensitive And ( .FieldType == T_CHARACTER )
+
+
+					Do Case
+						Case Vartype( loFromValue.Value ) = T_CHARACTER
+							lcFrom = "'" + Alltrim( loFromValue.Value ) + "'"
+							lcTo = "'" + Alltrim( loToValue.Value ) + "'"
+							If ! .CaseSensitive
+								lcFrom = Lower( lcFrom )
+								lcTo = Lower( lcTo )
+
+							Endif && ! .CaseSensitive
+
+						Case Vartype( loFromValue.Value ) = T_DATE
+							If ! Empty( loFromValue.Value )
+								lcFrom = "<#" + Dtoc( loFromValue.Value ) + "#>"
+
+							Else
+								lcFrom = "<##>"
+
+							Endif && ! Empty( .FromValue.Value )
+
+							If ! Empty( loToValue.Value )
+								lcTo = "<#" + Dtoc( loToValue.Value ) + "#>"
+
+							Else
+								lcTo = "<##>"
+
+							Endif && ! Empty( .ToValue.Value )
+
+						Case Vartype( loFromValue.Value ) = T_DATETIME
+							If ! Empty( loFromValue.Value )
+								lcFrom = "<$" + Ttoc( loFromValue.Value ) + "$>"
+
+							Else
+								lcFrom = "<$$>"
+
+							Endif && ! Empty( .FromValue.Value )
+
+							If ! Empty( loToValue.Value )
+								lcTo = "<$" + Ttoc( loToValue.Value ) + "$>"
+
+							Else
+								lcTo = "<$$>"
+
+							Endif && ! Empty( .ToValue.Value )
+
+						Case Vartype( loFromValue.Value )= T_NUMERIC
+							lcFrom = Transform( loFromValue.Value )
+							lcTo = Transform( loToValue.Value )
+
+					Endcase
+
+
+					lcWhere = " And (" + lcFieldName
+					Do Case
+						Case .cboCondition.Value = "E"
+							*!*								lcWhere = lcWhere + " >= " + lcFrom + " And " + lcFieldName + " <= " + lcTo
+							lcWhere = lcWhere + " Between " + lcFrom + " And " + lcTo
+
+						Case .cboCondition.Value = "like"
+							lcWhere = lcWhere + " like '" + Strtran( lcFrom, "'", "" ) + "%'"
+
+						Case .cboCondition.Value = "%"
+							lcWhere = lcWhere + " like '%" + Strtran( lcFrom, "'", "" ) + "%'"
+
+						Case .cboCondition.Value = "!#"
+							lcWhere = lcWhere + " = " + lcFrom
+
+						Case .cboCondition.Value = "#"
+							lcWhere = lcWhere + " <> " + lcFrom
+
+						Otherwise
+							lcWhere = lcWhere + " " + Alltrim( .cboCondition.Value )
+							lcWhere = lcWhere + " " + lcFrom
+
+					Endcase
+					lcWhere = lcWhere + ")"
+
+				Endif
+
+			Endif
+
+		Endif
+
+	Endwith
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Thisform.oError
+	loError.Cremark = ''
+	loError.Ctracelogin = ''
+	loError = Null
+
+Endtry
+
+Return ( lcWhere )
+
+
+ENDPROC
+PROCEDURE handlekeypress
+Lparameters nKeyCode, nShiftAltCtrl, oCtrl
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Try
+
+	If Vartype( oCtrl ) == "O"
+
+		Do Case
+			Case nShiftAltCtrl = 0
+				Do Case
+					Case nKeyCode = KEY_ENTER
+
+						If Lower( Substr( oCtrl.Name, 4 )) == "from"
+
+						Else
+							This.Parent.SetingFocus()
+
+						Endif
+
+					Case nKeyCode = KEY_F1
+						
+						oCtrl.Value = Prx_Tabla( This.TABLA,;
+							Iif( This.Opcion.Value = 1, "Codi4", "Nomb4" ),;
+							oCtrl.Value )
+
+					Otherwise
+						DoDefault( nKeyCode, nShiftAltCtrl )
+
+				Endcase
+
+			Otherwise
+				DoDefault( nKeyCode, nShiftAltCtrl )
+
+		Endcase
+	Else
+		DoDefault( nKeyCode, nShiftAltCtrl )
+
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+
+Endtry
+
+
+ENDPROC
+PROCEDURE setingfocus
+
+Local lcCommand As String
+Local loFromValue As Object,;
+	loToValue As Object
+
+
+Try
+
+	lcCommand = ""
+
+	Do Case
+		Case This.Opcion.Value = 1
+			loFromValue = This.FromCodigo
+			loToValue = This.ToCodigo
+
+		Otherwise
+			loFromValue = This.FromDescripcion
+			loToValue = This.ToDescripcion
+
+	Endcase
+
+
+	If This.chkInclude.Value
+		loFromValue.SetFocus()
+
+	Else
+		This.chkInclude.SetFocus()
+
+	Endif && This.chkInclude.Value
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE synchronizefilters
+Lparameters tlEnabled As Boolean
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+Local llEnabled As Boolean
+Local loFromValue as Object,;
+loToValue as Object
+
+Try
+
+	If This.Visible
+
+		If Empty(Pcount())
+			llEnabled = This.chkInclude.Value
+
+		Else
+			llEnabled = tlEnabled
+
+		Endif
+
+		This.cboCondition.Enabled = llEnabled
+		
+		This.FromDescripcion.Enabled = llEnabled
+		This.FromCodigo.Enabled = llEnabled
+		This.ToCodigo.Enabled = llEnabled
+		This.ToDescripcion.Enabled = llEnabled
+		
+		Do Case
+		Case This.Opcion.Value = 1
+			loFromValue = This.FromCodigo
+			loToValue = This.ToCodigo
+			
+		Otherwise
+			loFromValue = This.FromDescripcion
+			loToValue = This.ToDescripcion
+
+		EndCase
+		
+		If llEnabled
+			Do Case
+				Case (Empty( loFromValue.Value ) And ;
+						Empty( loToValue.Value )) .Or. ;
+						loToValue.Visible = .F.
+
+					If Thisform.Visible
+						loFromValue.SetFocus()
+					Endif
+
+				Case Not Empty( loFromValue.Value ) And ;
+						empty( loToValue.Value )
+
+					loToValue.Value = loFromValue.Value
+					If Thisform.Visible
+						loToValue.SetFocus()
+					Endif
+
+			Endcase
+		Endif
+
+	Endif
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+6[END RESERVED2]
+[START RESERVED3]
+tabla
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3HN0PD0CT
+[CLASS] fltspinner
+[CLASSLOC] filtros.vcx
+[BASECLASS] spinner
+[OBJNAME] FromCodigo
+[PARENT] rangocodigodescripcion
+[START PROPERTIES]
+KeyboardLowValue = 0
+Left = 13
+SpinnerLowValue =   0.00
+TabIndex = 4
+Top = 102
+Width = 150
+Name = "FromCodigo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE KeyPress
+LPARAMETERS nKeyCode, nShiftAltCtrl
+
+This.Parent.HandleKeypress( nKeyCode, nShiftAltCtrl, This )
+ENDPROC
+PROCEDURE LostFocus
+DoDefault()
+This.Parent.ToCodigo.Value = Max( This.Value, This.Parent.ToCodigo.Value )
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3HN0PD0EH
+[CLASS] fltspinner
+[CLASSLOC] filtros.vcx
+[BASECLASS] spinner
+[OBJNAME] ToCodigo
+[PARENT] rangocodigodescripcion
+[START PROPERTIES]
+KeyboardLowValue = 0
+Left = 168
+SpinnerLowValue =   0.00
+TabIndex = 5
+Top = 102
+Width = 150
+Name = "ToCodigo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE KeyPress
+LPARAMETERS nKeyCode, nShiftAltCtrl
+
+This.Parent.HandleKeypress( nKeyCode, nShiftAltCtrl, This )
+ENDPROC
+PROCEDURE Valid
+Local lcMsg As String
+Local llValid As Boolean
+
+llValid = .T.
+
+If This.Value < This.Parent.FromCodigo.Value
+	TEXT To lcMsg NoShow TextMerge Pretext 03
+	El valor debe ser Mayor o Igual a <<This.Parent.FromCodigo.Value>>
+	ENDTEXT
+
+	Warning( lcMsg, This.Parent.chkInclude.Caption )
+	llValid = .F.
+
+	Clear Typeahead
+
+Endif
+
+Return llValid
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3HN0PD0F0
+[CLASS] txtstring
+[CLASSLOC] filtros.vcx
+[BASECLASS] textbox
+[OBJNAME] FromDescripcion
+[PARENT] rangocodigodescripcion
+[START PROPERTIES]
+Format = "!"
+Left = 5
+TabIndex = 2
+Top = 25
+Width = 305
+Name = "FromDescripcion"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE KeyPress
+Lparameters nKeyCode, nShiftAltCtrl
+
+This.Parent.HandleKeypress( nKeyCode, nShiftAltCtrl, This )
+ENDPROC
+PROCEDURE LostFocus
+DoDefault()
+
+If This.Parent.ToDescripcion.Value < This.Value
+	This.Parent.ToDescripcion.Value = This.Value
+Endif
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3HN0PD0FH
+[CLASS] txtstring
+[CLASSLOC] filtros.vcx
+[BASECLASS] textbox
+[OBJNAME] ToDescripcion
+[PARENT] rangocodigodescripcion
+[START PROPERTIES]
+Format = "!"
+Left = 160
+TabIndex = 3
+Top = 25
+Visible = .F.
+Width = 150
+Name = "ToDescripcion"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE KeyPress
+Lparameters nKeyCode, nShiftAltCtrl
+
+This.Parent.HandleKeypress( nKeyCode, nShiftAltCtrl, This )
+ENDPROC
+PROCEDURE Valid
+Local lcMsg As String
+Local llValid As Boolean
+
+llValid = .T.
+
+If This.Value < This.Parent.FromDescripcion.Value
+	TEXT To lcMsg NoShow TextMerge Pretext 03
+	El valor debe ser Mayor o Igual a <<This.Parent.FromDescripcion.Value>>
+	ENDTEXT
+
+	Warning( lcMsg, This.Parent.chkInclude.Caption )
+	llValid = .F.
+
+	Clear Typeahead
+
+Endif
+
+Return llValid
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3HN0PD0FZ
+[CLASS] optiongroup
+[BASECLASS] optiongroup
+[OBJNAME] Opcion
+[PARENT] rangocodigodescripcion
+[START PROPERTIES]
+ButtonCount = 2
+BackStyle = 0
+Value = 1
+Height = 23
+Left = 137
+Top = -2
+Width = 200
+TabIndex = 6
+Name = "Opcion"
+Option1.Caption = "CÛdigo"
+Option1.Value = 1
+Option1.Height = 17
+Option1.Left = 5
+Option1.Top = 5
+Option1.Width = 58
+Option1.AutoSize = .T.
+Option1.Name = "Codigo"
+Option2.Caption = "DescripciÛn"
+Option2.Height = 17
+Option2.Left = 90
+Option2.Top = 5
+Option2.Width = 84
+Option2.AutoSize = .T.
+Option2.Name = "Descrpcion"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+Do Case
+	Case This.Value = 1
+		This.Parent.FromCodigo.Visible = .T.
+		This.Parent.ToCodigo.Visible = .T.
+
+		This.Parent.FromDescripcion.Visible = .F.
+		This.Parent.ToDescripcion.Visible = .F.
+		
+		This.Parent.FromCodigo.SetFocus()
+
+	Case This.Value = 2
+		This.Parent.FromCodigo.Visible = .F.
+		This.Parent.ToCodigo.Visible = .F.
+
+		This.Parent.FromDescripcion.Visible = .T.
+		This.Parent.ToDescripcion.Visible = .T.
+		
+		This.Parent.FromCodigo.SetFocus()
+
+	Otherwise
+
+Endcase
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] rangocodigodescripcion
+[START PROPERTIES]
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.héXjc›P ..\include\foxpro.hñY r˚F ..\include\strings.hûZZäOJ6 ..\..\..\tools\reportbuilder\include\ooreportbuilder.h¶[ê±ŸF ..\include\foxpro.hÆ\ r˚F* ..\..\..\tools\namespaces\include\system.h∂]±ŸF[END RESERVED1]
+[EOF]

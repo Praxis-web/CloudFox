@@ -1,0 +1,1377 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _0IZ0LUID6
+[CLASS] container
+[BASECLASS] container
+[OBJNAME] tacalendar
+[START PROPERTIES]
+Width = 148
+Height = 150
+headerheight = 25
+todayforecolor = 255
+daysoffset = 0
+todaybackcolor = -1
+currentdaybackcolor = -1
+dayandheaderforecolor = -1
+weekdayheaderforecolor = -1
+currentrow = 1
+currentcol = 1
+defaultwindowcolor = .T.
+_memberdata = <VFPData><memberdata name="setferiados" display="SetFeriados"/></VFPData>
+Name = "tacalendar"
+[END PROPERTIES]
+[START PROTECTED]
+headerheight
+currentmonth
+currentyear
+daysoffset
+oadate
+oaday
+adddays
+addweeks
+setdays
+setheaderdate
+setcurrentdaybackcolor
+getcolorfromrgb
+setdayheaderforecolor
+settodayforebackcolor
+oabackground
+[END PROTECTED]
+[START METHODS]
+PROCEDURE Destroy
+LOCAL lnWeek, lnDay
+
+WITH THIS
+	FOR lnDay = 1 TO ALEN( .oaDay, 2 )
+		.oaDay[lnDay] = NULL	&& Destroy the Day of Week label objects
+	ENDFOR
+	FOR lnWeek = 1 TO ALEN( .oaDate, 1 )
+		FOR lnDay = 1 TO ALEN( .oaDate, 2 )
+			.oaBackground[lnWeek, lnDay] = NULL	&& Destroy the date background objects
+			.oaDate[lnWeek, lnDay] = NULL		&& Destroy the date label objects
+		ENDFOR
+	ENDFOR
+ENDWITH
+
+ENDPROC
+PROCEDURE Init
+LPARAMETER lDate
+
+DECLARE INTEGER GetSysColor IN Win32API INTEGER
+
+WITH THIS
+*	Assign date value passed in to Date property to fire
+	.AddDays()		&& Add the Day descriptor labels
+	.AddWeeks()		&& Add the day fields and backgrounds for weeks
+	.Date = lDate	&& Fires _Assign method, SetCalDays(), validates and sets Date
+
+*	Set each configurable property value to itself to fire the
+*	_Assign methods to validate each property value and init values
+
+	.DefaultWindowColor = .DefaultWindowColor			&& Default Windows window color flag
+	.ShortDay = .ShortDay								&& Short day descriptor ( 'S', 'M, etc. ) flag
+	.CurrentDayBackcolor = .CurrentDayBackcolor			&& Current Day Backcolor ( Set before TodayBackcolor
+														&& since TodayBackcolor defaults to CurrentDayBackcolor
+	.DayAndHeaderForecolor = .DayAndHeaderForecolor		&& Date and Header Month/Year Forecolor
+	.TodayBackcolor = .TodayBackcolor					&& Today Backcolor
+	.TodayForecolor = .TodayForecolor					&& Today Forecolor
+	.WeekDayHeaderForecolor = .WeekDayHeaderForecolor	&& Weekday Header Forecolor
+
+	* Dimensionar en funcion del tamaño de .oaDate
+	.HeaderHeight = .cntHeader.Top + .cntHeader.Height + 1	&& Calendar header height
+	.Height = .HeaderHeight + .oaDay[1].Height + 6 * .oaDate[1,1].Height + 5
+	.Width = .oaDay[1].Width * 7
+	
+	.cntHeader.Width = .Width
+	.cntheader.cmdNextMonth.Left = .Width - .cntheader.cmdNextMonth.Width - .cntheader.cmdLastMonth.Left
+	.cntHeader.lblMonthYear.Width = .cntheader.cmdNextMonth.Left - .cntHeader.lblMonthYear.Left
+	With .lnDayLine
+		.Top = This.oaDay[1].Top + This.oaDay[1].Height
+		.Height = 0
+		.Width = This.Width - 6
+		.Left = ( This.Width - .Width ) / 2
+		.Visible = .T.
+	Endwith
+
+	
+ENDWITH
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord, lManual
+
+Do Case
+
+	Case nButton = 2 And nShift = 0 && Right Click
+		Local ldValue As Date
+		Local lnKeyPress As Integer
+
+		lnKeyPress = 0
+
+		*!*	Definir el menu de la fecha.
+		
+*!*			Text To lcMsg NoShow TextMerge Pretext 03
+*!*			<<Program()>>
+*!*			nXCoord = <<nXCoord>>
+*!*			nYCoord = <<nYCoord>>
+*!*			
+*!*			Mrow() = <<Mrow()>>
+*!*			Mcol() = <<Mcol()>>		
+*!*			EndText
+*!*			
+*!*			Wait WINDOW NOWAIT NOCLEAR lcMsg
+
+		If lManual
+			Define Popup fechas SHORTCUT Relative From nXCoord,nYCoord
+			
+		Else
+			Define Popup fechas SHORTCUT Relative From Mrow(),Mcol()
+			
+		Endif
+
+		Define Bar 1 Of fechas Prompt "Pri\<mer día del año"
+		Define Bar 2 Of fechas Prompt "\<Primer día del mes"
+		Define Bar 3 Of fechas Prompt "\<Primer día de la semana"
+		Define Bar 4 Of fechas Prompt "Día de \<hoy"
+		Define Bar 5 Of fechas Prompt "\<Ultimo día de la semana"
+		Define Bar 6 Of fechas Prompt "\<Ultimo día del mes"
+		Define Bar 7 Of fechas Prompt "U\<ltimo día del año"
+
+		Define Bar 991 Of fechas Prompt "\-"
+
+		Define Bar 21 Of fechas Prompt "Mes anterior" ;
+			KEY PGUP
+		Define Bar 22 Of fechas Prompt "Mes siguiente" ;
+			KEY PGDN
+		Define Bar 23 Of fechas Prompt "Año anterior" ;
+			KEY CTRL+PGUP
+		Define Bar 24 Of fechas Prompt "Año siguiente" ;
+			KEY CTRL+PGDN
+
+		On Selection Bar 1 Of fechas ldValue = Ctod( "01/01/" + Alltrim( Str( Year( Date() ) ) ) )
+		On Selection Bar 2 Of fechas ldValue = ( Date() - Day( Date() ) + 1 )
+		On Selection Bar 3 Of fechas ldValue = ( Date() - Dow( Date(), 2 ) + 1 )
+		On Selection Bar 4 Of fechas ldValue = Date()
+		On Selection Bar 5 Of fechas ldValue = ( Date() - Dow( Date(), 2 ) + 7 )
+		On Selection Bar 6 Of fechas ldValue = Gomont( Date(), 1 ) - Day( Gomont( Date(), 1 ) )
+		On Selection Bar 7 Of fechas ldValue = Ctod( "31/12/" + Alltrim( Str( Year( Date() ) ) ) )
+
+		On Selection Bar 21 Of fechas lnKeyPress = 18
+		On Selection Bar 22 Of fechas lnKeyPress = 3
+		On Selection Bar 23 Of fechas lnKeyPress = 31
+		On Selection Bar 24 Of fechas lnKeyPress = 30
+
+		Activate Popup fechas
+
+		If Not Empty( ldValue )
+			This.Date = ldValue
+			This.SelectDate( This.Date )
+		Endif
+
+		If !Empty( lnKeyPress )
+			Do Case
+				Case lnKeyPress = 18	&& PageUp ( Previous Month )
+					This.GoToPreviousMonth()
+
+				Case lnKeyPress = 3	&& PageDn ( Next Month )
+					This.GoToNextMonth()
+
+				Case lnKeyPress = 31	&& Ctrl+PageUp ( Previous Year )
+					This.GoToPreviousYear()
+
+				Case lnKeyPress = 30	&& Ctrl+PageDn ( Next Year )
+					This.GoToNextYear()
+			Endcase
+
+		Endif
+
+	Otherwise
+		DoDefault( nButton, nShift, nXCoord, nYCoord )
+
+Endcase
+
+ENDPROCPROCEDURE adddays
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+*	Adds the Day of Week header label objects into
+*	the oaDay[] array for display, "Sun", "Mon", etc.
+Local lnDay, lcDate
+
+Set Classlib To Addbs(FL_LIBS)+ "taCal" AddI
+
+With This
+	For lnDay = 1 To Alen( .oaDay )
+		lcDate = "lblDay" + Alltrim( Str( lnDay ) )
+		.AddObject( lcDate, "CalLabel" )
+		.oaDay[lnDay] = Evaluate( "THIS." + lcDate )
+		.oaDay[lnDay].Top = This.HeaderHeight
+		.oaDay[lnDay].Left = ( lnDay - 1 ) * .oaDay[lnDay].Width
+		.oaDay[lnDay].Visible = .T.
+	EndFor
+	
+	.AddObject( "lnDayLine", "Line" )	&& Add the line separator
+	
+Endwith
+
+ENDPROC
+PROCEDURE addweeks
+*	Adds the Date labels and background objects
+*	to the oaDate[] and oaBackground[] arrays
+LOCAL lnWeek, lnDay, lcDesignator, lLeftOffset
+
+WITH THIS
+	FOR lnWeek = 1 TO ALEN( .oaDate, 1 )
+		FOR lnDay = 1 TO ALEN( .oaDate, 2 )
+*			Date Object
+			lcDesignator = "CalDateLabel" + ALLTRIM( STR( lnWeek ) ) + ALLTRIM( STR( lnDay ) )
+			.ADDOBJECT( lcDesignator, "CalDateLabel" )
+			.oaDate[lnWeek, lnDay] = EVALUATE( "THIS." + lcDesignator )
+			.oaDate[lnWeek, lnDay].Row = lnWeek
+			.oaDate[lnWeek, lnDay].Col = lnDay
+			.oaDate[lnWeek, lnDay].Top = ( lnWeek ) * .oaDate[lnWeek, lnDay].Height + .HeaderHeight
+			.oaDate[lnWeek, lnDay].Left = ( lnDay - 1 ) * .oaDate[lnWeek, lnDay].Width
+			.oaDate[lnWeek, lnDay].Caption = ALLTRIM( STR( 7 * ( lnWeek - 1 ) + lnDay ) )
+			.oaDate[lnWeek, lnDay].Visible = .T.
+			
+			* RA 16/01/2019(14:08:03)
+			If lnDay = 1
+				*Local o as Label
+				.oaDate[lnWeek,lnDay].ForeColor = RGB(255,255,255) && Blanco
+				.oaDate[lnWeek,lnDay].BackColor = RGB(255,0,0) && Rojo
+				.oaDate[lnWeek,lnDay].BackStyle = 1
+				.oaDate[lnWeek,lnDay].FontBold = .T.
+			EndIf
+			*---------------------------------------------------------
+			
+
+*			Background Object
+			lcDesignator = "CalBckShape" + ALLTRIM( STR( lnWeek ) ) + ALLTRIM( STR( lnDay ) )
+			.ADDOBJECT( lcDesignator, "CalBackground" )
+			.oaBackground[lnWeek, lnDay] = EVALUATE( "THIS." + lcDesignator )
+
+			.oaBackground[lnWeek, lnDay].Top = .oaDate[lnWeek, lnDay].Top - ( .oaDate[lnWeek, lnDay].Height / 4 )	
+			.oaBackground[lnWeek, lnDay].Left = .oaDate[lnWeek, lnDay].Left + ;
+					( .oaDate[lnWeek, lnDay].Width - .oaBackground[lnWeek, lnDay].Width ) / 2
+					&& Centered under Date label object
+			.oaBackground[lnWeek, lnDay].ZOrder(1)	&& Push it to the bottom ( behind the Date label object )
+			.oaBackground[lnWeek, lnDay].Visible = .T.
+		ENDFOR
+	ENDFOR
+ENDWITH
+
+ENDPROC
+PROCEDURE currentdaybackcolor_assign
+LPARAMETERS vNewVal
+LOCAL lnDefaultColor, lnColor
+*	Sets the ellipse Fillcolor for the currently highlighted day display
+*	Default is button face color
+*	Default can be set by passing <0, >16777215 or empty string
+
+#DEFINE COLOR_BTNFACE	15
+
+lnDefaultColor = GetSysColor( COLOR_BTNFACE )
+
+WITH THIS
+	DO CASE
+		CASE VARTYPE( m.vNewVal ) = 'N'
+			m.vNewVal = INT( m.vNewVal )
+			IF BETWEEN( m.vNewVal, 0, 16777215 )
+				.CurrentDayBackcolor = m.vNewVal
+			ELSE
+				.CurrentDayBackcolor = lnDefaultColor	&& Default to Windows default
+			ENDIF
+
+		CASE VARTYPE( m.vNewVal ) = 'C'
+			IF EMPTY( m.vNewVal )
+				.CurrentDayBackcolor = lnDefaultColor	&& Default to Windows default
+			ELSE										&& Convert RGB to color value
+				lnColor = .GetColorFromRGB( m.vNewVal )
+				.CurrentDayBackcolor = IIF( lnColor = -1, lnDefaultColor, lnColor )
+			ENDIF
+
+		OTHERWISE
+			.CurrentDayBackcolor = lnDefaultColor		&& Default to Windows default
+	ENDCASE
+	.SetCurrentDayBackColor()			&& Refresh the color
+ENDWITH
+
+ENDPROC
+PROCEDURE date_assign
+Lparameters vNewVal
+
+
+*	Validate the passed date
+With This
+	Do Case
+		Case Vartype( m.vNewVal ) = 'D'	&& Data type is "Date"
+			If Empty( m.vNewVal )		&& Invalid date so
+				.Date = Date()			&& Use today
+			Else
+				.Date = m.vNewVal		&& Load the passed date
+			Endif
+		Case Vartype( m.vNewVal ) = 'T'	&& Data type is "Date"
+			If Empty( m.vNewVal )		&& Invalid date so
+				.Date = Date()			&& Use today
+			Else
+				.Date = Ttod( m.vNewVal	)	&& Load the passed date
+			Endif
+		Case ( Vartype( m.vNewVal ) = 'C' And Not Empty( Ctod( m.vNewVal ) ) )
+			.Date = Ctod( m.vNewVal )
+
+		Otherwise
+			.Date = Date()			&& Use today
+
+	Endcase
+
+	.CurrentMonth = Month( .Date )	&& Month of date loaded
+	.CurrentYear = Year( .Date )	&& Year of date loaded
+	.DaysOffset = Dow( Date( .CurrentYear, .CurrentMonth, 1 ) ) - 1
+	
+	&& Number of days from first day of week to first day of date loaded
+	.SetCalDays()					&& Refresh the calendar
+	
+Endwith
+
+
+
+*!*	*	Validate the passed date
+*!*	WITH THIS
+*!*		IF VARTYPE( m.vNewVal ) = 'D'	&& Data type is "Date"
+*!*			IF EMPTY( m.vNewVal )		&& Invalid date so
+*!*				.Date = DATE()			&& Use today
+*!*			ELSE
+*!*				.Date = m.vNewVal		&& Load the passed date
+*!*			ENDIF
+*!*		ELSE							&& Check for data type "Char" and valid date
+*!*			IF ( VARTYPE( m.vNewVal ) = 'C' AND NOT EMPTY( CTOD( m.vNewVal ) ) )
+*!*				.Date = CTOD( m.vNewVal )
+*!*			ELSE						&& Invalid char date so
+*!*				.Date = DATE()			&& Use today
+*!*			ENDIF
+*!*		ENDIF
+
+*!*		.CurrentMonth = MONTH( .Date )	&& Month of date loaded
+*!*		.CurrentYear = YEAR( .Date )	&& Year of date loaded
+*!*		.DaysOffset = DOW( DATE( .CurrentYear, .CurrentMonth, 1 ) ) - 1
+*!*				&& Number of days from first day of week to first day of date loaded
+*!*		.SetCalDays()					&& Refresh the calendar
+*!*	ENDWITH
+
+
+ENDPROC
+PROCEDURE dayandheaderforecolor_assign
+LPARAMETERS vNewVal
+LOCAL lnDefaultColor, lnColor
+*	Sets the forecolor for days and
+*	header Month and Year display
+*	Default is Windows Control Panel color
+*	Default can be set by passing <0, >16777215 or empty string
+
+#DEFINE WINDOW_TEXT	8
+
+lnDefaultColor = GetSysColor( WINDOW_TEXT )
+
+WITH THIS
+	DO CASE
+		CASE VARTYPE( m.vNewVal ) = 'N'
+			m.vNewVal = INT( m.vNewVal )
+			IF BETWEEN( m.vNewVal, 0, 16777215 )
+				.DayAndHeaderForecolor = m.vNewVal
+			ELSE
+				.DayAndHeaderForecolor = lnDefaultColor	&& Default to Windows control panel color
+			ENDIF
+
+		CASE VARTYPE( m.vNewVal ) = 'C'
+			IF EMPTY( m.vNewVal )
+				.DayAndHeaderForecolor = lnDefaultColor	&& Default to Windows control panel color
+			ELSE										&& Convert RGB to color value
+				lnColor = .GetColorFromRGB( m.vNewVal )
+				.DayAndHeaderForecolor = IIF( lnColor = -1, lnDefaultColor, lnColor )
+			ENDIF
+
+		OTHERWISE
+			.DayAndHeaderForecolor = lnDefaultColor		&& Default to Windows control panel color
+	ENDCASE
+	.SetDayHeaderForecolor()			&& Refresh colors
+ENDWITH
+
+ENDPROC
+PROCEDURE defaultwindowcolor_assign
+LPARAMETERS vNewVal
+*	Set default Window Color flag
+
+WITH THIS
+	IF VARTYPE( m.vNewVal ) = 'L'
+		.DefaultWindowColor = m.vNewVal
+	ELSE
+		.DefaultWindowColor = .T.	&& Default to Default Window Color
+	ENDIF
+
+	IF .DefaultWindowColor
+		.SetDefaultWinBackColor()	&& Refresh backgrond
+	ENDIF
+ENDWITH
+
+ENDPROC
+PROCEDURE displaycurrentdaybackground
+*	Displays the background ellipse for the currently selected day
+*	If a row and column are passed in the Date is set to them
+*	Otherwise the current Row and Column are used
+LPARAMETERS nRow, nCol
+
+WITH THIS
+	IF VARTYPE( nRow ) = 'N'
+		nRow = INT( nRow )
+		IF BETWEEN( nRow, 1, 6 )
+			.CurrentRow = nRow
+		ENDIF
+	ENDIF
+	IF VARTYPE( nCol ) = 'N'
+		nCol = INT( nCol )
+		IF BETWEEN( nCol, 1, 7 )
+			.CurrentCol = nCol
+		ENDIF
+	ENDIF
+	.oaBackground[.CurrentRow, .CurrentCol].FillStyle = 0	&& Show the background ellipse
+ENDWITH
+
+ENDPROC
+PROCEDURE getcolorfromrgb
+*	Returns a color value ( 0 - 16777215 ) from a
+*	RGB color list string ( e.g. "0,192,255" )
+*	Returns -1 on failure
+LPARAMETER lcColor
+LOCAL lnRed, lnGreen, lnBlue, lnNdx1, lnNdx2
+
+IF VARTYPE( lcColor ) != 'C'	&& Must be a string list
+	RETURN -1
+ENDIF
+
+lnNdx1 = AT( ',', lcColor )		&& First comma separator position
+IF lnNdx1 = 0
+	RETURN -1
+ENDIF
+
+lnNdx2 = AT( ',', lcColor, 2 )	&& Second comma separator position
+IF lnNdx2 = 0
+	RETURN -1
+ENDIF
+
+lnRed = INT( VAL( LEFT( lcColor, lnNdx1 - 1 ) ) )
+IF NOT BETWEEN( lnRed, 0, 255 )
+	RETURN -1
+ENDIF
+
+lnGreen = INT( VAL( SUBSTR( lcColor, lnNdx1 + 1, lnNdx2 - lnNdx1 - 1  ) ) )
+IF NOT BETWEEN( lnGreen, 0, 255 )
+	RETURN -1
+ENDIF
+
+lnBlue = INT( VAL( RTRIM( SUBSTR( lcColor, lnNdx2 + 1  ) ) ) )
+IF NOT BETWEEN( lnBlue, 0, 255 )
+	RETURN -1
+ENDIF
+
+RETURN RGB( lnRed, lnGreen, lnBlue )
+
+ENDPROC
+PROCEDURE gotonextday
+WITH THIS
+	.Date = .Date + 1
+	.SetCalDays()	&& Refresh calendar
+ENDWITH
+
+ENDPROC
+PROCEDURE gotonextmonth
+WITH THIS
+	.Date = GOMONTH( .Date, 1 )
+	.SetCalDays()	&& Refresh calendar
+ENDWITH
+
+ENDPROC
+PROCEDURE gotonextweek
+WITH THIS
+	.Date = .Date + 7
+	.SetCalDays()	&& Refresh calendar
+ENDWITH
+
+ENDPROC
+PROCEDURE gotonextyear
+WITH THIS
+	.Date = GOMONTH( .Date, 12 )
+	.SetCalDays()	&& Refresh calendar
+ENDWITH
+
+ENDPROC
+PROCEDURE gotopreviousday
+WITH THIS
+	.Date = .Date - 1
+	.SetCalDays()	&& Refresh calendar
+ENDWITH
+
+ENDPROC
+PROCEDURE gotopreviousmonth
+WITH THIS
+	.Date = GOMONTH( .Date, -1 )
+	.SetCalDays()	&& Refresh calendar
+ENDWITH
+
+ENDPROC
+PROCEDURE gotopreviousweek
+WITH THIS
+	.Date = .Date - 7
+	.SetCalDays()	&& Refresh calendar
+ENDWITH
+
+ENDPROC
+PROCEDURE gotopreviousyear
+WITH THIS
+	.Date = GOMONTH( .Date, -12 )
+	.SetCalDays()	&& Refresh calendar
+ENDWITH
+
+ENDPROC
+PROCEDURE rrcmonth
+LPARAMETERS tcDate, tcLanguage
+LOCAL lcRetVal AS String
+lcRetVal = ""
+DO CASE
+	CASE tcLanguage = "ESP"
+		DO CASE
+			CASE MONTH( tcDate ) = 1
+				lcRetVal = "Enero"
+			CASE MONTH( tcDate ) = 2
+				lcRetVal = "Febrero"
+			CASE MONTH( tcDate ) = 3
+				lcRetVal = "Marzo"
+			CASE MONTH( tcDate ) = 4
+				lcRetVal = "Abril"
+			CASE MONTH( tcDate ) = 5
+				lcRetVal = "Mayo"
+			CASE MONTH( tcDate ) = 6
+				lcRetVal = "Junio"
+			CASE MONTH( tcDate ) = 7
+				lcRetVal = "Julio"
+			CASE MONTH( tcDate ) = 8
+				lcRetVal = "Agosto"
+			CASE MONTH( tcDate ) = 9
+				lcRetVal = "Septiembre"
+			CASE MONTH( tcDate ) = 10
+				lcRetVal = "Octubre"
+			CASE MONTH( tcDate ) = 11
+				lcRetVal = "Noviembre"
+			CASE MONTH( tcDate ) = 12
+				lcRetVal = "Diciembre"
+		ENDCASE
+	OTHERWISE
+		lcRetVal = CMONTH( tcDate )
+ENDCASE
+RETURN lcRetVal
+ENDPROC
+PROCEDURE selectdate
+LPARAMETERS ldDateSelected
+ENDPROC
+PROCEDURE setcaldays
+*	Loads the days of the current month into the oaDate[] array and
+*	Sets the text header date ( "Month Year" )
+Local lnLastMonth, lnNextMonth, lnNextDate, lnDay, lnWeek
+
+*	Locking the screen eliminates flashing
+*	In special cases the Lockscreen lines can be commented out
+Thisform.LockScreen = .T.
+
+With This
+	lnNextDate = Date( .CurrentYear, .CurrentMonth, 1 ) - .DaysOffset	&& Next date to process
+	
+	*	Calendar rows
+	For lnWeek = 1 To Alen( .oaDate, 1 )	&& Week in month counter
+		For lnDay = 1 To Alen( .oaDate, 2 )	&& Day in week counter
+			If lnDay = 1
+				.oaDate[lnWeek,lnDay].ForeColor = RGB(255,255,255) 	&& Blanco
+				.oaDate[lnWeek,lnDay].BackColor = RGB(255,0,0)		&& Rojo
+				.oaDate[lnWeek,lnDay].FontBold 	= .T.
+				.oaDate[lnWeek,lnDay].BackStyle = 1
+			
+			Else
+				.oaDate[lnWeek,lnDay].ResetToDefault( "ForeColor" ) && Reset the Fore color to default
+				.oaDate[lnWeek,lnDay].ResetToDefault( "BackColor" )
+				.oaDate[lnWeek,lnDay].FontBold 	= .F.
+				.oaDate[lnWeek,lnDay].BackStyle = 0
+				
+			Endif
+			.oaBackground[lnWeek,lnDay].FillStyle 	= 1			&& Reset to transparent
+			.oaDate[lnWeek,lnDay].Date 				= lnNextDate
+			.oaDate[lnWeek,lnDay].Caption 			= Alltrim( Str( Day( lnNextDate ) ) )
+			.oaDate[lnWeek,lnDay].FontItalic 		= .F.
+			.oaDate[lnWeek,lnDay].FontSize 			= 8
+			.oaDate[lnWeek,lnDay].ToolTipText 		= ""
+
+			If lnNextDate = .Date		&& Current date
+				.CurrentRow = lnWeek	&& Set the Current Row and
+				.CurrentCol = lnDay		&& Column for setting focus
+				.oaDate[lnWeek,lnDay].FontBold = .T.
+				.oaDate[lnWeek,lnDay].FontSize = 12
+			Endif
+
+			If lnNextDate = Date()										&& If Today
+				.oaDate[lnWeek,lnDay].ForeColor = .TodayForecolor		&& Set Today forecolor
+				.oaBackground[lnWeek,lnDay].FillColor = .TodayBackcolor	&& Set Today backcolor
+				.oaDate[lnWeek,lnDay].FontItalic = .T.
+				.oaDate[lnWeek,lnDay].FontBold = .T.
+				If Date() <> .Date
+					.oaDate[lnWeek,lnDay].FontSize = 10
+				Endif
+			Endif
+
+			If ( Month( lnNextDate ) < .CurrentMonth Or ;
+					MONTH( lnNextDate ) > .CurrentMonth )	&& Days in previous and next month
+				.oaDate[lnWeek,lnDay].ForeColor = .oaDate[lnWeek,lnDay].DisabledForeColor
+			Endif
+			lnNextDate = lnNextDate + 1
+		Endfor
+	EndFor
+	.SetDayHeaderForecolor()		&& Set the days forecolor
+	.SetFeriados()
+	.SetHeaderDate()				&& Paint the header Month and Year
+	.DisplayCurrentDayBackground()	&& Display the background ellipse
+Endwith
+
+*	Unlock the Screen
+Thisform.LockScreen = .F.
+
+ENDPROC
+PROCEDURE setcurrentdaybackcolor
+*	Sets the background ellipse Fillcolor for each Date label object
+LOCAL lnRow, lnCol
+
+WITH THIS
+	FOR lnRow = 1 TO ALEN( .oaDate, 1 )
+		FOR lnCol = 1 TO ALEN( .oaDate, 2 )
+			IF .oaDate[lnRow, lnCol].Date != DATE()
+				.oaBackground[lnRow, lnCol].Fillcolor = .CurrentDayBackColor
+			ENDIF
+		ENDFOR
+	ENDFOR
+ENDWITH
+
+ENDPROC
+PROCEDURE setdayheaderforecolor
+*	Sets the days and header Month and Year forecolor
+LOCAL lnRow, lnCol
+
+WITH THIS
+	.cntHeader.lblMonthYear.Forecolor = .DayAndHeaderForecolor
+
+	FOR lnRow = 1 TO ALEN( .oaDate, 1 )
+		FOR lnCol = 1 TO ALEN( .oaDate, 2 )
+			IF ( .oaDate[lnRow, lnCol].Date != DATE() AND ;
+					MONTH( .oaDate[lnRow, lnCol].Date ) = .CurrentMonth )
+					
+				If lnCol # 1
+					.oaDate[lnRow, lnCol].Forecolor = .DayAndHeaderForecolor
+				EndIf	
+				
+			ENDIF
+		ENDFOR
+	ENDFOR
+ENDWITH
+
+ENDPROC
+PROCEDURE setdays
+*	Sets the day header indicators
+*	"Sun Mon Tue" etc. for long day indicators
+*	"S M T W" etc for short day indicators
+LOCAL lnDay, lcDays, lnDayLen
+
+WITH THIS
+	lnDayLen = IIF( .ShortDay, 1, 3 )
+	lcDays = "SunMonTueWedThuFriSat"
+	lcDays = "DomLunMarMieJueVieSab"
+	FOR lnDay = 1 TO ALEN( .oaDay )
+		.oaDay[lnDay].Caption = SUBSTR( lcDays, ( lnDay - 1 ) * 3 + 1, lnDayLen )
+	ENDFOR
+ENDWITH
+
+ENDPROC
+PROCEDURE setdaystransparent
+*	Sets all days ellipse background Fillstyle to Transparent
+LOCAL lnRow, lnCol
+
+WITH THIS
+	FOR lnRow = 1 TO ALEN( .oaDate, 1 )
+		FOR lnCol = 1 TO ALEN( .oaDate, 2 )
+			.oaBackground[lnRow,lnCol].Fillstyle = 1	&& Reset to transparent
+		ENDFOR
+	ENDFOR
+ENDWITH
+
+ENDPROC
+PROCEDURE setdefaultwinbackcolor
+*	Sets the background color of the container to the default
+*	Windows Window background color
+LOCAL lnColor
+
+#DEFINE COLOR_WINDOW	5
+
+lnColor = GetSysColor( COLOR_WINDOW )
+THIS.BackColor = lnColor
+THIS.DefaultWindowColor = .F.
+
+ENDPROC
+PROCEDURE setferiados
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcCommand As String,;
+	lcAlias As String
+Local ldFechaInicial As Date,;
+	ldFechaFinal As Date
+
+Local loLabel As calDateLabel OF v:\cloudfox\fw\comunes\vcx\tacal.vcx
+
+Local i As Integer,;
+	lnWeek As Integer,;
+	lnDay As Integer
+
+
+Try
+
+	lcCommand = ""
+	lcAlias = Alias()
+
+	If Vartype( drComun ) = "C"
+		If FileExist( Addbs( Alltrim( drComun )) + "Feriados.Dbf" )
+			If !Used( "Feriados" )
+				M_Use( 0, Addbs( Alltrim( drComun )) + "Feriados" )
+			Endif
+
+			ldFechaInicial = This.oaDate[1,1].Date
+			ldFechaFinal = This.oaDate[6,7].Date
+
+			TEXT To lcCommand NoShow TextMerge Pretext 15
+			Select 	*
+				From Feriados
+				Where Between( Fecha, ldFechaInicial, ldFechaFinal )
+				Into Cursor cFeriados ReadWrite
+			ENDTEXT
+
+			&lcCommand
+			lcCommand = ""
+
+			Locate
+			Scan
+
+				For lnWeek = 1 To Alen( .oaDate, 1 )	&& Week in month counter
+					For lnDay = 1 To Alen( .oaDate, 2 )	&& Day in week counter
+						loLabel = This.oaDate[lnWeek,lnDay]
+						
+						If loLabel.Date = cFeriados.Fecha
+							Text To lcMsg NoShow TextMerge Pretext 03
+							( <<Tipo_Feriado[ cFeriados.Tipo ]>> <<Alltrim( cFeriados.Referencia )>>)
+							<<Alltrim( cFeriados.Motivo )>>							
+							EndText
+
+							loLabel.ToolTipText = lcMsg
+							loLabel.BackStyle 	= 1
+							loLabel.FontBold 	= .T.
+							loLabel.lIsFeriado 	= .F.
+							
+							Do Case
+							Case cFeriados.Tipo = FER_INAMOVIBLE
+								loLabel.BackColor 	= RGB(255,0,0)		&& Rojo
+								loLabel.ForeColor 	= RGB(255,255,255)	&& Blanco
+							
+							Case cFeriados.Tipo = FER_TRASLADABLE
+								loLabel.BackColor 	= RGB(255,0,0)		&& Rojo
+								loLabel.ForeColor 	= RGB(255,255,255)	&& Blanco
+							
+							Case cFeriados.Tipo = FER_NOLABORABLE
+								loLabel.BackColor 	= RGB(255,255,0)	&& Amarillo
+								loLabel.ForeColor 	= RGB(255,0,0)		&& Rojo
+							
+							Case cFeriados.Tipo = FER_PUENTE
+								loLabel.BackColor = RGB(255,255,0)		&& Amarillo
+								loLabel.ForeColor = RGB(0,0,0)			&& Negro
+							
+							Case cFeriados.Tipo = FER_OTRO
+
+							Otherwise
+
+							EndCase
+						
+						Else
+*!*								loLabel.lIsFeriado 	= .F.	
+*!*								loLabel.ToolTipText = ""
+
+						EndIf
+						
+					
+						
+					Endfor
+				Endfor
+
+
+			Endscan
+
+		Endif
+
+	Endif
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+	If !Empty( lcAlias )
+		Select Alias( lcAlias )
+	Endif
+
+
+Endtry
+
+ENDPROC
+PROCEDURE setheaderdate
+*	Sets the calendar header Month and Year, e.g. "December 2001"
+WITH THIS
+	.cntHeader.lblMonthYear.Caption = .rrCMONTH( .Date, "ESP" ) + ' ' + ALLTRIM( STR( .CurrentYear ) )
+ENDWITH
+
+ENDPROC
+PROCEDURE settodayforebackcolor
+*	Refreshes the fore- and backcolor for Today
+LOCAL lnNdx
+
+WITH THIS
+	FOR lnNdx = 1 TO ALEN( .oaDate, 0 )
+		IF .oaDate[lnNdx].Date = DATE()	&& Today so
+			.oaDate[lnNdx].Forecolor = .TodayForecolor
+			.oaBackground[lnNdx].Fillcolor = .TodayBackcolor
+			EXIT					&& Exit out
+		ENDIF
+	ENDFOR
+ENDWITH
+
+ENDPROC
+PROCEDURE setweekdayheaderforecolor
+*	Sets the forecolor for the Day of Week label objects
+LOCAL lnCol
+
+WITH THIS
+	FOR lnCol = 1 TO ALEN( .oaDay )
+		If lnCol = 1
+			.oaDay[lnCol].Forecolor = RGB(255,0,0)
+			
+		Else
+			.oaDay[lnCol].Forecolor = .WeekdayHeaderForecolor
+			
+		Endif
+
+
+		
+	ENDFOR
+ENDWITH
+
+ENDPROC
+PROCEDURE shortday_assign
+LPARAMETERS vNewVal
+*	Sets the day header short day indicator flag
+
+WITH THIS
+	IF VARTYPE( m.vNewVal ) = 'L'
+		.ShortDay = m.vNewVal
+	ELSE
+		.ShortDay = .F.	&& Default to Long Day names ( "Sun", "Mon", etc. )
+	ENDIF
+	.SetDays()	&& Refresh the Day of Week labels
+ENDWITH
+
+ENDPROC
+PROCEDURE todaybackcolor_assign
+LPARAMETERS vNewVal
+LOCAL lnColor
+*	Sets the backcolor for Today display
+*	Default is same as other days
+*	Default can be set by passing <0, >16777215 or empty string
+
+WITH THIS
+	DO CASE
+		CASE VARTYPE( m.vNewVal ) = 'N'
+			m.vNewVal = INT( m.vNewVal )
+			IF BETWEEN( m.vNewVal, 0, 16777215 )
+				.TodayBackcolor = m.vNewVal
+			ELSE
+				.TodayBackcolor = .CurrentDayBackcolor	&& Default to same as other days
+			ENDIF
+
+		CASE VARTYPE( m.vNewVal ) = 'C'
+			IF EMPTY( m.vNewVal )
+				.TodayBackcolor = .CurrentDayBackcolor	&& Default to same as other days
+			ELSE										&& Convert RGB to color value
+				lnColor = .GetColorFromRGB( m.vNewVal )
+				.TodayBackcolor = IIF( lnColor = -1, .CurrentDayBackcolor, lnColor )
+			ENDIF
+
+		OTHERWISE
+			.TodayBackcolor = .CurrentDayBackcolor		&& Default to same as other days
+	ENDCASE
+	.SetTodayForeBackcolor()		&& Refresh the colors
+ENDWITH
+
+ENDPROC
+PROCEDURE todayforecolor_assign
+LPARAMETERS vNewVal
+LOCAL lnColor
+*	Sets the forecolor for Today display
+*	Default is Red, default can be set
+*	by passing 255, <0, >16777215 or empty string
+
+WITH THIS
+	DO CASE
+		CASE VARTYPE( m.vNewVal ) = 'N'
+			m.vNewVal = INT( m.vNewVal )
+			IF BETWEEN( m.vNewVal, 0, 16777215 )
+				.TodayForecolor = m.vNewVal
+			ELSE
+				.TodayForecolor = 255	&& Default to Red
+			ENDIF
+
+		CASE VARTYPE( m.vNewVal ) = 'C'
+			IF EMPTY( m.vNewVal )
+				.TodayForecolor = 255	&& Default to Red
+			ELSE						&& Convert RGB to color value
+				lnColor = .GetColorFromRGB( m.vNewVal )
+				.TodayForecolor = IIF( lnColor = -1, 255, lnColor )
+			ENDIF
+
+		OTHERWISE
+			.TodayForecolor = 255	&& Default to Red
+	ENDCASE
+	.SetTodayForeBackcolor()		&& Refresh Today
+ENDWITH
+
+ENDPROC
+PROCEDURE weekdayheaderforecolor_assign
+LPARAMETERS vNewVal
+LOCAL lnDefaultColor, lnColor
+*	Sets the forecolor for Day of Week display ( Sun, Mon, ... )
+*	Default is Windows Control Panel color
+*	Default can be set by passing <0, >16777215 or empty string
+
+#DEFINE WINDOW_TEXT	8
+
+lnDefaultColor = GetSysColor( WINDOW_TEXT )
+
+WITH THIS
+	DO CASE
+		CASE VARTYPE( m.vNewVal ) = 'N'
+			m.vNewVal = INT( m.vNewVal )
+			IF BETWEEN( m.vNewVal, 0, 16777215 )
+				.WeekDayHeaderForecolor = m.vNewVal
+			ELSE
+				.WeekDayHeaderForecolor = lnDefaultColor	&& Default to Windows default
+			ENDIF
+
+		CASE VARTYPE( m.vNewVal ) = 'C'
+			IF EMPTY( m.vNewVal )
+				.WeekDayHeaderForecolor = lnDefaultColor	&& Default to Windows default
+			ELSE											&& Convert RGB to color value
+				lnColor = .GetColorFromRGB( m.vNewVal )
+				.WeekDayHeaderForecolor = IIF( lnColor = -1, lnDefaultColor, lnColor )
+			ENDIF
+
+		OTHERWISE
+			.WeekDayHeaderForecolor = lnDefaultColor		&& Default to Windows default
+	ENDCASE
+	.SetWeekDayHeaderForecolor()			&& Refresh the colors
+ENDWITH
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+6[END RESERVED2]
+[START RESERVED3]
+headerheight Buttons and Month/Year header height
+shortday Short day name descriptor flag ( e.g. if .F., "Sunday" = "Sun"; if .T., "Sunday" = "S"
+date Selected date of the calendar
+currentmonth Month number of currently displayed Month
+todayforecolor Forecolor for Today
+currentyear Year of current Date
+daysoffset Days offset from Sunday for first day of month
+todaybackcolor Today textbox back color, defaults is no color (-1), i.e. transparent
+currentdaybackcolor Backcolor for the currently highlighted day
+dayandheaderforecolor Forecolor of days and header Month and Year
+weekdayheaderforecolor Week Day header ( Sun, Mon ... ) forecolor
+currentrow Row index of current date
+currentcol Column index of current date
+defaultwindowcolor Default window color flag to automatically set the calendar background to the default Windows window color on init
+_memberdata XML Metadata for customizable properties
+^oadate[6,7] Date array
+*shortday_assign 
+^oaday[7,0] Object array of Day descriptors, "Sunday", "Monday", etc.
+*date_assign 
+*adddays Adds the day indicators
+*addweeks Adds the week indicators
+*setdays Sets the day indicators
+*todayforecolor_assign 
+*setcaldays Sets the Calendar days for the current Month and Year
+*setheaderdate Sets the header Month and Year
+*setdefaultwinbackcolor Sets the calendar background color to the Windows windows background color
+*todaybackcolor_assign 
+*currentdaybackcolor_assign 
+*setdaystransparent Sets the backstyle property for days to transparent except Today and currently selected day
+*setcurrentdaybackcolor Sets the current highlighted day backcolor
+*getcolorfromrgb Returns the color vale from an RGB string ( "RRR, GGG, BBB" ), returns -1 if RGB string is invalid
+*dayandheaderforecolor_assign 
+*setdayheaderforecolor Sets the days and header Month and Year forecolor
+*settodayforebackcolor Sets the today date fore and back color
+*weekdayheaderforecolor_assign 
+*setweekdayheaderforecolor Sets the weekday header days forecolor ( Sun, Mon,  ... )
+*gotopreviousmonth Displays the [previous Month and date
+*gotonextmonth Displays the next Month and Date
+*gotopreviousweek Displays the previous Week and Date
+*gotonextweek Display the next Week and Date
+*selectdate Method that fires when a date is selected with the Mouse or by pressing the Enter Key
+*gotopreviousday Displays the previous date
+*gotonextday Displays the next Date
+*gotopreviousyear Display the previous Year and Date
+*gotonextyear Display the next Year and Date
+^oabackground[6,7] Background shape array for dates
+*displaycurrentdaybackground Displays the background for the current day
+*canceldate Method that fires when date selection is Canceled by pressing the Escape key
+*defaultwindowcolor_assign 
+*rrcmonth 
+*setferiados Resalta los dias feriados
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _0KT0J3YWY
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtControl
+[PARENT] tacalendar
+[START PROPERTIES]
+Height = 5
+Left = 10
+Top = 10
+Width = 13
+Name = "txtControl"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE KeyPress
+Lparameters nKeyCode, nShiftAltCtrl
+
+Nodefault	&& We control all key strokes
+
+With This.Parent
+	Do Case
+		Case ( nKeyCode = 93 And nShiftAltCtrl = 1 )   && Shift+F10 / Menu
+			.MouseDown( 2, 0, 1.429, 41.200, .T. )
+
+		Case nKeyCode = 13	&& Enter ( Select Date )
+			.SelectDate( This.Parent.Date )
+
+		Case nKeyCode = 27	&& Escape ( Cancel Date Selection )
+			.CancelDate()
+
+		Case nKeyCode = 5	&& Up Arrow ( Previous Week )
+			.GoToPreviousWeek()
+
+		Case nKeyCode = 24	&& Down Arrow ( Next Week )
+			.GoToNextWeek()
+
+		Case Inlist( nKeyCode, 19, 15 )	&& Left Arrow or Shift-Tab ( Previous Day )
+			.GoToPreviousDay()
+
+		Case Inlist( nKeyCode, 4, 9 )	&& Right Arrow or Tab ( Next Day )
+			.GoToNextDay()
+
+		Case nKeyCode = 18	&& PageUp ( Previous Month )
+			.GoToPreviousMonth()
+
+		Case nKeyCode = 3	&& PageDn ( Next Month )
+			.GoToNextMonth()
+
+		Case nKeyCode = 31	&& Ctrl+PageUp ( Previous Year )
+			.GoToPreviousYear()
+
+		Case nKeyCode = 30	&& Ctrl+PageDn ( Next Year )
+			.GoToNextYear()
+	Endcase
+Endwith
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _0J40ZL766
+[CLASS] container
+[BASECLASS] container
+[OBJNAME] cntHeader
+[PARENT] tacalendar
+[START PROPERTIES]
+Top = 1
+Left = 1
+Width = 138
+Height = 23
+BorderWidth = 0
+Name = "cntHeader"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _0J40ZL76R
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdLastMonth
+[PARENT] tacalendar.cntHeader
+[START PROPERTIES]
+Top = 5
+Left = 4
+Height = 14
+Width = 17
+Picture = ..\image\bmp\ltarrow.bmp
+Caption = ""
+Name = "cmdLastMonth"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE MouseDown
+LPARAMETERS nButton, nShift, nXCoord, nYCoord
+
+WITH THIS.PARENT.PARENT
+	IF nShift = 2	&& Ctrl+Click
+		.GoToPreviousYear()
+	ELSE
+		.GoToPreviousMonth()
+	ENDIF
+
+	.txtControl.Setfocus()	&& Make sure control text box has focus
+ENDWITH
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _0J40ZL76V
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdNextMonth
+[PARENT] tacalendar.cntHeader
+[START PROPERTIES]
+Top = 5
+Left = 119
+Height = 14
+Width = 17
+Picture = ..\image\bmp\rtarrow.bmp
+Caption = ""
+Name = "cmdNextMonth"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE MouseDown
+LPARAMETERS nButton, nShift, nXCoord, nYCoord
+
+WITH THIS.PARENT.PARENT
+	IF nShift = 2	&& Ctrl+Click
+		.GoToNextYear()
+	ELSE
+		.GoToNextMonth()
+	ENDIF
+
+	.txtControl.Setfocus()	&& Make sure control text box has focus
+ENDWITH
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _0J40ZL76Z
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblMonthYear
+[PARENT] tacalendar.cntHeader
+[START PROPERTIES]
+FontSize = 12
+Alignment = 2
+Caption = "April 1972"
+Height = 23
+Left = 29
+Top = 0
+Width = 82
+Name = "lblMonthYear"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] tacalendar
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.hÓs~\V ..\include\foxpro.hÔÊrûF ..\include\strings.h&ÕZŠOJ* ..\..\..\tools\namespaces\include\system.h.Ö±ÙF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _0IZ0Y6WSK
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] callabel
+[START PROPERTIES]
+FontSize = 10
+Alignment = 2
+BackStyle = 0
+Caption = "Sun"
+Height = 18
+Width = 30
+Name = "callabel"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] callabel
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _0KN0ZOESE
+[CLASS] shape
+[BASECLASS] shape
+[OBJNAME] calbackground
+[START PROPERTIES]
+Height = 25
+Width = 25
+BackStyle = 0
+BorderStyle = 0
+Curvature = 99
+FillColor = 192,192,192
+Name = "calbackground"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] calbackground
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _0KT0IK7XG
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] caldatelabel
+[START PROPERTIES]
+FontName = "Arial"
+FontSize = 12
+Alignment = 2
+BackStyle = 0
+Caption = "Label1"
+Height = 18
+MousePointer = 1
+Width = 30
+col = 1
+row = 1
+lisferiado = .F.
+_memberdata = <VFPData><memberdata name="lisferiado" display="lIsFeriado"/></VFPData>
+Name = "caldatelabel"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+WITH THIS.PARENT
+	.Date = THIS.Date				&& Load this date
+	.CurrentRow = THIS.Row
+	.CurrentCol = THIS.Col
+	.SetDaysTransparent()			&& Reset all day backgrounds transparent and
+	.DisplayCurrentDayBackground()	&& Set selected day's background ellipse opaque
+	.txtControl.Setfocus()			&& Set focus back to the controlling object
+	.SelectDate( THIS.Date )		&& Fire the date selected method
+ENDWITH
+
+ENDPROC
+PROCEDURE MouseDown
+Lparameters nButton, nShift, nXCoord, nYCoord
+
+This.Parent.MouseDown( nButton, nShift, nXCoord, nYCoord )
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+col Column this object resides in
+row Row this object resides in
+date Date associated with this cell
+lisferiado Indica si es feriado
+_memberdata
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] caldatelabel
+[EOF]

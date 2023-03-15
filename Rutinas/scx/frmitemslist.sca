@@ -1,0 +1,414 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3IJ1145MP
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3IJ1145MQ
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] FRMITEMSLIST
+[START PROPERTIES]
+BorderStyle = 2
+Height = 216
+Width = 216
+DoCreate = .T.
+AutoCenter = .T.
+Caption = "Elegir Items"
+ControlBox = .F.
+Closable = .F.
+MaxButton = .F.
+MinButton = .F.
+MinWidth = 200
+WindowType = 1
+_memberdata =      273<VFPData><memberdata name="cancelar" display="Cancelar"/><memberdata name="aceptar" display="Aceptar"/><memberdata name="oreturn" display="oReturn"/><memberdata name="lglobalselection" display="lGlobalSelection"/><memberdata name="nsetfocus" display="nSetFocus"/></VFPData>
+oreturn = .NULL.
+lglobalselection = .F.
+nsetfocus = 0
+Name = "FRMITEMSLIST"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Lparameters toLstItems As ListBox, toParam As Object
+
+Local lnLen As Integer
+Local lnLengh As Integer,;
+	lnWidth As Integer,;
+	lnAnchor As Integer
+
+Local loReturn As Collection
+
+Try
+
+	loReturn = Createobject( "Collection" )
+	AddProperty( loReturn, "nStatus", 0 )
+
+	Thisform.oReturn = loReturn
+
+	If Vartype( toParam ) == "O"
+		Amembers( laMembers, toParam )
+
+		For Each lcProperty In laMembers
+			Try
+				This.&lcProperty = toParam.&lcProperty
+
+			Catch To oErr
+				* No hago nada
+			Finally
+
+			Endtry
+		Endfor
+
+	Endif
+
+
+	If Vartype( toLstItems ) == "O"
+
+		Amembers( laMembers, toLstItems )
+
+		For Each lcProperty In laMembers
+
+			Try
+
+				If Upper( lcProperty ) # "NAME"
+					This.lstItems.&lcProperty = toLstItems.&lcProperty
+				Endif
+
+
+			Catch To oErr
+				* No hago nada
+			Finally
+
+			Endtry
+
+		Endfor
+
+	Endif
+
+	lnLen = toLstItems.ListCount
+
+	For i = 1 To lnLen
+
+		For j = 1 To toLstItems.ColumnCount
+			If j = 1
+				Thisform.lstItems.AddItem( toLstItems.List[ i, j ] )
+
+			Else
+				Thisform.lstItems.List[ Thisform.lstItems.NewIndex, j ] = toLstItems.List[ i, j ]
+
+			Endif
+		Endfor
+
+		If toLstItems.Selected( i )
+			Thisform.lstItems.Selected( i ) = .T.
+		Endif
+	Endfor
+
+	lnLengh = 0
+	lnWidth = 0
+
+	lnLen = toLstItems.ColumnCount
+
+	For i = 1 To lnLen
+		lnWidth = lnWidth + Val( Getwordnum( toLstItems.ColumnWidths, i, "," ))
+	Endfor
+
+	Thisform.lstItems.Width = lnWidth
+
+	*	Thisform.lstItems.Width = lnWidth
+
+	If Thisform.TitleBar = 1
+		Thisform.Width = Max( Thisform.TextWidth( Replicate( "W", Len( Thisform.Caption ))), Thisform.lstItems.Width )
+
+		Thisform.Width = Max( Thisform.TextWidth( Thisform.Caption ), Thisform.lstItems.Width )
+
+		Thisform.lstItems.Width = Thisform.Width
+		lnLengh = Max( lnLengh, Len( Thisform.Caption ))
+	Endif
+
+	*	Thisform.lstItems.Width =  Thisform.TextWidth( Replicate( "W", lnLengh  ))
+	Thisform.lstItems.Width =  Max( Thisform.lstItems.Width + 10, Thisform.Width )
+	Thisform.lstItems.Height = ( Min( toLstItems.ListCount, 10 ) * Fontmetric( 1, Thisform.lstItems.FontName, Thisform.lstItems.FontSize ) ) + Iif( Thisform.TitleBar = 1, 50, 30 )
+
+	Thisform.Width = Thisform.lstItems.Width
+	Thisform.Height = Thisform.lstItems.Height + 48
+	Thisform.AutoCenter = Thisform.AutoCenter
+	
+	Thisform.lstItems.Top 	= 0
+	Thisform.lstItems.Left 	= 0
+	
+	If This.lGlobalSelection
+
+		Thisform.Height = Thisform.Height + 36
+		Thisform.lstItems.MultiSelect 		= .T.
+		Thisform.chkGlobalSelection.Visible = .T.
+		Thisform.chkGlobalSelection.Top 	= 12
+		Thisform.chkGlobalSelection.Left 	= 12
+
+		lnAnchor = Thisform.lstItems.Anchor
+		Thisform.lstItems.Anchor 	= 0
+		Thisform.lstItems.Top 		= Thisform.lstItems.Top + 36
+		Thisform.lstItems.Anchor 	= lnAnchor
+
+	Endif
+
+	Thisform.cmdCerrar.Top 		= Thisform.Height - Thisform.cmdCerrar.Height - 12
+	Thisform.cmdAceptar.Top 	= Thisform.cmdCerrar.Top
+	Thisform.cmdAceptar.Left 	= Thisform.Width - Thisform.cmdAceptar.Width - 12
+	
+	Thisform.cmdAceptar.SetFocus()
+	
+	Do Case
+	Case Thisform.nSetFocus = 1
+		ThisForm.lstItems.SetFocus()
+
+	Case Thisform.nSetFocus = 2
+		ThisForm.cmdAceptar.SetFocus()
+		
+	Case Thisform.nSetFocus = 3
+		ThisForm.chkGlobalSelection.SetFocus()
+
+	EndCase
+	
+Catch To oErr
+	Local loError As   Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = Newobject( "  Errorhandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	*!*		Throw loError
+
+Finally
+	toLstItems = Null
+	toParam = Null
+
+Endtry
+
+
+ENDPROCPROCEDURE Unload
+prxSetLastKey( -1 )
+Return ThisForm.oReturn
+ENDPROC
+PROCEDURE aceptar
+Local lcCommand As String
+Local loColItems As Collection
+Local loLB As ListBox
+Local loObj As Object
+
+Try
+
+	lcCommand 	= ""
+	loColItems 	= Thisform.oReturn
+	loLB 		= Thisform.lstItems
+
+	For i = 1 To loLB.ListCount
+		If loLB.Selected( i )
+			loObj = Createobject( "Empty" )
+			For j = 1 To loLB.ColumnCount
+				TEXT To lcCommand NoShow TextMerge Pretext 15
+				AddProperty( loObj, "Column<<j>>", loLB.List[ i, j ] )
+				ENDTEXT
+
+				&lcCommand
+
+			Endfor
+
+			TEXT To lcCommand NoShow TextMerge Pretext 15
+			AddProperty( loObj, "Id", i )
+			ENDTEXT
+
+			&lcCommand
+
+			loColItems.Add( loObj )
+
+		Endif
+	Endfor
+
+	loColItems.nStatus = 1
+
+
+Catch To oErr
+	Local loError As   ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "  ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loColItems = Null
+
+Endtry
+
+Thisform.Release()
+
+ENDPROC
+PROCEDURE cancelar
+Thisform.oReturn.nStatus = -1
+Thisform.Release()
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+oreturn Objeto devuelto
+lglobalselection Indica si muestra el ChekBox de Selección Global
+nsetfocus 1 - ListBox; 2- Aceptar; 3 - chkGlobal
+*cancelar 
+*aceptar 
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3IJ1145MR
+[CLASS] listbox
+[BASECLASS] listbox
+[OBJNAME] lstItems
+[PARENT] FRMITEMSLIST
+[START PROPERTIES]
+BoundColumn = 2
+Height = 180
+Left = 0
+Width = 216
+IntegralHeight = .T.
+BoundTo = .T.
+AutoHideScrollbar = 1
+Name = "lstItems"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE DblClick
+Thisform.Aceptar()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3IJ1145MS
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCerrar
+[PARENT] FRMITEMSLIST
+[START PROPERTIES]
+Top = 180
+Left = 12
+Height = 24
+Width = 84
+Picture = ..\..\fw\comunes\image\bmp\close.bmp
+Cancel = .T.
+Caption = "Cerrar"
+PicturePosition = 1
+Name = "cmdCerrar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Cancelar()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3IJ1145MT
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdAceptar
+[PARENT] FRMITEMSLIST
+[START PROPERTIES]
+Top = 180
+Left = 120
+Height = 24
+Width = 84
+Picture = ..\..\fw\comunes\image\bmp\ok.bmp
+Caption = "Aceptar"
+Default = .T.
+PicturePosition = 1
+Name = "cmdAceptar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Aceptar()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _5AN0QKACB
+[CLASS] checkbox
+[BASECLASS] checkbox
+[OBJNAME] chkGlobalSelection
+[PARENT] FRMITEMSLIST
+[START PROPERTIES]
+Top = 12
+Left = 12
+Height = 17
+Width = 111
+AutoSize = .T.
+Alignment = 0
+BackStyle = 0
+Caption = "Selección Global"
+Value = .F.
+Visible = .F.
+Name = "chkGlobalSelection"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	This.FontBold = This.Value
+
+	For i = ThisForm.lstItems.ListCount To 1 step -1
+		ThisForm.lstItems.Selected( i ) = This.Value
+	EndFor
+	
+
+Catch To loErr
+	Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+	loError = Newobject( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+	loError.cRemark = lcCommand
+	loError.Process ( m.loErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+PROCEDURE ProgrammaticChange
+This.InteractiveChange()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

@@ -1,0 +1,20 @@
+23/12/22 10:35:43
+
+Method   		= 'GET'
+Url      		= 'https://prx-ecommerce-signin.herokuapp.com/meli/apis/MeLi/12/'
+Async    		= '.F.'
+User     		= ''
+Password 		= ''
+Authorization 	= 'TOKEN 253cfbcb0d6911e8fd8c68cdca55cc1f31ddce72'
+Accept          = ''
+Content-Type 	= 'application/json'
+Body			= ''
+Status			= '200'
+ResponseText	= '{"id":12,"ts":"2022-05-30T15:11:27.636489-03:00","uts":"2022-12-22T11:56:14.068407-03:00","borrado":false,"nombre":"Multisanitarios","descripcion":"","activo":true,"orden":500,"es_sistema":false,"client_id":"4662122650988312","client_secret":"VjPTDIpGoAazdoRLJpDvwffsHLlS9adg","redirect_uri":"https://prx-ecommerce-signin.herokuapp.com/meli/apis/mlCode","server_authorization_code":"TG-629783adb5fc770013a92a73-66926139","access_token":"APP_USR-4662122650988312-112611-9256363d17f54f47030d9477dcd0c64c-66926139","user_id":66926139,"refresh_token":"TG-629783d9b23e7d0014a02f74-66926139","invalid_token":false,"cliente_praxis":5}'
+
+
+Send            = 0.183
+Json to Vfp     = 0.002
+
+
+

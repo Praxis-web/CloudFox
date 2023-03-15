@@ -1,21 +1,21 @@
-*.bat
-*.bak
-*.cfg
-*.dbf
-*.fxp
-*.fpt
-*.json
-*.txt
-*.WSSA
-*.exe
-*.scc
-*.cdx
-*.err
+*.[bat]
+*.[bak]
+*.[cfg]
+*.[dbf]
+*.[fxp]
+*.[fpt]
+*.[json]
+*.[txt]
+*.[WSSA]
+*.[exe]
+*.[scc]
+*.[cdx]
+*.[err]
 
-*.sca
-*.vca
+*.[sca]
+*.[vca]
 
-*.pj?
+*.[pj?]
 
 FOXUSER.*
 borrar.prg

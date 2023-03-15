@@ -1,0 +1,429 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66P0K3LV4
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66P0K3LV5
+[CLASS] browseform
+[CLASSLOC] ..\..\..\..\fw\comunes\vcx\prxbrowse.vcx
+[BASECLASS] form
+[OBJNAME] Url
+[START PROPERTIES]
+DoCreate = .T.
+Caption = "URLs"
+Name = "Url"
+CMDACEPTAR.Name = "CMDACEPTAR"
+CMDINGTIP.Name = "CMDINGTIP"
+CMDCERRAR.Name = "CMDCERRAR"
+SPNCOLUMNSLOCK.Name = "SPNCOLUMNSLOCK"
+LBLCOLUMSLOCK.Name = "LBLCOLUMSLOCK"
+LBLREGISTROS.Name = "LBLREGISTROS"
+CMDCONFIGURAR.Name = "CMDCONFIGURAR"
+CNTTITULO.LBLFECHA.Name = "LBLFECHA"
+CNTTITULO.LBLTITULO.Name = "LBLTITULO"
+CNTTITULO.LABEL1.Name = "LABEL1"
+CNTTITULO.Name = "CNTTITULO"
+Grid.ColumnCount = 2
+Grid.Prxcolumn1.FontSize = 9
+Grid.Prxcolumn1.Resizable = .T.
+Grid.Prxcolumn1.Name = "Alias"
+Grid.Prxcolumn2.FontSize = 9
+Grid.Prxcolumn2.Resizable = .T.
+Grid.Prxcolumn2.Name = "Url"
+Grid.Name = "Grid"
+BOTONES.CMDAGREGAR.Name = "CMDAGREGAR"
+BOTONES.CMDBORRAR.Name = "CMDBORRAR"
+BOTONES.CMDRECUPERAR.Name = "CMDRECUPERAR"
+BOTONES.CMDEDIT.Name = "CMDEDIT"
+BOTONES.CMDFILTRAR.Name = "CMDFILTRAR"
+BOTONES.CMDAPLICAR.Name = "CMDAPLICAR"
+BOTONES.Name = "BOTONES"
+CHKEDITARENGRILLA.Alignment = 1
+CHKEDITARENGRILLA.Name = "CHKEDITARENGRILLA"
+chkActivos.Alignment = 0
+chkActivos.Name = "chkActivos"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Grid.setgridlayout
+Local loField As oField Of "Tools\DataDictionary\prg\oField.prg"
+Local loFieldAux As oField Of "Tools\DataDictionary\prg\oField.prg"
+Local loTable As oTable Of "Tools\DataDictionary\prg\oTable.prg"
+Local loGridLayout As oGridLayout Of "Fw\Comunes\Prg\colGridLayout.prg"
+Local loColData As CollectionBase Of Tools\Namespaces\Prg\CollectionBase.Prg
+Local loColFields As oColFields Of "Tools\DataDictionary\prg\oColFields.prg"
+*
+Local lcName As String
+
+*
+Local lnCnt As Integer
+Local i As Integer
+Local j As Integer
+Local lnIndex As Integer
+
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	lnCnt = 0
+
+	* Obtengo la tabla
+	loTable = This.oTable
+
+	loColData = This.GetColData( loTable.oColFields )
+	
+	For i = 1 To loColData.Count
+		loField = loColData.Item[ i ]
+		lnCnt = lnCnt + 1 && Contador para ver cuantos Objetos se han procesado
+
+		loFieldAux = loField
+		lcName = Lower( loFieldAux.Name )
+		lnIndex = .oColGridLayout.GetKey( lcName )
+				
+		If Empty( lnIndex )
+			* DA 2009-07-15(11:55:58)
+			* Tomo la configuración del campo original sin importar si se reemplazó
+			= loFieldAux.cCaption
+			loGridLayout = .oColGridLayout.NewFromField( loFieldAux, lcName )
+
+			* DA 2009-07-15(11:55:58)
+			* Tomo la configuración del campo original sin importar si se reemplazó
+			loGridLayout.lFitColumn = loFieldAux.lFitColumn
+			loGridLayout.Width = Iif( loFieldAux.nGridOrder > 0, loGridLayout.Width, 0 )
+			loGridLayout.ColumnWidth = Iif( loFieldAux.nGridOrder > 0, loGridLayout.ColumnWidth, 0 )
+			loGridLayout.ColumnReadOnly = !loField.lCanUpdate
+			loGridLayout.ColumncIndexExpression = loField.cGridIndexExpression
+
+		Endif && Empty( lnIndex )
+
+
+	Endfor
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loField = Null
+	loFieldAux = Null
+	loTable = Null
+	loGridLayout = Null
+	loColData = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE Init
+Lparameters oParam As Object
+
+Local lcCommand As String
+Local loReturn As Object,;
+loBiz As oModelo Of "FrontEnd\Prg\Modelo.prg"
+Local llOk As Boolean,;
+llAutocenter as Boolean
+
+Try
+
+	lcCommand = ""
+	llOk = .F.
+	This.lExit = .T.
+	Thisform.Autosize()
+
+	loReturn = Createobject( "Empty" )
+	AddProperty( loReturn, "Status", -1 )
+	
+	Thisform.oFilters 		= NewObject( "CollectionBase", "Tools\Namespaces\Prg\CollectionBase.Prg" )
+	Thisform.oReturn 		= loReturn
+	Thisform.oParam 		= oParam
+	Thisform.Grid.oParam 	= oParam
+	
+	loBiz = Thisform.oBiz
+	
+	Thisform.cntTitulo.lblTitulo.Caption = "Editar URLs"
+	
+		Thisform.Botones.Visible 			= .T.
+		ThisForm.chkEditarEnGrilla.Visible 	= .F.
+
+		Thisform.Botones.CmdAgregar.Visible 	= loBiz.lCanCreate
+		Thisform.Botones.CmdBorrar.Visible 		= loBiz.lCanDelete
+		Thisform.Botones.CmdRecuperar.Visible 	= loBiz.lCanDelete
+		Thisform.Botones.CmdEdit.Visible 		= loBiz.lCanUpdate
+		Thisform.Botones.CmdFiltrar.Visible 	= .F.
+
+
+	Thisform.chkEditarEnGrilla.Value = .T.
+	
+
+		Thisform.lOldlKeyPreview = Thisform.KeyPreview
+		Thisform.CmdAceptar.Visible = .T.
+		Thisform.cmdIngTip.Visible = .F.
+		Thisform.WCLAV = "A"
+
+	
+	Thisform.chkActivos.Visible = .F.
+	
+	Thisform.InitializeControls()
+
+	Thisform.Refresh()
+	
+	llAutocenter = .F.
+	If Thisform.Height > _Screen.Height - ( Thisform.nGap * 4 )
+		_Screen.Height = Thisform.Height + ( Thisform.nGap * 4 )
+		llAutocenter = .T.
+	EndIf
+	
+	If Thisform.Width > _Screen.Width - ( Thisform.nGap * 4 )
+		_Screen.Width = Thisform.Width + ( Thisform.nGap * 4 )
+		llAutocenter = .T.
+	EndIf
+	
+	If llAutocenter
+		_Screen.AutoCenter = .T.
+	EndIf
+	
+	Thisform.Visible = .T.
+
+	llOk = .T.
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loParametros = Null
+	loReturn = Null
+	loBiz = Null
+	oParam = Null
+
+Endtry
+
+Return llOk
+
+ENDPROC
+PROCEDURE armargrilla
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcCommand As String
+
+Local lnGridWidth As Integer,;
+	lnGap As Integer
+
+Local loGrid As browsegrid Of fw\comunes\vcx\prxbrowse.vcx
+
+Try
+
+	lcCommand = ""
+	lnGap = Thisform.nGap
+
+	loGrid = Thisform.Grid
+
+	*loGrid.Fill()
+
+	lnGridWidth = lnGap
+	loGrid.Left = lnGap
+
+	For q = 1 To loGrid.ColumnCount
+		With loGrid.Columns[ q ] As Column
+			If .Visible
+				lnGridWidth = lnGridWidth + .Width
+			EndIf
+			.ControlSource = "cUrls." + .Name
+		Endwith
+	Next
+
+	lnGridWidth = lnGridWidth + lnGap
+	lnGridWidth = lnGridWidth + Thisform.Botones.Width + lnGap
+
+	lnGridWidth = Max( lnGridWidth, Thisform.MinWidth )
+
+	Thisform.BindControls = .T.
+
+	Thisform.lblRegistros.Caption = Transform( Reccount( This.cCursorDeTrabajo )) + " Registros Encontrados"
+	Thisform.lblRegistros.Visible = .T.
+
+	Select Alias( This.cCursorDeTrabajo )
+	If Reccount() > 0 And Thisform.lHasFilters
+		Thisform.lExit = .F.
+
+	Else
+		Thisform.lExit = .T.
+
+	Endif
+
+	Locate
+
+	Thisform.Width = Min( lnGridWidth, _Screen.Width - ( 2 * Sysmetric( SYSMETRIC_VSCROLLBARWIDTH )))
+	Thisform.Width = Thisform.Width + 2
+	Thisform.AutoCenter = .T.
+
+	Thisform.Refresh()
+	loGrid.SetFocus()
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+
+Finally
+	loGrid = Null
+
+	Wait Clear
+	Thisform.LockScreen = .F.
+
+Endtry
+
+ENDPROC
+PROCEDURE cargargrilla
+Local lcCommand As String
+Local lnRecords as Integer
+Local loParam as Object
+
+Try
+
+	lcCommand = ""
+	loParam = CreateObject( "Empty" )
+	
+	AddProperty( loParam, "oFilterCriteria", This.oFilters )
+	
+	Thisform.lGridLoaded 	= .F.
+	Thisform.lGridEmpty 	= .T.
+	Thisform.LockScreen 	= .T.
+	Thisform.BindControls 	= .F.
+	Thisform.Grid.Empty()
+	Thisform.Grid.oTable 	= Null
+	Thisform.Grid.oColGridLayout = Null
+	Thisform.oBiz.Requery( loParam )
+	Thisform.CrearCursorDeTrabajo()
+	Thisform.ArmarGrilla()
+	
+	lnRecords = Reccount( This.cCursorDeTrabajo )
+	
+	Thisform.lGridLoaded 	= !Empty( lnRecords )
+	Thisform.lGridEmpty 	= Empty( lnRecords )
+	
+	This.lEdit = Thisform.lEditOnLoad
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66P0NS4XT
+[CLASS] prxheader
+[BASECLASS] header
+[OBJNAME] Header
+[PARENT] Url.Grid.Alias
+[START PROPERTIES]
+FontSize = 9
+Alignment = 2
+Caption = "Prxheader1"
+BackColor = 220,220,200
+WordWrap = .T.
+Name = "Header"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66P0NS4XW
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] Text1
+[PARENT] Url.Grid.Alias
+[START PROPERTIES]
+BorderStyle = 0
+Margin = 0
+ForeColor = 0,0,0
+BackColor = 255,255,255
+Name = "Text1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66P0NS4XX
+[CLASS] prxheader
+[BASECLASS] header
+[OBJNAME] Header
+[PARENT] Url.Grid.Url
+[START PROPERTIES]
+FontSize = 9
+Alignment = 2
+Caption = "Prxheader1"
+BackColor = 220,220,200
+WordWrap = .T.
+Name = "Header"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66P0NS4XZ
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] Text1
+[PARENT] Url.Grid.Url
+[START PROPERTIES]
+BorderStyle = 0
+Margin = 0
+ForeColor = 0,0,0
+BackColor = 255,255,255
+Name = "Text1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+ ' ..\..\..\..\fw\comunes\include\praxis.hXs~\V' ..\..\..\..\fw\comunes\include\foxpro.h&YÊrûF( ..\..\..\..\fw\comunes\include\strings.h.ZZŠOJ$ ..\..\..\namespaces\include\system.h6[±ÙF[END RESERVED1]
+[EOF]

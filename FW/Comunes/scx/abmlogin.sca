@@ -1,0 +1,1562 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 220
+Left = 1
+Width = 520
+Height = 200
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Z
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] ABMLOGIN
+[START PROPERTIES]
+BorderStyle = 2
+Height = 249
+Width = 417
+DoCreate = .T.
+ShowTips = .T.
+AutoCenter = .T.
+Caption = "ABM Usuario"
+MaxButton = .F.
+MinButton = .F.
+WindowType = 1
+_memberdata =     1040<VFPData><memberdata name="aceptar" type="method" display="Aceptar"/><memberdata name="cancelar" type="method" display="Cancelar"/><memberdata name="validar" type="method" display="Validar"/><memberdata name="lreturn" type="property" display="lReturn"/><memberdata name="nintentosfallidos" type="property" display="nIntentosFallidos"/><memberdata name="nmaxintentos" type="property" display="nMaxIntentos"/><memberdata name="nreturn" type="property" display="nReturn" favorites="True"/><memberdata name="oreturn" display="oReturn"/><memberdata name="cargar" type="method" display="Cargar"/><memberdata name="limpiar" type="method" display="Limpiar"/><memberdata name="naction" type="property" display="nAction"/><memberdata name="ouser" display="oUser"/><memberdata name="ouser_access" display="oUser_Access"/><memberdata name="documentacion" display="Documentacion"/><memberdata name="groupssetup" display="GroupsSetUp"/><memberdata name="crootworkfolder" display="cRootWorkFolder"/><memberdata name="nuserid" display="nUserId"/></VFPData>
+lreturn = .F.
+nintentosfallidos = 0
+nmaxintentos = 3
+nreturn = -1
+oreturn = .NULL.
+naction = 0
+ouser = Null
+crootworkfolder = 
+nuserid = 0
+Name = "ABMLOGIN"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Destroy
+* DAE 2009-12-04(16:22:04)
+Use In Select( 'usuarios' )
+Thisform.oUser = Null
+
+Set Sysmenu Automatic
+
+ENDPROC
+PROCEDURE Init
+Lparameters toParam As Object
+
+* DAE 2009-11-27(16:15:18)
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local llOk As Boolean
+Local lcParameFileName As String
+Local lcRootWorkFolder As String
+Local lcCommand As String
+
+Try
+	llOk = .F.
+	Set Procedure To rutinas\rutina.prg Additive
+	Set Cursor On
+
+	lcParameFileName = "Datos\arParame"
+	lcRootWorkFolder = ""
+	lcCommand = ""
+
+	If Vartype( DRVA ) # "C"
+		If  FileExist( Addbs( lcRootWorkFolder ) + "SUCURSAL.DBF")
+
+			Use Addbs( lcRootWorkFolder ) + "SUCURSAL"
+
+			Loca For ACTIVO
+
+			If !Eof()
+				lcParameFileName = Addbs( Alltrim( RUTA )) + "arParame"
+			Endif
+
+		Endif
+
+		TEXT To lcCommand NoShow TextMerge Pretext 15
+			Restore From '<<lcParameFileName>>' Additive
+		ENDTEXT
+
+		&lcCommand
+
+	Endif
+
+	If Vartype( DRCOMUN ) = "C"
+		lcRootWorkFolder = DRCOMUN
+
+	Else
+		lcRootWorkFolder = DRVA
+
+	Endif
+
+	This.cRootWorkFolder = lcRootWorkFolder
+	
+	* Inicializar cboGrupos
+	This.GroupsSetUp()
+
+	TEXT To lcCommand NoShow TextMerge Pretext 15
+	Use '<<lcRootWorkFolder>>Usuarios.Dbf' In 0 Again Alias Usuarios Shared
+	ENDTEXT
+
+	&lcCommand
+	
+	Select Usuarios
+
+	* Verificar que existe el campo Permiso
+	If Type( "Usuarios.Permiso" ) # "N"
+		Use In Select( "Usuarios" )
+		Use '<<lcRootWorkFolder>>Usuarios.Dbf' In 0 Exclusive
+
+		Alter Table Usuarios Add Column Permiso I
+
+		Update Usuarios Set Permiso = Nivel
+
+		Use In Select( "Usuarios" )
+
+		TEXT To lcCommand NoShow TextMerge Pretext 15
+		Use '<<lcRootWorkFolder>>Usuarios.Dbf' In 0 Again Alias Usuarios Shared
+		ENDTEXT
+
+		&lcCommand
+
+	Endif
+
+	* Verificar que existe el campo GroupId
+	If Type( "Usuarios.GroupId" ) # "N"
+		Use in Select( "Usuarios" )
+		
+		Text To lcCommand NoShow TextMerge Pretext 15
+		Use '<<lcRootWorkFolder>>Usuarios.Dbf' In 0 Exclusive
+		EndText
+
+		&lcCommand
+	
+		
+		Alter Table Usuarios Add Column GroupId I
+		
+		Update Usuarios Set GroupId = Iif( Nivel = 5, GRP_ADMIN, GRP_USUARIO )
+		
+		Use in Select( "Usuarios" )
+
+		M_Use( 0, lcRootWorkFolder + 'Usuarios' )
+		
+	EndIf
+
+	* Verificar que existe el campo Id
+	If Type( "Usuarios.Id" ) # "N"
+		Use in Select( "Usuarios" )
+		
+		Text To lcCommand NoShow TextMerge Pretext 15
+		Use '<<lcRootWorkFolder>>Usuarios.Dbf' In 0 Exclusive
+		EndText
+
+		&lcCommand
+	
+		
+		Alter Table Usuarios Add Column Id I
+		
+		Update Usuarios Set Id = Recno()
+		
+		Use in Select( "Usuarios" )
+
+		M_Use( 0, lcRootWorkFolder + 'Usuarios' )
+		
+	EndIf
+
+	MakeTransactable( 'usuarios' )
+	Set Order To usuario In Usuarios
+
+	If !Thisform.oUser.IsAdmin
+		Thisform.lblNivel.Visible 	= .F.
+		Thisform.cboNivel.Visible 	= .F.
+		Thisform.cboPermiso.Visible = .F.
+		Thisform.cboGrupo.Visible 	= .F.
+		Thisform.cmdAbrir.Visible 	= .F.
+		Thisform.cmdNuevo.Visible 	= .F.
+
+		Set Filter To Alltrim( Usuarios.usuario ) == Alltrim( Thisform.oUser.Descripcion ) And Alltrim( Usuarios.Clave ) == Alltrim( Thisform.oUser.Password )
+
+	Endif
+
+	Locate For Alltrim( Usuarios.usuario ) == Alltrim( Thisform.oUser.Descripcion ) And Alltrim( Usuarios.Clave ) == Alltrim( Thisform.oUser.Password )
+	llOk = Found()
+
+	If llOk
+		Thisform.nAction = 2
+		Thisform.Cargar()
+	Endif
+
+
+	Set Sysmenu Off
+
+Catch To oErr
+	llOk = .F.
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	* Throw loError
+
+Finally
+	loError = Null
+
+Endtry
+
+Return llOk
+
+ENDPROC
+PROCEDURE Load
+If !IsRuntime()
+	This.DataSessionId = 1
+	Set Datasession To
+EndIf
+ENDPROCPROCEDURE Unload
+* DAE 2009-11-27(13:38:52)
+Do While ! Empty( Txnlevel() )
+    Rollback
+
+Enddo
+
+
+Use In Select( 'usuarios' )
+Thisform.oUser = Null
+
+ENDPROC
+PROCEDURE aceptar
+Local loBlowFish As Object
+Local lcUsuario As String
+Local lcNombre As String
+Local lcPass As String
+Local lcCode As String
+Local lcMsg As String
+Local llOk As Boolean
+Local llTransOk As Boolean
+Local lnNivel As Integer,;
+	lnPermiso As Integer,;
+	lnGrupo As Integer,;
+	lnId As Integer
+
+Try
+	Begin Transaction
+	lnId = 0
+	lcCode = ""
+	
+	Do Case
+		Case Inlist( This.nAction, 0, 1 )
+			llOk = ! Empty( This.txtUsuario.Value ) ;
+				And ! Empty( This.txtNombre.Value ) ;
+				And Alltrim( This.txtPass.Value ) == Alltrim( This.txtPass2.Value ) ;
+				And ! Empty( This.txtPass.Value ) ;
+				And ! Empty( This.txtPass2.Value ) ;
+				And ! Empty( This.cboNivel.ListIndex ) ;
+				And ! Empty( This.cboPermiso.ListIndex ) ;
+				And ! Empty( This.cboGrupo.ListIndex )
+
+
+			If llOk
+				Calculate Max( Id ) To lnId In Usuarios
+				lnId = lnId + 1
+
+				Append Blank In Usuarios
+				Replace Id With lnId
+
+			Endif && llOk
+
+		Case This.nAction = 2
+			lnId = This.nUserId
+			llOk = ! Empty( This.txtUsuario.Value ) ;
+				And Alltrim( This.txtPass.Value ) == Alltrim( This.txtPass2.Value )
+
+	Endcase
+
+	If llOk
+		lcNombre = Alltrim( This.txtNombre.Value )
+		lcUsuario = Upper( Alltrim( This.txtUsuario.Value ) )
+
+		If !Empty( This.txtPass.Value )
+			lcPass = Upper( Alltrim( This.txtPass.Value ) )
+			loBlowFish = Newobject( 'BlowFish', 'fw\comunes\prg\blowfish.prg' )
+			lcCode = loBlowFish.CodificarSimple( lcUsuario + lcPass, 'PraxisComputación' )
+
+*!*			Else
+*!*				lcCode = Thisform.oUser.Password
+
+		Endif
+
+		* lnNivel = This.cboNivel.ItemData( This.cboNivel.ListIndex )
+		lnNivel 	= This.cboNivel.Value
+		lnPermiso 	= This.cboPermiso.Value
+		lnGrupo 	= This.cboGrupo.Value
+
+		Select Usuarios
+		Locate For Id = lnId
+
+		Replace usuario With lcUsuario, ;
+			Nombre With lcNombre, ;
+			Nivel With lnNivel ;
+			Permiso With lnPermiso ;
+			GroupId With lnGrupo ;
+			in Usuarios
+			
+		If !Empty( lcCode )
+			Replace Clave With lcCode in Usuarios
+		EndIf	
+
+		With Thisform.oUser
+			If .Descripcion = lcUsuario
+				.Descripcion 		= lcUsuario
+				.Nombre 			= lcNombre
+				.IsAdmin 			= ( lnNivel = 5 )
+				.IsGuest 			= .F.
+				.nEmpresaActivaId 	= 0
+				*.Password 			= lcCode
+				.Clave 				= lnNivel
+				.GroupId 			= lnGrupo
+				.Grupo				= ThisForm.cboGrupo.DisplayValue
+				.Id					= lnId
+
+*!*					_Screen.oScreenLog.lblUsuario.Caption = Alltrim( lcNombre )
+
+*!*					If Empty( _Screen.oScreenLog.lblUsuario.Caption )
+*!*						_Screen.oScreenLog.Collapse()
+
+*!*					Else
+*!*						_Screen.oScreenLog.Expand()
+
+*!*					Endif
+
+			Endif
+		Endwith
+
+		llTransOk = .T.
+
+	Else
+		lcMsg = 'Se encontraron los siguiente errores' + Chr( 13 )
+		If Empty( This.txtNombre.Value )
+			This.txtNombre.BackColor = Rgb(255,179,179)
+			lcMsg = lcMsg + 'Falta ingresar el nombre' + Chr( 13 )
+
+		Else
+			This.txtNombre.BackColor = Rgb(255, 255, 255)
+
+		Endif && Empty( This.txtNombre.Value )
+
+		If Empty( This.txtUsuario.Value )
+			This.txtUsuario.BackColor = Rgb(255,179,179)
+			lcMsg = lcMsg + 'Falta ingresar el usuario' + Chr( 13 )
+
+		Else
+			This.txtUsuario.BackColor = Rgb(255, 255, 255)
+
+		Endif && Empty( This.txtUsuario.Value )
+
+		If Empty( This.txtPass.Value )
+			This.txtPass.BackColor = Rgb(255, 179, 179)
+			lcMsg = lcMsg + 'La clave no puede estar vacia' + Chr( 13 )
+
+		Else
+			This.txtPass.BackColor = Rgb(255, 255, 255)
+
+		Endif && Empty( This.txtPass.Value )
+
+		If Empty( This.txtPass2.Value )
+			This.txtPass2.BackColor = Rgb(255, 179, 179)
+
+			lcMsg = lcMsg + 'La confirmación de la clave no puede estar vacia' + Chr( 13 )
+
+		Else
+			This.txtPass2.BackColor = Rgb(255, 255, 255)
+
+		Endif && Empty( This.txtPass2.Value )
+
+
+		If ! Empty( This.txtPass.Value ) And ! Empty( This.txtPass2.Value ) ;
+				And Alltrim( This.txtPass.Value ) == Alltrim( This.txtPass2.Value )
+			This.txtPass.BackColor = Rgb(255, 255, 255)
+			This.txtPass2.BackColor = Rgb(255, 255, 255)
+
+		Else
+			This.txtPass.BackColor = Rgb(255, 179, 179)
+			This.txtPass2.BackColor = Rgb(255, 179, 179)
+			lcMsg = lcMsg + 'Las claves no coinciden' + Chr( 13 )
+
+		Endif && Alltrim( This.txtPass.Value ) == Alltrim( This.txtPass2.Value )
+
+		If ! Empty( This.cboNivel.ListIndex )
+			This.cboNivel.BackColor = Rgb(255, 255, 255)
+
+		Else
+			This.cboNivel.BackColor = Rgb(255, 179, 179)
+			lcMsg = lcMsg + 'No Selecciono el nivel para el usuario' + Chr( 13 )
+
+		Endif
+
+
+		If ! Empty( This.cboPermiso.ListIndex )
+			This.cboPermiso.BackColor = Rgb(255, 255, 255)
+
+		Else
+			This.cboPermiso.BackColor = Rgb(255, 179, 179)
+			lcMsg = lcMsg + 'No Selecciono el permiso para el usuario' + Chr( 13 )
+
+		Endif
+
+
+		If ! Empty( This.cboGrupo.ListIndex )
+			This.cboGrupo.BackColor = Rgb(255, 255, 255)
+
+		Else
+			This.cboGrupo.BackColor = Rgb(255, 179, 179)
+			lcMsg = lcMsg + 'No Selecciono el grupo para el usuario' + Chr( 13 )
+
+		Endif
+
+		Warning( lcMsg )
+
+	Endif && llOk
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loError = Null
+	loBlowFish = Null
+
+
+Endtry
+
+If llTransOk
+	Inform( 'Se grabo correctamente' )
+	This.nAction = 0
+	End Transaction
+	This.Limpiar()
+	If !Thisform.oUser.IsAdmin
+		This.Cancelar()
+		
+	Else
+		This.CmdAbrir.Click()
+		
+	Endif
+
+
+Else
+	Rollback
+
+Endif
+
+ENDPROC
+PROCEDURE cancelar
+* DAE 2009-11-27(13:38:48)
+This.Limpiar()
+If This.nAction = 0
+	This.Release()
+
+Else
+*!*		This.nAction = 0
+*!*		Thisform.txtPass.Enabled = .T.
+*!*		Thisform.txtPass2.Enabled = .T.
+*!*		Thisform.cmdCambiarClave.Visible = .F.
+*!*		ThisForm.txtNombre.SetFocus()
+
+	This.Release()
+
+Endif
+
+
+
+ENDPROC
+PROCEDURE cargar
+
+Local loBlowFish As BlowFish Of fw\comunes\prg\BlowFish.prg
+This.Limpiar()
+This.TxtNombre.Value = usuarios.Nombre
+This.TxtUsuario.Value = usuarios.usuario
+*!*	loBlowFish = Newobject( 'BlowFish', 'fw\comunes\prg\blowfish.prg' )
+*!*	lcCode = loBlowFish.DecodificarSimple( usuarios.Clave, 'PraxisComputación' )
+*!*	lcPass = Substr( lcCode, Len( Alltrim( usuarios.usuario ) ) + 1  )
+
+lcPass = ""
+This.txtPass.Value 		= lcPass
+This.txtPass2.Value 	= lcPass
+This.cboNivel.Value 	= usuarios.Nivel
+This.cboPermiso.Value 	= usuarios.Permiso
+This.CboGrupo.Value 	= usuarios.GroupId
+This.nUserId 			= usuarios.Id
+
+loBlowFish = Null
+
+
+If Thisform.nAction = 2
+	Thisform.txtPass.Enabled = .F.
+	Thisform.txtPass2.Enabled = .F.
+	Thisform.cmdCambiarClave.Visible = .T.
+
+Else
+	Thisform.txtPass.Enabled = .T.
+	Thisform.txtPass2.Enabled = .T.
+	Thisform.cmdCambiarClave.Visible = .F.
+
+EndIf
+
+ThisForm.txtUsuario.Enabled = .F.
+
+
+ENDPROC
+PROCEDURE documentacion
+*!*		- Permisos:
+*!*		En Administrar claves, hay dos parametros que administran
+*!*		los accesos
+*!*		NIVEL: Está asociado a la visibilidad de los modulos
+*!*			Si el modulo tiene un nivel de acceso mayor
+*!*			al del usuario, el usuario no lo ve.
+*!*		PERMISO: Está asociado a la variable publica CLAVE
+*!*			Si el módulo tiene un permiso mayor
+*!*			al del usuario, CLAVE pasa a ser cero.
+*!*			Si el permiso del módulo es igual o menor al del usuario,
+*!*			CLAVE toma el valor del Permiso del usuario.
+
+*!*		En Administrar Módulos, se indican los umbrales para los
+*!*		valores de Nivel y Permiso.
+*!*		Si un módulo tiene un valor de NIVEL=3, puede ser visto
+*!*		por todos los usuarios con NIVE>=3
+*!*		Si un módulo tiene un valor de PERMISO=3, CLAVE conservará
+*!*		su valor para los usuarios con PERMISO>=3. Para los usuarios
+*!*		con PERMISO<3, CLAVE=0.
+
+*!*		Ejemplo:
+*!*		
+*!*		• VENTAS: Deshabilitar F9/F10 y F10/F9 y tener solo acceso a modulos: 				
+*!*			ARCHIVOS/DEUDORES/ESTADISTICAS/STOCK/VENTAS
+
+*!*		• FACT:
+*!*			ARCHIVOS/DEUDORES/ESTADISTICAS/STOCK/VENTAS/VALORES.
+*!*			Pero solo en ventas y valores no tener habilitado F9/F10 y F10/F9.
+*!*		
+*!*		Modulo			Nivel	Permiso
+*!*		Acreedores		2		2
+*!*		Archivos		0		0
+*!*		Compras			2		2
+*!*		Contabilidad	2		2
+*!*		Deudores		0		0
+*!*		Estadisticas	0		0
+*!*		Stock			0		0
+*!*		Utiles			2		2
+*!*		Valores			1		2
+*!*		Ventas			0		2
+
+
+*!*		Los Usuarios
+*!*		Usuario		Nivel	Permiso
+*!*		VENTAS		0		0
+*!*		FACT		1		1
+*!*		ADMIN		5		5
+
+*!*		VENTAS 	tiene solo acceso a Archivos, Deudores, Estadisticas, Stock y Ventas
+*!*			CLAVE va ser siempre 0
+
+*!*		FACT 	tiene ademas acceso a Valores
+*!*			Para Archivos, Deudores, Estadisticas y Stock, CLAVE=1
+*!*			Para Ventas y Valores, CLAVE=0
+
+*!*		Cualquier usuario con Nivel entre 2 y 5, ve todos los modulos
+*!*		Cualquier usuario con Permiso entre 2 y 5, tiene CLAVE=Permiso
+*!*		Usuario con Nivel=5 es Administrador, y es el unico que puede acceder a
+*!*			Administrar Claves y Modulos
+
+ENDPROC
+PROCEDURE groupssetup
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lcCommand As String
+Local loGrupos as ComboBox
+Local loDT as prxDataTier OF "fw\tieradapter\comun\prxdatatier.prg"
+
+Try
+
+	lcCommand = ""
+	
+	loGrupos = ThisForm.cboGrupo
+
+	loGrupos.ColumnCount 	= 1
+	loGrupos.BoundColumn 	= 2
+	loGrupos.BoundTo 		= .T.
+	
+	If !FileExist( This.cRootWorkFolder + "Grupos.Dbf" )
+
+		Text To lcCommand NoShow TextMerge Pretext 15
+		Create Table "<<This.cRootWorkFolder>>Grupos.Dbf" Free (
+			Id I,
+			Nombre C(30) )
+		EndText
+
+		&lcCommand
+		
+		Text To lcCommand NoShow TextMerge Pretext 15
+		Insert Into Grupos (
+			Id,
+			Nombre ) Values (
+			<<GRP_ADMIN>>,
+			"Administrador" )
+		EndText
+
+		&lcCommand
+
+		Text To lcCommand NoShow TextMerge Pretext 15
+		Insert Into Grupos (
+			Id,
+			Nombre ) Values (
+			<<GRP_USUARIO>>,
+			"Usuario" )
+		EndText
+
+		&lcCommand
+		
+		Use in Grupos
+
+	EndIf
+	
+	Text To lcCommand NoShow TextMerge Pretext 15
+	Use "<<This.cRootWorkFolder>>Grupos.Dbf" Shared In 0
+	EndText
+
+	&lcCommand
+	
+	Text To lcCommand NoShow TextMerge Pretext 15
+	Select *
+		From Grupos
+		Order By Nombre
+	EndText
+
+	loDT = NewDT()
+	loDT.SQLExecute( lcCommand, "cGrupos" )
+	
+	Select cGrupos
+	Locate
+	
+	Scan
+
+		loGrupos.AddItem( cGrupos.Nombre )
+		loGrupos.List[ loGrupos.NewIndex, 2 ] =  Transform( cGrupos.Id )
+
+	EndScan
+
+	loGrupos.Value = -1
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	Use in Select( "Grupos" )
+	Use in Select( "cGrupos" )
+	
+	loDT = Null
+	loGrupos = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE limpiar
+
+This.TxtUsuario.Value = ''
+This.TxtUsuario.BackColor = Rgb(255,255,255)
+This.txtPass.Value = ''
+This.txtPass.BackColor = Rgb(255,255,255)
+This.txtPass2.Value = ''
+This.txtPass2.BackColor = Rgb(255,255,255)
+This.cboNivel.Value = -1
+This.cboNivel.BackColor = Rgb(255,255,255)
+
+This.cboPermiso.Value = -1
+This.cboPermiso.BackColor = Rgb(255,255,255)
+
+This.CboGrupo.Value = -1
+This.CboGrupo.BackColor = Rgb(255,255,255)
+
+This.TxtUsuario.SetFocus()
+*This.cboNivel.Value = ''
+This.cmdAbrir.Enabled = .T.
+This.cmdNuevo.Enabled = .T.
+
+
+This.TxtNombre.Value = ''
+This.TxtNombre.BackColor = Rgb(255,255,255)
+
+ENDPROC
+PROCEDURE ouser_access
+Local lcCommand As String
+
+Try
+
+	lcCommand = ""
+
+	If Vartype( Thisform.oUser ) # "O"
+		*!*		Thisform.oUser = _Screen.oApp.oUser
+		Thisform.oUser = NewUser()
+	Endif
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Cremark = lcCommand
+	loError.Process( oErr )
+
+Finally
+
+Endtry
+
+Return This.oUser
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+lreturn
+nintentosfallidos
+nmaxintentos
+nreturn
+oreturn
+naction 0 Sin accion o nuevo, 1 Nuevo, 2 Editar
+ouser
+crootworkfolder Ruta donde buscar las tablas Usuarios y Grupos
+nuserid
+*aceptar 
+*cancelar 
+*validar 
+*limpiar 
+*cargar 
+*ouser_access 
+*documentacion 
+*groupssetup Inicializar los grupos
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] shape
+[BASECLASS] shape
+[OBJNAME] Shape1
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+Top = 8
+Left = 8
+Height = 184
+Width = 401
+BackStyle = 0
+BorderWidth = 1
+Curvature = 20
+BorderColor = 128,128,128
+Name = "Shape1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2T510XR9X
+[CLASS] shape
+[BASECLASS] shape
+[OBJNAME] Shape2
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+Top = 203
+Left = 8
+Height = 39
+Width = 401
+BackStyle = 0
+BorderWidth = 1
+Curvature = 20
+BorderColor = 128,128,128
+Name = "Shape2"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdAceptar
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+Top = 211
+Left = 208
+Height = 25
+Width = 92
+Picture = ..\image\bmp\manook.bmp
+Caption = "\<Aceptar"
+StatusBarText = "Aceptar"
+TabIndex = 8
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdAceptar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:39:07)
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	Thisform.Aceptar()
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Z
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancelar
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+Top = 211
+Left = 304
+Height = 25
+Width = 92
+Picture = ..\image\bmp\manocancel.bmp
+Cancel = .T.
+Caption = "\<Cancelar"
+StatusBarText = "Cancelar"
+TabIndex = 11
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdCancelar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:39:13)
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	Thisform.Cancelar()
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtUsuario
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+Format = "!"
+Height = 21
+Left = 144
+MaxLength = 32
+StatusBarText = "Ingrese el usuario"
+TabIndex = 2
+ToolTipText = "Ingrese el usuario"
+Top = 42
+Width = 153
+Name = "txtUsuario"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+* DAE 2009-11-27(13:39:20)
+This.BackColor = Rgb( 220,255,255 )
+This.Parent.lblUsuario.FontUnderline = .T.
+
+ENDPROC
+PROCEDURE LostFocus
+* DAE 2009-11-27(13:39:23)
+This.BackColor = Rgb( 255, 255, 255)
+This.Parent.lblUsuario.FontUnderline = .F.
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtPass
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+Format = "!"
+Height = 21
+Left = 144
+MaxLength = 32
+StatusBarText = "Ingrese la clave"
+TabIndex = 3
+ToolTipText = "Ingrese la clave"
+Top = 66
+Width = 153
+PasswordChar = "*"
+Name = "txtPass"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+* DAE 2009-11-27(13:39:31)
+This.BackColor = RGB(220,255,255)
+This.Parent.lblClave.FontUnderline = .T.
+ENDPROC
+PROCEDURE LostFocus
+* DAE 2009-11-27(13:39:26)
+This.BackColor = Rgb( 255, 255, 255 )
+This.Parent.lblClave.FontUnderline = .F.
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Z
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblUsuario
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+AutoSize = .F.
+Caption = "Usuario:"
+Height = 17
+Left = 16
+Top = 42
+Width = 116
+TabIndex = 13
+ToolTipText = "Ingrese el usuario"
+StatusBarText = "Ingrese el usuario"
+Name = "lblUsuario"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:40:18)
+This.Parent.txtUsuario.SetFocus()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:45)
+This.MousePointer= 15
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:50)
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Z
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblClave
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+AutoSize = .F.
+Caption = "Clave:"
+Height = 17
+Left = 16
+Top = 66
+Width = 116
+TabIndex = 14
+ToolTipText = "Ingrese la clave"
+StatusBarText = "Ingrese la clave"
+Name = "lblClave"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:40:03)
+This.Parent.txtPass.SetFocus()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:40:08)
+This.MousePointer= 15
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:57)
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2T50WNSYE
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtPass2
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+Format = "!"
+Height = 21
+Left = 144
+MaxLength = 32
+StatusBarText = "Ingrese la clave"
+TabIndex = 4
+ToolTipText = "Ingrese la clave"
+Top = 90
+Width = 153
+PasswordChar = "*"
+Name = "txtPass2"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+* DAE 2009-11-27(13:39:31)
+This.BackColor = RGB(220,255,255)
+This.Parent.lblClave2.FontUnderline = .T.
+ENDPROC
+PROCEDURE LostFocus
+* DAE 2009-11-27(13:39:26)
+This.BackColor = Rgb( 255, 255, 255 )
+This.Parent.lblClave2.FontUnderline = .F.
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblClave2
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+AutoSize = .F.
+Caption = "Reingrese la Clave:"
+Height = 17
+Left = 16
+Top = 90
+Width = 116
+TabIndex = 15
+ToolTipText = "Ingrese la clave"
+StatusBarText = "Ingrese la clave"
+Name = "lblClave2"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:40:03)
+This.Parent.txtPass2.SetFocus()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:40:08)
+This.MousePointer= 15
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:57)
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] combobox
+[BASECLASS] combobox
+[OBJNAME] cboNivel
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+RowSourceType = 1
+Height = 21
+Left = 144
+StatusBarText = "Ingrese el nivel"
+Style = 2
+TabIndex = 5
+ToolTipText = "Ingrese el nivel"
+Top = 114
+Width = 153
+Name = "cboNivel"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+* DAE 2009-12-04(15:16:43)
+This.BackColor = RGB(220,255,255)
+This.Parent.lblNivel.FontUnderline = .T.
+ENDPROC
+PROCEDURE Init
+
+This.ColumnCount = 1
+This.BoundColumn = 2
+This.BoundTo = .T.
+
+* This.ColumnWidths = Transform( This.Width - 10 ) + ',0'
+
+This.AddItem( 'Nivel 0' + Space( 30 ) )
+This.List[ This.NewIndex, 2 ] =  '0'
+This.AddItem( 'Nivel 1' )
+This.List[ This.NewIndex, 2 ] =  '1'
+This.AddItem( 'Nivel 2' )
+This.List[ This.NewIndex, 2 ] =  '2'
+This.AddItem( 'Nivel 3' )
+This.List[ This.NewIndex, 2 ] =  '3'
+This.AddItem( 'Nivel 4' )
+This.List[ This.NewIndex, 2 ] =  '4'
+This.AddItem( 'Nivel 5' )
+This.List[ This.NewIndex, 2 ] =  '5'
+
+This.Value = -1
+ENDPROC
+PROCEDURE LostFocus
+* DAE 2009-12-04(15:16:49)
+This.BackColor = Rgb( 255, 255, 255 )
+This.Parent.lblNivel.FontUnderline = .F.
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Z
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblNivel
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+AutoSize = .F.
+Caption = "Nivel:"
+Height = 17
+Left = 16
+Top = 114
+Width = 116
+TabIndex = 18
+ToolTipText = "Ingrese el nivel"
+StatusBarText = "Ingrese el nivel"
+Name = "lblNivel"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:40:03)
+This.Parent.cboNivel.SetFocus()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:40:08)
+This.MousePointer= 15
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:57)
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdAbrir
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+Top = 211
+Left = 112
+Height = 25
+Width = 92
+Picture = ..\image\bmp\open.bmp
+DisabledPicture = ..\image\bmp\#open.bmp
+Caption = "A\<brir"
+StatusBarText = "Buscar usuario"
+TabIndex = 10
+SpecialEffect = 2
+PicturePosition = 1
+PictureMargin = 1
+Name = "cmdAbrir"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+Local Array laFields[ 1 ]
+Local Array laHeaders[ 1 ]
+Local Array laPictures[ 1 ]
+Local lnRet As Integer
+
+laFields[ 1 ] = 'Usuario'
+laHeaders[ 1 ] = 'Usuario'
+laPictures[ 1 ] = Replicate( "X", 30 )
+
+Locate
+lnRet = Dbedit( 0, 0, 0, 0, @laFields, '', @laPictures, @laHeaders )
+
+If lnRet = 13
+
+    Thisform.nAction = 2
+    Thisform.Cargar()
+
+    Thisform.cmdNuevo.Enabled = .F.
+    Thisform.CmdAbrir.Enabled = .F.
+
+Else
+    Thisform.nAction = 0
+    Thisform.Limpiar()
+    Thisform.cmdNuevo.Enabled = .t.
+    Thisform.CmdAbrir.Enabled = .t.
+
+Endif && lnRet = 13
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2T50XOL1W
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdNuevo
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+Top = 211
+Left = 16
+Height = 25
+Width = 92
+Picture = ..\image\bmp\new.bmp
+DisabledPicture = ..\image\bmp\#new.bmp
+Caption = "\<Nuevo"
+StatusBarText = "Nuevo usuario"
+TabIndex = 9
+SpecialEffect = 2
+PicturePosition = 1
+PictureMargin = 1
+Name = "cmdNuevo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+Thisform.nAction = 1
+Thisform.Limpiar()
+
+Thisform.cmdNuevo.Enabled = .F.
+Thisform.CmdAbrir.Enabled = .F.
+
+Thisform.txtPass.Enabled = .T.
+Thisform.txtPass2.Enabled = .T.
+ThisForm.txtUsuario.Enabled = .T.
+Thisform.cmdCambiarClave.Visible = .F.
+
+ThisForm.txtNombre.SetFocus()
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2WZ0SN0NW
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtNombre
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+Format = "!"
+Height = 21
+Left = 144
+MaxLength = 32
+StatusBarText = "Ingrese el usuario"
+TabIndex = 1
+ToolTipText = "Ingrese el usuario"
+Top = 16
+Width = 153
+Name = "txtNombre"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+* DAE 2009-11-27(13:39:20)
+This.BackColor = Rgb( 220,255,255 )
+This.Parent.lblUsuario.FontUnderline = .T.
+
+ENDPROC
+PROCEDURE LostFocus
+* DAE 2009-11-27(13:39:23)
+This.BackColor = Rgb( 255, 255, 255)
+This.Parent.lblUsuario.FontUnderline = .F.
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2WZ0SN0NX
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblNombre
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+AutoSize = .F.
+Caption = "Nombre"
+Height = 17
+Left = 16
+Top = 16
+Width = 116
+TabIndex = 12
+ToolTipText = "Ingrese el usuario"
+StatusBarText = "Ingrese el usuario"
+Name = "lblNombre"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:40:18)
+This.Parent.txtUsuario.SetFocus()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:45)
+This.MousePointer= 15
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:50)
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2X00MTX6Y
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCambiarClave
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+Top = 72
+Left = 312
+Height = 36
+Width = 84
+WordWrap = .T.
+Caption = "Cambiar Clave"
+TabIndex = 19
+Name = "cmdCambiarClave"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+ThisForm.txtPass.Enabled = !ThisForm.txtPass.Enabled
+ThisForm.txtPass2.Enabled = !ThisForm.txtPass2.Enabled
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Y
+[CLASS] combobox
+[BASECLASS] combobox
+[OBJNAME] cboPermiso
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+RowSourceType = 1
+Height = 21
+Left = 144
+StatusBarText = "Ingrese el nivel"
+Style = 2
+TabIndex = 6
+ToolTipText = "Ingrese el nivel"
+Top = 138
+Width = 153
+Name = "cboPermiso"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+* DAE 2009-12-04(15:16:43)
+This.BackColor = RGB(220,255,255)
+This.Parent.lblNivel.FontUnderline = .T.
+ENDPROC
+PROCEDURE Init
+
+This.ColumnCount = 1
+This.BoundColumn = 2
+This.BoundTo = .T.
+
+* This.ColumnWidths = Transform( This.Width - 10 ) + ',0'
+
+This.AddItem( 'Permiso 0' + Space( 30 ) )
+This.List[ This.NewIndex, 2 ] =  '0'
+This.AddItem( 'Permiso 1' )
+This.List[ This.NewIndex, 2 ] =  '1'
+This.AddItem( 'Permiso 2' )
+This.List[ This.NewIndex, 2 ] =  '2'
+This.AddItem( 'Permiso 3' )
+This.List[ This.NewIndex, 2 ] =  '3'
+This.AddItem( 'Permiso 4' )
+This.List[ This.NewIndex, 2 ] =  '4'
+This.AddItem( 'Permiso 5' )
+This.List[ This.NewIndex, 2 ] =  '5'
+
+This.Value = -1
+ENDPROC
+PROCEDURE LostFocus
+* DAE 2009-12-04(15:16:49)
+This.BackColor = Rgb( 255, 255, 255 )
+This.Parent.lblNivel.FontUnderline = .F.
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SY0QC75Z
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblPermiso
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+AutoSize = .F.
+Caption = "Permiso:"
+Height = 17
+Left = 16
+Top = 138
+Width = 116
+TabIndex = 16
+ToolTipText = "Ingrese el permiso"
+StatusBarText = "Ingrese el permiso"
+Name = "lblPermiso"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:40:03)
+This.Parent.cboPermiso.SetFocus()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:40:08)
+This.MousePointer= 15
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:57)
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3QH0VJNFL
+[CLASS] combobox
+[BASECLASS] combobox
+[OBJNAME] cboGrupo
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+RowSourceType = 1
+Height = 21
+Left = 144
+StatusBarText = "Ingrese el nivel"
+Style = 2
+TabIndex = 7
+ToolTipText = "Ingrese el nivel"
+Top = 162
+Width = 153
+Name = "cboGrupo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE GotFocus
+* DAE 2009-12-04(15:16:43)
+This.BackColor = RGB(220,255,255)
+This.Parent.lblNivel.FontUnderline = .T.
+ENDPROC
+PROCEDURE LostFocus
+* DAE 2009-12-04(15:16:49)
+This.BackColor = Rgb( 255, 255, 255 )
+This.Parent.lblNivel.FontUnderline = .F.
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3QH0VJNFM
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblGrupo
+[PARENT] ABMLOGIN
+[START PROPERTIES]
+AutoSize = .F.
+Caption = "Grupo:"
+Height = 17
+Left = 16
+Top = 162
+Width = 116
+TabIndex = 17
+ToolTipText = "Ingrese el permiso"
+StatusBarText = "Ingrese el permiso"
+Name = "lblGrupo"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:40:03)
+This.Parent.cboGrupo.SetFocus()
+
+ENDPROC
+PROCEDURE MouseEnter
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:40:08)
+This.MousePointer= 15
+
+ENDPROC
+PROCEDURE MouseLeave
+Lparameters nButton, nShift, nXCoord, nYCoord
+* DAE 2009-11-27(13:39:57)
+This.MousePointer = 0
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+  ..\include\praxis.h†Ós~\V ..\include\foxpro.hŽÔÊrûF ..\include\strings.h–ÕZŠOJ* ..\..\..\tools\namespaces\include\system.hžÖ±ÙF[END RESERVED1]
+[EOF]

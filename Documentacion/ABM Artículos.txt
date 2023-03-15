@@ -1,0 +1,92 @@
+ABM Artículos
+Modificaciones al Pyme 12/12/2022
+
+#1.	En la grilla inicial poner un poco más grande la descripción que queda un poco trunca
+		En Diccionario de Datos (DD) modificar .nGridMaxLength = 80 (antes 50)
+
+#2.	Muestra Activo y Orden y Edita en Grilla no van
+		En Administridor de Django, indicar los permisos al usuario
+		https://cloudfenix-backend.herokuapp.com/admin/
+		Solamente tienen acceso al administrador los usuarios definidos como Staff
+		Por ahora estan definidos 3 Grupos:
+			Implementador
+			Gerente
+			Usuario
+			
+		Los usuarios definidos son:
+			User	Password		Grupo
+			--------------------------------------
+			fenix	(RiJoDa1959)	Superusuario	(No importa al grupo que pertenezca
+														tiene permiso para todo)
+													Atajo: B B
+			Nando	(Sanitarios)	Gerente 		Atajo: N S
+			jorge	(Jorge)			Implementador
+			Usuario	(Sanitarios)	Usuario			Atajo: U S
+		
+		Esto se inicializa en el método ObtenerPermisos() del modelo.
+		Si es algo específico de la grilla, como en el caso de los Productos,
+		se sobreescribe el método ObtenerPermisos()
+
+3.	En la grilla de Compras:
+	#1.	No va columna de moneda
+			En DD poner .lShowInGrid = .F.
+			
+	#2.	En lugar del título Costo Base va Precio Base
+			En DD poner .cCaption = "Precio Base"
+			
+	#3.	Se agrega el símbolo de la moneda al valor del Precio Base 
+			( No sé si se complica, decime vos porque sino lo dejamos del mismo modo 
+				pero entonces pone el nombre de la moneda y no la abreviatura)
+			*** Viene el campo formateado del BackEnd
+			(Para U$S ver DUNE GUARDAS MODERNO AINSA 5X20)
+			
+	#4.	Las bonificaciones, el costo financiero y el coeficiente se fusionan en Condiciones
+			
+	#5.	Las últimas dos columnas tienen con título Precio y Precio en Pesos. 
+			Si es factible de poner el precio con la abreviatura de la moneda se 
+			podría poner el título precio que abarque ambos campos y cada precio 
+			con su abreviatura de moneda. 
+			(Es probable que se complicado)
+			*** Viene el campo formateado del BackEnd
+			
+	6.	Si la moneda es la moneda corriente solo aparece el precio en la columna de 
+			Precio en Pesos
+			Ver de usar @Z en el control y poner el campo en 0
+			Esto debe hacerse en el FrontEnd, porque es solo para mostrar
+			
+
+4.	Al editar el precio:
+	#1.	No va la cotización porque para el cálculo toma siempre la actual de la 
+		tabla de monedas
+	#2.	Va Precio Base en lugar de Costo Base
+	#3.	Va Condiciones en lugar de Bonificaciones, Coeficiente y Costo Financiero
+	#4.	Va Precio y Precio en Pesos (Se calcula en base a la cotización actual)
+
+#5.	Poner otro subtítulo que sea Última Compra
+	#1.	Va Fecha, Proveedor, Cantidad, Precio y Precio en Pesos
+	#2.	Son campos que se actualizan con las compras. 
+			Se podría poner por defecto, cuando estén vacíos, los datos del 
+			proveedor activo cuando se cargue.
+	#3.	El precio en pesos es el que se va a tomar para el cálculo del inventario. 
+			Si el precio está cargado en otra moneda nos sirve para saber a cuántos 
+			dólares (por ejemplo) se compró la última vez.
+
+#6.	El precio de la grilla representa el precio de reposición, mientras que el precio 
+		de la Última Compra es a fines históricos y contables.
+
+#7.	En la Solapa / Grilla de Ventas:
+	#1.	No va muestra Activo y Orden
+	#2.	En la columna moneda va el nombre de la moneda si es que no se puede poner 
+			la abreviatura en las columnas de los precios
+	#3.	Margen, Descuento y Coeficiente es Condiciones
+	#4.	Precio Venta es Precio
+	#5.	Precio Final es Precio en Pesos
+	#6.	Si se pueden poner las abreviaturas de las monedas serían las dos columnas 
+			con el título Precio que abarca ambas.
+
+#8.	Al editar la lista de precios:
+	#1.	Margen, Coeficiente y Descuento se fusionan en  Condiciones
+	#2.	Precio de Venta es Precio, y Precio Final es Precio en Moneda Corriente 
+			(o en Pesos)
+	#3.	No tienen la misma cantidad de decimales ambos precios
+	4.	No es Recargo sobre Lista Base sino % Actualización ( o ver algo mejor)

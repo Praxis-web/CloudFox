@@ -1,0 +1,261 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3AR0WJQ0Z
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3AR0WJQ10
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] Get_Number
+[START PROPERTIES]
+BorderStyle = 0
+Height = 214
+Width = 375
+DoCreate = .T.
+AutoCenter = .T.
+Caption = "Ingreso de Datos Requeridos"
+WindowType = 1
+_memberdata = <VFPData><memberdata name="cancelar" display="Cancelar"/><memberdata name="aceptar" display="Aceptar"/><memberdata name="udf_valid" display="UDF_Valid"/><memberdata name="ndata" display="nData"/></VFPData>
+ndata = 0
+Name = "Get_Number"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Lparameters tnData As Number,;
+	tcMsg As String,;
+	tcInputMask As String,;
+	tcFormat As String,;
+	tnLowValue As Number,;
+	tnHighValue As Number
+
+Try
+
+	Thisform.nData = tnData
+
+	If Empty( tcMsg )
+		tcMsg = ""
+	Endif
+
+	If Empty( tcFormat )
+		tcFormat = ""
+	Endif
+
+	If Empty( tcInputMask )
+		tcInputMask = ""
+	Endif
+
+	Thisform.edtMensaje.Value = tcMsg
+
+	With Thisform.Spinner As Spinner
+		If Vartype( tnLowValue ) = "N"
+			.SpinnerLowValue 	= tnLowValue
+			.KeyboardLowValue 	= tnLowValue
+		EndIf
+		
+		If Vartype( tnHighValue ) = "N"
+			.SpinnerHighValue  	= tnHighValue
+			.KeyboardHighValue  = tnHighValue
+		EndIf
+
+		.Value 		= tnData
+		.InputMask 	= tcInputMask
+		.Format 	= tcFormat
+		.Visible 	= .T.
+		.SetFocus()
+	Endwith
+
+
+
+	Thisform.Refresh()
+
+Catch To oErr
+	Local loError As Errorhandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = Newobject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+Endtry
+
+ENDPROC
+PROCEDURE Unload
+Return This.nData
+ENDPROCPROCEDURE aceptar
+Try
+
+	Thisform.nData = ThisForm.Spinner.Value
+	Thisform.Release()
+
+Catch To oErr
+	Local loError as Errorhandler OF "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = NewObject( "Errorhandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+
+EndTry
+
+ENDPROC
+PROCEDURE cancelar
+Thisform.Release()
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+udf_valid Validacion
+ndata
+*cancelar 
+*aceptar 
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3AR0XS0SQ
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdAceptar
+[PARENT] Get_Number
+[START PROPERTIES]
+Top = 170
+Left = 249
+Height = 25
+Width = 100
+Picture = ..\image\bmp\manook.bmp
+Caption = "\<Aceptar"
+TabIndex = 5
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdAceptar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:39:07)
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	Thisform.Aceptar()
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3AR0XS0SR
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancelar
+[PARENT] Get_Number
+[START PROPERTIES]
+Top = 170
+Left = 24
+Height = 25
+Width = 100
+Picture = ..\image\bmp\manocancel.bmp
+Cancel = .T.
+Caption = "\<Cancelar"
+TabIndex = 6
+SpecialEffect = 2
+PicturePosition = 2
+PictureMargin = 1
+Name = "cmdCancelar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+* DAE 2009-11-27(13:39:13)
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+
+	Thisform.Cancelar()
+
+Catch To oErr
+	loError = Newobject( "ErrorHandler", "ErrorhandlerPrg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loError = Null
+
+Endtry
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3AR0XS0SS
+[CLASS] editbox
+[BASECLASS] editbox
+[OBJNAME] edtMensaje
+[PARENT] Get_Number
+[START PROPERTIES]
+FontBold = .T.
+FontSize = 12
+Height = 108
+Left = 24
+ReadOnly = .T.
+Top = 12
+Width = 324
+ForeColor = 255,0,0
+Name = "edtMensaje"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _43H19DY4P
+[CLASS] spinner
+[BASECLASS] spinner
+[OBJNAME] Spinner
+[PARENT] Get_Number
+[START PROPERTIES]
+Height = 24
+Left = 156
+Top = 132
+Width = 193
+Name = "Spinner"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+[END PROPERTIES]
+[EOF]

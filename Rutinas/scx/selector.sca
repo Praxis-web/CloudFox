@@ -1,0 +1,614 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SU12LT00
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SU12LT01
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] SELECTOR
+[START PROPERTIES]
+Top = 0
+Left = 0
+Height = 386
+Width = 649
+DoCreate = .T.
+Caption = "Selector"
+Closable = .F.
+FontName = "Lucida Console"
+FontSize = 11
+HalfHeightCaption = .T.
+MaxButton = .F.
+MinButton = .F.
+MinHeight = 200
+MinWidth = 300
+KeyPreview = .T.
+WindowType = 1
+nkeypress = 0
+_memberdata = <VFPData><memberdata name="nkeypress" display="nKeyPress"/><memberdata name="procesarparametros" display="ProcesarParametros"/><memberdata name="lselected" display="lSelected"/><memberdata name="calias" display="cAlias"/></VFPData>
+lselected = .F.
+calias = 
+Name = "SELECTOR"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE DblClick
+Select Alias( This.cAlias )
+Browse
+ENDPROC
+PROCEDURE Init
+*!*	Lparameters taFields, taPictures, taHeaders
+Lparameters toParam As Collection
+
+Local lnLen As Integer,;
+	lnTop As Integer,;
+	lnLeft As Integer,;
+	lnMaxWidth As Integer,;
+	lnWidth As Integer,;
+	lnMaxChars As Integer
+
+Local i As Integer
+
+Local loColFields As Collection
+Local loColPictures As Collection
+Local loColHeaders As Collection
+Local loColumn As Column
+Local loHeader As Header
+Local loControl As TextBox
+
+Local lcInputMask As String
+Local lcFormat As String
+Local lnSpace As Integer
+
+Local llOk As Boolean
+Local lnAnchor As Integer
+Local loFont As Object
+
+Local lcAlias As String
+Local lnRecno As Integer
+
+Local loColColumns As Collection
+Local loColumna As Column
+Local loEncabezado As Header
+
+
+Try
+
+	llOk = .T.
+	
+	Thisform.BindControls = .F.
+
+	lnAnchor = This.grdGrilla.Anchor
+	This.grdGrilla.Anchor = 0
+
+	On Key Label F1
+
+	loColFields = toParam.Item( "Fields" )
+	loColPictures = toParam.Item( "Pictures" )
+	loColHeaders = toParam.Item( "Headers" )
+	lnTop = toParam.Item( "nTop" )
+	lnLeft = toParam.Item( "nLeft" )
+
+	* RA 2014-03-26(17:48:54)
+	* Verificar si se utiliza la versión nueva
+	* donde se pasa la colección Columns
+	loColColumns = Null
+
+	Try
+
+		loParametros = toParam.Item( "oParametros" )
+		loColColumns = oParametros.oColColumns
+
+	Catch To oErr
+		loColColumns = Null
+
+	Finally
+
+	Endtry
+
+	lnMaxChars = 80
+
+	Thisform.cAlias = Alias()
+	Thisform.lSelected = ( Vartype( _Selected ) == "L" )
+
+	If Pemstatus( _Screen, "oApp", 5 )
+		If Pemstatus( _Screen.oApp, "oColFonts", 5 )
+			loFont = _Screen.oApp.oColFonts.Item( "selector" )
+
+			This.FontName = loFont.FontName
+			This.FontSize = loFont.FontSize
+
+		Else
+			If Pemstatus( _Screen.oApp, "FontName", 5 )
+				This.FontName = _Screen.oApp.FontName
+				This.FontSize = _Screen.oApp.FontSize
+			Endif
+
+		Endif
+
+		If Pemstatus( _Screen.oApp, "nSelectorMaxWidth", 5 )
+			lnMaxChars =  _Screen.oApp.nSelectorMaxWidth
+
+		Else
+			lnMaxChars = 80
+
+		Endif
+
+	Endif
+
+
+	If Isnull( loColColumns )
+
+		lnLen = loColFields.Count
+
+		This.grdGrilla.ColumnCount = lnLen
+		This.grdGrilla.FontName = This.FontName
+		This.grdGrilla.FontSize = This.FontSize
+
+		lnBackColor  = This.grdGrilla.BackColor
+		lnForeColor  = This.grdGrilla.ForeColor
+		lnHighlightBackColor = This.grdGrilla.HighlightBackColor
+		lnHighlightForeColor = This.grdGrilla.HighlightForeColor
+
+		For i = 1 To lnLen
+			loColumn = This.grdGrilla.Columns[ i ]
+			loHeader = loColumn.Objects[ 1 ]
+			loControl = loColumn.Objects[ 2 ]
+
+			loHeader.Caption = loColHeaders.Item( i )
+
+			loColumn.ControlSource = loColFields.Item( i )
+
+			lcFormat = ""
+			lcInputMask = loColPictures.Item( i )
+
+			If Substr( lcInputMask, 1, 1 ) = "@"
+				lnSpace = At( " ", lcInputMask )
+				lcFormat = Substr( lcInputMask, 2, lnSpace - 1 )
+				lcInputMask = Substr( lcInputMask, lnSpace + 1 )
+			Endif
+
+			If Vartype( Evaluate( loColumn.ControlSource )) = "N"
+				loColumn.Alignment = 1
+				
+				Text To lcDynamicForeColor NoShow TextMerge Pretext 15
+				Iif( <<loColumn.ControlSource>> < 0, RGB(255,0,0), RGB(0,0,0) )
+				EndText
+
+				loColumn.DynamicForeColor = lcDynamicForeColor
+
+			Else
+				loColumn.Alignment = 0
+
+			Endif
+
+			If Thisform.lSelected
+				loColumn.Sparse = .F.
+
+				loControl.InputMask = lcInputMask
+				loControl.Format = lcFormat
+
+				TEXT To lcCommand NoShow TextMerge Pretext 15
+				Iif( _Selected, <<lnHighlightBackColor>>, <<lnBackColor>> )
+				ENDTEXT
+
+				loColumn.DynamicBackColor = lcCommand
+
+				TEXT To lcCommand NoShow TextMerge Pretext 15
+				Iif( _Selected, <<lnHighlightForeColor>>, <<lnForeColor>> )
+				ENDTEXT
+
+				loColumn.DynamicForeColor = lcCommand
+
+			Else
+				loColumn.Sparse = .T.
+
+				loColumn.InputMask = lcInputMask
+				loColumn.Format = lcFormat
+
+			Endif
+
+		Endfor
+
+	Else
+		* RA 2014-03-26(17:53:19)
+		* Versión nueva
+
+		lnLen = loColColumns.nLen
+
+		This.grdGrilla.ColumnCount = lnLen
+		This.grdGrilla.FontName = This.FontName
+		This.grdGrilla.FontSize = This.FontSize
+
+		lnBackColor  = This.grdGrilla.BackColor
+		lnForeColor  = This.grdGrilla.ForeColor
+		lnHighlightBackColor = This.grdGrilla.HighlightBackColor
+		lnHighlightForeColor = This.grdGrilla.HighlightForeColor
+
+		i = 0
+		
+		For Each loColumna In loColColumns
+		
+			i = i + 1
+
+			loColumn = This.grdGrilla.Columns[ i ]
+			loHeader = loColumn.Objects[ 1 ]
+			loControl = loColumn.Objects[ 2 ]
+			
+			loEncabezado = loColumna.Header
+
+			loHeader.Caption = loEncabezado.Caption
+
+			loColumn.ControlSource = loColumna.ControlSource
+
+			loColumn.Alignment = loColumna.Alignment
+			loControl.InputMask = loColumna.InputMask
+			loControl.Format = loColumna.Format
+
+			If Thisform.lSelected
+				loColumn.Sparse = .F.
+
+				TEXT To lcCommand NoShow TextMerge Pretext 15
+				Iif( _Selected, <<lnHighlightBackColor>>, <<lnBackColor>> )
+				ENDTEXT
+
+				loColumn.DynamicBackColor = lcCommand
+
+				TEXT To lcCommand NoShow TextMerge Pretext 15
+				Iif( _Selected, <<lnHighlightForeColor>>, <<lnForeColor>> )
+				ENDTEXT
+
+				loColumn.DynamicForeColor = lcCommand
+
+			Else
+				loColumn.Sparse = .T.
+
+			Endif
+
+		Endfor
+
+	Endif
+
+	lnMaxWidth = Thisform.TextWidth( Replicate( "W", lnMaxChars ))
+	lnWidth = 0
+	For i = 1 To lnLen
+		loColumn = This.grdGrilla.Columns[ i ]
+		loControl = loColumn.Objects[ 2 ]
+		loHeader = loColumn.Objects[ 1 ]
+
+		If Thisform.lSelected
+			nFsize = Max( Len( loControl.InputMask ), Len( loColHeaders.Item( i ) )) + 1
+
+		Else
+			nFsize = Max( Len( loColumn.InputMask ), Len( loColHeaders.Item( i ) )) + 1
+
+		Endif
+
+		loColumn.Width = Max( Thisform.TextWidth( Replicate( "W", nFsize )), Thisform.TextWidth( loHeader.Caption ))
+
+		lnWidth = lnWidth + loColumn.Width
+	Endfor
+
+	If lnWidth + 30 + 24 > lnMaxWidth
+		This.grdGrilla.ScrollBars = 3
+		lnWidth = lnMaxWidth - 30 - 24
+	Endif
+
+	This.grdGrilla.Width 	= lnWidth + 30 && ScrollBar
+	This.grdGrilla.Top 		= 12
+	This.grdGrilla.Left 	= 12
+
+	Thisform.Width 		= This.grdGrilla.Width + 24
+	*	Thisform.Height 	= This.grdGrilla.Height
+	Thisform.Top 		= lnTop
+	Thisform.Left 		= lnLeft
+
+	This.grdGrilla.Anchor = lnAnchor
+
+	If Thisform.Left + Thisform.Width > _Screen.Width
+		Thisform.Width = Min( Thisform.Width, _Screen.Width )
+		Thisform.AutoCenter = .T.
+		This.grdGrilla.ScrollBars = 3
+	Endif
+
+	Try
+
+		loParametros = toParam.Item( "oParametros" )
+		This.ProcesarParametros( loParametros )
+
+	Catch To oErr
+
+	Finally
+
+	Endtry
+
+	If Thisform.lSelected
+		Locate For _Selected = .T.
+	Endif
+
+	Thisform.BindControls = .T.
+	Thisform.Refresh()
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+	llOk = .F.
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loFont = Null
+
+Endtry
+
+Return llOk
+
+ENDPROC
+PROCEDURE KeyPress
+LPARAMETERS nKeyCode, nShiftAltCtrl
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+
+Do Case
+Case nKeyCode = KEY_ENTER
+	ThisForm.cmdAceptar.Click()
+
+Case nKeyCode = KEY_ESCAPE
+	ThisForm.cmdCancelar.Click()
+
+Otherwise
+
+EndCase
+ENDPROC
+PROCEDURE Unload
+Return This.nKeyPress
+ENDPROC
+PROCEDURE procesarparametros
+Lparameters oParametros As Object
+
+Local loColumn As Column
+Local lnLen As Integer,;
+	i As Integer
+
+Try
+
+	If Pemstatus( oParametros, "Registros", 5 )
+		If Empty( oParametros.Registros )
+			Thisform.lblRegistros.Caption = "No se han encontrado registros"
+			Thisform.lblRegistros.ForeColor = Rgb(255,0,0)
+			Thisform.lblRegistros.FontBold = .T.
+
+		Else
+			Thisform.lblRegistros.Caption = Transform( oParametros.Registros ) + " registros encontrados"
+
+		Endif
+
+		Thisform.lblRegistros.Visible = .T.
+
+	Endif
+
+	If Pemstatus( oParametros, "Caption", 5 )
+		This.Caption = oParametros.Caption
+	Endif
+
+	If Pemstatus( oParametros, "Icon", 5 )
+		This.Icon = oParametros.Icon
+	Endif
+
+
+
+	If Pemstatus( oParametros, "Width", 5 )
+		lnDif = oParametros.Width - This.Width
+		This.Width = oParametros.Width
+		This.grdGrilla.Width = This.grdGrilla.Width + lnDif
+	Endif
+
+	If Pemstatus( oParametros, "InvisibleList", 5 )
+		lnLen = Getwordcount( oParametros.InvisibleList, "," )
+		
+		lnAnchor = This.grdGrilla.Anchor
+		This.grdGrilla.Anchor = 0
+
+		For i = 1 To lnLen
+			loColumn = This.grdGrilla.Columns[ Int( Val( GetWordNum( oParametros.InvisibleList, i, "," ))) ]
+			loColumn.Visible = .F.
+			This.grdGrilla.Width = This.grdGrilla.Width - loColumn.Width
+			Thisform.Width = Thisform.Width - loColumn.Width
+		EndFor
+		
+		This.grdGrilla.Anchor = lnAnchor
+		
+	Endif
+
+	If Pemstatus( oParametros, "HighlightStyle", 5 )
+		This.grdGrilla.HighlightStyle = oParametros.HighlightStyle
+	EndIf
+	
+	If Pemstatus( oParametros, "AutoCenter", 5 )
+		This.AutoCenter = oParametros.AutoCenter
+	Endif
+	
+
+
+Catch To oErr
+	Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+	loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+	loError.Process( oErr )
+
+Finally
+	loColumn = Null
+	
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+nkeypress
+_memberdata XML Metadata for customizable properties
+lselected Indica si el cursor contiene un campo _Selected
+calias Nombre del Cursor
+*procesarparametros 
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SU12LT02
+[CLASS] grid
+[BASECLASS] grid
+[OBJNAME] grdGrilla
+[PARENT] SELECTOR
+[START PROPERTIES]
+Anchor = 15
+DeleteMark = .F.
+Height = 288
+Left = 23
+ReadOnly = .T.
+RecordMark = .F.
+Top = 24
+Width = 601
+HighlightBackColor = 0,0,255
+HighlightForeColor = 255,255,255
+AllowCellSelection = .F.
+Name = "grdGrilla"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE AfterRowColChange
+LPARAMETERS nColIndex
+
+If Thisform.lSelected
+*!*		MessageBox( Program() + "Registro " + Transform( Recno() ) )
+*!*		MessageBox( Program() + "This.RowColChange " + Transform( This.RowColChange ))
+	If InList( This.RowColChange, 0, 1, 3 )
+*!*			MessageBox( Program() + " Replace _Selected With .T." )
+		Replace _Selected With .T.
+		This.Refresh()
+	EndIf
+EndIf
+ENDPROC
+PROCEDURE BeforeRowColChange
+LPARAMETERS nColIndex
+
+If Thisform.lSelected
+	If InList( This.RowColChange, 1, 3 )
+*!*			MessageBox( Program() + "Registro " + Transform( Recno() ) )
+		Replace _Selected With .F.
+		This.Refresh()
+	EndIf
+EndIf
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SU12LT03
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCancelar
+[PARENT] SELECTOR
+[START PROPERTIES]
+Top = 336
+Left = 24
+Height = 27
+Width = 84
+Anchor = 6
+Cancel = .T.
+Caption = "Cancelar"
+Name = "cmdCancelar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.nKeyPress = 27
+If Pemstatus( _Screen, "oApp", 5 )
+	_Screen.oApp.nKeyCode = 27
+Endif
+Thisform.Release()
+
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2SU12LT04
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdAceptar
+[PARENT] SELECTOR
+[START PROPERTIES]
+Top = 336
+Left = 540
+Height = 27
+Width = 84
+Anchor = 12
+Caption = "Aceptar"
+Default = .T.
+Name = "cmdAceptar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.nKeyPress = 13
+If Pemstatus( _Screen, "oApp", 5 )
+	_Screen.oApp.nKeyCode = 13
+Endif
+
+Thisform.Release()
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _3CP14VL66
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] lblRegistros
+[PARENT] SELECTOR
+[START PROPERTIES]
+AutoSize = .T.
+Anchor = 6
+BackStyle = 0
+Caption = "1234 Registros Encontrados"
+Height = 17
+Left = 169
+Top = 341
+Visible = .F.
+Width = 160
+Name = "lblRegistros"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Lucida Console, 0, 11, 9, 15, 12, 9, 3, 0
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[START RESERVED1]
+ ! ..\..\fw\comunes\include\praxis.hÒs~\V! ..\..\fw\comunes\include\foxpro.hÓÊrûF" ..\..\fw\comunes\include\strings.h&ÔZŠOJ' ..\..\tools\namespaces\include\system.h.Õ±ÙF[END RESERVED1]
+[EOF]

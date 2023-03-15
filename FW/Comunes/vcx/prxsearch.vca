@@ -1,0 +1,2263 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Class     
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1FA0RH361
+[CLASS] prxgrid
+[CLASSLOC] prxbase.vcx
+[BASECLASS] grid
+[OBJNAME] prxgridsearch
+[START PROPERTIES]
+MemberClassLibrary = ..\..\tieradapter\comun\prxbaselibrary.prg
+MemberClass = "PrxColumn"
+Height = 200
+Width = 320
+osearchctl = .NULL.
+_memberdata =      539<VFPData><memberdata name="enabled_assign" type="method" display="Enabled_Assign"/><memberdata name="classbeforeinit" type="method" display="ClassBeforeInit"/><memberdata name="classafterinit" type="method" display="ClassAfterInit"/><memberdata name="hookbeforeinit" type="method" display="HookBeforeInit"/><memberdata name="hookafterinit" type="method" display="HookAfterInit"/><memberdata name="osearchctl" type="property" display="oSearchCtl"/><memberdata name="osearchctl_access" type="method" display="oSearchCtl_Access"/></VFPData>
+
+Name = "prxgridsearch"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE osearchctl_access
+
+Local lcCtlName As String
+Local llLockScreen As Boolean
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loSearchCtl As prxsearchbox Of fw\comunes\vcx\prxsearch.vcx
+
+Try
+    llLockScreen = Thisform.LockScreen
+    With This As prxgridsearch Of fw\comunes\vcx\prxsearch.vcx
+        If Vartype( .oSearchCtl ) # 'O'
+            If ! .ClassLibrary $ Set("Classlib")
+                Set Classlib To (.ClassLibrary) Additive
+            Endif
+            Thisform.LockScreen = .T.
+            lcCtlName = 'txt' + Sys(2015)
+            .Parent.AddObject( lcCtlName, NewObject( "prxsearchbox", "fw\comunes\vcx\prxsearch.vcx" ) )
+            .oSearchCtl = .Parent.&lcCtlName.
+            loSearchCtl = .oSearchCtl
+            loSearchCtl.oCtlTarget = This
+            loSearchCtl.Autosetup()
+            loSearchCtl.Visible = .T.
+            loSearchCtl.Move( .Left, Abs( .Top + .Height - loSearchCtl.Height ), .Width )
+            .Move( .Left, .Top, .Width, Abs( .Height - loSearchCtl.Height ) )
+            .lSearchCtl = .T.
+        Endif
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+    loSearchCtl = Null
+    Thisform.LockScreen = llLockScreen
+Endtry
+Return This.oSearchCtl
+
+ENDPROC[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+osearchctl
+*osearchctl_access 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] prxgridsearch
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _1FA0RILLG
+[CLASS] prxlistbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] listbox
+[OBJNAME] prxlistboxsearch
+[START PROPERTIES]
+Height = 82
+Width = 181
+AutoHideScrollbar = 1
+forecolor = 0
+backcolor = 0
+_memberdata =      570<VFPData><memberdata name="lsamerowasprevius" type="property" display="lSameRowAsPrevius" favorites="True"/><memberdata name="anchor" type="property" favorites="True"/><memberdata name="backcolor" type="property" display="BackColor"/><memberdata name="fontname" type="property" favorites="True"/><memberdata name="fontsize" type="property" favorites="True"/><memberdata name="fontsize_assign" type="method" display="FontSize_Assign"/><memberdata name="forecolor" type="property" display="ForeColor"/><memberdata name="name" type="property" favorites="True"/></VFPData>
+
+lsamerowasprevius = .F.
+Name = "prxlistboxsearch"
+[END PROPERTIES]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] prxlistboxsearch
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _23214F6GM
+[CLASS] olecontrol
+[BASECLASS] olecontrol
+[OBJNAME] prxtreeviewsearch_bck
+[START PROPERTIES]
+Height = 100
+Width = 100
+_memberdata =     2889<VFPData><memberdata name="addchild" type="method" display="AddChild"/><memberdata name="addlast" type="method" display="AddLast"/><memberdata name="addnext" type="method" display="AddNext"/><memberdata name="addprevious" type="method" display="AddPrevious"/><memberdata name="addroot" type="method" display="AddRoot"/><memberdata name="laddroot" type="property" display="lAddRoot" script="do 'C:\PROGRAM FILES\MICROSOFT VISUAL FOXPRO 9\NEWPROPERTYDIALOG\PropertyEditor.app' with 'Toggle', 'lAddRoot'"/><memberdata name="newkey" type="method" display="NewKey"/><memberdata name="setseleted" type="method" display="SetSeleted"/><memberdata name="setselected" type="method" display="SetSelected"/><memberdata name="classbeforesetselected" type="method" display="ClassBeforeSetSelected"/><memberdata name="classaftersetselected" type="method" display="ClassAfterSetSelected"/><memberdata name="hookbeforesetselected" type="method" display="HookBeforeSetSelected"/><memberdata name="hookaftersetselected" type="method" display="HookAfterSetSelected"/><memberdata name="fontsize" type="property" favorites="True"/><memberdata name="fontsize_assign" type="method" display="FontSize_Assign"/><memberdata name="enabled_assign" type="method" display="Enabled_Assign"/><memberdata name="classbeforeinit" type="method" display="ClassBeforeInit"/><memberdata name="classafterinit" type="method" display="ClassAfterInit"/><memberdata name="hookbeforeinit" type="method" display="HookBeforeInit"/><memberdata name="hookafterinit" type="method" display="HookAfterInit"/><memberdata name="clear" type="method" display="Clear"/><memberdata name="ccursorsearch" type="property" display="cCursorSearch"/><memberdata name="ccursorsearch_access" type="method" display="cCursorSearch_Access"/><memberdata name="addtocursorsearch" type="method" display="AddToCursorSearch"/><memberdata name="remove" type="method" display="Remove"/><memberdata name="item" type="method" display="Item"/><memberdata name="osearchctl" type="property" display="oSearchCtl"/><memberdata name="osearchctl_access" type="method" display="oSearchCtl_Access"/><memberdata name="linsearch" type="property" display="lInSearch"/><memberdata name="handlekeystrokes" type="method" display="HandleKeyStrokes"/><memberdata name="handlelostfocus" type="method" display="HandleLostFocus"/><memberdata name="handlegotfocus" type="method" display="HandleGotFocus"/><memberdata name="nlastkeystroke" type="property" display="nLastKeystroke"/><memberdata name="clastsearch" type="property" display="cLastSearch"/><memberdata name="checkiffound" type="method" display="CheckIfFound"/><memberdata name="resetnodes" type="method" display="ResetNodes"/><memberdata name="lsearchctl" type="property" display="lSearchCtl"/><memberdata name="ncountreg" type="property" display="nCountReg"/><memberdata name="nreg" type="property" display="nReg"/></VFPData>
+
+fontsize = 9
+ccursorsearch = 
+osearchctl = .NULL.
+linsearch = .F.
+nlastkeystroke = 0
+clastsearch = 
+lsearchctl = .F.
+ncountreg = 0
+nreg = 0
+Name = "prxtreeviewsearch_bck"
+[END PROPERTIES]
+[START PROTECTED]
+linsearch
+nlastkeystroke
+lsearchctl
+ncountreg
+classbeforesetselected
+classaftersetselected
+classbeforeinit
+classafterinit
+addtocursorsearch
+checkiffound
+resetnodes
+[END PROTECTED]
+[START METHODS]
+PROCEDURE Destroy
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lcObjName As String
+Try
+    With This As prxtreeviewcontrol Of fw\comunes\vcx\prxbase.vcx
+        * Elimino las referencias
+        For Each loNode As MSComctlLib.Node In .Nodes
+            loNode.Tag = Null
+        Endfor
+        Use In Select( .cCursorSearch )
+        If .lSearchCtl
+            lcObjName = .oSearchCtl.Name
+            Unbindevents( .oSearchCtl )
+            .oSearchCtl = Null
+            .Parent.RemoveObject( lcObjName )
+            .lSearchCtl = .F.
+        Endif
+        * .oSearchCtl = Null
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+Finally
+    loNode = Null
+    loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE GotFocus
+
+With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+*!*	    .lInSearch = .F.
+*!*	    If Pemstatus( .Parent, "ResaltTitle", 5 )
+*!*	        .Parent.ResaltTitle( .T. )
+*!*	    Endif
+Endwith
+ENDPROC
+PROCEDURE Init
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        If .ClassBeforeInit()
+            If .HookBeforeInit()
+                .LineStyle = 1  && tvwRootLines
+                .Style = 7  && tvwTreelinesPlusMinusPictureText
+                .HotTracking = .T.
+                .Indentation = 10
+                .HookAfterInit()
+                .ClassAfterInit()
+            Endif
+        Endif
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+Finally
+    loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE KeyPress
+*** ActiveX Control Event ***
+Lparameters keyascii As Integer
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lnShiftAltCtrl As Integer
+Local lnKeyASCII As Integer
+Declare Integer GetKeyState In user32 Integer vKey
+* @TODO Chequear si el usuario activo la combinacion de teclas Ctrl+F
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        lnShiftAltCtrl = 0
+        Do Case
+            Case lnShiftAltCtrl = 0
+                Do Case
+                    Case keyascii = 13
+
+                        If .lSearchCtl
+                            Nodefault
+                            keyascii = 0
+                            * .Enabled = .F.
+                            .oSearchCtl.SetFocus()
+                        Endif
+
+                    Case keyascii > 31
+                        Nodefault
+                        lnKeyASCII = keyascii
+                        keyascii = 0
+                        If ! .oSearchCtl.Visible
+                            .Move( .Left, .Top, .Width, Abs( .Height - .oSearchCtl.Height ) )
+                            .oSearchCtl.Visible = .T.
+                        Endif
+                        .oSearchCtl.Value = Chr( lnKeyASCII )
+                        .oSearchCtl.KeyPress( lnKeyASCII, 0 )
+                        .oSearchCtl.SelStart = 1
+                        .oSearchCtl.SetFocus()
+                        * .Enabled = .F.
+                    Otherwise
+                        DoDefault( keyascii )
+                Endcase
+            Otherwise
+                DoDefault( keyascii )
+        Endcase
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+Finally
+    loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE LostFocus
+
+With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+*!*	    If Pemstatus( .Parent, "ResaltTitle", 5 )
+*!*	        If ! .lInSearch
+*!*	            .Parent.ResaltTitle( .F. )
+*!*	        Endif
+*!*	    Endif
+Endwith
+ENDPROC
+PROCEDURE MouseDown
+*** ActiveX Control Event ***
+Lparameters Button, Shift, x, Y
+
+DoDefault( Button, Shift, x, Y )
+
+ENDPROC
+PROCEDURE addchild
+Lparameters tcNodeText As String, tcNodeKey As String, tcRelativeNodeKey As String,;
+    tnImage As Integer, tnSelectedImage As Integer
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lnRelation As Integer
+Local lcKey As String
+Local loNode As Object
+
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\VCX\prxbase.VCX
+        loNode = Null
+        If Empty( tnImage )
+            tnImage = 0
+        Endif
+        If Empty( tnSelectedImage )
+            tnSelectedImage = 0
+        Endif
+        If Empty( tcNodeKey )
+            lcKey = .NewKey()
+        Else
+            lcKey = tcNodeKey
+        Endif
+        lnRelation = tvw_Child
+
+        If Vartype( .ImageList ) # 'O'
+            loNode = .Nodes.Add( tcRelativeNodeKey, lnRelation, lcKey, tcNodeText )
+        Else
+            loNode = .Nodes.Add( tcRelativeNodeKey, lnRelation, lcKey, tcNodeText, tnImage, tnSelectedImage )
+        Endif
+
+        * Agrego al cursor de busqueda
+        .AddToCursorSearch( tcNodeText, lcKey, tcRelativeNodeKey )
+        .Refresh()
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+Return loNode
+
+ENDPROC
+PROCEDURE addlast
+Lparameters tcNodeText As String, tcNodeKey As String, tcRelativeNodeKey As String,;
+    tnImage As Integer, tnSelectedImage As Integer
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lnRelation As Integer
+Local lcKey As String
+Local loNode As Object
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\VCX\prxbase.VCX
+        loNode = Null
+        If Empty( tnImage )
+            tnImage = 0
+        Endif
+        If Empty( tnSelectedImage )
+            tnSelectedImage = 0
+        Endif
+        If Empty( tcNodeKey )
+            lcKey = .NewKey()
+        Else
+            lcKey = tcNodeKey
+        Endif
+        lnRelation = tvw_Last
+         If Vartype( .ImageList ) # 'O'
+            loNode = .Nodes.Add( tcRelativeNodeKey, lnRelation, lcKey, tcNodeText )
+        Else
+            loNode = .Nodes.Add( tcRelativeNodeKey, lnRelation, lcKey, tcNodeText, tnImage, tnSelectedImage )
+        Endif
+		* Agrego al cursor de busqueda
+		.AddToCursorSearch( tcNodeText, lcKey, tcRelativeNodeKey )
+        .Refresh()
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+Return loNode
+
+ENDPROC
+PROCEDURE addnext
+Lparameters tcNodeText As String, tcNodeKey As String, tcRelativeNodeKey As String,;
+    tnImage As Integer, tnSelectedImage As Integer
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lnRelation As Integer
+Local lcKey As String
+Local loNode As MSComctlLib.Node
+
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\VCX\prxbase.VCX
+        loNode = Null
+        If Empty( tnImage )
+            tnImage = 0
+        Endif
+        If Empty( tnSelectedImage )
+            tnSelectedImage = 0
+        Endif
+        If Empty( tcNodeKey )
+            lcKey = .NewKey()
+        Else
+            lcKey = tcNodeKey
+        Endif
+        lnRelation = tvw_Next
+        If Vartype( .ImageList ) # 'O'
+            loNode = .Nodes.Add( tcRelativeNodeKey, lnRelation, lcKey, tcNodeText )
+        Else
+            loNode = .Nodes.Add( tcRelativeNodeKey, lnRelation, lcKey, tcNodeText, tnImage, tnSelectedImage )
+        Endif
+        * Agrego al cursor de busqueda
+        .AddToCursorSearch( tcNodeText, lcKey, tcRelativeNodeKey )
+        .Refresh()
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+Return loNode
+
+ENDPROC
+PROCEDURE addprevious
+Lparameters tcNodeText As String, tcNodeKey As String, tcRelativeNodeKey As String,;
+    tnImage As Integer, tnSelectedImage As Integer
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lnRelation As Integer
+Local lcKey As String
+Local loNode As Object
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\VCX\prxbase.VCX
+        loNode = Null
+        If Empty( tnImage )
+            tnImage = 0
+        Endif
+        If Empty( tnSelectedImage )
+            tnSelectedImage = 0
+        Endif
+        If Empty( tcNodeKey )
+            lcKey = This.NewKey()
+        Else
+            lcKey = tcNodeKey
+        Endif
+        lnRelation = tvw_Previous
+        If Vartype( .ImageList ) # 'O'
+            loNode = .Nodes.Add( tcRelativeNodeKey, lnRelation, lcKey, tcNodeText )
+        Else
+            loNode = .Nodes.Add( tcRelativeNodeKey, lnRelation, lcKey, tcNodeText, tnImage, tnSelectedImage )
+        Endif
+        * Agrego al cursor de busqueda
+		.AddToCursorSearch( tcNodeText, lcKey, tcRelativeNodeKey )
+        .Refresh()
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+Return loNode
+
+ENDPROC
+PROCEDURE addroot
+Lparameters tcNodeText As String, tcNodeKey As String, tnImage As Integer, tnSelectedImage As Integer
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local lnRelation As Integer
+Local lcKey As String
+Local tcRelativeNodeKey As String
+Local loNode As Object
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+    With This As treeviewcontainer Of fw\comunes\vcx\draganddrop.vcx
+        loNode = Null
+        If Empty( tnImage )
+            tnImage = 0
+        Endif
+        If Empty( tnSelectedImage )
+            tnSelectedImage = 0
+        Endif
+        If Empty( tcNodeKey )
+            lcKey = This.NewKey()
+        Else
+            lcKey = tcNodeKey
+        Endif
+        lnRelation = tvw_First
+        If Vartype( .ImageList ) # 'O'
+            loNode = .Nodes.Add( , lnRelation, lcKey, tcNodeText )
+        Else
+            loNode = .Nodes.Add( , lnRelation, lcKey, tcNodeText, tnImage, tnSelectedImage )
+        Endif
+        * Agrego al cursor de busqueda
+        .AddToCursorSearch( tcNodeText, lcKey, '' )
+        .Refresh()
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+Return loNode
+
+ENDPROC
+PROCEDURE addtocursorsearch
+Lparameters tcNodeLabel As String, tcNodeKey As String, tcNodeParent As String
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lcCursorSearch As String
+Local lcAlias As String
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        lcAlias = Alias()
+        lcCursorSearch = .cCursorSearch
+        If ! Used( lcCursorSearch )
+            Create Cursor (lcCursorSearch) ( NodeKey Varchar( 20 ), NodeParent Varchar( 20 ), NodeLabel Varchar( 100 ) )
+            Select Alias( lcCursorSearch )
+            Index On NodeKey Tag NodeKey Unique
+            Index On NodeParent + NodeLabel Tag NodeLabel
+            Set Order To NodeLabel In (lcCursorSearch)
+        Endif
+        Insert Into (lcCursorSearch)( NodeKey, NodeParent, NodeLabel ) Values ( tcNodeKey, tcNodeParent, tcNodeLabel )
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    If Used( lcAlias )
+        Select Alias( lcAlias )
+    Endif
+Endtry
+
+ENDPROC
+PROCEDURE ccursorsearch_access
+
+With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+    If Vartype( .cCursorSearch ) # 'C' Or Empty( .cCursorSearch )
+        .cCursorSearch = 'csrsearch' + .Name + Sys( 2015 )
+    Endif
+Endwith
+Return This.cCursorSearch
+
+ENDPROC
+PROCEDURE checkiffound
+Lparameters tcSearchExp As String
+
+Local llRet As Boolean
+Local loNode As MSComctlLib.Node
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loActiveControl && As Control
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        llRet = Found( .cCursorSearch )
+        If llRet
+            Assert Vartype( Thisform.ActiveControl ) = 'O' Message 'No es un Objeto'
+            loActiveControl = Thisform.ActiveControl
+            .cLastSearch = tcSearchExp
+            .oSearchCtl.BackColor = Rgb(255, 255, 255 )
+            .ResetNodes()
+            * Busco el Nodo, lo muestro y lo resalto
+            loNode = .nodes.Item( Evaluate( .cCursorSearch + '.NodeKey' ) )
+            loNode.BackColor = Rgb( 128, 255, 0 )
+            loNode.EnsureVisible()
+            * DoEvents
+            * .oSearchCtl.SetFocus()
+            If Vartype( loActiveControl ) = 'O' And Pemstatus( loActiveControl, 'SetFocus', 5 )
+                loActiveControl.SetFocus()
+            Endif
+        Endif
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+    loNode = Null
+    loActiveControl = Null
+Endtry
+
+Return llRet
+
+ENDPROC
+PROCEDURE classaftersetselected
+Lparameters toNode As MSComctlLib.Node
+
+ENDPROC
+PROCEDURE classbeforesetselected
+Lparameters tcItemKey As String @
+
+Return .T.
+
+ENDPROC
+PROCEDURE clear
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loNode As MSComctlLib.Node
+Try
+    With This As prxtreeviewcontrol Of fw\comunes\vcx\prxbase.vcx
+        * Elimino las referencias
+        For Each loNode As MSComctlLib.Node In .Nodes
+            loNode.Tag = Null
+        Endfor
+        Use in Select(.cCursorSearch)
+        DoDefault()
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loNode = Null
+    loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE enabled_assign
+Lparameters vNewVal As Boolean
+
+This.Enabled = m.vNewVal
+This.Object.Enabled = m.vNewVal
+ENDPROC
+PROCEDURE fontsize_assign
+Lparameters vNewVal As Integer
+Local lnOldValue As Integer
+Try
+    lnOldValue = This.Font.Size
+    This.Font.Size = m.vNewVal
+    This.FontSize = m.vNewVal
+Catch To oErr
+    This.Font.Size = lnOldValue
+    This.FontSize = lnOldValue
+Finally
+Endtry
+
+ENDPROC
+PROCEDURE handlegotfocus
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    This.oSearchCtl.lInFocus = .T.
+	* This.oSearchCtl.SelStart = 0
+    * This.oSearchCtl.SelStart = Len( Alltrim( This.oSearchCtl.Value ) )
+    * This.oSearchCtl.SelLength = Len( Alltrim( This.oSearchCtl.Value ) )
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE handlekeystrokes
+Lparameters nKeyCode As Integer, nShiftAltCtrl As Integer
+
+Debugout Datetime(), 'HandleKeyStrokes', nKeyCode, nShiftAltCtrl, Chr( nKeyCode )
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local lcAlias As String
+Local loNode As MSComctlLib.Node
+Local lcLastSearch As String
+Local lnCountReg As Number
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        lcAlias = Alias()
+        lnCountReg = 0
+        Do Case
+            Case nShiftAltCtrl = 0
+                Do Case
+                    Case nKeyCode = 13
+                        Debugout Datetime(), 'HandleKeyStrokes', nKeyCode, .cLastSearch
+                        Nodefault
+                        nKeyCode = 0
+                        lcLastSearch = .cLastSearch
+                        If ! Empty( lcLastSearch )
+                            Select Alias( .cCursorSearch )
+                            If Eof(.cCursorSearch) Or .nCountReg = .nReg
+                                Locate
+                                Locate For &lcLastSearch
+                            Else
+                                Continue
+                                .nReg = .nReg + 1
+                            Endif
+                            If ! .CheckIfFound( lcLastSearch )
+                                .oSearchCtl.BackColor = Rgb( 255, 128, 128 )
+                                .cLastSearch = ''
+                                .ResetNodes()
+                                .nReg = 0
+                            Endif
+                        Endif
+                    Case nKeyCode = 27 && Esc
+                        .oSearchCtl.Value = ''
+                        .oSearchCtl.Visible = .F.
+                        .Height = .Height + .oSearchCtl.Height
+                        .Enabled = .T.
+                        .SetFocus()
+                    Case nKeyCode > 31
+                        Select Alias( .cCursorSearch )
+                        lcLastSearch = Any2Char( Alltrim( Upper( .oSearchCtl.Value ) ), .T. ) + '$ Upper( NodeLabel )'
+                        Debugout Datetime(), lcLastSearch
+                        lnCountReg = 0
+                        Calculate Cnt() For &lcLastSearch To lnCountReg In (.cCursorSearch)
+                        .nCountReg = lnCountReg
+                        If .nCountReg > 0
+                            Locate
+                            Locate For &lcLastSearch
+                            * Si no encontro verifica
+                            If .CheckIfFound( lcLastSearch )
+                                .nReg = 1
+                            Else
+                                .oSearchCtl.BackColor = Rgb( 255, 128, 128 )
+                                .cLastSearch = ''
+                                .ResetNodes()
+                                .nReg = 0
+                            Endif
+                        Endif
+                    Otherwise
+                        DoDefault( nKeyCode, nShiftAltCtrl )
+                Endcase
+            Otherwise
+                DoDefault( nKeyCode, nShiftAltCtrl )
+        Endcase
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+Finally
+    loError = Null
+    loNode = Null
+    If Used( lcAlias )
+        Select Alias( lcAlias )
+    Endif
+Endtry
+
+Return .T.
+
+ENDPROC
+PROCEDURE handlelostfocus
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    This.oSearchCtl.lInFocus = .F.
+    * This.oSearchCtl.SetFocus()
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE hookaftersetselected
+Lparameters toNode As MSComctlLib.Node
+
+ENDPROC
+PROCEDURE hookbeforesetselected
+Lparameters tcItemKey As String @
+
+Return .T.
+
+ENDPROC
+PROCEDURE item
+Lparameters eIndex As Variant
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local llOk As Boolean
+Local loNode As MSComctlLib.Node
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        Try
+            llOk = .T.
+            loNode = .Nodes.Item( eIndex )
+        Catch To oErr
+            llOk = .F.
+        Endtry
+        If ! llOk
+            Error 'No existe el nodo ' + Transform( eIndex )
+        Endif
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+Return loNode
+
+
+ENDPROC
+PROCEDURE newkey
+
+Return Sys( 2015 ) + '_'
+ENDPROC
+PROCEDURE osearchctl_access
+
+Local lcCtlName As String
+Local llLockScreen As Boolean
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local loSearchCtl As TextBox
+Try
+    llLockScreen = Thisform.LockScreen
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        If Vartype( .oSearchCtl ) # 'O'
+            If ! This.ClassLibrary $ Set("Classlib")
+                Set Classlib To (This.ClassLibrary) Additive
+            Endif
+            Thisform.LockScreen = .T.
+            lcCtlName = 'txt' + Sys(2015)
+            .Parent.AddObject( lcCtlName, 'prxtextbox' )
+            .oSearchCtl = .Parent.&lcCtlName.
+            loSearchCtl = .oSearchCtl
+            loSearchCtl.AddProperty( 'lInFocus', .F. )
+            loSearchCtl = .oSearchCtl
+            loSearchCtl.FontName = .Font.Name
+            loSearchCtl.FontSize = .Font.Size
+            loSearchCtl.FontBold = .Font.Bold
+            Set Asserts Off
+            loSearchCtl.AutoFit()
+            loSearchCtl.Visible = .T.
+            loSearchCtl.Move( .Left, Abs( .Top + .Height - loSearchCtl.Height ), .Width )
+            .Move( .Left, .Top, .Width, Abs( .Height - loSearchCtl.Height ) )
+            loSearchCtl.BorderStyle = .BorderStyle
+            Bindevent( loSearchCtl, 'KeyPress', This, 'HandleKeyStrokes' )
+            Bindevent( loSearchCtl, 'LostFocus', This, 'HandleLostFocus' )
+            Bindevent( loSearchCtl, 'GotFocus', This, 'HandleGotFocus' )
+            .lSearchCtl = .T.
+        Endif
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+    loSearchCtl = Null
+    Thisform.LockScreen = llLockScreen
+Endtry
+Return This.oSearchCtl
+
+ENDPROC
+PROCEDURE remove
+Lparameters eIndex As Variant
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Local llOk As Boolean
+Local loNode As MSComctlLib.Node
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        Try
+            llOk = .T.
+            loNode = .Nodes.Item( eIndex )
+        Catch To oErr
+            llOk = .F.
+        Endtry
+        If llOk
+            If Used( .cCursorSearch )
+                Delete From (.cCursorSearch) Where NodeKey = (loNode.Key)
+            Endif
+            loNode.Tag = Null
+            .Nodes.Remove( eIndex )
+        Else
+            Error 'No existe el nodo ' + Transform( eIndex )
+        Endif
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+    loNode = Null
+Endtry
+
+
+ENDPROC
+PROCEDURE resetnodes
+With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+    For Each loNode In .nodes
+        loNode.BackColor = Rgb( 255, 255, 255 )
+    Endfor
+Endwith
+
+ENDPROC
+PROCEDURE setselected
+Lparameters tcItemKey As String
+
+Local loNode As MSComctlLib.Node
+Local lHasDefault As Logical
+Local lnRecno As Integer
+Local lcCommand As String
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+
+Try
+    With This As prxtreeviewcontrol Of fw\comunes\vcx\prxbase.vcx
+        loNode = Null
+        If .ClassBeforeSetSelected( @tcItemKey )
+            If .HookAfterSetSelected( @tcItemKey )
+                If ! Empty( tcItemKey )
+                    loNode = .Nodes.Item( tcItemKey )
+                    With loNode As MSComctlLib.Node
+                        .Selected = .T.
+                        .EnsureVisible()
+                    Endwith
+                Else
+                    .Selected = Null
+                Endif
+                .HookAfterSetSelected( loNode )
+                .ClassAfterSetSelected( loNode )
+                .Refresh()
+            Endif
+        Endif
+    Endwith
+Catch To oErr
+    loError = Newobject( "ErrorHandler", "Tools\ErrorHandler\Prg\ErrorHandler.prg" )
+    loError.Process( oErr )
+    Throw loError
+Finally
+    loNode = Null
+    loError = Null
+Endtry
+
+ENDPROC
+[END METHODS]
+[BINSTART OLE]
+CHECKSUM=35415
+[BINEND OLE]
+[BINSTART OLE2]
+CHECKSUM=11510
+[BINEND OLE2]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+_memberdata XML Metadata for customizable properties
+fontsize Specifies the font size for text displayed with an object.
+ccursorsearch
+osearchctl
+linsearch Indica si se esta realizando una busqueda en el control.
+nlastkeystroke
+clastsearch
+lsearchctl
+ncountreg
+nreg
+*addchild 
+*addlast 
+*addnext 
+*addprevious 
+*addroot 
+*newkey 
+*setselected 
+*classbeforesetselected 
+*classaftersetselected 
+*hookbeforesetselected 
+*hookaftersetselected 
+*fontsize_assign 
+*enabled_assign 
+*classbeforeinit 
+*classafterinit 
+*hookbeforeinit 
+*hookafterinit 
+*clear Clears the contents of a ComboBox or ListBox control.
+*ccursorsearch_access 
+*addtocursorsearch Agrega un nodo al cursor de busqueda
+*remove Elimina un nodo
+*item Returns a specified member of a Collection object.
+*osearchctl_access 
+*handlekeystrokes Captura la presion de las teclas del control de busqueda
+*handlelostfocus 
+*handlegotfocus 
+*checkiffound 
+*resetnodes 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] prxtreeviewsearch_bck
+[START RESERVED1]
+  ..\include\praxis.hXs~\V ..\include\foxpro.h&YÊrûF ..\include\strings.h.ZZŠOJ* ..\..\..\tools\namespaces\include\system.h6[±ÙF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _23214F6GM
+[CLASS] prxtreeviewcontrol
+[CLASSLOC] prxbase.vcx
+[BASECLASS] olecontrol
+[OBJNAME] prxtreeviewsearch
+[START PROPERTIES]
+Height = 100
+Width = 100
+osearchctl = .NULL.
+lresaltall = .F.
+clastsearch = 
+ncountreg = 0
+nreg = 0
+ccursorsearch = 
+linsearch = .F.
+lsearchctl = .F.
+_memberdata =     3371<VFPData><memberdata name="addchild" type="method" display="AddChild"/><memberdata name="addlast" type="method" display="AddLast"/><memberdata name="addnext" type="method" display="AddNext"/><memberdata name="addprevious" type="method" display="AddPrevious"/><memberdata name="addroot" type="method" display="AddRoot"/><memberdata name="laddroot" type="property" display="lAddRoot" script="do 'C:\PROGRAM FILES\MICROSOFT VISUAL FOXPRO 9\NEWPROPERTYDIALOG\PropertyEditor.app' with 'Toggle', 'lAddRoot'"/><memberdata name="newkey" type="method" display="NewKey"/><memberdata name="setseleted" type="method" display="SetSeleted"/><memberdata name="setselected" type="method" display="SetSelected"/><memberdata name="classbeforesetselected" type="method" display="ClassBeforeSetSelected"/><memberdata name="classaftersetselected" type="method" display="ClassAfterSetSelected"/><memberdata name="hookbeforesetselected" type="method" display="HookBeforeSetSelected"/><memberdata name="hookaftersetselected" type="method" display="HookAfterSetSelected"/><memberdata name="fontsize" type="property" favorites="True"/><memberdata name="fontsize_assign" type="method" display="FontSize_Assign"/><memberdata name="enabled_assign" type="method" display="Enabled_Assign"/><memberdata name="classbeforeinit" type="method" display="ClassBeforeInit"/><memberdata name="classafterinit" type="method" display="ClassAfterInit"/><memberdata name="hookbeforeinit" type="method" display="HookBeforeInit"/><memberdata name="hookafterinit" type="method" display="HookAfterInit"/><memberdata name="clear" type="method" display="Clear"/><memberdata name="ccursorsearch_access" type="method" display="cCursorSearch_Access"/><memberdata name="addtocursorsearch" type="method" display="AddToCursorSearch"/><memberdata name="remove" type="method" display="Remove"/><memberdata name="item" type="method" display="Item"/><memberdata name="osearchctl_access" type="method" display="oSearchCtl_Access"/><memberdata name="handlekeystrokes" type="method" display="HandleKeyStrokes"/><memberdata name="handlelostfocus" type="method" display="HandleLostFocus"/><memberdata name="handlegotfocus" type="method" display="HandleGotFocus"/><memberdata name="nlastkeystroke" type="property" display="nLastKeystroke"/><memberdata name="checkiffound" type="method" display="CheckIfFound"/><memberdata name="resetnodes" type="method" display="ResetNodes"/><memberdata name="handlesetselected" type="method" display="HandleSetSelected"/><memberdata name="handlenext" type="method" display="HandleNext"/><memberdata name="handleprior" type="method" display="HandlePrior"/><memberdata name="hidesearch" type="method" display="HideSearch"/><memberdata name="osearchctl" type="property" display="oSearchCtl"/><memberdata name="handlesearch" type="method" display="HandleSearch"/><memberdata name="resaltall" type="method" display="ResaltAll"/><memberdata name="lresaltall" type="property" display="lResaltAll"/><memberdata name="clastsearch" type="property" display="cLastSearch"/><memberdata name="ncountreg" type="property" display="nCountReg"/><memberdata name="nreg" type="property" display="nReg"/><memberdata name="ccursorsearch" type="property" display="cCursorSearch"/><memberdata name="linsearch" type="property" display="lInSearch"/><memberdata name="lsearchctl" type="property" display="lSearchCtl"/></VFPData>
+
+fontsize = 9
+Name = "prxtreeviewsearch"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Destroy
+
+Local lcObjName As String
+Try
+    With This As prxtreeviewcontrol Of fw\comunes\vcx\prxbase.vcx
+        * Elimino las referencias
+        DoDefault()
+        Use In Select( .cCursorSearch )
+        If .lSearchCtl
+            lcObjName = .oSearchCtl.Name
+            .oSearchCtl.ReleaseObjects()
+            Unbindevents( .oSearchCtl )
+            .oSearchCtl = Null
+            .Parent.RemoveObject( lcObjName )
+            .lSearchCtl = .F.
+
+        EndIf && .lSearchCtl
+
+    EndWith
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+
+Finally
+    loNode = Null
+    loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE GotFocus
+
+With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+    DoDefault()
+    .lInSearch = .F.
+
+Endwith
+
+ENDPROC
+PROCEDURE KeyPress
+*** ActiveX Control Event ***
+Lparameters keyascii As Integer
+Local lnShiftAltCtrl As Integer
+Local lnKeyASCII As Integer
+* Declare Integer GetKeyState In user32 Integer vKey
+* @TODO Chequear si el usuario activo la combinacion de teclas Ctrl+F
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        lnShiftAltCtrl = 0
+        Do Case
+            Case lnShiftAltCtrl = 0
+                Do Case
+                    Case keyascii = 13
+                        *!*	If .lSearchCtl
+                        *!*	    Nodefault
+                        *!*	    keyascii = 0
+                        *!*	    .oSearchCtl.SetFocus()
+                        *!*	Endif
+                        DoDefault( keyascii )
+                    Case keyascii > 31
+                        Nodefault
+                        lnKeyASCII = keyascii
+                        keyascii = 0
+                        If ! .oSearchCtl.Visible
+                            .Move( .Left, .Top, .Width, Abs( .Height - .oSearchCtl.Height ) )
+                            .oSearchCtl.Visible = .T.
+                        Endif
+                        .oSearchCtl.Value = Chr( lnKeyASCII )
+                        .oSearchCtl.SetFocus()
+                    Otherwise
+                        DoDefault( keyascii )
+                Endcase
+            Otherwise
+                DoDefault( keyascii )
+        Endcase
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+Finally
+    loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE LostFocus
+
+If ! This.lInSearch
+    DoDefault()
+
+Endif
+
+
+ENDPROC
+PROCEDURE addchild
+Lparameters tcNodeText As String, tcNodeKey As String, tcRelativeNodeKey As String,;
+    tnImage As Integer, tnSelectedImage As Integer,;
+	tlRefresh as Boolean
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loNode As MSComctlLib.Node
+
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\VCX\prxbase.VCX
+        loNode = DoDefault( tcNodeText, tcNodeKey, tcRelativeNodeKey, tnImage, tnSelectedImage )
+        * Agrego al cursor de busqueda
+        .AddToCursorSearch( tcNodeText, loNode.Key, tcRelativeNodeKey )
+		If tlRefresh
+			.Refresh()
+		EndIf
+
+    EndWith
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+Return loNode
+
+ENDPROC
+PROCEDURE addlast
+Lparameters tcNodeText As String, tcNodeKey As String, tcRelativeNodeKey As String,;
+    tnImage As Integer, tnSelectedImage As Integer
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loNode As MSComctlLib.Node
+
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\VCX\prxbase.VCX
+        loNode = DoDefault( tcNodeText, tcNodeKey, tcRelativeNodeKey, tnImage, tnSelectedImage )
+		* Agrego al cursor de busqueda
+		.AddToCursorSearch( tcNodeText, loNode.Key, tcRelativeNodeKey )
+        .Refresh()
+
+    EndWith
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+Return loNode
+
+ENDPROC
+PROCEDURE addnext
+Lparameters tcNodeText As String, tcNodeKey As String, tcRelativeNodeKey As String,;
+    tnImage As Integer, tnSelectedImage As Integer
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loNode As MSComctlLib.Node
+
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\VCX\prxbase.VCX
+        loNode = DoDefault( tcNodeText, tcNodeKey, tcRelativeNodeKey, tnImage, tnSelectedImage )
+        * Agrego al cursor de busqueda
+        .AddToCursorSearch( tcNodeText, loNode.Key, tcRelativeNodeKey )
+        .Refresh()
+
+    EndWith
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+Return loNode
+
+ENDPROC
+PROCEDURE addprevious
+Lparameters tcNodeText As String, tcNodeKey As String, tcRelativeNodeKey As String,;
+    tnImage As Integer, tnSelectedImage As Integer
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loNode As Object
+
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\VCX\prxbase.VCX
+        loNode = DoDefault( tcNodeText, tcNodeKey, tcRelativeNodeKey, tnImage, tnSelectedImage )
+        * Agrego al cursor de busqueda
+		.AddToCursorSearch( tcNodeText, loNode.Key, tcRelativeNodeKey )
+        .Refresh()
+
+    EndWith
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+Return loNode
+
+ENDPROC
+PROCEDURE addroot
+Lparameters tcNodeText As String, tcNodeKey As String, tnImage As Integer, tnSelectedImage As Integer
+
+#INCLUDE "FW\Comunes\Include\Praxis.h"
+
+Local loNode As MSComctlLib.Node
+
+Try
+    With This As treeviewcontainer Of fw\comunes\vcx\draganddrop.vcx
+        loNode = DoDefault( tcNodeText, tcNodeKey, tnImage, tnSelectedImage )
+        * Agrego al cursor de busqueda
+        .AddToCursorSearch( tcNodeText, loNode.Key, '' )
+        .Refresh()
+
+    Endwith
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+Return loNode
+
+ENDPROC
+PROCEDURE addtocursorsearch
+Lparameters tcNodeLabel As String, tcNodeKey As String, tcNodeParent As String
+
+Local lcCursorSearch As String
+Local lcAlias As String
+Try
+	With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+		lcAlias = Alias()
+		lcCursorSearch = .cCursorSearch
+		If ! Used( lcCursorSearch )
+			Create Cursor (lcCursorSearch) ( NodeKey Varchar( 20 ), NodeParent Varchar( 20 ), NodeLabel Varchar( 100 ) )
+			Select Alias( lcCursorSearch )
+			Index On NodeKey Tag NodeKey Unique
+			Index On NodeParent + NodeLabel Tag NodeLabel
+			Set Order To NodeLabel In (lcCursorSearch)
+
+		Endif && ! Used( lcCursorSearch )
+
+		Insert Into (lcCursorSearch)( NodeKey, NodeParent, NodeLabel ) ;
+			Values ( tcNodeKey, tcNodeParent, tcNodeLabel )
+
+	Endwith
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+	Throw loError
+
+Finally
+	If Used( lcAlias )
+		Select Alias( lcAlias )
+
+	Endif && Used( lcAlias )
+
+Endtry
+
+ENDPROC
+PROCEDURE ccursorsearch_access
+
+With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+    If Vartype( .cCursorSearch ) # 'C' Or Empty( .cCursorSearch )
+        .cCursorSearch = 'csrsearch' + .Name + Sys( 2015 )
+
+    EndIf && Vartype( .cCursorSearch ) # 'C' Or Empty( .cCursorSearch )
+
+EndWith
+
+Return This.cCursorSearch
+
+
+ENDPROC
+PROCEDURE checkiffound
+Lparameters tcSearchExp As String
+
+Local llRet As Boolean
+Local loNode As MSComctlLib.Node
+* Local loActiveControl && As Control
+
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        llRet = Found( .cCursorSearch )
+        If llRet
+            * Assert Vartype( Thisform.ActiveControl ) = 'O' Message 'No es un Objeto'
+            *!*	loActiveControl = Thisform.ActiveControl
+            .cLastSearch = tcSearchExp
+            * .oSearchCtl.BackColor = Rgb(255, 255, 255 )
+            .ResetNodes()
+            * Busco el Nodo, lo muestro y lo resalto
+            loNode = .nodes.Item( Evaluate( .cCursorSearch + '.NodeKey' ) )
+            loNode.BackColor = Rgb( 128, 255, 0 )
+            loNode.EnsureVisible()
+            * DoEvents
+            * .oSearchCtl.SetFocus()
+            *!*	If Vartype( loActiveControl ) = 'O' And Pemstatus( loActiveControl, 'SetFocus', 5 )
+            *!*	    loActiveControl.SetFocus()
+            *!*	Endif
+
+        EndIf && llRet
+
+    EndWith
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+    loNode = Null
+    * loActiveControl = Null
+
+Endtry
+
+Return llRet
+
+ENDPROC
+PROCEDURE clear
+
+
+Try
+    DoDefault()
+    Use In Select(This.cCursorSearch)
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE handlegotfocus
+Try
+    * This.oSearchCtl.lInFocus = .T.
+	* This.oSearchCtl.SelStart = 0
+    * This.oSearchCtl.SelStart = Len( Alltrim( This.oSearchCtl.Value ) )
+    * This.oSearchCtl.SelLength = Len( Alltrim( This.oSearchCtl.Value ) )
+
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+
+Endtry
+
+ENDPROC
+PROCEDURE handlekeystrokes
+Lparameters nKeyCode As Integer, nShiftAltCtrl As Integer
+
+Debugout Datetime(), 'HandleKeyStrokes', nKeyCode, nShiftAltCtrl, Chr( nKeyCode )
+
+Local lcAlias As String
+Local loNode As MSComctlLib.Node
+Local lcLastSearch As String
+Local lnCountReg As Number
+Try
+	With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+		lcAlias = Alias()
+		lnCountReg = 0
+		Do Case
+			Case nShiftAltCtrl = 0
+				Do Case
+					Case nKeyCode = 13
+						Debugout Datetime(), 'HandleKeyStrokes', nKeyCode, .cLastSearch
+						Nodefault
+						nKeyCode = 0
+						lcLastSearch = .cLastSearch
+						If ! Empty( lcLastSearch )
+							Select Alias( .cCursorSearch )
+							If Eof(.cCursorSearch) Or .nCountReg = .nReg
+								Locate
+								Locate For &lcLastSearch
+
+							Else
+								Continue
+								.nReg = .nReg + 1
+
+							Endif && Eof(.cCursorSearch) Or .nCountReg = .nReg
+
+							If ! .CheckIfFound( lcLastSearch )
+								.oSearchCtl.BackColor = Rgb( 255, 128, 128 )
+								.cLastSearch = ''
+								.ResetNodes()
+								.nReg = 0
+
+							Endif && ! .CheckIfFound( lcLastSearch )
+
+						Endif && ! Empty( lcLastSearch )
+
+					Case nKeyCode = 27 && Esc
+						.oSearchCtl.Value = ''
+						.oSearchCtl.Visible = .F.
+						.Height = .Height + .oSearchCtl.Height
+						* .Enabled = .T.
+						.SetFocus()
+
+					Case nKeyCode > 31
+						Select Alias( .cCursorSearch )
+						lcLastSearch = Any2Char( Alltrim( Upper( .oSearchCtl.Value ) ), .T. ) + '$ Upper( NodeLabel )'
+						Debugout Datetime(), lcLastSearch
+						lnCountReg = 0
+						Calculate Cnt() For &lcLastSearch To lnCountReg In (.cCursorSearch)
+						.nCountReg = lnCountReg
+						If .nCountReg > 0
+							Locate
+							Locate For &lcLastSearch
+							* Si no encontro verifica
+							If .CheckIfFound( lcLastSearch )
+								.nReg = 1
+
+							Else
+								.oSearchCtl.BackColor = Rgb( 255, 128, 128 )
+								.cLastSearch = ''
+								.ResetNodes()
+								.nReg = 0
+
+							Endif && .CheckIfFound( lcLastSearch )
+
+						Endif && .nCountReg > 0
+
+					Otherwise
+						DoDefault( nKeyCode, nShiftAltCtrl )
+
+				Endcase
+
+			Otherwise
+				DoDefault( nKeyCode, nShiftAltCtrl )
+
+		Endcase
+
+	Endwith
+
+Catch To oErr
+	loError = Thisform.oError
+	Thisform.cXMLoError = loError.Process( oErr )
+
+Finally
+	loError = Null
+	loNode = Null
+	If Used( lcAlias )
+		Select Alias( lcAlias )
+
+	Endif && Used( lcAlias )
+
+Endtry
+
+Return .T.
+
+ENDPROC
+PROCEDURE handlelostfocus
+
+Try
+    * This.oSearchCtl.lInFocus = .F.
+    * This.oSearchCtl.SetFocus()
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE handlenext
+
+Lparameters tcSearchExp as String
+
+Local lcAlias As String
+Local loNode As MSComctlLib.Node
+Local lcLastSearch As String
+Local lnCountReg As Number
+
+Try
+    tcSearchExp = IfEmpty( tcSearchExp, '' )
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        lcAlias = IfEmpty( Alias(), '' )
+        lcLastSearch = .cLastSearch
+        If ! Empty( lcLastSearch )
+            Select Alias( .cCursorSearch )
+            Set Order To Tag NodeLabel In ( .cCursorSearch ) Ascending
+            If Eof(.cCursorSearch) Or .nCountReg = .nReg
+                Locate
+                Locate For &lcLastSearch
+            Else
+                Continue
+                .nReg = .nReg + 1
+            Endif
+            .oSearchCtl.lFound = .CheckIfFound( lcLastSearch )
+            If ! .oSearchCtl.lFound
+                .cLastSearch = ''
+                .ResetNodes()
+                .nReg = 0
+            Endif
+        Endif
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+Finally
+    loError = Null
+    loNode = Null
+    If ! Empty( lcAlias ) And Used( lcAlias )
+        Select Alias( lcAlias )
+    Endif
+Endtry
+
+
+ENDPROC
+PROCEDURE handleprior
+
+Lparameters tcSearchExp as String
+
+Local lcAlias As String
+Local loNode As MSComctlLib.Node
+Local lcLastSearch As String
+Local lnCountReg As Number
+
+Try
+    tcSearchExp = IfEmpty( tcSearchExp, '' )
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        lcAlias = IfEmpty( Alias(), '' )
+        lcLastSearch = .cLastSearch
+        If ! Empty( lcLastSearch )
+            Select Alias( .cCursorSearch )
+            Set Order To Tag NodeLabel In ( .cCursorSearch ) Descending
+            If Eof(.cCursorSearch) Or .nCountReg = .nReg
+                Locate
+                Locate For &lcLastSearch
+            Else
+                Continue
+                .nReg = .nReg + 1
+            Endif
+            .oSearchCtl.lFound = .CheckIfFound( lcLastSearch )
+            If ! .oSearchCtl.lFound
+                .cLastSearch = ''
+                .ResetNodes()
+                .nReg = 0
+            Endif
+        Endif
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+Finally
+    loError = Null
+    loNode = Null
+    If ! Empty( lcAlias ) And Used( lcAlias )
+        Select Alias( lcAlias )
+    Endif
+Endtry
+
+
+ENDPROC
+PROCEDURE handlesearch
+Lparameters tcSearchExp As String
+
+Local lcAlias As String
+Local loNode As MSComctlLib.Node
+Local lcLastSearch As String
+Local lnCountReg As Number
+
+Try
+
+    tcSearchExp = IfEmpty( tcSearchExp, '' )
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        lcAlias = IfEmpty( Alias(), '' )
+        lnCountReg = 0
+        Select Alias( .cCursorSearch )
+        lcLastSearch = Any2Char( Alltrim( Upper( tcSearchExp ) ), .T. ) + '$ Upper( NodeLabel )'
+        * Debugout Datetime(), lcLastSearch
+        lnCountReg = 0
+        Set Order To Tag NodeLabel In ( .cCursorSearch ) Ascending
+        Locate
+        Calculate Cnt() For &lcLastSearch To lnCountReg In (.cCursorSearch)
+        .nCountReg = lnCountReg
+        If .nCountReg > 0
+            Locate
+            Locate For &lcLastSearch
+            * Si no encontro verifica
+            .oSearchCtl.lFound = .CheckIfFound( lcLastSearch )
+            If .oSearchCtl.lFound
+                .nReg = 1
+            Else
+                .cLastSearch = ''
+                .ResetNodes()
+                .nReg = 0
+            Endif
+        Endif
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+Finally
+    loError = Null
+    loNode = Null
+    If ! Empty( lcAlias ) And Used( lcAlias )
+        Select Alias( lcAlias )
+    Endif
+Endtry
+
+
+ENDPROC
+PROCEDURE hidesearch
+
+This.oSearchCtl.Visible = .F.
+This.Height = This.Height + This.oSearchCtl.Height
+
+ENDPROC
+PROCEDURE hookaftersetselected
+Lparameters toNode As MSComctlLib.Node
+
+ENDPROC
+PROCEDURE hookbeforesetselected
+Lparameters tcItemKey As String @
+
+Return .T.
+
+ENDPROC
+PROCEDURE osearchctl_access
+
+Local lcCtlName As String
+Local llLockScreen As Boolean
+Local loSearchCtl As prxsearchbox Of fw\comunes\vcx\prxsearch.vcx
+
+Try
+    llLockScreen = Thisform.LockScreen
+    With This As prxtreeviewcontrol Of fw\comunes\vcx\prxbase.vcx
+        If Vartype( .oSearchCtl ) # 'O'
+
+            If ! ( 'prxsearch.vcx' $ Lower( Set( "Classlib" ) ) )
+                Set Classlib To 'prxsearch.vcx' Additive
+            Endif
+
+            Thisform.LockScreen = .T.
+            lcCtlName = 'txt' + Sys(2015)
+            .Parent.AddObject( lcCtlName, 'prxsearchbox' )
+            .oSearchCtl = .Parent.&lcCtlName.
+            loSearchCtl = .oSearchCtl
+            loSearchCtl.oCtlTarget = This
+            loSearchCtl.Autosetup()
+            loSearchCtl.Visible = .T.
+            loSearchCtl.Move( .Left, Abs( .Top + .Height - loSearchCtl.Height ), .Width )
+            .Move( .Left, .Top, .Width, Abs( .Height - loSearchCtl.Height ) )
+            * loSearchCtl.BorderStyle = .BorderStyle
+            * Bindevent( loSearchCtl, 'KeyPress', This, 'HandleKeyStrokes' )
+            * Bindevent( loSearchCtl, 'LostFocus', This, 'HandleLostFocus' )
+            * Bindevent( loSearchCtl, 'GotFocus', This, 'HandleGotFocus' )
+            .lSearchCtl = .T.
+        Endif
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+    loSearchCtl = Null
+    Thisform.LockScreen = llLockScreen
+Endtry
+Return This.oSearchCtl
+
+ENDPROC
+PROCEDURE remove
+Lparameters eIndex As Variant
+
+Local llOk As Boolean
+Local loNode As MSComctlLib.Node
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+        Try
+            llOk = .T.
+            loNode = .Nodes.Item( eIndex )
+
+        Catch To oErr
+            llOk = .F.
+
+        Endtry
+        If llOk
+            If Used( .cCursorSearch )
+                Delete From (.cCursorSearch) Where NodeKey = (loNode.Key)
+
+            Endif
+            loNode.Tag = Null
+            .Nodes.Remove( eIndex )
+
+        Else
+            Error 'No existe el nodo ' + Transform( eIndex )
+
+        Endif
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+
+Finally
+    loError = Null
+    loNode = Null
+
+Endtry
+
+
+ENDPROC
+PROCEDURE resaltall
+Lparameters tlResaltAll As Boolean
+
+Local lcAlias As String
+Local lnRecNo As Number
+Local loNode As MSComctlLib.Node
+
+Try
+    With This As prxtreeviewcontrol Of FW\Comunes\vcx\prxbase.vcx
+
+        lcAlias = IfEmpty( Alias(), '' )
+        Select Alias( .cCursorSearch )
+        .lResaltAll = m.tlResaltAll
+        If tlResaltAll
+            If ! Empty( .cLastSearch ) And .nCountReg > 0
+
+                lcLastSearch = .cLastSearch
+                lnRecNo = SaveRecNo( .cCursorSearch )
+                .ResetNodes()
+                Select Alias( .cCursorSearch )
+                Set Order To Tag NodeLabel In ( .cCursorSearch ) Ascending
+                Locate
+                Locate For &lcLastSearch
+                Do While Found()
+                    Continue
+                    loNode = .nodes.Item( Evaluate( .cCursorSearch + '.NodeKey' ) )
+                    loNode.BackColor =  Rgb( 128, 255, 128 )
+                    loNode.EnsureVisible()
+
+                EndDo
+                Locate
+                RestRecNo( lnRecNo, .cCursorSearch )
+                loNode = .nodes.Item( Evaluate( .cCursorSearch + '.NodeKey' ) )
+                loNode.BackColor = Rgb( 128, 255, 0 )
+                loNode.EnsureVisible()
+
+            EndIf && ! Empty( .cLastSearch ) And .nCountReg > 0
+
+        Else
+            If ! Empty( .cLastSearch )
+                * Select Alias( .cCursorSearch )
+                lnRecNo = SaveRecNo( .cCursorSearch )
+                If .nCountReg > 0
+                    .ResetNodes()
+                    RestRecNo( lnRecNo, .cCursorSearch )
+                    If .nCountReg > 0
+                        loNode = .nodes.Item( Evaluate( .cCursorSearch + '.NodeKey' ) )
+                        loNode.BackColor = Rgb( 128, 255, 0 )
+                        loNode.EnsureVisible()
+
+                    EndIf && .nCountReg > 0
+
+                EndIf && .nCountReg > 0
+
+            EndIf && ! Empty( .cLastSearch )
+
+        EndIf && tlResaltAll
+
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+
+Finally
+    loError = Null
+    loNode = Null
+    If ! Empty( lcAlias ) And Used( lcAlias )
+        Select Alias( lcAlias )
+
+    EndIf && ! Empty( lcAlias ) And Used( lcAlias )
+
+Endtry
+
+
+ENDPROC
+[END METHODS]
+[BINSTART OLE]
+CHECKSUM=36719
+[BINEND OLE]
+[BINSTART OLE2]
+CHECKSUM=11510
+[BINEND OLE2]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+osearchctl
+lresaltall
+clastsearch
+ncountreg
+nreg
+ccursorsearch
+linsearch
+lsearchctl
+*ccursorsearch_access 
+*osearchctl_access 
+*handlekeystrokes 
+*handlelostfocus 
+*handlegotfocus 
+*checkiffound 
+*addtocursorsearch 
+*handlesetselected 
+*handlenext 
+*handleprior 
+*hidesearch 
+*handlesearch 
+*resaltall 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] prxtreeviewsearch
+[START RESERVED1]
+  ..\include\praxis.hÏs~\V ..\include\foxpro.hÐÊrûF ..\include\strings.hÑZŠOJ* ..\..\..\tools\namespaces\include\system.hÒ±ÙF[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2340OJHE8
+[CLASS] prxlistviewcontrol
+[CLASSLOC] prxbase.vcx
+[BASECLASS] olecontrol
+[OBJNAME] prxlistviewsearch
+[START PROPERTIES]
+Height = 100
+Width = 100
+_memberdata =      301<VFPData><memberdata name="handlesetselected" type="method" display="HandleSetSelected"/><memberdata name="handlenext" type="method" display="HandleNext"/><memberdata name="handleprior" type="method" display="HandlePrior"/><memberdata name="hidesearch" type="method" display="HideSearch"/></VFPData>
+
+Name = "prxlistviewsearch"
+[END PROPERTIES]
+[BINSTART OLE]
+CHECKSUM=21637
+[BINEND OLE]
+[BINSTART OLE2]
+CHECKSUM=21978
+[BINEND OLE2]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED3]
+_memberdata
+*handlesetselected 
+*handlenext 
+*handleprior 
+*hidesearch 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] prxlistviewsearch
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2NO034FDK
+[CLASS] prxcontainer
+[CLASSLOC] prxbase.vcx
+[BASECLASS] container
+[OBJNAME] prxsearchbox
+[START PROPERTIES]
+Width = 344
+Height = 32
+BackStyle = 0
+BorderWidth = 1
+lfound = .F.
+octltarget = .NULL.
+value = 
+lexitonvalid = .T.
+_memberdata =     3326<VFPData><memberdata name="autofit" type="method" display="Autofit"/><memberdata name="nBottomPadding" type="property" display="nBottomPadding" favorites="True"/><memberdata name="nGap" type="property" display="nGap"/><memberdata name="nLeftPadding" type="property" display="nLeftPadding"/><memberdata name="performautofit" type="property" display="PerformAutofit"/><memberdata name="nRightPadding" type="property" display="nRightPadding"/><memberdata name="nTopPadding" type="property" display="nTopPadding"/><memberdata name="llllllPerformAutoSetUp" type="property" display="llllllPerformAutoSetUp"/><memberdata name="autosetup" type="method" display="AutoSetup"/><memberdata name="lautosetup" type="property" display="lAutoSetup"/><memberdata name="ocolobjects" type="property" display="oColObjects"/><memberdata name="resalttittle" type="method" display="ResaltTittle"/><memberdata name="handleevents" type="method" display="HandleEvents"/><memberdata name="lsubscribetohandleevents" type="property" display="lSubscribeToHandleEvents" favorites="True"/><memberdata name="setup" type="method" display="Setup"/><memberdata name="loldPerformAutoSetUp" type="property" display="loldPerformAutoSetUp"/><memberdata name="releaseobjects" type="method" display="ReleaseObjects"/><memberdata name="ntoppadding" type="property" display="nTopPadding"/><memberdata name="nbottompadding" type="property" display="nBottomPadding" favorites="True"/><memberdata name="nleftpadding" type="property" display="nLeftPadding"/><memberdata name="nrightpadding" type="property" display="nRightPadding"/><memberdata name="classbeforeautosetup" type="method" display="ClassBeforeAutosetup"/><memberdata name="hookbeforeautosetup" type="method" display="HookBeforeAutosetup"/><memberdata name="hookafterautosetup" type="method" display="HookAfterAutosetup"/><memberdata name="classafterautosetup" type="method" display="ClassAfterAutosetup"/><memberdata name="lPerformAutoSetUp" type="property" display="lPerformAutoSetUp"/><memberdata name="classbeforeinit" type="method" display="ClassBeforeInit"/><memberdata name="hookbeforeinit" type="method" display="HookBeforeInit"/><memberdata name="hookafterinit" type="method" display="HookAfterInit"/><memberdata name="classafterinit" type="method" display="ClassAfterInit"/><memberdata name="ncolspan" type="property" display="nColSpan" favorites="True"/><memberdata name="nrowspan" type="property" display="nRowSpan" favorites="True"/><memberdata name="nrow" type="property" display="nRow"/><memberdata name="ncol" type="property" display="nCol"/><memberdata name="getmeasures" type="method" display="GetMeasures"/><memberdata name="lperformautosetup" type="property" favorites="True"/><memberdata name="documentacion" type="method" favorites="True"/><memberdata name="resalttitle" type="method" display="ResaltTitle"/><memberdata name="lfound" type="property" display="lFound"/><memberdata name="lfound_assign" type="method" display="lFound_Assign"/><memberdata name="octltarget" type="property" display="oCtlTarget"/><memberdata name="value" type="property" display="Value"/><memberdata name="value_access" type="method" display="Value_Access"/><memberdata name="value_assign" type="method" display="Value_Assign"/><memberdata name="lexitonvalid" type="property" display="lExitOnValid"/></VFPData>
+
+nleftpadding = 5
+nrightpadding = 5
+Name = "prxsearchbox"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Destroy
+
+This.oCtlTarget = Null
+This.oColObjects = Null
+
+ENDPROC
+PROCEDURE SetFocus
+
+lnSelStart = This.txtSearch.SelStart
+This.txtSearch.SetFocus()
+If lnSelStart = 0 And Len( This.txtSearch.Value ) > 0
+    This.txtSearch.SelStart = Len( This.txtSearch.Value )
+Endif
+
+ENDPROCPROCEDURE autosetup
+Local lnTop As Number
+Local lnTop2 As Number
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    With This As prxsearchbox Of FW\Comunes\vcx\prxsearch.vcx
+        .txtSearch.AutoFit( 1.5 )
+        lnTop = Abs( .Height - .txtSearch.Height ) / 2
+        lnTop2 = Abs( .Height - .cmdSiguiente.Height ) / 2
+        .cmdCerrar.Move( .nLeftPadding, lnTop, .cmdCerrar.Width, .txtSearch.Height )
+        .lblBuscar.AutoFit( 1.5 )
+        .lblBuscar.Move( .nLeftPadding + .cmdCerrar.Width, lnTop, .lblBuscar.Width, .txtSearch.Height )
+        .chkTodos.Move( Abs( .Width - .chkTodos.Width - .nRightPadding ), lnTop, .chkTodos.Width, .txtSearch.Height )
+        .cmdSiguiente.Move( Abs( .chkTodos.Left - .cmdSiguiente.Width ), lnTop2, .cmdSiguiente.Width )
+        .cmdAnterior.Move( Abs( .cmdSiguiente.Left - .cmdAnterior.Width ), lnTop2, .cmdAnterior.Width )
+        .txtSearch.Move( .lblBuscar.Left + .lblBuscar.Width + .nGap, lnTop, ;
+            Abs( .Width - .cmdCerrar.Width - .lblBuscar.Width - .nGap - .nGap - .cmdAnterior.Width ;
+            - .cmdSiguiente.Width - .chkTodos.Width - .nRightPadding ) )
+
+    EndWith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+    Throw loError
+Finally
+    loError = Null
+Endtry
+
+ENDPROC
+PROCEDURE lfound_assign
+Lparameters tuNewValue As Boolean
+
+With This As prxsearchbox Of FW\Comunes\VCX\prxsearch.VCX
+    .lFound = tuNewValue
+    If .lFound
+        .txtSearch.BackColor = Rgb(255,255,255)
+    Else
+        .txtSearch.BackColor = Rgb(255,128,128)
+    Endif
+Endwith
+
+
+ENDPROC
+PROCEDURE releaseobjects
+
+This.oCtlTarget = Null
+DoDefault()
+
+
+ENDPROC
+PROCEDURE value_access
+
+Return This.TxtSearch.Value
+
+ENDPROC
+PROCEDURE value_assign
+Lparameters tuNewValue as Variant
+
+This.txtSearch.Value = tuNewValue
+
+ENDPROC
+[END METHODS]
+[START RESERVED1]
+Class[END RESERVED1]
+[START RESERVED2]
+7[END RESERVED2]
+[START RESERVED3]
+lfound Indica si hubo coincidencia en la busqueda
+octltarget
+value Specifies the current state of a control.
+lexitonvalid
+*lfound_assign 
+*value_access 
+*value_assign 
+[END RESERVED3]
+[START RESERVED6]
+Pixels[END RESERVED6]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2NO03SAAO
+[CLASS] prxtextbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] textbox
+[OBJNAME] txtSearch
+[PARENT] prxsearchbox
+[START PROPERTIES]
+Height = 21
+Left = 68
+TabIndex = 3
+Top = 4
+Width = 59
+length = 10
+Name = "txtSearch"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE KeyPress
+Lparameters nKeyCode, nShiftAltCtrl
+
+Debugout Datetime(), nKeyCode, nShiftAltCtrl
+
+With This As TextBox
+    Do Case
+        Case nShiftAltCtrl = 0
+            Do Case
+                Case nKeyCode = 5 && UP ARROW
+                    Nodefault
+                    * nKeyCode = 0
+                    .Parent.lExitOnValid = .F.
+                    .Parent.oCtlTarget.HandlePrior()
+                    .Parent.lExitOnValid = .T.
+
+                    *!*	Case nKeyCode = 9 && TAB
+                    *!*	    Nodefault
+                    *!*	    * nKeyCode = 0
+                Case nKeyCode = 13
+                    Nodefault
+                    * nKeyCode = 0
+                    .Parent.lExitOnValid = .T.
+                    .Parent.oCtlTarget.HandleSetSelected( .Value )
+                    .Parent.oCtlTarget.SetFocus()
+                Case nKeyCode = 24 && DOWN ARROW
+                    Nodefault
+                    * nKeyCode = 0
+                    .Parent.lExitOnValid = .F.
+                    .Parent.oCtlTarget.HandleNext()
+                    .Parent.lExitOnValid = .T.
+                Case nKeyCode = 27
+                    Nodefault
+                    .Parent.oCtlTarget.HideSearch()
+                    .Parent.oCtlTarget.SetFocus()
+                Case nKeyCode > 31
+                	.Parent.lExitOnValid = .T.
+                    * DoDefault( nKeyCode, nShiftAltCtrl )
+                    .Parent.oCtlTarget.HandleSearch( .Value )
+                Otherwise
+                    DoDefault( nKeyCode, nShiftAltCtrl )
+            Endcase
+        Otherwise
+            DoDefault( nKeyCode, nShiftAltCtrl )
+    Endcase
+Endwith
+
+ENDPROC
+PROCEDURE Valid
+
+If ! This.Parent.lExitOnValid
+    Wait '' Window Nowait
+Endif
+Return This.Parent.lExitOnValid
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2NO03SAB4
+[CLASS] prxcheckbox
+[CLASSLOC] prxbase.vcx
+[BASECLASS] checkbox
+[OBJNAME] chkTodos
+[PARENT] prxsearchbox
+[START PROPERTIES]
+Top = 1
+Left = 249
+Height = 27
+Width = 92
+Alignment = 0
+Caption = "\<Resaltar todo"
+TabIndex = 6
+ToolTipText = "Resaltar todas las apariciones de la frase"
+Name = "chkTodos"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE InteractiveChange
+
+Local loError As ErrorHandler Of "Tools\ErrorHandler\Prg\ErrorHandler.prg"
+Try
+    With This As prxsearchbox Of FW\Comunes\vcx\prxsearch.vcx
+        .Parent.oCtlTarget.HandleSearch( .Value )
+        .Parent.oCtlTarget.ResaltAll( .Value )
+    Endwith
+Catch To oErr
+    loError = Thisform.oError
+    Thisform.cXMLoError = loError.Process( oErr )
+Finally
+    loError = Null
+EndTry
+
+
+
+ENDPROC[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _23214F6GM
+[CLASS] prxcommandbutton
+[CLASSLOC] prxbase.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdAnterior
+[PARENT] prxsearchbox
+[START PROPERTIES]
+Top = 1
+Left = 129
+Height = 27
+Width = 58
+Caption = "\<Anterior"
+Style = 0
+TabIndex = 4
+ToolTipText = "Buscar la próxima aparición de la frase"
+SpecialEffect = 2
+Name = "cmdAnterior"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.oCtlTarget.HandlePrior()
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2NO03SABI
+[CLASS] prxcommandbutton
+[CLASSLOC] prxbase.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdSiguiente
+[PARENT] prxsearchbox
+[START PROPERTIES]
+Top = 1
+Left = 189
+Height = 27
+Width = 58
+Caption = "\<Siguiente"
+StatusBarText = ""
+Style = 0
+TabIndex = 5
+ToolTipText = "Buscar la aparición anterior de la frase"
+SpecialEffect = 2
+Name = "cmdSiguiente"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.oCtlTarget.HandleNext()
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2NO05BLDI
+[CLASS] prxlabel
+[CLASSLOC] prxbase.vcx
+[BASECLASS] label
+[OBJNAME] lblBuscar
+[PARENT] prxsearchbox
+[START PROPERTIES]
+AutoSize = .F.
+Alignment = 1
+Caption = "Buscar:"
+Height = 27
+Left = 22
+Top = 1
+Width = 44
+TabIndex = 2
+Name = "lblBuscar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.txtSearch.SetFocus()
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2NO05BLDL
+[CLASS] prxcommandbutton
+[CLASSLOC] prxbase.vcx
+[BASECLASS] commandbutton
+[OBJNAME] cmdCerrar
+[PARENT] prxsearchbox
+[START PROPERTIES]
+AutoSize = .F.
+Top = 1
+Left = 0
+Height = 27
+Width = 20
+FontBold = .T.
+FontSize = 11
+Caption = "x"
+Style = 0
+TabIndex = 1
+ToolTipText = "Buscar la próxima aparición de la frase"
+SpecialEffect = 2
+Name = "cmdCerrar"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+
+This.Parent.oCtlTarget.HideSearch()
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[OBJNAME] prxsearchbox
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 11, 7, 18, 14, 39, 4, 0
+[END PROPERTIES]
+[EOF]

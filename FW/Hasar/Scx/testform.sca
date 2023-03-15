@@ -1,0 +1,293 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2TA0Y7SAC
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2TA0Y7SAD
+[CLASS] form
+[BASECLASS] form
+[OBJNAME] Form1
+[START PROPERTIES]
+Top = 0
+Left = 0
+Height = 310
+Width = 450
+DoCreate = .T.
+Caption = "Form1"
+ohasar = Null
+_memberdata = <VFPData><memberdata name="ohasar" display="oHasar"/></VFPData>
+Name = "Form1"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Init
+Local llOk As Boolean
+Local loGlobalSettings As GlobalSettings Of "FW\Comunes\Prg\GlobalSettings.prg"
+
+Local loError As prxErrorHandler Of "FW\ErrorHandler\prxErrorHandler.prg"
+
+Try
+
+	llOk = .T.
+	ThisForm.cmdCierreX.Enabled = .F.
+
+	loGlobalSettings = NewGlobalSettings()
+	Thisform.txtPuertoCOM.Value = loGlobalSettings.nHasarCOM
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	llOk = .F.
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+
+
+Finally
+	loGlobalSettings = Null
+
+Endtry
+
+Return llOk
+
+ENDPROC
+PROCEDURE Unload
+Local loHasar As HASAR.Fiscal.1
+
+Try
+
+	loHasar = NewHasar()
+	loHasar.Finalizar()
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loHasar = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+[START RESERVED3]
+ohasar
+_memberdata XML Metadata for customizable properties
+[END RESERVED3]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2TA0Y7SAE
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] Label1
+[PARENT] Form1
+[START PROPERTIES]
+Alignment = 1
+Caption = "Puerto COM"
+Height = 17
+Left = 108
+Top = 102
+Width = 156
+Name = "Label1"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2TA0Y7SAF
+[CLASS] textbox
+[BASECLASS] textbox
+[OBJNAME] txtPuertoCOM
+[PARENT] Form1
+[START PROPERTIES]
+Height = 23
+InputMask = "9"
+Left = 271
+Top = 96
+Width = 36
+Name = "txtPuertoCOM"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2TA0Y7SAG
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdTest
+[PARENT] Form1
+[START PROPERTIES]
+Top = 168
+Left = 115
+Height = 27
+Width = 192
+Caption = "Testear Conección"
+Name = "cmdTest"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local loHasar As HASAR.Fiscal.1
+
+Try
+
+
+	loHasar = NewHasar()
+	Thisform.oHasar = loHasar
+
+*!*		lnLen = AMembers( laMember, loHasar, 0 )
+	
+	loHasar.Puerto = ThisForm.txtPuertoCOM.Value
+	loHasar.AutodetectarControlador()
+
+
+*!*		StrToFile( "", "Hasar Status.txt", 0 )
+*!*		
+*!*		For i = 1 to lnLen
+*!*			Try
+*!*			
+*!*				lcProperty = laMember[ i ]					
+*!*				
+*!*				lcString = lcProperty + ": " + Transform( loHasar.&lcProperty ) + Chr( 13 )
+
+*!*				StrToFile( lcString, "Hasar Status.txt", 1 )
+*!*			
+*!*			Catch To oErr
+
+*!*			Finally
+
+*!*			EndTry
+
+*!*		EndFor
+
+	ThisForm.cmdCierreX.Enabled = .T.
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loHasar = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2TA0Y7SAH
+[CLASS] label
+[BASECLASS] label
+[OBJNAME] Label2
+[PARENT] Form1
+[START PROPERTIES]
+AutoSize = .T.
+FontBold = .T.
+FontSize = 20
+Caption = "HASAR"
+Height = 35
+Left = 96
+Top = 24
+Width = 98
+Name = "Label2"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2TA0Y7SAI
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] cmdCierreX
+[PARENT] Form1
+[START PROPERTIES]
+Top = 207
+Left = 115
+Height = 27
+Width = 192
+Caption = "Emitir Cierre X"
+Name = "cmdCierreX"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Local loHasar As HASAR.Fiscal.1
+
+Try
+
+	loHasar = NewHasar()
+	loHasar.ReporteX()
+
+Catch To oErr
+	Local loError As PrxErrorHandler Of "fw\ErrorHandler\prxErrorHandler.prg"
+
+	loError = Newobject( "PrxErrorHandler", "prxErrorHandler.prg" )
+	loError.Process( oErr )
+	Throw loError
+
+Finally
+	loHasar = Null
+
+Endtry
+
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _2TA0Y7SAJ
+[CLASS] commandbutton
+[BASECLASS] commandbutton
+[OBJNAME] Command3
+[PARENT] Form1
+[START PROPERTIES]
+Top = 264
+Left = 24
+Height = 27
+Width = 84
+Picture = ..\..\comunes\image\bmp\close.bmp
+Caption = "Cerrar"
+PicturePosition = 1
+Name = "Command3"
+[END PROPERTIES]
+[START METHODS]
+PROCEDURE Click
+Thisform.Release()
+ENDPROC
+[END METHODS]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]

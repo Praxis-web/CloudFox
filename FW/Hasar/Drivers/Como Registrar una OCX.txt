@@ -1,0 +1,12 @@
+Manual Registrar OCX,S En Windows Vista y en Windows XP:
+
+manual para hacer este simple proceso que parece dificil y que no sale y tira un error 0x8002801c.
+Bueno, antes que nada deben desactivar el UAC yendo a Panel de control, Cuentas de usuario, Activar o Desactivar el control de cuentas de usuario y lo desactivan, luego de esto reinician la maquina.
+Luego ponen en Windows\System32 la ocx a registrar y posteriormente van al boton con el simobolo de Windows Vista (Inicio ) y en el campo para hacer busquedas ponemos ejecutar, rapidamente arriba aparecerá el menu Ejecutar, lo abren y ponen:
+
+regsvr32 %Systemroot%\System32\comdlg32.ocx
+
+En Windows XP:
+
+
+

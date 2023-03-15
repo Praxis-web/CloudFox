@@ -1,0 +1,182 @@
+SCCTEXT Version 4.0.0.2
+PLATFORM C(8,0),UNIQUEID C(10,0),TIMESTAMP N(10,0),CLASS M(4,0),CLASSLOC M(4,0),BASECLASS M(4,0),OBJNAME M(4,0),PARENT M(4,0),PROPERTIES M(4,0),PROTECTED M(4,0),METHODS M(4,0),OBJCODE M(4,0),OLE M(4,0),OLE2 M(4,0),RESERVED1 M(4,0),RESERVED2 M(4,0),RESERVED3 M(4,0),RESERVED4 M(4,0),RESERVED5 M(4,0),RESERVED6 M(4,0),RESERVED7 M(4,0),RESERVED8 M(4,0),USER M(4,0)
+1252
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] Screen    
+[START RESERVED1]
+VERSION =   3.00[END RESERVED1]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66F119T6F
+[CLASS] dataenvironment
+[BASECLASS] dataenvironment
+[OBJNAME] Dataenvironment
+[START PROPERTIES]
+Top = 0
+Left = 0
+Width = 0
+Height = 0
+DataSource = .NULL.
+Name = "Dataenvironment"
+[END PROPERTIES]
+[START RESERVED2]
+1[END RESERVED2]
+[START RESERVED4]
+1[END RESERVED4]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66F119T6G
+[CLASS] crud_form
+[CLASSLOC] ..\..\..\frontend\vcx\crud.vcx
+[BASECLASS] form
+[OBJNAME] Crud_Condicion_Iva
+[START PROPERTIES]
+Top = -2
+Left = 0
+Height = 360
+Width = 706
+DoCreate = .T.
+WindowState = 0
+cmodelo = Condicion_Iva
+Name = "Crud_Condicion_Iva"
+Crud_Shape.Name = "Crud_Shape"
+CRUD_BUTTONS.cmdGrabar.Name = "cmdGrabar"
+CRUD_BUTTONS.cmdEliminar.Name = "cmdEliminar"
+CRUD_BUTTONS.cmdCancelar.Name = "cmdCancelar"
+CRUD_BUTTONS.TabIndex = 4
+CRUD_BUTTONS.Name = "CRUD_BUTTONS"
+CRUD_TITULO.lblFecha.Name = "lblFecha"
+CRUD_TITULO.LBLTITULO.Name = "LBLTITULO"
+CRUD_TITULO.lblObservaciones.Name = "lblObservaciones"
+CRUD_TITULO.lblAsteriscos.Name = "lblAsteriscos"
+CRUD_TITULO.TabIndex = 5
+CRUD_TITULO.Name = "CRUD_TITULO"
+CRUD_AJUSTES.Crud_Shape.Name = "Crud_Shape"
+CRUD_AJUSTES.spnOrden.Name = "spnOrden"
+CRUD_AJUSTES.chkActivo.Alignment = 0
+CRUD_AJUSTES.chkActivo.Name = "chkActivo"
+CRUD_AJUSTES.chkEs_Sistema.Alignment = 0
+CRUD_AJUSTES.chkEs_Sistema.Name = "chkEs_Sistema"
+CRUD_AJUSTES.lblMostrar.Name = "lblMostrar"
+CRUD_AJUSTES.lblOrden.Name = "lblOrden"
+CRUD_AJUSTES.TabIndex = 6
+CRUD_AJUSTES.Name = "CRUD_AJUSTES"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66F11OJ9L
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtNombre
+[PARENT] Crud_Condicion_Iva
+[START PROPERTIES]
+Left = 60
+TabIndex = 1
+Top = 60
+ncolumnsspan = 6
+nlabelspan = 2
+Name = "txtNombre"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66F11OJ9M
+[CLASS] _editbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] editbox
+[OBJNAME] edtDescripcion
+[PARENT] Crud_Condicion_Iva
+[START PROPERTIES]
+Left = 300
+TabIndex = 3
+Top = 48
+ncolumnsspan = 6
+nlabelposition = 0
+nlabelspan = 2
+nleftcolumn = 7
+nrowspan = 2
+Name = "edtDescripcion"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66F11OJ9N
+[CLASS] _textbox
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] textbox
+[OBJNAME] txtNombre_Abreviado
+[PARENT] Crud_Condicion_Iva
+[START PROPERTIES]
+Left = 72
+TabIndex = 2
+Top = 84
+ntoprow = 2
+ncolumnsspan = 3
+nlabelspan = 2
+Name = "txtNombre_Abreviado"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66F119T6F
+[CLASS] _moverlist
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] container
+[OBJNAME] lstDocumentos
+[PARENT] Crud_Condicion_Iva
+[START PROPERTIES]
+Top = 108
+Left = 24
+ntoprow = 4
+ncolumnsspan = 6
+Name = "lstDocumentos"
+lstAvailable.Name = "lstAvailable"
+lstSelected.Name = "lstSelected"
+btnRemoveAll.Name = "btnRemoveAll"
+btnAddOne.Name = "btnAddOne"
+btnRemoveOne.Name = "btnRemoveOne"
+btnAddAll.Name = "btnAddAll"
+lblAvailable.Name = "lblAvailable"
+lblSelected.Name = "lblSelected"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] WINDOWS 
+[UNIQUEID] _66N12IIUE
+[CLASS] _moverlist
+[CLASSLOC] ..\..\..\fw\comunes\vcx\_controles_base.vcx
+[BASECLASS] container
+[OBJNAME] lstComprobantes
+[PARENT] Crud_Condicion_Iva
+[START PROPERTIES]
+Top = 120
+Left = 324
+nleftcolumn = 7
+ntoprow = 4
+ncolumnsspan = 6
+Name = "lstComprobantes"
+lstAvailable.Name = "lstAvailable"
+lstSelected.Name = "lstSelected"
+btnRemoveAll.Name = "btnRemoveAll"
+btnAddOne.Name = "btnAddOne"
+btnRemoveOne.Name = "btnRemoveOne"
+btnAddAll.Name = "btnAddAll"
+lblAvailable.Name = "lblAvailable"
+lblSelected.Name = "lblSelected"
+[END PROPERTIES]
+
+[ RECORD]
+[PLATFORM] COMMENT 
+[UNIQUEID] RESERVED  
+[START PROPERTIES]
+Arial, 0, 9, 5, 15, 12, 32, 3, 0
+Arial, 1, 12, 8, 20, 15, 42, 4, 1
+Arial, 1, 9, 6, 15, 12, 32, 3, 0
+[END PROPERTIES]
+[EOF]
