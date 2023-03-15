@@ -76,15 +76,26 @@ Define Class ControlesBase As SessionBase Of Tools\namespaces\prg\ObjectNamespac
             lcCommand = ""
             loControl = This.oControl
 
-            If loControl.lAutomaticDisplay And This.oThisForm.lAutomaticDisplay
+            If loControl.lAutomaticDisplay && And This.oThisForm.lAutomaticDisplay
 
-                This.ValidarDatos()
+                If This.oThisForm.lAutomaticDisplay
+                    This.ValidarDatos()
 
-                This.AjustarAnchoDelContainer()
-                This.Inicializar()
-                This.CrearLabel()
-                This.AutoSize()
-                This.TabIndexCursor()
+                    This.AjustarAnchoDelContainer()
+                    This.Inicializar()
+                    This.CrearLabel()
+                    This.AutoSize()
+                    This.TabIndexCursor()
+
+                Else
+                    This.ValidarDatos()
+                    This.Inicializar()
+                    This.CrearLabel()
+
+                Endif
+
+
+
 
             Endif
 
@@ -1253,13 +1264,13 @@ Define Class oCB_Spinner As ControlesBase Of "FW\Comunes\vcx\_Controles_Base.prg
             loControl.Height 		= ( This.nMod * 2 ) * ( loControl.nRowSpan )
 
             loControl.Height = loControl.Height - This.TopPadding - This.BottomPadding
-            
-            loControl.KeyboardHighValue = loField.nMaxValue 
-            loControl.KeyboardLowValue 	= loField.nLowValue 
-            loControl.SpinnerHighValue 	= loField.nMaxValue 
-            loControl.SpinnerLowValue  	= loField.nLowValue 
-           
-            
+
+            loControl.KeyboardHighValue = loField.nMaxValue
+            loControl.KeyboardLowValue 	= loField.nLowValue
+            loControl.SpinnerHighValue 	= loField.nMaxValue
+            loControl.SpinnerLowValue  	= loField.nLowValue
+
+
 
         Catch To loErr
             Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
@@ -2079,7 +2090,7 @@ Define Class oCb_Titulo As ControlesBase Of "FW\Comunes\vcx\_Controles_Base.prg"
 
             lcCommand = ""
             loControl = This.oControl
-            
+
             If loControl.lAutomaticDisplay And This.oThisForm.lAutomaticDisplay
 
                 *This.ValidarDatos()

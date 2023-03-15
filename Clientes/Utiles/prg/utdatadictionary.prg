@@ -95,6 +95,7 @@ Define Class oDataDictionary As oDataBase Of 'Tools\DataDictionary\prg\oDataBase
             loColTables.AddTable ( Createobject ( 'Rubro_Proveedor' ) )
             loColTables.AddTable ( Createobject ( 'Marca' ) )
             loColTables.AddTable ( Createobject ( 'Zona' ) )
+            loColTables.AddTable ( Createobject ( 'Transporte' ) )
             loColTables.AddTable ( Createobject ( 'Lista_Precios_Venta' ) )
             loColTables.AddTable ( Createobject ( 'PreciosDeVenta' ) )
             loColTables.AddTable ( Createobject ( 'Condicion_Pago' ) )
@@ -722,19 +723,6 @@ Define Class CoreMovimientoBase As BaseMaestro Of "Clientes\Utiles\prg\utDataDic
                 .cCaption = "Número"
             Endwith
 
-            loField = loColFields.NewFK( "Tipo_Comprobante", "I" )
-            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-                .lShowInGrid = .F.
-                If .lShowInGrid
-                    i = i + 1
-
-                    .nGridOrder = i
-                Endif
-
-                .cCaption = "Tipo de Comprobante"
-                .cFK_Modelo = "Tipo_Comprobante"
-                .lNull = .F.
-            Endwith
 
         Catch To loErr
             Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
@@ -797,6 +785,21 @@ Define Class Comprobante_Header As CoreMovimientoBase Of "Clientes\Utiles\prg\ut
             loColFields = This.oColFields
 
             i = 100
+            
+            loField = loColFields.NewFK( "Comprobante", "I" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lShowInGrid = .F.
+                If .lShowInGrid
+                    i = i + 1
+
+                    .nGridOrder = i
+                Endif
+
+                .cCaption = "Tipo de Comprobante"
+                .cFK_Modelo = "Tipo_Comprobante"
+                .lNull = .F.
+            Endwith
+            
 
             loField = loColFields.New( "Subtotal", "N", 12, 2 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
@@ -4986,6 +4989,69 @@ Enddefine
 *!* ///////////////////////////////////////////////////////
 
 *!* ///////////////////////////////////////////////////////
+*!* Class.........: Transporte
+*!* Description...:
+*!* Date..........: Domingo 5 de Septiembre de 2021 (16:44:38)
+*!*
+*!*
+
+Define Class Transporte As CoreMaestroBase Of "Clientes\Utiles\prg\utDataDictionary.prg"
+
+    #If .F.
+        Local This As Transporte Of "Clientes\Utiles\prg\utDataDictionary.prg"
+    #Endif
+
+    lIsVirtual 		= .F.
+    cBaseClass 		= "oTransporte"
+    cBaseClassLib 	= "Clientes\Archivos\prg\Transporte.prg"
+
+    _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
+        [<VFPData>] + ;
+        [</VFPData>]
+
+    *
+    *
+    Procedure Initialize(  ) As Void
+        Local lcCommand As String
+
+        Local loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg', ;
+            loColTables As oColTables Of 'Tools\DataDictionary\prg\oColTables.prg', ;
+            loField As oField Of 'Tools\DataDictionary\prg\oField.prg', ;
+            loTable As Archivo Of "Clientes\Utiles\Prg\utRutina.prg"
+
+        Try
+
+            lcCommand = ""
+
+            DoDefault()
+
+            loColFields = This.oColFields
+
+            i = 200
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+
+        Endtry
+
+    Endproc && Initialize
+
+
+
+Enddefine
+*!*
+*!* END DEFINE
+*!* Class.........: Transporte
+*!*
+*!* ///////////////////////////////////////////////////////
+
+*!* ///////////////////////////////////////////////////////
 *!* Class.........: Lista_Precios_Venta
 *!* Description...:
 *!* Date..........: Domingo 5 de Septiembre de 2021 (16:44:38)
@@ -9048,6 +9114,8 @@ Define Class Tipo_Comprobante As CoreMaestroBase Of "Clientes\Utiles\prg\utDataD
 
             loField = loColFields.New( "abreviatura", "C", 6 )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+            	.lShowInGrid = .T.
+            	.nGridOrder = 500
                 .cCaption = "Abrev."
                 .cToolTipText = "Ingrese la abreviatura"
                 *!*	                .cCheck = "!Empty( nombre_abreviado )"

@@ -3,47 +3,47 @@
 *
 *
 Procedure Tipo_Comprobante( nPermisos As Integer,;
-		nParam2 As Integer,;
-		nParam3 As Integer,;
-		nParam4 As Integer,;
-		nParam5 As Integer,;
-		cURL As String,;
-		lDoPrg ) As Void
+        nParam2 As Integer,;
+        nParam3 As Integer,;
+        nParam4 As Integer,;
+        nParam5 As Integer,;
+        cURL As String,;
+        lDoPrg ) As Void
 
-	Local lcCommand As String
-	Local loTipo_Comprobante As oTipo_Comprobante Of "Clientes\Archivos\prg\Tipo_Comprobante.prg",;
-		loParam As Object
+    Local lcCommand As String
+    Local loTipo_Comprobante As oTipo_Comprobante Of "Clientes\Archivos\prg\Tipo_Comprobante.prg",;
+        loParam As Object
 
 
-	Try
+    Try
 
-		lcCommand = ""
-		loParam = Createobject( "Empty" )
-		
-		AddProperty( loParam, "nPermisos", nPermisos )
-		AddProperty( loParam, "cURL", cURL  )
+        lcCommand = ""
+        loParam = Createobject( "Empty" )
 
-		loTipo_Comprobante = GetEntity( "Tipo_Comprobante" )
-		loTipo_Comprobante.Initialize( loParam )
+        AddProperty( loParam, "nPermisos", nPermisos )
+        AddProperty( loParam, "cURL", cURL  )
 
-		AddProperty( loParam, "oBiz", loTipo_Comprobante )
+        loTipo_Comprobante = GetEntity( "Tipo_Comprobante" )
+        loTipo_Comprobante.Initialize( loParam )
 
-		*loTipo_Comprobante.BulkCreate()
+        AddProperty( loParam, "oBiz", loTipo_Comprobante )
 
-		Do Form (loTipo_Comprobante.cGrilla) ;
-			With loParam To loReturn
+        *loTipo_Comprobante.BulkCreate()
 
-	Catch To loErr
-		Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
-		loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
-		loError.cRemark = lcCommand
-		loError.Process ( m.loErr )
-		Throw loError
+        Do Form (loTipo_Comprobante.cGrilla) ;
+            With loParam To loReturn
 
-	Finally
-		loTipo_Comprobante = Null
+    Catch To loErr
+        Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+        loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+        loError.cRemark = lcCommand
+        loError.Process ( m.loErr )
+        Throw loError
 
-	Endtry
+    Finally
+        loTipo_Comprobante = Null
+
+    Endtry
 
 Endproc && Tipo_Comprobante
 
@@ -56,114 +56,63 @@ Endproc && Tipo_Comprobante
 
 Define Class oTipo_Comprobante As oModelo Of "FrontEnd\Prg\Modelo.prg"
 
-	#If .F.
-		Local This As oTipo_Comprobante Of "Clientes\Archivos\prg\Tipo_Comprobante.prg"
-	#Endif
+    #If .F.
+        Local This As oTipo_Comprobante Of "Clientes\Archivos\prg\Tipo_Comprobante.prg"
+    #Endif
 
-	*lEditInBrowse 	= .T.
-	cModelo 		= "Tipo_Comprobante"
+    *lEditInBrowse 	= .T.
+    cModelo 		= "Tipo_Comprobante"
 
-	cFormIndividual = "Clientes\Archivos\Scx\Tipo_Comprobante.scx"
-	cGrilla 		= "Clientes\Archivos\Scx\Tipos_Comprobante.scx"
+    cFormIndividual = "Clientes\Archivos\Scx\Tipo_Comprobante.scx"
+    cGrilla 		= "Clientes\Archivos\Scx\Tipos_Comprobante.scx"
 
-	cURL 			= "comunes/apis/Tipo_Comprobante/"
+    cURL 			= "comunes/apis/Tipo_Comprobante/"
 
-	cTituloEnForm 	= "Tipo de Comprobante"
-	cTituloEnGrilla = "Tipos de Comprobantes"
+    cTituloEnForm 	= "Tipo de Comprobante"
+    cTituloEnGrilla = "Tipos de Comprobantes"
 
-	lIsChild 		= .T.
-	cParent 		= "Comprobante_Base"
+    lIsChild 		= .T.
+    cParent 		= "Comprobante_Base"
 
-	_MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
-		[<VFPData>] + ;
-		[</VFPData>]
+    lFiltraPorComprobante = .F.
 
-	*
-	*
-	Procedure HookBeforeGetByWhere( oParam As Object ) As Object
-		Local lcCommand As String
-		Local loArchivo As Archivo Of "Clientes\Utiles\Prg\utRutina.prg",;
-			loColFields As oColFields Of 'Tools\DataDictionary\prg\oColFields.prg', ;
-			loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-
-		Try
-
-			lcCommand = ""
-			loArchivo = This.GetTable( This.cTabla )
-			loColFields = loArchivo.oColFields
-
-			loField = loColFields.New( "Comprobante_Base_nombre", "C", 100 )
-			loField.lShowInGrid = !This.lIsChild
-
-			loField = loColFields.New( "orden", "N", 6, 0 )
-			loField.lShowInGrid = This.lIsChild
-
-			If !This.lIsChild
-				If Pemstatus( oParam, "oFilterCriteria", 5 )
-					loFilterCriteria = oParam.oFilterCriteria
-
-				Else
-					loFilterCriteria = This.oFilterCriteria
-					AddProperty( oParam, "oFilterCriteria", loFilterCriteria )
-
-				Endif
-
-				loFiltro = Createobject( "Empty" )
-				AddProperty( loFiltro, "Nombre", "showField_Comprobante_Base"  )
-				AddProperty( loFiltro, "FieldName", "showField" )
-				AddProperty( loFiltro, "FieldRelation", "==" )
-				AddProperty( loFiltro, "FieldValue", "Comprobante_Base__nombre" )
-
-				loFilterCriteria.RemoveItem( Lower( loFiltro.Nombre ) )
-				loFilterCriteria.Add( loFiltro, Lower( loFiltro.Nombre ))
-
-				loFiltro = Createobject( "Empty" )
-				AddProperty( loFiltro, "Nombre", "OrderBy"  )
-				AddProperty( loFiltro, "FieldName", "ordering" )
-				AddProperty( loFiltro, "FieldRelation", "=" )
-				AddProperty( loFiltro, "FieldValue", "nombre" )
-
-				loFilterCriteria.RemoveItem( Lower( loFiltro.Nombre ) )
-				loFilterCriteria.Add( loFiltro, Lower( loFiltro.Nombre ))
-
-			Endif
+    _MemberData = [<?xml version="1.0" encoding="Windows-1252" standalone="yes"?>] + ;
+        [<VFPData>] + ;
+        [<memberdata name="lfiltraporcomprobante" type="property" display="lFiltraPorComprobante" />] + ;
+        [</VFPData>]
 
 
-		Catch To loErr
-			Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
-			loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
-			loError.cRemark = lcCommand
-			loError.Process ( m.loErr )
-			Throw loError
+    *
+    *
+    Procedure HookFilterCriteria( oFilterCriteria As Collection ) As Collection
+        Local lcCommand As String
 
-		Finally
-			loField 	= Null
-			loColFields = Null
-			loArchivo 	= Null
+        Try
 
-		Endtry
+            lcCommand = ""
 
-		Return oParam
+            If Isnull( oFilterCriteria )
+                oFilterCriteria = Createobject( "Collection" )
+            EndIf
+            
+            If !This.lFiltraPorComprobante
+                oFilterCriteria.RemoveItem( "empty" )
+            Endif
 
-	Endproc && HookBeforeGetByWhere
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
 
-	*
-	* cUrl_Access
-	Procedure cUrl_Access()
+        Finally
 
-		If Empty( Alltrim( This.cURL ))
-			* Inicializar la URL
-			* Puede ponerse duro para cada modelo,
-			* o leerse de un archivo de configuración local
-			* para una personalización especial
+        Endtry
 
-			This.cURL = "comunes/apis/Tipo_Comprobante/"
+        Return oFilterCriteria
 
-		Endif
-
-		Return This.cURL
-
-	Endproc && cUrl_Access
+    Endproc && HookFilterCriteria
 
 Enddefine
 *!*

@@ -1099,7 +1099,7 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
 
     *
     *
-    Procedure BuildMainMenu( oMenu as Collection ) As Void
+    Procedure BuildMainMenu( oMenu As Collection ) As Void
         Local lcCommand As String
         Local loMenu As oMenu Of "FrontEnd\Prg\DescargarMenu.prg"
 
@@ -1465,7 +1465,7 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
             _Screen.AutoCenter = .T.
 
             Do Form "FW\Comunes\Scx\frmLogin" To loUser
-            
+
             If ( loUser.Cancela = .T. ) Or ( loUser.Id = 0 )
                 loUser.lOk = .F.
             Endif
@@ -1499,7 +1499,7 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
                 loGlobalSettings.cDescripcionSucursalActiva = This.oUser.cDescripcionSucursalActiva
                 loGlobalSettings.nEmpresaActiva 		= This.oUser.nEmpresaActivaId
                 loGlobalSettings.nEmpresaSucursalActiva = This.oUser.nSucursalActivaId
-                
+
 
                 Set Sysmenu Off
                 Set Sysmenu To
@@ -1603,7 +1603,7 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
                 loUser.lModificaOrden 		= loRegistro.Modifica_Orden
                 loUser.lModificaEsSistema 	= loRegistro.Modifica_Es_Sistema
                 loUser.lShowEditInBrowse 	= loRegistro.Muestra_Editar_En_Grilla
-                
+
                 This.BuildMainMenu( loRegistro.Menu )
 
             Endif
@@ -2343,11 +2343,162 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
     Endproc
 
 
+    *
+    *
+    Procedure SetGlobales(  ) As Void
+        Local lcCommand As String
+
+        Try
+
+            Clear Memory
+            
+            Public 	ASTERISCO
+            ASTERISCO	= .T.
+
+            Note: Asignacion de valores Ascii
+
+            Public Cero,Uno,Dos,Tres,Cuatro,Mas,Menos,Enter,Escape,PgUp,PgDn,CtrlPgUp,;
+                CtrlPgDn,Space,Back,Abajo,Arriba,Fin,Hogar,F2,F3,F4,F5,F6,F7,F8,F9,F10,;
+                Izquierda,Cinco,F1,F11,F12,Derecha,ShiftTab,TabKey
+
+            Cero		= 48
+            Uno			= 49
+            Dos			= 50
+            Tres		= 51
+            Cuatro		= 52
+            Cinco		= 53
+
+            Mas			= 43
+            Menos		= 45
+
+            Enter		= 13
+            Escape		= 27
+            PgUp		= 18
+            PgDn		= 03
+            CtrlPgUp	= 31
+            CtrlPgDn	= 30
+            Space		= 32
+            Back		= 08
+            Abajo		= 24
+            Arriba		= 05
+            Fin			= 06
+            Hogar		= 01
+            F1			= 28
+            F2			=-01
+            F3			=-02
+            F4			=-03
+            F5			=-04
+            F6			=-05
+            F7			=-06
+            F8			=-07
+            F9			=-08
+            F10			=-09
+            F11			=133
+            F12			=134
+            Izquierda	= 19
+            Derecha		= 04
+            TabKey		= 09
+            ShiftTab	= 15
+
+            *!*	* Colores
+            Public CL_NORMAL, CL_BORDER, CL_CHOICE, CL_LINE00, CL_LINE01, CL_LINE21, CL_LINE22, CL_LINE23, CL_LINE24, CL_RESALT, CL_TITULO,;
+                CL_SELECTED, CL_UNSELECTED, CL_USUARIO
+
+            CL_NORMAL 		= "CL_NORMAL"
+            CL_BORDER 		= "CL_BORDER"
+            CL_CHOICE 		= "CL_CHOICE"
+            CL_LINE00 		= "CL_LINE00"
+            CL_LINE01 		= "CL_LINE01"
+            CL_LINE21 		= "CL_LINE21"
+            CL_LINE22 		= "CL_LINE22"
+            CL_LINE23 		= "CL_LINE23"
+            CL_LINE24 		= "CL_LINE24"
+            CL_RESALT 		= "CL_RESALT"
+            CL_TITULO 		= "CL_TITULO"
+            CL_SELECTED 	= "CL_SELECTED"
+            CL_UNSELECTED 	= "CL_UNSELECTED"
+            CL_USUARIO		= "CL_USUARIO"
+
+            Public gcBackColor, gcForeColor, gcGetBackColor, gcGetForeColor
+            gcBackColor 	= CLR_BackColor
+            gcForeColor 	= CLR_ForeColor
+            gcGetBackColor 	= CLR_GetBackColor
+            gcGetForeColor 	= CLR_GetForeColor
+
+
+	        Note: Pasaje de numeros a letras
+
+            Public Array Uni[19],Dec[9],Cen[9]
+            Uni[01]	= 'un '
+            Uni[02]	= 'dos '
+            Uni[03]	= 'tres '
+            Uni[04]	= 'cuatro '
+            Uni[05]	= 'cinco '
+            Uni[06]	= 'seis '
+            Uni[07]	= 'siete '
+            Uni[08]	= 'ocho '
+            Uni[09]	= 'nueve '
+            Uni[10]	= 'diez '
+            Uni[11]	= 'once '
+            Uni[12]	= 'doce '
+            Uni[13]	= 'trece '
+            Uni[14]	= 'catorce '
+            Uni[15]	= 'quince '
+            Uni[16]	= 'dieciseis '
+            Uni[17]	= 'diecisiete '
+            Uni[18]	= 'dieciocho '
+            Uni[19]	= 'diecinueve '
+            Dec[03]	= 'treinta '
+            Dec[04]	= 'cuarenta '
+            Dec[05]	= 'cincuenta '
+            Dec[06]	= 'sesenta '
+            Dec[07]	= 'setenta '
+            Dec[08]	= 'ochenta '
+            Dec[09]	= 'noventa '
+            Cen[02]	= 'doscientos '
+            Cen[03]	= 'trescientos '
+            Cen[04]	= 'cuatrocientos '
+            Cen[05]	= 'quinientos '
+            Cen[06]	= 'seiscientos '
+            Cen[07]	= 'setecientos '
+            Cen[08]	= 'ochocientos '
+            Cen[09]	= 'novecientos '
+
+
+            Public Aborta,Confirma
+
+            Aborta		= 'prxAborta()'
+            Confirma	= 'prxConfirma()'
+
+
+            Public FechaHoy,Lastdate
+            FechaHoy 	= Date()
+            Set Date French
+            Lastdate={^2079/12/31}
+
+            Do LoadNamespace In Tools\Namespaces\prg\LoadNamespace.prg
+            
+
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+        Close Databases all 
+
+        Endtry
+
+    Endproc && SetGlobales
+
 
 
     *
     * Setea las variables públicas
-    Procedure SetGlobales(  ) As Void;
+    Procedure xxxSetGlobales(  ) As Void;
             HELPSTRING "Setea las variables públicas"
 
 

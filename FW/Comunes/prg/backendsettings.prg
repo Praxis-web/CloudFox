@@ -380,7 +380,7 @@ Define Class ConsumirAPI As Custom
             This.cErrorMessage 		= ""
 
             *loXmlHttp.lSilence = .T.
-
+            
             loXmlHttp.Get()
             loReturn = loXmlHttp.oVFP
 

@@ -1142,6 +1142,10 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
                 loReturn.nTally = loRespuesta.Data.Count
                 loReturn.cAlias = cAlias
                 loReturn.lOk 	= .T.
+                
+                If loReturn.nTally = 1
+                	loReturn.oRegistro = loReturn.oData.Item( 1 ) 
+                EndIf
 
                 Select Alias( cAlias )
                 *Browse
