@@ -1,1 +1,0 @@
-Copy *.Exe S:\CloudFenix\Ejecutable\*.*

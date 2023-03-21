@@ -1,1 +1,0 @@
-Start Chrome /Incognito "https://auth.mercadolibre.com/authorization?response_type=code&client_id=8311199196596873&redirect_uri=https://fenix-ecommerce-20211202.herokuapp.com/meli/apis/mlCode/&state=8311199196596873"
