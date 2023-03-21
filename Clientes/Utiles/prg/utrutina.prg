@@ -159,10 +159,6 @@ Define Class Archivo As oTable Of 'Tools\DataDictionary\prg\oTable.prg'
             lcCommand = ""
 
         Catch To loErr
-        
-        	Set Step On 
-        	
-        	
             Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
             loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
             loError.cRemark = lcCommand

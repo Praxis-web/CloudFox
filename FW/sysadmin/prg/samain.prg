@@ -1448,8 +1448,6 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
             lcCommand = ""
             loGlobalSettings = NewGlobalSettings()
 
-            *Set Step On
-
             TEXT To lcMsg NoShow TextMerge Pretext 03
             Visible: <<_Screen.Visible>>
             Top: <<_Screen.Top>>
@@ -1465,7 +1463,7 @@ Define Class prxApplication As AbstractApplication Of "FW\TierAdapter\Comun\Abst
             _Screen.AutoCenter = .T.
 
             Do Form "FW\Comunes\Scx\frmLogin" To loUser
-
+         
             If ( loUser.Cancela = .T. ) Or ( loUser.Id = 0 )
                 loUser.lOk = .F.
             Endif
