@@ -1,5 +1,0 @@
-Visible: .T.
-Top: 160
-Left: 145
-Height: 466
-Width: 1076

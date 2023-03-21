@@ -1,1 +1,0 @@
-This.aLocalStackinfo[ 9, 1 ], m.String.ProperCase ( This.aLocalStackinfo[ 9, 3 ], '.' ), This.aLocalStackinfo[ 9, 5 ] )

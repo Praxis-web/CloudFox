@@ -124,7 +124,7 @@ Define Class oContacto As oModelo Of "FrontEnd\Prg\Modelo.prg"
     cFormIndividual = "Clientes\Archivos\Scx\Contacto.scx"
     cGrilla 		= ""
 
-    cURL 			= "archivos/apis/Organizacion_Contacto"
+    cURL 			= "archivos/apis/Organizacion_Contacto/"
 
     cTituloEnForm 	= "Contacto"
     cTituloEnGrilla = "Contactos"
@@ -138,6 +138,47 @@ Define Class oContacto As oModelo Of "FrontEnd\Prg\Modelo.prg"
         [<VFPData>] + ;
         [</VFPData>]
 
+
+    *
+    *
+    Procedure HookAfterGetByPk( oReturn As Object ) As Object
+        Local lcCommand As String
+        Local loReturn As Object,;
+        loOrganizacion As oOrganizacion Of "Clientes\Archivos\prg\Organizacion.prg"
+        
+        Local lnOrganizacion_Id as Integer 
+
+        Try
+
+            lcCommand = ""
+            loReturn = oReturn
+            
+            lnOrganizacion_Id = loReturn.oRegistro.Organizacion  
+            loOrganizacion = GetEntity( "Organizacion" )
+            loRespuesta = loOrganizacion.GetByPK( lnOrganizacion_Id )
+
+    		If !Isnull( loRespuesta.oRegistro )
+    			loReturn.oRegistro.str_Organizacion = loRespuesta.oRegistro.Nombre
+    		EndIf 
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+            oReturn = Null
+            loOrganizacion = Null
+            loRespuesta = Null
+
+        Endtry
+
+        Return loReturn
+
+    Endproc && HookAfterGetByPk
+
     *
     * cUrl_Access
     Procedure cUrl_Access()
@@ -148,7 +189,7 @@ Define Class oContacto As oModelo Of "FrontEnd\Prg\Modelo.prg"
             * o leerse de un archivo de configuración local
             * para una personalización especial
 
-            This.cURL = "archivos/apis/Organizacion_Contacto"
+            This.cURL = "archivos/apis/Organizacion_Contacto/"
 
         Endif
 
@@ -157,7 +198,7 @@ Define Class oContacto As oModelo Of "FrontEnd\Prg\Modelo.prg"
 
     *
     *
-    Procedure HookFilterCriteria( oFilterCriteria As Collection ) As Collection
+    Procedure xxx___HookFilterCriteria( oFilterCriteria As Collection ) As Collection
         Local lcCommand As String
         Local loFiltro As Object
         Local lnId As Integer
@@ -222,7 +263,7 @@ Define Class oContacto_Telefono As oModelo Of "FrontEnd\Prg\Modelo.prg"
     cFormIndividual = "Clientes\Archivos\Scx\Contacto_Telefono.scx"
     cGrilla 		= ""
 
-    cURL 			= "archivos/apis/Organizacion_Contacto_Telefono"
+    cURL 			= "archivos/apis/Organizacion_Contacto_Telefono/"
 
     cTituloEnForm 	= "Contacto_Telefono"
     cTituloEnGrilla = "Contacto_Telefonos"
@@ -246,7 +287,7 @@ Define Class oContacto_Telefono As oModelo Of "FrontEnd\Prg\Modelo.prg"
             * o leerse de un archivo de configuración local
             * para una personalización especial
 
-            This.cURL = "archivos/apis/Organizacion_Contacto_Telefono"
+            This.cURL = "archivos/apis/Organizacion_Contacto_Telefono/"
 
         Endif
 
@@ -325,17 +366,17 @@ Define Class cboTelefono_Contacto As cboTelefono Of "Clientes\Utiles\prg\utDataD
     Procedure Filtrar(  ) As Void
         Local lcCommand As String
         Local loFiltro As Object,;
-        loGrid as GridInForm OF "fw\comunes\vcx\prxbrowse.vcx",;
-        loOrganizacion As oOrganizacion Of "Clientes\Archivos\prg\Organizacion.prg"
+            loGrid As GridInForm Of "fw\comunes\vcx\prxbrowse.vcx",;
+            loOrganizacion As oOrganizacion Of "Clientes\Archivos\prg\Organizacion.prg"
 
         Try
 
             lcCommand = ""
-            
+
             DoDefault()
-            
-            loGrid 			= This.Parent.Parent 
-            loOrganizacion 	= loGrid.oBiz.oParent  
+
+            loGrid 			= This.Parent.Parent
+            loOrganizacion 	= loGrid.oBiz.oParent
 
             loFiltro = Createobject( "Empty" )
             AddProperty( loFiltro, "Nombre", "Organizacion" )
@@ -345,11 +386,11 @@ Define Class cboTelefono_Contacto As cboTelefono Of "Clientes\Utiles\prg\utDataD
 
             This.AddFilter( loFiltro )
 
-*!*	            loFiltro = Createobject( "Empty" )
-*!*	            AddProperty( loFiltro, "Nombre", "Contacto" )
-*!*	            AddProperty( loFiltro, "FieldName", "contacto" )
-*!*	            AddProperty( loFiltro, "FieldRelation", "==" )
-*!*	            AddProperty( loFiltro, "FieldValue", 1 )
+            *!*	            loFiltro = Createobject( "Empty" )
+            *!*	            AddProperty( loFiltro, "Nombre", "Contacto" )
+            *!*	            AddProperty( loFiltro, "FieldName", "contacto" )
+            *!*	            AddProperty( loFiltro, "FieldRelation", "==" )
+            *!*	            AddProperty( loFiltro, "FieldValue", 1 )
 
             This.AddFilter( loFiltro )
 
@@ -364,7 +405,7 @@ Define Class cboTelefono_Contacto As cboTelefono Of "Clientes\Utiles\prg\utDataD
         Finally
             loFiltro 		= Null
             loGrid 			= Null
-            loOrganizacion 	= Null  
+            loOrganizacion 	= Null
 
         Endtry
 

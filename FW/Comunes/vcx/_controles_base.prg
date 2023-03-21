@@ -139,9 +139,26 @@ Define Class ControlesBase As SessionBase Of Tools\namespaces\prg\ObjectNamespac
             ENDTEXT
 
 
+            Try
+
+                If Empty( loControl.cTable )
+                    loControl.cTable = loControl.cModelo
+                Endif
+
+                If Empty( loControl.cModelo )
+                    loControl.cModelo = loControl.cTable
+                Endif
+
+            Catch To oErr
+
+            Finally
+
+            Endtry
+
             If Empty( loControl.cTable )
                 TEXT To lcMsg NoShow TextMerge Pretext 03 ADDITIVE
-				La propiedad "cTable" está vacía.
+				Las propiedades "cTable" y "cModelo" estan vacías.
+				Imposible inferir el Modelo
 
                 ENDTEXT
 
@@ -475,7 +492,7 @@ Define Class ControlesBase As SessionBase Of Tools\namespaces\prg\ObjectNamespac
             Endif
 
             If !Used( lcCursorFilas )
-
+            
                 TEXT To lcCommand NoShow TextMerge Pretext 15
 				Create Cursor <<lcCursorFilas>> (
 					Top I,
@@ -544,7 +561,7 @@ Define Class ControlesBase As SessionBase Of Tools\namespaces\prg\ObjectNamespac
             loControl 	= This.oControl
 
             If loControl.lAutomaticDisplay And This.oThisForm.lAutomaticDisplay
-
+            
                 loLabel 	= This.oLabel
 
                 If Vartype( loLabel) # "O"
@@ -1031,7 +1048,7 @@ Define Class cGridForm As ControlesBase Of "FW\Comunes\vcx\_Controles_Base.prg"
             lcCursorFilas = "cRows_" + loParent.Name
 
             If !Used( lcCursorFilas )
-
+            
                 TEXT To lcCommand NoShow TextMerge Pretext 15
 				Create Cursor <<lcCursorFilas>> (
 					Top I,
@@ -1088,7 +1105,7 @@ Define Class cGridForm As ControlesBase Of "FW\Comunes\vcx\_Controles_Base.prg"
             loControl 	= This.oControl
 
             If loControl.lAutomaticDisplay And This.oThisForm.lAutomaticDisplay
-
+            
                 loLabel 	= This.oLabel
                 loParent 	= loControl.Parent
 
@@ -1100,7 +1117,7 @@ Define Class cGridForm As ControlesBase Of "FW\Comunes\vcx\_Controles_Base.prg"
                     Locate
                     If Empty( Top )
                         lnTop = 0
-
+                        
                         If Pemstatus( loParent, "Crud_Shape", 5 ) ;
                                 Or Pemstatus( loControl.Parent, "Crud_Shape", 5 )
 
@@ -1488,7 +1505,7 @@ Define Class oCB_Date As ControlesBase Of "FW\Comunes\vcx\_Controles_Base.prg"
             lcCursorFilas = "cRows_" + loParent.Name
 
             If !Used( lcCursorFilas )
-
+            
                 TEXT To lcCommand NoShow TextMerge Pretext 15
 				Create Cursor <<lcCursorFilas>> (
 					Top I,
@@ -2164,7 +2181,7 @@ Define Class oCb_Titulo As ControlesBase Of "FW\Comunes\vcx\_Controles_Base.prg"
             Endif
 
             If !Used( lcCursorFilas )
-
+            
                 TEXT To lcCommand NoShow TextMerge Pretext 15
 				Create Cursor <<lcCursorFilas>> (
 					Top I,
@@ -2233,7 +2250,7 @@ Define Class oCb_Titulo As ControlesBase Of "FW\Comunes\vcx\_Controles_Base.prg"
             loControl 	= This.oControl
 
             If loControl.lAutomaticDisplay And This.oThisForm.lAutomaticDisplay
-
+            
                 loParent 	= loControl.Parent
 
                 If loParent.BaseClass = "Page"
@@ -2255,7 +2272,7 @@ Define Class oCb_Titulo As ControlesBase Of "FW\Comunes\vcx\_Controles_Base.prg"
                     Locate
                     If Empty( Top )
                         lnTop = 0
-
+                        
                         If Pemstatus( loParent, "Crud_Shape", 5 ) ;
                                 Or Pemstatus( loControl.Parent, "Crud_Shape", 5 )
 

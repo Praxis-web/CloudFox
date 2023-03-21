@@ -1,17 +1,0 @@
-15/03/23 10:42:36
-
-Descripción del error
-Los objetos no pueden asignarse a matrices.[ Error N° ] 1942[ Message ] Los objetos no pueden asignarse a matrices.[ Procedure ] zona[ Line N° ] 32[ OLE 2.0 Exception N° ] 0[ ODBC Error N° ] 0[ ODBC Connection Handle ] 0[ Datasession ] 001[ TxnLevel ] 0
-
-Tablas y cursores en uso
-DatasessionId: 1
-
-Area Alias
-
-Pila de llamadas
-4) [ Módulo ] Execute [ Línea ] 363) [ Módulo ] On.... [ Línea ] 542) [ Módulo ] Opyme.Start [ Línea ] 7181) [ Módulo ] Pyme_main [ Línea ] 41
-
-Información del sistema
-Fecha: 15/03/23 10:42:34Sistema Operativo: Windows 6.02 - Version: Visual FoxPro 09.00.0000.5815 Biblioteca de soporte de EXE para Windows - Versión de tiempo de ejecución - EspañolEquipo: Lenovo-win10 Usuario Windows:  FenixUsuario Fenix: FernandoGrupo: Nivel: 0Permiso (CLAVE): 0Unidad: v:Carpeta:  " \cloudfox " Espacio Libre en Disco: 44397MbImpresora: Estado de la Impresora: READYArchivo de Formato: Numero de Serie: Procesador: PentiumMemoria de Visual FoxPro: 1073741824Tarjeta Grafica: Color/ColorPath: ClassLib: 	V:\FW\COMUNES\VCX\PRXBASE.VCX ALIAS PRXBASE, V:\RUTINAS\VCX\CLIPPER2FOX.VCX ALIAS CLIPPER2FOXProcedure: 	RUTINA.FXP, COLLECTIONBASE.FXP, OCOLTABLES.FXP, OCOLFIELDS.FXP, OFIELD.FXP, ENVLIB.FXPCurdir: V:\CLOUDFOX\
--.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-

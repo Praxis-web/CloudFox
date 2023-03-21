@@ -847,10 +847,55 @@ Define Class prxXmlHttp As Custom
     Endproc && Send
 
 
-
     *
     *
     Procedure RefreshToken(  ) As Void
+        Local lcCommand As String,;
+            lcToken As String
+        Local loConsumirAPI As ConsumirAPI Of "FW\Comunes\prg\BackEndSettings.prg",;
+            loReturn As Object,;
+            loErrorMsg as Object 
+
+        Try
+
+            lcCommand = ""
+            If This.nStatus = _HTTP_401_UNAUTHORIZED
+            
+                loReturn 	= This.oVFP
+                loErrorMsg 	= loReturn.Data.errors.Item(1)
+                
+                If loErrorMsg.Code = "TOKEN_VENCIDO"
+
+                    loConsumirAPI = Newobject( "ConsumirAPI", "FW\Comunes\prg\BackEndSettings.prg" )
+                    lcToken = loConsumirAPI.GetNewToken()
+                    This.cAuthToken = lcToken
+
+                    * Repetir la consulta
+                    If This.Open()
+                        This.Send()
+                    Endif
+                Endif
+
+            Endif
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+            loConsumirAPI 	= Null
+            loReturn 		= Null
+
+        Endtry
+
+    Endproc && RefreshToken
+
+    *
+    *
+    Procedure xxx___RefreshToken(  ) As Void
         Local lcCommand As String,;
             lcToken As String
         Local loConsumirAPI As ConsumirAPI Of "FW\Comunes\prg\BackEndSettings.prg",;
@@ -860,7 +905,7 @@ Define Class prxXmlHttp As Custom
 
             lcCommand = ""
             If This.nStatus = _HTTP_401_UNAUTHORIZED
-
+            
                 loReturn = This.oVFP
                 If loReturn.Data.Error = "Token Vencido."
 
@@ -889,7 +934,7 @@ Define Class prxXmlHttp As Custom
 
         Endtry
 
-    Endproc && RefreshToken
+    Endproc && xxx___RefreshToken
 
 
     *

@@ -1,27 +1,27 @@
-*.[bat]
-*.[bak]
-*.[cfg]
-*.[dbf]
-*.[fxp]
-*.[fpt]
-*.[json]
-*.[txt]
-*.[WSSA]
-*.[exe]
-*.[scc]
-*.[cdx]
-*.[err]
+*.[bB][aA][tT]
+*.[bB][aA][Kk]
+*.[cC][Ff][Gg]
+*.[dD][bB][Ff]
+*.[fF][xX][pP]
+*.[fF][pP][Tt]
+*.[jJ][sS][Oo][Nn]
+*.[tT][xX][tT]
+*.[Ww][Ss][sS][aA]
+*.[eE][xX][eE]
+*.[sS][cC][Cc]
+*.[cC][dD][xX]
+*.[eE][rR][rR]
 
-*.[sca]
-*.[vca]
+*.[sS][Cc][aA]
+*.[vV][Cc][Aa]
 
-*.[pjx]
-*.[pjt]
-*.[pjm]
+*.[pP][Jj][xX]
+*.[pP][jJ][Tt]
+*.[pP][jJ][mM]
 
 FOXUSER.*
 borrar.prg
 
 !WorkingFolder.Cfg
-!Urls.DBF
-!pyme.dbf
+!Urls.[Dd][bB][fF]
+!pyme.[dD][bB][fF]

@@ -111,6 +111,10 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
 
     * Nombre de la Entidad Padre
     cParent = ""
+    * Nombre del campo FK al Padre
+    * Por defecto es oParent.Name
+    cParentFieldName = ""
+
 
     * Referencia al objeto Padre
     oParent = Null
@@ -249,9 +253,11 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
         [<memberdata name="crearcursores" type="method" display="CrearCursores" />] + ;
         [<memberdata name="crearcursor" type="method" display="CrearCursor" />] + ;
         [<memberdata name="getbypk" type="method" display="GetByPK" />] + ;
+        [<memberdata name="hookaftergetbypk" type="method" display="HookAfterGetByPk" />] + ;
         [<memberdata name="ofiltercriteria" type="property" display="oFilterCriteria" />] + ;
         [<memberdata name="lischild" type="property" display="lIsChild" />] + ;
         [<memberdata name="cparent" type="property" display="cParent" />] + ;
+        [<memberdata name="cparentfieldname" type="property" display="cParentFieldName" />] + ;
         [<memberdata name="oparent" type="property" display="oParent" />] + ;
         [<memberdata name="oparent_access" type="method" display="oParent_Access" />] + ;
         [<memberdata name="oparent_assign" type="method" display="oParent_Assign" />] + ;
@@ -372,8 +378,8 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
 
             lcCommand = ""
             If Empty( nPermisos )
-            	* RA 27/02/2023(12:14:33)
-            	* Por defecto, tiene todos los permisos
+                * RA 27/02/2023(12:14:33)
+                * Por defecto, tiene todos los permisos
                 nPermisos = CAN_CREATE + CAN_READ + CAN_UPDATE + CAN_DELETE + CAN_LIST
             Endif
 
@@ -567,7 +573,7 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
             Endif
 
             If This.lIsChild
-            
+
                 loParent = This.oParent
 
                 llDone = .F.
@@ -911,7 +917,7 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
 
     *
     *
-    Procedure CrearCursor( cAlias As String, lStr As Boolean ) As Void
+    Procedure CrearCursor( cAlias As String, lStr As Boolean, lMemo as Boolean ) As Void
         Local lcCommand As String,;
             lcAlias As String
 
@@ -1142,10 +1148,10 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
                 loReturn.nTally = loRespuesta.Data.Count
                 loReturn.cAlias = cAlias
                 loReturn.lOk 	= .T.
-                
+
                 If loReturn.nTally = 1
-                	loReturn.oRegistro = loReturn.oData.Item( 1 ) 
-                EndIf
+                    loReturn.oRegistro = loReturn.oData.Item( 1 )
+                Endif
 
                 Select Alias( cAlias )
                 *Browse
@@ -1326,7 +1332,7 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
 
                 lcAlias = This.cMainCursorName
                 loArchivo = This.GetTable()
-                *loArchivo.lStr = This.lStr
+                loArchivo.lStr = This.lStr
                 loArchivo.CrearCursor( lcAlias )
 
                 Select Alias( lcAlias )
@@ -1349,6 +1355,19 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
                 AddProperty( loRegValid, "r7Mov", " " )
                 AddProperty( loRegValid, "ABM", ABM_ALTA )
                 AddProperty( loRegValid, "_RecordOrder", 0 )
+
+                If This.lIsChild
+                    lnParentId = This.oParent.nId
+                    lcParentField = This.cParentFieldName
+
+                    TEXT To lcCommand NoShow TextMerge Pretext 15
+                	loRegValid.<<lcParentField>> = lnParentId
+                    ENDTEXT
+
+                    &lcCommand
+                    lcCommand = ""
+
+                Endif
 
                 Select Alias( lcAlias )
                 Append Blank
@@ -1382,10 +1401,13 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
 
                 CursorSetProp( "Buffering", This.nBuffering, lcAlias )
 
+                Scatter Memo Name loRegValid
+
                 loReturn.nTally 	= 1
                 loReturn.oRegistro 	= loRegValid
                 loReturn.oData 		= Null
                 loReturn.cAlias 	= lcAlias
+                loReturn.lOk		= !Isnull( loReturn.oRegistro )
 
             Else
                 * Modificacion
@@ -1411,6 +1433,10 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
 
             Endif
 
+            If loReturn.lOk
+                loReturn = This.HookAfterGetByPk( loReturn )
+            Endif
+
         Catch To loErr
             Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
             loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
@@ -1425,6 +1451,34 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
         Return loReturn
 
     Endproc && GetByPK
+
+    *
+    *
+    Procedure HookAfterGetByPk( oReturn As Object ) As Object
+        Local lcCommand As String
+        Local loReturn As Object
+
+        Try
+
+            lcCommand = ""
+            loReturn = oReturn
+
+        Catch To loErr
+            Local loError As ErrorHandler Of 'Tools\ErrorHandler\Prg\ErrorHandler.prg'
+            loError = Newobject ( 'ErrorHandler', 'Tools\ErrorHandler\Prg\ErrorHandler.prg' )
+            loError.cRemark = lcCommand
+            loError.Process ( m.loErr )
+            Throw loError
+
+        Finally
+            oReturn = Null
+
+        Endtry
+
+        Return loReturn
+
+    Endproc && HookAfterGetByPk
+
 
 
     *
@@ -2127,7 +2181,7 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
             loItem As Object,;
             loErrores As Object,;
             loRespuesta As Object,;
-            loError as Object 
+            loError As Object
 
         Local llCollection As Boolean,;
             llDetail As Boolean,;
@@ -2183,39 +2237,39 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
                             *     ]
                             * }
 
-							loItem = Createobject( "Empty" )
+                            loItem = Createobject( "Empty" )
 
-							lcErrorMsg = oErrores.Data.Type
-							 
+                            lcErrorMsg = oErrores.Data.Type
+
                             TEXT To lcMsg NoShow TextMerge Pretext 03
 							Tipo de Error: <<lcErrorMsg>>
                             ENDTEXT
 
                             AddProperty( loItem, "Msg", lcMsg )
                             loColErrors.Add( loItem )
-                            
+
                             loItem = Createobject( "Empty" )
                             AddProperty( loItem, "Msg", "" )
                             loColErrors.Add( loItem )
-                            
-                            For Each loError in oErrores.Data.Errors
-                            	If IsEmpty( loError.Attr )
-		                            TEXT To lcMsg NoShow TextMerge Pretext 03
+
+                            For Each loError In oErrores.Data.Errors
+                                If IsEmpty( loError.Attr )
+                                    TEXT To lcMsg NoShow TextMerge Pretext 03
 									<<loError.Detail>>
-		                            ENDTEXT
+                                    ENDTEXT
 
-                            	Else
-		                            TEXT To lcMsg NoShow TextMerge Pretext 03
+                                Else
+                                    TEXT To lcMsg NoShow TextMerge Pretext 03
 									<<loError.Attr>>: <<loError.Detail>>
-		                            ENDTEXT
+                                    ENDTEXT
 
-                            	Endif
+                                Endif
 
-								loItem = Createobject( "Empty" )
-	                            AddProperty( loItem, "Msg", lcMsg )
-	                            loColErrors.Add( loItem )
-                            EndFor
-                            
+                                loItem = Createobject( "Empty" )
+                                AddProperty( loItem, "Msg", lcMsg )
+                                loColErrors.Add( loItem )
+                            Endfor
+
                             This.oColErrors = loColErrors
 
                         Case llCollection
@@ -3120,7 +3174,10 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
                 And Vartype( This.oParent ) # "O" ;
                 And !Empty( This.cParent )
 
-            This.oParent = GetEntity( This.cParent, .T. )
+            *!*	            This.oParent = GetEntity( This.cParent, .T. )
+            * RA 20/03/2023(14:38:16)
+            * Por defecto NO guarda estado
+            This.oParent = GetEntity( This.cParent )
 
         Endif
 
@@ -3180,6 +3237,17 @@ Define Class oModelo As SessionBase Of "Tools\Namespaces\Prg\BaseLibrary.prg"
 
     Endproc && cTabla_Access
 
+    *
+    * cParentFieldName_Access
+    Protected Procedure cParentFieldName_Access()
+
+        If Empty( This.cParentFieldName )
+            This.cParentFieldName = This.cParent
+        Endif
+
+        Return This.cParentFieldName
+
+    Endproc && cParentFieldName_Access
 
 
     *

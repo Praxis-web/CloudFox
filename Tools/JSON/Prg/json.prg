@@ -355,6 +355,53 @@ Define Class prxJSON As Custom
 
                 lcJSON_Str = lcJSON_Str + "}"
 
+                *lcJSON_Str = Strtran(lcJSON_Str, Chr(13)+Chr(10), "\r\n" )
+                lcJSON_Str = Strtran(lcJSON_Str, Chr(13), "\r" )
+                lcJSON_Str = Strtran(lcJSON_Str, Chr(10), "\n" )
+
+                Dimension aEscChar[ 8, 3 ]
+
+
+                aEscChar[ 1, 1 ] = "<#<" + StrZero( Asc( ["] ), 3 ) + ">#>"
+                aEscChar[ 1, 2 ] = ["]
+                aEscChar[ 1, 3 ] = [\"]
+
+                aEscChar[ 2, 1 ] = "<#<" + StrZero( Asc( ['] ), 3 ) + ">#>"
+                aEscChar[ 2, 2 ] = [']
+                aEscChar[ 2, 3 ] = [\']
+
+                aEscChar[ 3, 1 ] = "<#<" + StrZero( Asc( Tab ), 3 ) + ">#>"
+                aEscChar[ 3, 2 ] = Tab
+                aEscChar[ 3, 3 ] = [\t]
+
+                aEscChar[ 4, 1 ] = "<#<" + StrZero( Asc( LF ), 3 ) + ">#>"
+                aEscChar[ 4, 2 ] = LF
+                aEscChar[ 4, 3 ] = [\n]
+
+                aEscChar[ 5, 1 ] = "<#<" + StrZero( Asc( CR ), 3 ) + ">#>"
+                aEscChar[ 5, 2 ] = CR
+                aEscChar[ 5, 3 ] = [\r]
+
+                aEscChar[ 6, 1 ] = "<#<" + StrZero( Asc( FF ), 3 ) + ">#>"
+                aEscChar[ 6, 2 ] = FF
+                aEscChar[ 6, 3 ] = [\f]
+
+                aEscChar[ 7, 1 ] = "<#<" + StrZero( Asc( [\] ), 3 ) + ">#>"
+                aEscChar[ 7, 2 ] = [\]
+                aEscChar[ 7, 3 ] = [\\]
+
+                aEscChar[ 8, 1 ] = "<#<" + StrZero( Asc( BS ), 3 ) + ">#>"
+                aEscChar[ 8, 2 ] = BS
+                aEscChar[ 8, 3 ] = [\b]
+
+
+                For i = 1 To Alen( aEscChar, 1 )
+                    If !Inlist( i, 1, 2 )
+                        *lcJSON_Str = Strtran( lcJSON_Str, aEscChar[ i, 2 ], aEscChar[ i, 3 ] )
+                    Endif
+                Endfor
+
+
             Endif
 
 

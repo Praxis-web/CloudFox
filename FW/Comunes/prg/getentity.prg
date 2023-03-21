@@ -1,5 +1,3 @@
-
-
 *
 *
 Procedure GetEntity( tcEntityName As String, lStateFull As Boolean ) As Object;

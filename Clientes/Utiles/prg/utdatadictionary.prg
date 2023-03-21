@@ -8370,16 +8370,28 @@ Define Class Organizacion_Contacto As BaseMaestro Of "Clientes\Utiles\prg\utData
 
             DoDefault()
 
+
             i = 200
 
 
             loColFields = This.oColFields
+
+            loField = loColFields.New( "nombre", "C", 100 )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lShowInGrid = .T.
+                .nGridOrder = 100
+
+                .nLength = 30
+                .lFitColumn = .F.
+
+            Endwith
 
 
             loField = loColFields.NewFK( "organizacion", "I" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
                 .cCaption = "Organización"
                 .lNull = .F.
+                .lReadOnly = .T.
             Endwith
 
             *!*	            loField = loColFields.NewFK( "telefono", "I" )
@@ -8404,7 +8416,7 @@ Define Class Organizacion_Contacto As BaseMaestro Of "Clientes\Utiles\prg\utData
 
             loField = loColFields.New( "telefonos", "M" )
             With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
-                .lShowInGrid = .F.
+                .lShowInGrid = .T.
                 If .lShowInGrid
                     i = i + 1
 
@@ -8413,6 +8425,28 @@ Define Class Organizacion_Contacto As BaseMaestro Of "Clientes\Utiles\prg\utData
 
                 .cCaption = "Teléfonos"
                 .cToolTipText = "Ingrese los teléfonos"
+                .nLength = 30
+                
+                *.cGridColumnControlSource = "Str_Telefonos"
+                .lStr = .T.
+
+            Endwith
+
+            loField = loColFields.New( "emails", "M" )
+            With loField As oField Of 'Tools\DataDictionary\prg\oField.prg'
+                .lShowInGrid = .T.
+                If .lShowInGrid
+                    i = i + 1
+
+                    .nGridOrder = i
+                Endif
+
+                .cCaption = "e-Mails"
+                .cToolTipText = "Ingrese los e-Mails"
+                .nLength = 30
+                
+                *.cGridColumnControlSource = "Str_eMails"
+                .lStr = .T.
 
             Endwith
 
